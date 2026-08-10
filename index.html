@@ -1,0 +1,2364 @@
+<!--
+  EDITING GUIDE FOR THE SHOP OWNER
+  =================================
+  1. MY RATINGS: each location has `myRating` (0-5) and `myNote` fields.
+  2. FEATURED: set `featured: true` on any on-route location for the gold
+     star treatment on the map and list.
+  3. ADD / REMOVE: locations live in one combined `allLocations` list with a
+     `defaultBonus` flag. Route-default locations are on the route
+     automatically unless closed today or manually removed. Bonus-default
+     locations sit off the route unless manually added.
+  4. FEEDBACK EMAIL: built from character codes (search "EMAIL OBFUSCATION")
+     rather than plain text, so it won't get scraped by simple bots. This is
+     NOT true privacy \u2014 anyone reading the JavaScript can decode it. For a
+     mailbox that never appears in the page at all, swap this for a
+     form-backend service (e.g. Formspree).
+  5. ROUTE ORDER: recalculated live in the browser (nearest-neighbor + 2-opt)
+     whenever a location is added/removed or a store's closing time passes.
+  6. PLAN-AHEAD SHARING: the "Share This Itinerary" link encodes the chosen
+     date, time, and any add/remove overrides into the URL's query string.
+     Anyone opening that link sees the exact same planned day restored
+     automatically. There's no server-side database involved.
+-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@700&family=Archivo+Black&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  #ctt-thrift-wrap {
+    --paper: #f2ead9;
+    --ink: #2c2417;
+    --olive: #4a5a3a;
+    --rust: #b5502f;
+    --mustard: #c98a2b;
+    --line: #c9bb99;
+    --card: #fbf6ea;
+    --gold: #a3872f;
+    font-family: 'Libre Franklin', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 20px;
+    max-width: 1180px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  #ctt-thrift-wrap * { box-sizing: border-box; }
+
+  .ctt-header { margin-bottom: 10px; }
+  @media (min-width: 781px) {
+    .ctt-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
+  }
+  .ctt-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 40px;
+    line-height: 1.05;
+    margin: 0;
+    color: var(--ink);
+  }
+  .ctt-route-stat-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .ctt-route-stat {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    opacity: 0.85;
+    margin: 0 0 10px 0;
+  }
+  .ctt-route-stat strong { color: var(--rust); opacity: 1; }
+
+  .ctt-howworks-toggle {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rust);
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  .ctt-howworks-panel {
+    margin: 0 0 14px 0;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 11.5px;
+    color: #5c5240;
+    line-height: 1.5;
+  }
+  .ctt-howworks-panel p { margin: 0 0 6px 0; }
+  .ctt-howworks-panel p:last-child { margin-bottom: 0; }
+  .ctt-howworks-panel strong { color: var(--ink); }
+
+  .ctt-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    align-items: center;
+  }
+  .ctt-legend-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .ctt-legend-item { display: flex; align-items: center; gap: 6px; }
+  .ctt-legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .ctt-legend-star { color: var(--gold); font-size: 14px; }
+  .ctt-mini-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; background: var(--ink); color: var(--paper);
+    font-size: 9px; font-weight: 700; border-radius: 50%;
+  }
+  .ctt-mini-diamond {
+    display: inline-block; width: 10px; height: 10px; background: var(--gold);
+    border-radius: 2px; transform: rotate(45deg); opacity: 0.8;
+  }
+
+  .ctt-cta-row {
+    margin: 4px 0 12px 0;
+    padding: 20px 24px;
+    background: var(--mustard);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(201,138,43,0.35);
+  }
+  .ctt-status-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .ctt-cta-btn {
+    font-family: 'Archivo Black', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 48px;
+    padding: 22px 55px;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.15s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .ctt-cta-btn-line1 { font-size: 58px; }
+  .ctt-cta-btn-line2 { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 600; color: var(--rust); opacity: 1; }
+  .ctt-cta-btn:hover { background: var(--rust); transform: scale(1.02); }
+  .ctt-cta-btn:disabled { background: #a89f8a; cursor: wait; transform: none; }
+  .ctt-cta-status { font-size: 18px; color: var(--ink); font-weight: 600; line-height: 1.5; margin-top: 6px; }
+  .ctt-cta-status strong { color: var(--rust); }
+  .ctt-cta-status.urgency-tight { color: var(--rust); }
+  .ctt-cta-status.urgency-tight strong { color: var(--rust); }
+  .ctt-cta-status.urgency-urgent {
+    color: #a5281a;
+    font-weight: 700;
+    animation: ctt-urgent-pulse 1.6s ease-in-out infinite;
+  }
+  .ctt-cta-status.urgency-urgent strong { color: #a5281a; }
+  @keyframes ctt-urgent-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  @media (max-width: 600px) {
+    .ctt-cta-btn { padding: 14px 32px; border-radius: 32px; }
+    .ctt-cta-btn-line1 { font-size: 24px; }
+    .ctt-legend { font-size: 11px; gap: 8px; }
+    .ctt-legend-item { white-space: nowrap; }
+    .ctt-feedback-row-simple { text-align: center; }
+  }
+
+  .ctt-schedule-toggle {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  .ctt-cta-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; }
+  .ctt-zip-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .ctt-zip-label { font-size: 12px; color: var(--ink); }
+  .ctt-zip-input {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 13px;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink);
+    width: 90px;
+  }
+  .ctt-zip-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 3px;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  .ctt-zip-btn:hover { background: var(--rust); }
+  .ctt-zip-status { font-size: 11px; color: var(--rust); }
+  .ctt-pdf-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    background: none;
+    color: var(--olive);
+    border: 1.5px solid var(--olive);
+    border-radius: 20px;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .ctt-pdf-btn:hover { background: var(--olive); color: var(--paper); }
+  .ctt-pdf-btn:disabled { opacity: 0.6; cursor: wait; }
+  .ctt-offroute-container {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 6px;
+    background: var(--card);
+  }
+  .ctt-offroute-toggle {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    padding: 0;
+  }
+  .ctt-offroute-toggle:hover { color: var(--rust); }
+  #ctt-offroute-list { margin-top: 10px; }
+  .ctt-schedule-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 16px 0;
+    padding: 8px 10px;
+    background: none;
+    border: none;
+  }
+  .ctt-schedule-label { font-size: 11.5px; color: #8a8069; font-weight: 500; }
+  .ctt-schedule-input {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 24px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .ctt-schedule-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    background: none;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    border-radius: 3px;
+    padding: 5px 11px;
+    cursor: pointer;
+  }
+  .ctt-schedule-btn:hover { background: var(--rust); color: var(--paper); }
+  .ctt-schedule-output { margin-top: 4px; font-size: 12.5px; color: var(--ink); line-height: 1.6; width: 100%; }
+  .ctt-planning-banner {
+    margin: 0 0 12px 0; padding: 10px 14px; background: var(--card);
+    border: 1.5px solid var(--rust); border-radius: 4px;
+    font-size: 12.5px; color: var(--ink); text-align: center;
+  }
+  .ctt-planning-banner strong { color: var(--rust); }
+  .ctt-resume-banner {
+    margin: 0 0 12px 0; padding: 10px 14px; background: var(--card);
+    border: 1.5px solid var(--olive); border-radius: 4px;
+    font-size: 12.5px; color: var(--ink); text-align: center;
+  }
+  .ctt-resume-banner strong { color: var(--olive); }
+  .ctt-resume-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 11.5px;
+    color: var(--paper); background: var(--olive); border: none; border-radius: 3px;
+    padding: 5px 10px; cursor: pointer; margin-left: 8px;
+  }
+  .ctt-resume-btn:hover { background: var(--ink); }
+  .ctt-resume-dismiss-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 600; font-size: 11.5px;
+    color: var(--ink); background: none; border: none; text-decoration: underline;
+    cursor: pointer; padding: 5px 6px; margin-left: 4px;
+  }
+  .ctt-back-to-today-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 11.5px;
+    color: var(--paper); background: var(--rust); border: none; border-radius: 3px;
+    padding: 5px 10px; cursor: pointer; margin-left: 8px;
+  }
+  .ctt-back-to-today-btn:hover { background: var(--ink); }
+  .ctt-schedule-output .warn { color: var(--rust); font-weight: 600; }
+  .ctt-schedule-item { display: flex; justify-content: center; gap: 8px; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+  .ctt-schedule-item:last-child { border-bottom: none; }
+  .ctt-schedule-time { font-weight: 700; color: var(--olive); min-width: 78px; }
+  .ctt-schedule-share-btn {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--ink);
+    background: none;
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .ctt-schedule-share-btn:hover { background: var(--ink); color: var(--paper); }
+  .ctt-schedule-share-status { font-size: 11.5px; color: var(--olive); font-weight: 600; margin-left: 8px; }
+
+  .ctt-layout {
+    display: grid;
+    grid-template-columns: 490px 1fr;
+    gap: 16px;
+    align-items: stretch;
+  }
+  @media (max-width: 780px) {
+    .ctt-layout { grid-template-columns: 1fr; }
+    #ctt-map { height: 340px !important; }
+  }
+
+  .ctt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    max-height: 800px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .ctt-trail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 8px 0;
+  }
+  .ctt-trail-title {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--ink);
+  }
+  .ctt-list-label {
+    display: inline-block;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    background: #dcedd8;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .ctt-day-picker {
+    display: flex;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 3px;
+  }
+  .ctt-day-option {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 11.5px;
+    background: none;
+    border: none;
+    border-radius: 16px;
+    padding: 5px 12px;
+    cursor: pointer;
+    color: #8a8069;
+  }
+  .ctt-day-option.active { background: var(--rust); color: var(--paper); }
+  .ctt-day-option:hover:not(.active) { color: var(--rust); }
+  .ctt-day-plan-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 10px 0;
+    padding: 8px 10px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  .ctt-section-label {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin: 14px 0 6px 2px;
+  }
+  .ctt-section-label:first-child { margin-top: 0; }
+
+  .ctt-tag {
+    background: var(--card);
+    border: 1px dashed var(--line);
+    border-radius: 3px;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.12s ease;
+  }
+  .ctt-tag:hover, .ctt-tag.active { border-color: var(--rust); transform: translateX(2px); }
+  .ctt-tag.featured { border-style: solid; border-color: var(--rust); border-width: 1.5px; background: #f6e6c2; }
+  .ctt-tag.offroute { opacity: 0.65; border-style: dashed; border-color: #b0a688; background: #eae2cd; }
+
+  .ctt-tag-row { display: flex; gap: 10px; align-items: center; }
+  .ctt-tag-photo-col { flex-shrink: 0; }
+  .ctt-tag-photo {
+    width: 52px; height: 52px; border-radius: 50%;
+    object-fit: cover; display: block;
+    border: 2px solid var(--paper); box-shadow: 0 0 0 1.5px var(--line);
+  }
+  .ctt-tag-photo-fallback {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; padding-top: 3px;
+    border: 2px solid var(--paper); box-shadow: 0 0 0 1.5px var(--line);
+    font-family: 'Libre Franklin', sans-serif; font-size: 19px; line-height: 1; color: var(--paper);
+  }
+  .ctt-tag-info { flex: 1; min-width: 0; }
+
+  .ctt-featured-ribbon {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--rust);
+    margin-bottom: 3px;
+  }
+  .ctt-tag-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .ctt-tag-name { font-weight: 700; font-size: 14.5px; line-height: 1.25; color: var(--rust); }
+  .ctt-tag-name-link { color: inherit; text-decoration: none; }
+  .ctt-tag-name-link:hover { text-decoration: underline; }
+  .ctt-tag-link-inline {
+    font-weight: 400; font-size: 11.5px; color: var(--rust);
+    text-decoration: none; border-bottom: 1px solid var(--rust); margin-left: 4px;
+  }
+  .ctt-tag-rating { font-family: 'Libre Franklin', sans-serif; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .ctt-tag-rating.unrated { color: #b8ad95; }
+  .ctt-tag-bottom-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .ctt-tag-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .ctt-tag-category-row { margin-bottom: 4px; }
+  .ctt-tag-rating-row { margin-top: 6px; }
+  .ctt-badge {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 3px 6px 1px 6px; border-radius: 2px; color: var(--paper);
+    display: inline-flex; align-items: center; justify-content: center; line-height: 1;
+  }
+  .ctt-tag-area { font-size: 11px; color: #8a8069; }
+  .ctt-tag-addr { font-size: 12px; font-weight: 600; color: var(--ink); margin-top: 1px; }
+  .ctt-tag-addr a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .ctt-tag-addr a:hover { border-bottom-color: var(--ink); }
+  .ctt-tag-hours { font-size: 11px; font-weight: 400; font-style: italic; color: #8a8069; margin-top: 2px; }
+  .ctt-tag-note { font-size: 12.5px; color: #5c5240; margin-top: 5px; line-height: 1.4; }
+  .ctt-tag-num {
+    display: inline-flex; align-items: center; justify-content: center; padding-top: 2px;
+    width: 18px; height: 18px; background: var(--ink); color: var(--paper);
+    font-family: 'Libre Franklin', sans-serif; font-size: 11px; line-height: 1; border-radius: 50%;
+    margin-right: 6px; flex-shrink: 0;
+  }
+  .ctt-tag-link {
+    display: inline-block; margin-top: 6px; font-size: 12px; color: var(--rust);
+    text-decoration: none; border-bottom: 1px solid var(--rust);
+  }
+  .ctt-directions-link {
+    display: inline-block; margin-top: 6px; margin-left: 10px; font-size: 12px; color: var(--olive);
+    text-decoration: none; border-bottom: 1px solid var(--olive);
+  }
+  .ctt-visited-check {
+    display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;
+    color: var(--olive); cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  }
+  .ctt-visited-check input { cursor: pointer; }
+  .ctt-tag.visited { opacity: 0.5; }
+  .ctt-tag.visited .ctt-tag-name { text-decoration: line-through; }
+
+  .ctt-review-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ctt-review-toggle-btn {
+    font-family: 'Libre Franklin', sans-serif; font-size: 11.5px; font-weight: 600;
+    color: var(--olive); background: none; border: none; text-decoration: underline;
+    cursor: pointer; padding: 0;
+  }
+  .ctt-review-section {
+    margin-top: 8px; padding: 10px; background: var(--paper);
+    border: 1px solid var(--line); border-radius: 4px;
+    position: relative;
+  }
+  .ctt-review-close-btn {
+    position: absolute; top: 6px; right: 8px;
+    background: #ffffff; border: 1px solid var(--line); cursor: pointer;
+    font-size: 12px; color: #8a8069; line-height: 1;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .ctt-review-close-btn:hover { color: var(--rust); border-color: var(--rust); }
+  .ctt-review-gallery-wrap {
+    display: flex; align-items: stretch; gap: 6px; margin-top: 10px;
+  }
+  .ctt-review-gallery {
+    display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory;
+    flex: 1; padding-bottom: 4px;
+  }
+  .ctt-review-gallery::-webkit-scrollbar { height: 5px; }
+  .ctt-review-gallery::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .ctt-review-card {
+    flex: 0 0 auto; width: 200px; scroll-snap-align: start;
+    padding: 8px 10px; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; font-size: 12.5px;
+  }
+  .ctt-review-arrow {
+    flex-shrink: 0; width: 28px; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); font-size: 18px; border-radius: 4px; cursor: pointer;
+  }
+  .ctt-review-arrow:hover { background: var(--rust); color: var(--paper); border-color: var(--rust); }
+  .ctt-review-item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .ctt-review-name { font-weight: 700; color: var(--ink); }
+  .ctt-review-stars { color: var(--gold); font-size: 12px; }
+  .ctt-review-text { color: #5c5240; margin-top: 2px; line-height: 1.25; }
+  .ctt-review-photo { max-width: 100%; border-radius: 4px; margin-top: 6px; display: block; }
+  .ctt-review-photo-tag {
+    display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.03em; color: var(--taupe); margin-top: 4px;
+  }
+  .ctt-review-votes { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+  .ctt-vote-btn {
+    font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 600;
+    background: none; border: 1px solid var(--line); border-radius: 12px;
+    padding: 2px 9px; cursor: pointer; color: var(--taupe);
+  }
+  .ctt-vote-btn.up:hover, .ctt-vote-btn.up.voted { color: var(--olive); border-color: var(--olive); }
+  .ctt-vote-btn.down:hover, .ctt-vote-btn.down.voted { color: var(--rust); border-color: var(--rust); }
+  .ctt-vote-btn:disabled { cursor: default; opacity: 0.7; }
+  .ctt-photo-category-input { margin-bottom: 6px; }
+  .ctt-photo-category-input button {
+    font-family: 'Libre Franklin', sans-serif; font-size: 11.5px; font-weight: 600;
+    background: none; border: 1px solid var(--line); border-radius: 12px;
+    padding: 4px 10px; cursor: pointer; color: var(--taupe); margin-right: 6px;
+  }
+  .ctt-photo-category-input button.active { color: var(--paper); background: var(--olive); border-color: var(--olive); }
+  .ctt-review-form { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .ctt-review-form input[type="text"], .ctt-review-form textarea {
+    width: 100%; font-family: 'Libre Franklin', sans-serif; font-size: 12.5px;
+    padding: 6px 8px; border: 1px solid var(--line); border-radius: 3px;
+    background: var(--card); color: var(--ink); margin-bottom: 6px; resize: vertical;
+  }
+  .ctt-review-stars-input { margin-bottom: 6px; font-size: 16px; }
+  .ctt-review-stars-input button {
+    background: none; border: none; cursor: pointer; padding: 0; margin-right: 2px;
+    color: #cfc7b3; font-size: 16px;
+  }
+  .ctt-review-stars-input button.active { color: var(--gold); }
+  .ctt-review-submit-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 11.5px;
+    background: var(--olive); color: var(--paper); border: none; border-radius: 3px;
+    padding: 6px 12px; cursor: pointer;
+  }
+  .ctt-review-submit-btn:hover { background: var(--rust); }
+  .ctt-review-status { font-size: 11px; margin-left: 8px; }
+  .ctt-review-status.err { color: var(--rust); }
+  .ctt-review-status.ok { color: var(--olive); }
+
+  .ctt-offroute-reason {
+    font-family: 'Libre Franklin', sans-serif; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.03em; color: #8a8069;
+  }
+  .ctt-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .ctt-toggle-btn.remove { background: #c0392b; }
+  .ctt-toggle-btn.remove:hover { background: #a5281a; }
+  .ctt-toggle-btn.add { background: #3f8a4c; }
+  .ctt-toggle-btn.add:hover { background: #2f6b3a; }
+
+  .ctt-open-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; line-height: 1.3; border-radius: 10px; margin-top: 0; }
+  .ctt-tag-hours-row { margin-top: 4px; }
+  .ctt-open-badge.open { background: #dcedd8; color: #2e7d32; }
+  .ctt-open-badge.soon { background: #f5e2bc; color: #8a5f1a; }
+  .ctt-open-badge.closed { background: #f5dcd8; color: #b3261e; }
+
+  #ctt-map { height: 100%; width: 100%; border-radius: 4px; border: 1px solid var(--line); filter: sepia(8%) saturate(85%); }
+  .ctt-footer { margin-top: 12px; font-size: 11.5px; color: #8a8069; font-family: 'Libre Franklin', sans-serif; text-align: right; }
+  .ctt-disclaimer-toggle {
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    font-size: 10px;
+    color: #8a8069;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+  .ctt-disclaimer { margin-top: 6px; font-size: 10px; color: #8a8069; line-height: 1.5; width: 100%; text-align: right; }
+  .ctt-version { margin-top: 10px; font-size: 9.5px; color: #c9bb99; text-align: right; }
+  .ctt-tip-section {
+    text-align: center; margin-top: 20px; padding: 12px; display: flex;
+    align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  }
+  .ctt-tip-label { font-size: 12px; color: #8a8069; }
+  .ctt-tip-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 600; font-size: 12px;
+    color: var(--olive); border: 1px solid var(--olive); border-radius: 14px;
+    padding: 5px 12px; text-decoration: none;
+  }
+  .ctt-tip-btn:hover { background: var(--olive); color: var(--paper); }
+
+  .ctt-num-icon {
+    background: var(--ink); color: var(--paper); border-radius: 50%;
+    width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; padding-top: 2px;
+    font-family: 'Libre Franklin', sans-serif; font-size: 11px; line-height: 1;
+    border: 2px solid var(--paper); box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .ctt-bonus-icon {
+    background: var(--gold); color: var(--paper); border-radius: 3px;
+    width: 15px; height: 15px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Libre Franklin', sans-serif; font-weight: 600; font-size: 9px;
+    border: 1.5px solid var(--paper); box-shadow: 0 1px 2px rgba(0,0,0,0.3); opacity: 0.8;
+    transform: rotate(45deg);
+  }
+  .ctt-bonus-icon span { transform: rotate(-45deg); display: block; }
+
+  .ctt-split-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 32px 0 14px 0;
+  }
+  .ctt-split-half { flex: 1 1 260px; }
+  @media (max-width: 780px) {
+    .ctt-split-half { flex: 1 1 100%; }
+  }
+  .ctt-share-section { margin: 0; padding: 18px 20px; background: var(--rust); border-radius: 5px; text-align: center; }
+  .ctt-share-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--paper); margin: 0 0 4px 0; }
+  .ctt-share-sub { font-size: 13px; color: #f5e4d8; margin: 0 0 12px 0; }
+  .ctt-share-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .ctt-pdf-section {
+    margin: 0; padding: 18px 20px; background: #a9c1cb; border-radius: 5px;
+    text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .ctt-pdf-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: #2c3e44; margin: 0 0 4px 0; }
+  .ctt-pdf-sub { font-size: 13px; color: #33474e; margin: 0 0 12px 0; }
+  .ctt-pdf-section .ctt-pdf-btn { background: #2c3e44; color: #e8f1f4; border: none; }
+  .ctt-pdf-section .ctt-pdf-btn:hover { background: #1c2c31; color: #e8f1f4; }
+  .ctt-share-btn {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px;
+    background: var(--paper); color: var(--rust); border: none; border-radius: 3px;
+    padding: 10px 18px; cursor: pointer; transition: all 0.15s ease;
+  }
+  .ctt-share-btn:hover { background: var(--ink); color: var(--paper); }
+  .ctt-share-status { font-size: 12px; color: var(--paper); font-weight: 600; }
+
+  .ctt-feedback-row-simple { text-align: right; margin: 0 0 6px 0; font-size: 12px; color: #8a8069; line-height: 1.5; }
+  .ctt-feedback-link-btn {
+    font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 600; color: var(--rust);
+    background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
+  }
+  .ctt-feedback-section { margin: 0 0 20px 0; padding: 12px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; }
+  .ctt-feedback-textarea {
+    width: 100%; font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: var(--ink);
+    background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 10px;
+    resize: vertical; margin-bottom: 10px;
+  }
+  .ctt-feedback-row { display: flex; align-items: center; gap: 12px; }
+  .ctt-feedback-btn {
+    font-family: 'Libre Franklin', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em;
+    background: var(--ink); color: var(--paper); border: none; border-radius: 3px; padding: 9px 16px;
+    cursor: pointer; transition: background 0.15s ease;
+  }
+  .ctt-feedback-btn:hover { background: var(--rust); }
+  .ctt-feedback-status { font-size: 12px; color: var(--olive); font-weight: 600; }
+
+  .leaflet-popup-content-wrapper { background: var(--card); color: var(--ink); border-radius: 3px; font-family: 'Libre Franklin', sans-serif; }
+  .leaflet-popup-content { margin: 10px 12px; font-size: 13px; }
+  .leaflet-popup-content .ctt-popup-title { font-weight: 700; font-size: 14.5px; color: var(--rust); text-decoration: none; }
+  .leaflet-popup-content a.ctt-popup-title:hover { text-decoration: underline; }
+  .leaflet-popup-tip { background: var(--card); }
+</style>
+
+<div id="ctt-thrift-wrap">
+  <div class="ctt-header">
+    <h2 class="ctt-title">The Chattanooga Thrift Trail</h2>
+    <div class="ctt-route-stat-row">
+      <div class="ctt-legend-group">
+        <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
+        <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
+        <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span>Featured</span>
+      </div>
+      <button class="ctt-howworks-toggle" id="ctt-howworks-toggle">&#8505;&#65039; How this works &#9662;</button>
+    </div>
+  </div>
+
+  <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
+    <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
+    <p><strong>The route:</strong> A loop through Southside, Rossville, Fort Oglethorpe, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
+    <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed stores are set aside automatically, and you can add or remove any shop yourself.</p>
+    <p><strong>Bonus shops:</strong> Gold diamonds are extra shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
+  </div>
+
+  <div class="ctt-cta-row">
+    <div class="ctt-status-panel">
+      <p class="ctt-route-stat" id="ctt-route-stat">Route recalculates live &nbsp;&middot;&nbsp; ~38.9 miles today</p>
+      <button class="ctt-cta-btn" id="ctt-cta-btn">
+        <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
+        <span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span>
+      </button>
+      <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
+    </div>
+  </div>
+
+  <div class="ctt-resume-banner" id="ctt-resume-banner" style="display:none;"></div>
+  <div class="ctt-planning-banner" id="ctt-planning-banner" style="display:none;"></div>
+
+  <div class="ctt-layout" id="ctt-layout">
+    <div class="ctt-list" id="ctt-list">
+      <div class="ctt-trail-header">
+        <span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span>
+        <div class="ctt-day-picker">
+          <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>
+          <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button>
+        </div>
+      </div>
+      <div class="ctt-day-plan-inputs" id="ctt-day-plan-inputs" style="display:none;">
+        <input type="date" class="ctt-schedule-input" id="ctt-schedule-date" title="Pick a date">
+        <input type="time" class="ctt-schedule-input" id="ctt-schedule-time" value="09:00" min="07:00" max="19:00" title="Most stores close by 6-8 PM (a couple stay open till 10 PM Fri/Sat)">
+        <span style="font-size:11px; color:#8a8069;">Most stores close by 6-8 PM &mdash; a couple stay open till 10 PM on Fri/Sat.</span>
+      </div>
+      <div id="ctt-route-list"></div>
+      <div class="ctt-offroute-container">
+        <button class="ctt-offroute-toggle" id="ctt-offroute-toggle">Bonus &amp; Closed Shops &#9662;</button>
+        <div id="ctt-offroute-list" style="display:none;"></div>
+      </div>
+    </div>
+    <div id="ctt-map"></div>
+  </div>
+
+  <div class="ctt-split-row">
+    <div class="ctt-pdf-section ctt-split-half">
+      <h3 class="ctt-pdf-title">Take It With You</h3>
+      <p class="ctt-pdf-sub">Your custom route, built just for you today &mdash; a simple one-page guide with today's shops, addresses, and hours.</p>
+      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128196; Download Printable Trail Guide (PDF)</button>
+    </div>
+    <div class="ctt-share-section ctt-split-half" style="text-align:center;">
+      <h3 class="ctt-share-title">Share The Trail</h3>
+      <p class="ctt-share-sub">Know someone who'd love a custom, optimized day of treasure hunting? Send them down the trail.</p>
+      <div class="ctt-share-row" style="justify-content:center;">
+        <button class="ctt-share-btn" id="ctt-share-fb">Facebook</button>
+        <button class="ctt-share-btn" id="ctt-share-x">X</button>
+        <button class="ctt-share-btn" id="ctt-share-pin">Pinterest</button>
+        <button class="ctt-share-btn" id="ctt-share-copy">Copy Link</button>
+        <span class="ctt-share-status" id="ctt-share-status"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ctt-bottom-row">
+    <div class="ctt-tip-section">
+      <span class="ctt-tip-label">Enjoying the trail?</span>
+      <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
+      <a class="ctt-tip-btn" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a>
+    </div>
+
+    <div class="ctt-bottom-right">
+      <p class="ctt-feedback-row-simple">Got feedback? Found a closed shop, or a spot we're missing? <button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button></p>
+      <div class="ctt-feedback-section" id="ctt-feedback-section" style="display:none;">
+        <textarea class="ctt-feedback-textarea" id="ctt-feedback-text" rows="4" placeholder="Type your feedback here..."></textarea>
+        <div class="ctt-feedback-row">
+          <button class="ctt-feedback-btn" id="ctt-feedback-send">Send Feedback</button>
+          <span class="ctt-feedback-status" id="ctt-feedback-status"></span>
+        </div>
+      </div>
+
+      <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
+      <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein.</p>
+      <p class="ctt-version">v1.0 &mdash; July 7, 2026</p>
+      <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function() {
+  var CATEGORY_COLORS = { "Thrift Store": "#4a5a3a", "Antique Mall": "#c98a2b", "Curated Shop": "#b5502f" };
+
+  var routeDefaults = [
+    { name: "Lookout Thrift", area: "Southside", category: "Thrift Store", lat: 35.0289413, lng: -85.316386, address: "2441 Broad St, Chattanooga, TN 37408", hours: "Mon Closed &middot; Tue-Sat 10-4 &middot; Sun Closed", myRating: 4, note: "Beloved owner-run shop with real designer finds at thrift prices; reviewers rave about the friendly service.", myNote: "", url: "http://www.lookoutthrift.com/" },
+    { name: "Ladies of Charity Thrift Store", area: "Rossville Blvd", category: "Thrift Store", lat: 35.0135015, lng: -85.294813, address: "2821 Rossville Blvd, Chattanooga, TN 37407", hours: "Mon/Tue/Thu/Fri 10-4 &middot; Wed/Sat 10-2 &middot; Sun Closed", myRating: 4, note: "Volunteer-run shop supporting local charity work, with reviewers praising the daily rotating deals.", myNote: "", url: null },
+    { name: "Providence Thrift Store", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.955506, lng: -85.257814, address: "491 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 4, note: "Big selection including furniture and mattresses, though some reviewers find pricing inconsistent for a thrift store.", myNote: "", url: null },
+    { name: "Nifty Thrifty", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9492325, lng: -85.2586457, address: "2749 Lafayette Rd, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Fri 11-6 &middot; Sat/Sun Closed", myRating: 3, note: "Consistently five-star reviews for unbeatable prices and an owner reviewers describe as exceptionally kind.", myNote: "", url: null },
+    { name: "SACs Thrift Avenue", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.952501, lng: -85.247213, address: "1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.", myNote: "", url: null },
+    { name: "Goodwill Store Fort Oglethorpe", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9495954, lng: -85.2333329, address: "1873 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers are split on this location, with several feeling prices run high for a thrift store.", myNote: "", url: null },
+    { name: "The Thrift Store (benefits Chambliss Center)", area: "Brainerd", category: "Thrift Store", lat: 35.023061, lng: -85.242554, address: "3723 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Rotating inventory with a good plus-size and kids selection, though reviews are mixed on furniture and electronics.", myNote: "", url: null },
+    { name: "America's Thrift Stores (Brainerd Rd)", area: "Brainerd", category: "Thrift Store", lat: 35.0114178, lng: -85.2106934, address: "5844 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Clean and well organized, but a common theme in reviews is that prices run higher than expected for a thrift store.", myNote: "", url: null },
+    { name: "Hunts Thrift", area: "East Brainerd", category: "Thrift Store", lat: 35.0174675, lng: -85.1824304, address: "1301 Hickory Valley Rd, Chattanooga, TN 37421", hours: "Mon-Sat 10-7 &middot; Sun 10-6", myRating: 4, note: "Reviews are notably mixed — some love the selection and staff, while many others feel prices are too high for donated goods.", myNote: "", url: null },
+    { name: "Goodwill Store E. Brainerd", area: "East Brainerd", category: "Thrift Store", lat: 35.0139539, lng: -85.1573659, address: "7601 E Brainerd Rd, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers frequently highlight specific staff members by name for going out of their way to help.", myNote: "", url: null },
+    { name: "Providence Thrift Store (Lee Hwy)", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0443448, lng: -85.16619, address: "6933 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 3, note: "Reviews are sharply divided — some find great deals and friendly staff, others describe the store as cluttered and poorly kept.", myNote: "", url: null },
+    { name: "Humane Educational Society Boutique & Thrift", area: "Near Hamilton Place", category: "Thrift Store", lat: 35.0888804, lng: -85.1867647, address: "4784 TN-58, Chattanooga, TN 37416", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Small but well-loved shop with pet goods and home items; proceeds support the local Humane Society.", myNote: "", url: null },
+    { name: "Goodwill Store Hwy 58", area: "Near Hamilton Place", category: "Thrift Store", lat: 35.09156, lng: -85.182231, address: "4850 TN-58, Chattanooga, TN 37416", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Often praised as clean and well run, though a few reviews mention disorganization and spotty customer service.", myNote: "", url: null },
+    { name: "America's Thrift Stores (Northgate)", area: "Hixson", category: "Thrift Store", lat: 35.1329116, lng: -85.238594, address: "248 Northgate Mall Dr #122, Chattanooga, TN 37415", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Large store with plenty of finds, though several reviewers have run into trouble with the store-credit-only return policy.", myNote: "", url: null },
+    { name: "Bethel Thrift Store", area: "Hixson", category: "Thrift Store", lat: 35.136941, lng: -85.238042, address: "5135 Hixson Pike, Hixson, TN 37343", hours: "Mon-Sat 10-6 &middot; Sun Closed", myRating: 4, note: "Known for a strong book and lamp selection, with reviewers appreciating fair pricing and respectful staff.", myNote: "", url: null },
+    { name: "Friends and Family Discount and Thrift", area: "Red Bank/Hixson", category: "Thrift Store", lat: 35.1360179, lng: -85.2818216, address: "4707 Dayton Blvd Ste A, Chattanooga, TN 37415", hours: "Mon-Fri 10-6 &middot; Sat/Sun Closed", myRating: 3, note: "Small and clean with a notably good tools and cookware section, per reviewers.", myNote: "", url: null },
+    { name: "Northside Neighborhood House (Red Bank)", area: "Red Bank", category: "Thrift Store", lat: 35.1148, lng: -85.2933246, address: "3605 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Fri 10-6 &middot; Sat/Sun Closed", myRating: 3, note: "Known for solid furniture donations at reasonable prices, supporting the nonprofit's community programs.", myNote: "", url: "https://www.nnhouse.org/thrifts" },
+    { name: "The Thrift Store (Chambliss, Red Bank)", area: "Red Bank", category: "Thrift Store", lat: 35.0878177, lng: -85.313093, address: "1936 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Well organized with furniture in unusually good condition, plus handmade items from local makers.", myNote: "", url: null },
+    { name: "Northside Neighborhood House Northshore", area: "North Shore", category: "Thrift Store", lat: 35.0654734, lng: -85.3119265, address: "211 Minor St, Chattanooga, TN 37405", hours: "Mon-Thu 8:30-4:30 &middot; Fri 8:30-3 &middot; Sat/Sun Closed", myRating: 4, note: "Smaller shop known for higher-end donated brands at surprisingly reasonable prices.", myNote: "", url: "https://www.nnhouse.org/thrifts" },
+    { name: "Goodwill Store Hixson", area: "Hixson", category: "Thrift Store", lat: 35.136341, lng: -85.242232, address: "1966 Northpoint Blvd Ste A, Hixson, TN 37343", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 3, note: "Reviews are mixed \u2014 some find great quality pieces and call staff friendly, others describe the selection as smaller and more picked-over than other locations.", myNote: "", url: null },
+    { name: "Vinterest Southside", area: "Southside", category: "Curated Shop", lat: 35.033225, lng: -85.3165969, address: "2121 Chestnut St, Chattanooga, TN 37408", hours: "Mon-Fri 10-7 &middot; Sat 9-6 &middot; Sun 11-5", myRating: 5, note: "A local favorite for its variety and welcoming atmosphere, from vintage clothing to home decor.", myNote: "", url: null, featured: true }
+  ];
+
+  var bonusDefaults = [
+    { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
+    { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
+    { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Daily 11-6", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
+    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Large multi-booth antique district with a wide variety and reviewers calling prices reasonable for what's found.", myNote: "", url: null },
+    { name: "Mercantile at the Ridge", area: "East Ridge", category: "Antique Mall", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: null },
+    { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: null },
+    { name: "Vinterest - Hixson", area: "Hixson", category: "Curated Shop", lat: 35.1350822, lng: -85.2379302, address: "2105 Northpoint Blvd, Hixson, TN 37343", hours: "Mon-Fri 10-7 &middot; Sat 9-6 &middot; Sun 11-5", myRating: null, note: "Vintage and handmade goods with a pet-friendly policy reviewers frequently mention.", myNote: "", url: null },
+    { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: null },
+    { name: "Samaritan Center Donation Center", area: "Collegedale", category: "Thrift Store", lat: 35.0843775, lng: -85.0581028, address: "6017 Ooltewah Georgetown Rd, Collegedale, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Well organized with a dedicated kids' section, though a handful of reviewers report unfriendly service.", myNote: "", url: null },
+    { name: "Local Dive Retail", area: "North Shore", category: "Curated Shop", lat: 35.0699765, lng: -85.3175202, address: "607 Cherokee Blvd D, Chattanooga, TN 37405", hours: "Mon/Tue/Thu/Fri 10-6 &middot; Wed/Sat Closed &middot; Sun 10-5", myRating: null, note: "Packed with vintage clothing, vinyl, and oddities; reviewers especially like the friendly, low-pressure staff.", myNote: "", url: "https://www.instagram.com/localdiveretail" },
+    { name: "THE REFINDERY on McCallie", area: "McCallie Ave", category: "Antique Mall", lat: 35.0386314, lng: -85.2826385, address: "1300 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-6 &middot; Sat 10-4 &middot; Sun 11-6", myRating: null, note: "Cavernous antique mall reviewers describe as a fun treasure hunt, with friendly staff and good music.", myNote: "", url: "https://www.therefinderyonmccallie.com/" },
+    { name: "Vintage & More On The Blvd", area: "Red Bank", category: "Antique Mall", lat: 35.1196155, lng: -85.2892799, address: "3920 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Sat 10-5 &middot; Sun 12-5", myRating: null, note: "Weekly-refreshed vintage finds in a well-organized space reviewers call unusually welcoming.", myNote: "", url: null },
+    { name: "Pop's & Granny's Thrift Store", area: "Brainerd", category: "Thrift Store", lat: 35.0476192, lng: -85.2410565, address: "3238 Wilcox Blvd, Chattanooga, TN 37411", hours: "Mon Closed &middot; Tue-Sat 9-6 &middot; Sun Closed", myRating: null, note: "Beloved neighborhood shop where reviewers consistently highlight the warmth of the owners as much as the prices.", myNote: "", url: null },
+    { name: "Habitat For Humanity ReStore", area: "Highland Park", category: "Thrift Store", lat: 35.0301447, lng: -85.2892004, address: "1150 E 14th St, Chattanooga, TN 37408", hours: "Mon Closed &middot; Tue-Sat 9-5 &middot; Sun Closed", myRating: null, note: "Furniture and building materials with proceeds funding local home builds; reviews are mixed on pricing for the condition of some pieces.", myNote: "", url: null },
+    { name: "Electric Crocodile (North Shore)", area: "North Shore", category: "Curated Shop", lat: 35.06956, lng: -85.317639, address: "607 Cherokee Blvd Ste 1, Chattanooga, TN 37405", hours: "Daily 10-7", myRating: null, note: "Huge multi-room vendor market for vintage clothing, toys, and media — reviewers often mention losing track of time.", myNote: "", url: null },
+    { name: "Electric Crocodile (Southside)", area: "Southside", category: "Curated Shop", lat: 35.0374797, lng: -85.316995, address: "1791 Reggie White Blvd, Chattanooga, TN 37408", hours: "Daily 10-7", myRating: null, note: "Newer second location with two levels of vendors and food trucks on-site, per reviewers.", myNote: "", url: null },
+    { name: "Goodwill Store East Ridge", area: "East Ridge", category: "Thrift Store", lat: 35.001289, lng: -85.2574236, address: "3715 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "A newer, huge location with well-organized racks and friendly staff on a good day, though reviewers note prices running higher than expected and inconsistent organization at busier times.", myNote: "", url: null }
+  ];
+
+  routeDefaults.forEach(function(s) { s.defaultBonus = false; });
+  bonusDefaults.forEach(function(s) { s.defaultBonus = true; });
+  var allLocations = routeDefaults.concat(bonusDefaults);
+  var locationsByName = {};
+  allLocations.forEach(function(s) { locationsByName[s.name] = s; });
+
+  function mapsLink(address) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address); }
+  function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving'; }
+  function popupTitleHtml(store, prefix) {
+    var titleText = (prefix !== undefined && prefix !== null ? prefix + '. ' : '') + store.name;
+    return store.url
+      ? '<a class="ctt-popup-title" href="' + store.url + '" target="_blank" rel="noopener">' + titleText + '</a>'
+      : '<span class="ctt-popup-title">' + titleText + '</span>';
+  }
+
+  function renderStars(rating) {
+    if (rating === null || rating === undefined) return '<span class="ctt-tag-rating unrated">\u2606\u2606\u2606\u2606\u2606 no rating</span>';
+    var full = Math.floor(rating);
+    var half = rating % 1 >= 0.5;
+    var str = '';
+    for (var i = 0; i < full; i++) str += '\u2605';
+    if (half) str += '\u00bd';
+    var filledCount = full + (half ? 1 : 0);
+    for (var j = filledCount; j < 5; j++) str += '\u2606';
+    return '<span class="ctt-tag-rating">' + str + '</span>';
+  }
+
+  var DAY_ORDER = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function parseHourToken(tok) {
+    var parts = tok.split(':');
+    return { h: parseInt(parts[0], 10), m: parts.length > 1 ? parseInt(parts[1], 10) : 0 };
+  }
+  function openValueTo24(tok) {
+    var t = parseHourToken(tok);
+    if (t.h === 12) return 12 + t.m / 60;
+    if (t.h >= 7 && t.h <= 11) return t.h + t.m / 60;
+    if (t.h >= 1 && t.h <= 6) return t.h + 12 + t.m / 60;
+    return t.h + t.m / 60;
+  }
+  function closeValueTo24(tok) { var t = parseHourToken(tok); return t.h + 12 + t.m / 60; }
+  function parseHoursString(str) {
+    var schedule = [null, null, null, null, null, null, null];
+    str.split(' &middot; ').forEach(function(seg) {
+      seg = seg.trim();
+      var spaceIdx = seg.indexOf(' ');
+      var dayPart = seg.substring(0, spaceIdx);
+      var restPart = seg.substring(spaceIdx + 1).trim();
+      var days = [];
+      if (dayPart === 'Daily') { days = [0,1,2,3,4,5,6]; }
+      else if (dayPart.indexOf('-') !== -1) {
+        var rp = dayPart.split('-');
+        var s = DAY_ORDER.indexOf(rp[0]), e = DAY_ORDER.indexOf(rp[1]);
+        for (var d = s; d <= e; d++) days.push(d);
+      } else if (dayPart.indexOf('/') !== -1) {
+        dayPart.split('/').forEach(function(d) { days.push(DAY_ORDER.indexOf(d)); });
+      } else { days.push(DAY_ORDER.indexOf(dayPart)); }
+      var isClosed = restPart === 'Closed';
+      var oc = null;
+      if (!isClosed) { var tp = restPart.split('-'); oc = [openValueTo24(tp[0]), closeValueTo24(tp[1])]; }
+      days.forEach(function(d) { if (d >= 0) schedule[d] = isClosed ? null : oc; });
+    });
+    return schedule;
+  }
+  function getEasternNow() {
+    var fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
+    var weekday = 'Sun', hour = 0, minute = 0;
+    fmt.formatToParts(new Date()).forEach(function(p) {
+      if (p.type === 'weekday') weekday = p.value;
+      if (p.type === 'hour') hour = parseInt(p.value, 10);
+      if (p.type === 'minute') minute = parseInt(p.value, 10);
+    });
+    if (hour === 24) hour = 0;
+    return { dayIdx: DAY_ORDER.indexOf(weekday), decHour: hour + minute / 60 };
+  }
+  function formatHour(dec) {
+    var h = Math.floor(dec), m = Math.round((dec - h) * 60);
+    var period = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12; if (h12 === 0) h12 = 12;
+    return h12 + (m ? ':' + (m < 10 ? '0' + m : m) : '') + ' ' + period;
+  }
+
+  // When previewing a future day via "Planning ahead", this holds
+  // { dayIdx, decHour, label } and every "is this open / on the route"
+  // check below uses it instead of the real live time. null = live/today.
+  var displayContext = null;
+  function effectiveNow() { return displayContext || getEasternNow(); }
+
+  function getOpenStatus(hoursStr) {
+    var schedule = parseHoursString(hoursStr);
+    var now = effectiveNow();
+    var today = schedule[now.dayIdx];
+    if (today && now.decHour >= today[0] && now.decHour < today[1]) {
+      if (today[1] - now.decHour <= 1) return { state: 'soon', text: 'Closing soon \u2014 ' + formatHour(today[1]) };
+      return { state: 'open', text: 'Open until ' + formatHour(today[1]) };
+    }
+    for (var offset = 0; offset < 8; offset++) {
+      var dIdx = (now.dayIdx + offset) % 7;
+      var daySched = schedule[dIdx];
+      if (daySched) {
+        if (offset === 0 && now.decHour < daySched[0]) return { state: 'closed', text: formatHour(daySched[0]) + ' - ' + formatHour(daySched[1]) };
+        if (offset > 0) return { state: 'closed', text: DAY_ORDER[dIdx] + ' ' + formatHour(daySched[0]) + ' - ' + formatHour(daySched[1]) };
+      }
+    }
+    return { state: 'closed', text: 'Closed' };
+  }
+
+  function haversineMiles(lat1, lon1, lat2, lon2) {
+    var R = 3958.8;
+    var toRad = function(d) { return d * Math.PI / 180; };
+    var dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+
+  // Every marker still renders on the map regardless. This just decides
+  // which ones count toward the INITIAL zoom/frame - dropping the most
+  // extreme outliers lets the map start zoomed in on the tight cluster
+  // where most stops live, rather than zooming out to fit one far-flung
+  // stop that would otherwise force the whole view wide open. A far
+  // outlier just needs a zoom-out/pan to reach; it's not hidden.
+  function computeTightBounds(points) {
+    if (points.length <= 4) return points.map(function(s) { return [s.lat, s.lng]; });
+    var centerLat = points.reduce(function(sum, s) { return sum + s.lat; }, 0) / points.length;
+    var centerLng = points.reduce(function(sum, s) { return sum + s.lng; }, 0) / points.length;
+    var withDist = points.map(function(s) {
+      return { s: s, d: haversineMiles(centerLat, centerLng, s.lat, s.lng) };
+    });
+    withDist.sort(function(a, b) { return a.d - b.d; });
+    var keepCount = Math.max(Math.ceil(points.length * 0.85), 4);
+    return withDist.slice(0, keepCount).map(function(x) { return [x.s.lat, x.s.lng]; });
+  }
+
+  function optimizeLoop(points, dayIdx, startDecHour) {
+    var n = points.length;
+    if (n <= 2) return points.slice();
+    var dist = [];
+    for (var i = 0; i < n; i++) { dist.push([]); for (var j = 0; j < n; j++) dist[i].push(haversineMiles(points[i].lat, points[i].lng, points[j].lat, points[j].lng)); }
+    function routeLen(route) { var t = 0; for (var k = 0; k < route.length; k++) t += dist[route[k]][route[(k+1) % route.length]]; return t; }
+    var unvisited = []; for (var u = 1; u < n; u++) unvisited.push(u);
+    var route = [0], current = 0;
+    while (unvisited.length) {
+      var best = null, bestD = Infinity;
+      unvisited.forEach(function(cand) { if (dist[current][cand] < bestD) { bestD = dist[current][cand]; best = cand; } });
+      route.push(best); unvisited.splice(unvisited.indexOf(best), 1); current = best;
+    }
+    var improved = true;
+    while (improved) {
+      improved = false;
+      for (var a = 1; a < n - 1; a++) {
+        for (var b = a + 1; b < n; b++) {
+          if (b - a === 1) continue;
+          var newRoute = route.slice(0, a).concat(route.slice(a, b).reverse(), route.slice(b));
+          if (routeLen(newRoute) < routeLen(route) - 1e-9) { route = newRoute; improved = true; }
+        }
+      }
+    }
+
+    // ---- Hours-aware refinement pass ----
+    // The route above is purely geographic (shortest loop). If a dayIdx and
+    // start time are given, do a second pass: try relocating individual
+    // stops to a different position in the sequence (an "or-opt" move -
+    // the right tool for "shift this one late-opening/late-closing stop
+    // to a better slot", since a plain 2-opt reversal can't reposition a
+    // single stop on its own). Only accept a relocation if it reduces
+    // wasted waiting time or avoids arriving after close, AND the total
+    // drive distance stays within a bounded budget (12% over the
+    // geographically-optimal loop) - distance stays king; hours only get
+    // to nudge order within that budget, never create a big detour.
+    if (dayIdx !== undefined && startDecHour !== undefined) {
+      var pureDistance = routeLen(route);
+      var ASSUMED_MPH = 25, VISIT_MIN = 20;
+      var maxDistance = pureDistance * 1.12;
+
+      function evaluateSchedule(r) {
+        var t = startDecHour, wait = 0, violations = 0;
+        for (var k = 0; k < r.length; k++) {
+          if (k > 0) { t += (dist[r[k - 1]][r[k]] / ASSUMED_MPH) * 60 / 60; }
+          var sched = parseHoursString(points[r[k]].hours)[dayIdx];
+          if (sched) {
+            if (t < sched[0]) { wait += (sched[0] - t) * 60; t = sched[0]; }
+            if (t >= sched[1]) violations++;
+          }
+          t += VISIT_MIN / 60;
+        }
+        return { wait: wait, violations: violations };
+      }
+      function combinedCost(r) {
+        var e = evaluateSchedule(r);
+        // wait time is dampened (a nudge, not a mandate); a shop you'd
+        // arrive at after closing is weighted heavily since you simply
+        // can't do that stop in that slot.
+        return e.wait * 0.02 + e.violations * 20;
+      }
+
+      var currentCost = combinedCost(route);
+      var orOptImproved = true;
+      while (orOptImproved) {
+        orOptImproved = false;
+        for (var moveFrom = 1; moveFrom < route.length; moveFrom++) {
+          var nodeToMove = route[moveFrom];
+          var withoutNode = route.slice(0, moveFrom).concat(route.slice(moveFrom + 1));
+          for (var moveTo = 1; moveTo <= withoutNode.length; moveTo++) {
+            var candidate = withoutNode.slice(0, moveTo).concat([nodeToMove], withoutNode.slice(moveTo));
+            if (routeLen(candidate) > maxDistance) continue;
+            var candidateCost = combinedCost(candidate);
+            if (candidateCost < currentCost - 1e-6) {
+              route = candidate; currentCost = candidateCost; orOptImproved = true;
+            }
+          }
+        }
+      }
+    }
+
+    return route.map(function(idx) { return points[idx]; });
+  }
+
+  var manualOverrides = {};
+  var visitedStores = {};
+
+  // ---- Save/resume progress across sessions -----------------------------
+  // Same day + reload: silently restores your visited checkmarks.
+  // A later day, if you didn't finish: offers to resume with only the
+  // shops you missed, starting from the far end of what's left.
+  function todayDateStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function saveProgress() {
+    try {
+      var visitedNames = Object.keys(visitedStores).filter(function(n) { return visitedStores[n]; });
+      var routeOrder = activeRoute.map(function(s) { return s.name; });
+      localStorage.setItem('ctt-progress', JSON.stringify({ date: todayDateStr(), visitedNames: visitedNames, routeOrder: routeOrder }));
+    } catch (e) {}
+  }
+  function loadSavedProgress() {
+    try {
+      var raw = localStorage.getItem('ctt-progress');
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  // ---- Parse plan-ahead sharing params from the URL, if present ----
+  var urlParams = new URLSearchParams(window.location.search);
+  var sharedOverridesApplied = false;
+  if (urlParams.get('overrides')) {
+    urlParams.get('overrides').split(',').forEach(function(pair) {
+      var kv = pair.split(':');
+      var name = decodeURIComponent(kv[0]);
+      var val = kv[1];
+      if (locationsByName[name] && (val === 'i' || val === 's')) {
+        manualOverrides[name] = val === 'i' ? 'include' : 'skip';
+        sharedOverridesApplied = true;
+      }
+    });
+  }
+
+  function isOnRouteToday(loc, now) {
+    var override = manualOverrides[loc.name];
+    if (override === 'include') return true;
+    if (override === 'skip') return false;
+    if (loc.defaultBonus) return false;
+    var schedule = parseHoursString(loc.hours);
+    var today = schedule[now.dayIdx];
+    if (!today) return false;
+    if (now.decHour >= today[1]) return false;
+    return true;
+  }
+
+  var map = L.map('ctt-map', { scrollWheelZoom: false }).setView([35.045, -85.24], 10.5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '' }).addTo(map);
+
+  // The map's height now stretches to match the location list (no more
+  // fixed pixel height), so Leaflet needs a nudge to recalculate its size
+  // once the real layout has settled, and again on window resize.
+  setTimeout(function() { map.invalidateSize(); }, 200);
+  window.addEventListener('resize', function() { map.invalidateSize(); });
+
+  var totalDriveMinutes = null;
+  var routePolyline = null;
+
+  var lastRouteMiles = 0, lastRouteCount = 0;
+  function updateRouteStat(count, miles) {
+    lastRouteMiles = miles;
+    lastRouteCount = count;
+    var el = document.getElementById('ctt-route-stat');
+    if (!el) return;
+    var remaining = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
+    // Straight-line estimate for just what's left (excluding visited stops),
+    // consistent with how "shops left" already excludes them - the OSRM
+    // road-distance figure passed in covers the whole route, visited or
+    // not, so it's not the right number once you're partway through.
+    var milesRemaining = 0;
+    for (var i = 0; i < remaining.length - 1; i++) {
+      milesRemaining += haversineMiles(remaining[i].lat, remaining[i].lng, remaining[i + 1].lat, remaining[i + 1].lng);
+    }
+    el.innerHTML = 'Route recalculates live &nbsp;&middot;&nbsp; ~<strong>' + milesRemaining.toFixed(1) + ' miles</strong> remaining &nbsp;&middot;&nbsp; <strong>' + remaining.length + ' shop' + (remaining.length === 1 ? '' : 's') + '</strong> to go';
+  }
+  function drawStraightFallback(points) {
+    if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
+    if (points.length < 2) { updateRouteStat(points.length, 0); return; }
+    var coords = points.map(function(s) { return [s.lat, s.lng]; });
+    coords.push(coords[0]);
+    routePolyline = L.polyline(coords, { color: '#b5502f', weight: 2.5, opacity: 0.6, dashArray: '6, 8' }).addTo(map);
+    var approxMiles = 0;
+    for (var i = 0; i < points.length; i++) approxMiles += haversineMiles(points[i].lat, points[i].lng, points[(i+1) % points.length].lat, points[(i+1) % points.length].lng);
+    updateRouteStat(points.length, approxMiles);
+  }
+  function drawRoadRoute(points) {
+    if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
+    if (points.length < 2) { updateRouteStat(points.length, 0); return; }
+    var coordsStr = points.map(function(s) { return s.lng + ',' + s.lat; }).join(';') + ';' + points[0].lng + ',' + points[0].lat;
+    var url = 'https://router.project-osrm.org/route/v1/driving/' + coordsStr + '?overview=full&geometries=geojson';
+    fetch(url).then(function(res) { return res.json(); }).then(function(data) {
+      if (data && data.routes && data.routes[0] && data.routes[0].geometry) {
+        totalDriveMinutes = Math.round(data.routes[0].duration / 60);
+        var roadLatLngs = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
+        routePolyline = L.polyline(roadLatLngs, { color: '#b5502f', weight: 3, opacity: 0.7 }).addTo(map);
+        updateRouteStat(points.length, data.routes[0].distance / 1609.34);
+      } else { drawStraightFallback(points); }
+    }).catch(function() { drawStraightFallback(points); });
+  }
+
+  var activeRoute = [];
+  var lastStartIdx = 0;
+  var routeListEl = document.getElementById('ctt-route-list');
+  var offRouteListEl = document.getElementById('ctt-offroute-list');
+  var offRouteExpanded = false;
+  var routeMarkers = [];
+  var userMarker = null;
+
+  function numberedIcon(num, color) {
+    return L.divIcon({ html: '<div class="ctt-num-icon" style="background:' + color + ';">' + num + '</div>', className: '', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -11] });
+  }
+  function featuredStarIcon(num) {
+    var html = '<div style="position:relative;width:34px;height:34px;">' +
+      '<svg width="34" height="34" viewBox="0 0 24 24" style="position:absolute;top:0;left:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">' +
+        '<path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1"/>' +
+      '</svg>' +
+      '<div style="position:absolute;top:0;left:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding-top:2px;font-family:\'Libre Franklin\',sans-serif;font-size:12px;color:#2c2417;">' + num + '</div>' +
+    '</div>';
+    return L.divIcon({ html: html, className: '', iconSize: [34, 34], iconAnchor: [17, 19], popupAnchor: [0, -17] });
+  }
+  function offRouteIcon(letter) {
+    return L.divIcon({ html: '<div class="ctt-bonus-icon"><span>' + letter + '</span></div>', className: '', iconSize: [15, 15], iconAnchor: [8, 8], popupAnchor: [0, -8] });
+  }
+
+  function buildCard(store, label, color, onRoute) {
+    var card = document.createElement('div');
+    var isVisited = onRoute && !!visitedStores[store.name];
+    card.className = 'ctt-tag' + (onRoute ? '' : ' offroute') + (store.featured ? ' featured' : '') + (isVisited ? ' visited' : '');
+    var toggleHtml = onRoute
+      ? '<button class="ctt-toggle-btn remove" title="Remove from trail">&minus;</button>'
+      : '<button class="ctt-toggle-btn add" title="Add to trail">&#43;</button>';
+    var visitedHtml = onRoute
+      ? '<label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> Visited</label>'
+      : '';
+    var reasonHtml = '';
+    if (!onRoute) {
+      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.defaultBonus ? 'Bonus shop' : 'Closed today');
+      reasonHtml = '<div class="ctt-tag-meta"><span class="ctt-offroute-reason">' + reason + '</span></div>';
+    }
+    var initial = store.name.charAt(0).toUpperCase();
+    var photoCol = '<div class="ctt-tag-photo-col" data-photo-col="' + encodeURIComponent(store.name) + '">'
+      + '<div class="ctt-tag-photo-fallback" style="background:' + color + ';">' + initial + '</div>'
+      + '</div>';
+    card.innerHTML =
+      '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
+      (store.featured ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
+      '<div class="ctt-tag-top">' +
+        '<div class="ctt-tag-name"><span class="ctt-tag-num">' + label + '</span>' +
+          (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
+        '</div>' +
+        toggleHtml +
+      '</div>' +
+      reasonHtml +
+      '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
+      '<div class="ctt-tag-note">' + store.note + (store.myNote ? '<br><em>' + store.myNote + '</em>' : '') + '</div>' +
+      '<div class="ctt-tag-bottom-row">' +
+        '<div class="ctt-tag-meta">' +
+          '<span class="ctt-badge" style="background:' + color + ';">' + store.category + '</span>' +
+          (function() { var s = getOpenStatus(store.hours); return '<span class="ctt-open-badge ' + s.state + '">' + s.text + '</span>'; })() +
+          '<span class="ctt-tag-rating-wrap" data-rating-display="' + encodeURIComponent(store.name) + '" data-seed-rating="' + (store.myRating === null || store.myRating === undefined ? '' : store.myRating) + '">' + renderStars(store.myRating) + '</span>' +
+        '</div>' +
+        '<div class="ctt-review-toggle-row">' +
+          visitedHtml +
+          '<button class="ctt-review-toggle-btn" data-review-toggle="' + encodeURIComponent(store.name) + '">Reviews<span data-review-count="' + encodeURIComponent(store.name) + '"></span> <span data-review-arrow="' + encodeURIComponent(store.name) + '">&#9662;</span></button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ctt-review-section" data-review-section="' + encodeURIComponent(store.name) + '" style="display:none;"></div>' +
+      '</div></div>';
+    var toggleBtn = card.querySelector('.ctt-toggle-btn');
+    toggleBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      manualOverrides[store.name] = onRoute ? 'skip' : 'include';
+      recalibrate(lastStartIdx);
+    });
+    var visitedCheckbox = card.querySelector('.ctt-visited-checkbox');
+    if (visitedCheckbox) {
+      var visitedLabel = card.querySelector('.ctt-visited-check');
+      visitedLabel.addEventListener('click', function(e) { e.stopPropagation(); });
+      visitedCheckbox.addEventListener('change', function() {
+        visitedStores[store.name] = this.checked;
+        card.classList.toggle('visited', this.checked);
+        refreshCountdown();
+        updateRouteStat(lastRouteCount, lastRouteMiles);
+        saveProgress();
+      });
+    }
+    return card;
+  }
+
+  function recalibrate(startIdx) {
+    lastStartIdx = startIdx || 0;
+    var now = effectiveNow();
+    var n = allLocations.length;
+    var rotated = [];
+    for (var i = 0; i < n; i++) rotated.push(allLocations[(lastStartIdx + i) % n]);
+    var included = [], excluded = [];
+    rotated.forEach(function(s) { if (isOnRouteToday(s, now)) included.push(s); else excluded.push(s); });
+    var optimized = included.length > 2 ? optimizeLoop(included, now.dayIdx, now.decHour) : included;
+    activeRoute = optimized;
+
+    routeMarkers.forEach(function(m) { map.removeLayer(m); });
+    routeMarkers = [];
+    routeListEl.innerHTML = '';
+    offRouteListEl.innerHTML = '';
+
+    if (optimized.length === 0) {
+      var emptyMsg = document.createElement('div');
+      emptyMsg.style.cssText = 'padding:16px; text-align:center; color:#8a8069; font-size:13px; background:var(--card); border:1px dashed var(--line); border-radius:4px;';
+      emptyMsg.innerHTML = '&#128546; Sorry, no stores are open today &mdash; plan for another day!';
+      routeListEl.appendChild(emptyMsg);
+    }
+
+    optimized.forEach(function(store, i) {
+      var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
+      var marker = L.marker([store.lat, store.lng], { icon: store.featured ? featuredStarIcon(i + 1) : numberedIcon(i + 1, color), zIndexOffset: 1000 }).addTo(map);
+      marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
+      routeMarkers.push(marker);
+      var card = buildCard(store, i + 1, color, true);
+      (function(store, marker, card) {
+        card.addEventListener('click', function() {
+          map.flyTo([store.lat, store.lng], 14, { duration: 0.6 });
+          marker.openPopup();
+          document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
+          card.classList.add('active');
+        });
+        marker.on('click', function() {
+          document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
+          card.classList.add('active');
+        });
+      })(store, marker, card);
+      routeListEl.appendChild(card);
+    });
+
+    if (excluded.length) {
+      excluded.forEach(function(store, i) {
+        var letter = String.fromCharCode(65 + (i % 26));
+        var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
+        var marker = L.marker([store.lat, store.lng], { icon: offRouteIcon(letter), zIndexOffset: -1000 }).addTo(map);
+        marker.bindPopup(popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
+        var card = buildCard(store, letter, color, false);
+        card.addEventListener('click', function() {
+          map.flyTo([store.lat, store.lng], 14, { duration: 0.6 });
+          marker.openPopup();
+          document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
+          card.classList.add('active');
+        });
+        marker.on('click', function() {
+          document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
+          card.classList.add('active');
+        });
+        offRouteListEl.appendChild(card);
+      });
+    }
+    offRouteListEl.style.display = offRouteExpanded ? 'block' : 'none';
+    drawRoadRoute(optimized);
+    setTimeout(function() {
+      map.invalidateSize();
+      if (optimized.length > 0) {
+        var bounds = computeTightBounds(optimized);
+        map.fitBounds(bounds, { padding: [10, 10], maxZoom: 16 });
+      }
+    }, 50);
+    if (typeof refreshCountdown === 'function') refreshCountdown();
+    if (typeof saveProgress === 'function') saveProgress();
+  }
+
+  var savedProgress = loadSavedProgress();
+  if (savedProgress && savedProgress.date === todayDateStr()) {
+    (savedProgress.visitedNames || []).forEach(function(n) { visitedStores[n] = true; });
+  }
+
+  recalibrate(0);
+
+  // ---- Resume an unfinished trail from a previous day ----
+  // If there's saved progress from a DIFFERENT day that still has
+  // unvisited shops, offer to resume: mark what's already done as
+  // skipped (no need to redrive it) and start from the far end of what's
+  // left, working back through the missed shops first.
+  if (savedProgress && savedProgress.date !== todayDateStr() && Array.isArray(savedProgress.routeOrder) && savedProgress.routeOrder.length > 0) {
+    var visitedSet = {};
+    (savedProgress.visitedNames || []).forEach(function(n) { visitedSet[n] = true; });
+    var missed = savedProgress.routeOrder.filter(function(n) { return !visitedSet[n]; });
+    if (missed.length > 0 && missed.length < savedProgress.routeOrder.length) {
+      var resumeBanner = document.getElementById('ctt-resume-banner');
+      resumeBanner.style.display = 'block';
+      resumeBanner.innerHTML = 'Didn\u2019t finish last time? You had <strong>' + missed.length + ' shop' + (missed.length === 1 ? '' : 's') + ' left</strong>.'
+        + '<button class="ctt-resume-btn" id="ctt-resume-btn">Resume Unfinished Trail</button>'
+        + '<button class="ctt-resume-dismiss-btn" id="ctt-resume-dismiss-btn">Start Fresh Instead</button>';
+      document.getElementById('ctt-resume-dismiss-btn').addEventListener('click', function() {
+        resumeBanner.style.display = 'none';
+      });
+      document.getElementById('ctt-resume-btn').addEventListener('click', function() {
+        (savedProgress.visitedNames || []).forEach(function(n) { manualOverrides[n] = 'skip'; });
+        var lastMissedName = missed[missed.length - 1];
+        var startIdx = 0;
+        for (var i = 0; i < allLocations.length; i++) { if (allLocations[i].name === lastMissedName) { startIdx = i; break; } }
+        recalibrate(startIdx);
+        resumeBanner.style.display = 'none';
+      });
+    }
+  }
+
+  // Default the "Later" date field to tomorrow, so it's never just empty.
+  (function() {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var yyyy = tomorrow.getFullYear();
+    var mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    var dd = String(tomorrow.getDate()).padStart(2, '0');
+    document.getElementById('ctt-schedule-date').value = yyyy + '-' + mm + '-' + dd;
+  })();
+
+  var lastAutoKey = allLocations.filter(function(s) { return isOnRouteToday(s, getEasternNow()); }).map(function(s) { return s.name; }).sort().join('|');
+  setInterval(function() {
+    if (displayContext) return; // don't let live closures interfere with a future-day preview
+    var now = getEasternNow();
+    var key = allLocations.filter(function(s) { return isOnRouteToday(s, now); }).map(function(s) { return s.name; }).sort().join('|');
+    if (key !== lastAutoKey) { lastAutoKey = key; recalibrate(lastStartIdx); }
+  }, 60000);
+
+  // ---- Single CTA: nearest OPEN stop (or soonest-opening if nothing's
+  // open yet) + shopping-day countdown ----
+  var ctaBtn = document.getElementById('ctt-cta-btn');
+  var ctaStatus = document.getElementById('ctt-cta-status');
+  var ctaInterval = null;
+  startCountdown('');
+
+  function placeStartMarker(lat, lng) {
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div style="background:#2c2417;width:12px;height:12px;border-radius:50%;border:2px solid #f2ead9;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>', className: '', iconSize: [12, 12], iconAnchor: [6, 6] }), zIndexOffset: 2000 }).addTo(map);
+  }
+
+  function pickStartingLocation(uLat, uLng, excludeVisited) {
+    var now = effectiveNow();
+    var openNow = [], opensLater = [];
+    allLocations.forEach(function(s, i) {
+      if (!isOnRouteToday(s, now)) return;
+      if (excludeVisited && visitedStores[s.name]) return;
+      var sched = parseHoursString(s.hours)[now.dayIdx];
+      if (!sched) return;
+      var d = (uLat !== null) ? haversineMiles(uLat, uLng, s.lat, s.lng) : 0;
+      if (now.decHour >= sched[0]) { openNow.push({ idx: i, dist: d }); }
+      else { opensLater.push({ idx: i, dist: d, opensAt: sched[0] }); }
+    });
+    if (openNow.length) {
+      openNow.sort(function(a, b) { return a.dist - b.dist; });
+      return { idx: openNow[0].idx, reason: 'open' };
+    }
+    if (opensLater.length) {
+      opensLater.sort(function(a, b) { return (a.opensAt - b.opensAt) || (a.dist - b.dist); });
+      return { idx: opensLater[0].idx, reason: 'opens-soon', opensAt: opensLater[0].opensAt };
+    }
+    var bestIdx = 0, bestDist = Infinity;
+    allLocations.forEach(function(s, i) {
+      var d = (uLat !== null) ? haversineMiles(uLat, uLng, s.lat, s.lng) : i;
+      if (d < bestDist) { bestDist = d; bestIdx = i; }
+    });
+    return { idx: bestIdx, reason: 'fallback' };
+  }
+
+  function computeTimerText() {
+    var now = getEasternNow();
+    var remaining = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
+    var latestClose = null, latestName = '', openTodayCount = 0;
+    remaining.forEach(function(store) {
+      var schedule = parseHoursString(store.hours);
+      var today = schedule[now.dayIdx];
+      if (today) { openTodayCount++; if (latestClose === null || today[1] > latestClose) { latestClose = today[1]; latestName = store.name; } }
+    });
+    // activeRoute already excludes anything that's closed for the day (see
+    // isOnRouteToday in recalibrate), so an empty activeRoute means nothing
+    // is open at all right now - a genuinely different situation from
+    // "everything's open but you've visited it all", which is checked next.
+    if (activeRoute.length === 0) return { text: 'All the stores are closed for the day &mdash; let\u2019s do it again tomorrow!', done: true, urgency: 'calm' };
+    if (remaining.length === 0) return { text: 'Every shop on today\u2019s trail is marked visited \u2014 nice work!', done: true, urgency: 'calm' };
+    if (openTodayCount === 0) return { text: 'Everything left on today\u2019s trail is closed &mdash; better luck tomorrow!', done: true, urgency: 'calm' };
+    // Subtract 20 min off the raw countdown to closing - that's roughly
+    // the minimum time needed to actually shop at that last stop, so
+    // "time remaining" reflects when you'd need to arrive by, not the
+    // literal closing time itself (which would leave zero time to browse).
+    var LAST_STOP_MIN = 20;
+    var minutesRemaining = Math.round((latestClose - now.decHour) * 60) - LAST_STOP_MIN;
+    if (minutesRemaining <= 0) return { text: 'Everything left on today\u2019s trail has closed for the day. Time to call it!', done: true, urgency: 'calm' };
+    var hrs = Math.floor(minutesRemaining / 60), mins = minutesRemaining % 60;
+    var timeStr = (hrs > 0 ? hrs + 'h ' : '') + mins + 'm';
+
+    // Simple average: remaining browsing time (after subtracting estimated
+    // drive time) split evenly across every remaining shop.
+    var driveMinutes = estimateRemainingDriveMinutes(remaining);
+    var browsingMinutes = Math.max(minutesRemaining - driveMinutes, 0);
+    var avgPerShop = Math.max(0, Math.floor(browsingMinutes / remaining.length));
+    var fitNote = 'Apprx <strong>' + avgPerShop + ' minutes</strong> at each shop';
+
+    // Urgency ramps up as real time actually runs out - genuine, since
+    // shops really are closing, not a manufactured countdown gimmick.
+    var urgency = 'calm', leadIn = '';
+    if (minutesRemaining <= 30) { urgency = 'urgent'; leadIn = '&#9889; '; }
+    else if (minutesRemaining <= 90) { urgency = 'tight'; leadIn = '&#9203; '; }
+
+    return {
+      text: '<div class="ctt-status-stat-row">' + leadIn + '<strong>' + timeStr + '</strong> remaining &middot; ' + fitNote + '</div>',
+      done: false,
+      urgency: urgency
+    };
+  }
+  function estimateRemainingDriveMinutes(remaining) {
+    if (remaining.length < 2) return 0;
+    var ASSUMED_MPH = 25, total = 0;
+    for (var i = 0; i < remaining.length - 1; i++) {
+      total += haversineMiles(remaining[i].lat, remaining[i].lng, remaining[i + 1].lat, remaining[i + 1].lng) / ASSUMED_MPH * 60;
+    }
+    return Math.round(total);
+  }
+  var currentCtaPrefix = '';
+  function applyUrgencyClass(urgency) {
+    if (!ctaStatus) return;
+    ctaStatus.classList.remove('urgency-calm', 'urgency-tight', 'urgency-urgent');
+    ctaStatus.classList.add('urgency-' + (urgency || 'calm'));
+  }
+  function startCountdown(prefix) {
+    currentCtaPrefix = prefix;
+    if (ctaInterval) { clearInterval(ctaInterval); ctaInterval = null; }
+    function tick() { var result = computeTimerText(); ctaStatus.innerHTML = currentCtaPrefix + result.text; applyUrgencyClass(result.urgency); if (result.done && ctaInterval) { clearInterval(ctaInterval); ctaInterval = null; } }
+    tick();
+    ctaInterval = setInterval(tick, 60000);
+  }
+  function refreshCountdown() {
+    if (!ctaStatus) return;
+    var result = computeTimerText();
+    ctaStatus.innerHTML = currentCtaPrefix + result.text;
+    applyUrgencyClass(result.urgency);
+  }
+  var hasClickedLocateBefore = false;
+  function setCtaBtnText(line1, line2) {
+    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1">' + line1 + '</span><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span>';
+  }
+  function locateAndStart() {
+    var isRefresh = hasClickedLocateBefore;
+    hasClickedLocateBefore = true;
+    var nearestLine = isRefresh ? 'Let\u2019s continue to your next closest shop.' : 'Let\u2019s begin at your nearest shop.';
+    if (displayContext) { exitPlanningPreview(); }
+    ctaBtn.disabled = true;
+    setCtaBtnText('&#9203; Finding your location&hellip;', nearestLine);
+    if (!navigator.geolocation) {
+      var picked0 = pickStartingLocation(null, null, isRefresh);
+      recalibrate(picked0.idx);
+      var prefix0 = picked0.reason === 'opens-soon'
+        ? 'Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked0.idx].name + '</strong>, opening at ' + formatHour(picked0.opensAt) + '. '
+        : '';
+      startCountdown(prefix0);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+      return;
+    }
+    var settled = false;
+    var failsafe = setTimeout(function() {
+      if (settled) return;
+      settled = true;
+      var picked = pickStartingLocation(null, null, isRefresh);
+      recalibrate(picked.idx);
+      var prefix = 'Couldn\u2019t get your location, so here\u2019s today\u2019s plan from the top. ';
+      if (picked.reason === 'opens-soon') prefix = 'Couldn\u2019t get your location. Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked.idx].name + '</strong>, opening at ' + formatHour(picked.opensAt) + '. ';
+      startCountdown(prefix);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+    }, 12000);
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(failsafe);
+      try { localStorage.setItem('ctt-has-located', '1'); } catch (e) {}
+      var uLat = pos.coords.latitude, uLng = pos.coords.longitude;
+      var picked = pickStartingLocation(uLat, uLng, isRefresh);
+      var bestIdx = picked.idx;
+      recalibrate(bestIdx);
+      placeStartMarker(uLat, uLng);
+      map.setView([uLat, uLng], 11);
+      var prefix;
+      if (picked.reason === 'opens-soon') {
+        prefix = 'Nothing nearby is open yet \u2014 starting with <strong>' + allLocations[bestIdx].name + '</strong>, which opens at ' + formatHour(picked.opensAt) + '. ';
+      } else {
+        prefix = 'Starting from <strong>' + allLocations[bestIdx].name + '</strong> (nearest open shop). ';
+      }
+      startCountdown(prefix);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+    }, function(err) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(failsafe);
+      try { localStorage.setItem('ctt-has-located', '1'); } catch (e) {}
+      var picked = pickStartingLocation(null, null, isRefresh);
+      recalibrate(picked.idx);
+      var msg = 'Couldn\u2019t get your location';
+      if (err && err.code === 1) msg = 'Location permission denied';
+      else if (err && err.code === 2) msg = 'Location unavailable';
+      else if (err && err.code === 3) msg = 'Location request timed out';
+      var prefix = msg + ', so here\u2019s today\u2019s plan from the top. ';
+      if (picked.reason === 'opens-soon') prefix = msg + '. Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked.idx].name + '</strong>, opening at ' + formatHour(picked.opensAt) + '. ';
+      startCountdown(prefix);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+    }, { timeout: 10000, enableHighAccuracy: false });
+  }
+  ctaBtn.addEventListener('click', locateAndStart);
+
+  // If this browser has used the button before (permission decision
+  // already made, one way or the other), it's safe to silently re-check
+  // location on every fresh page load/refresh - no new prompt will pop up
+  // for an already-granted permission, and a previously-denied one will
+  // just quietly fail the same way it did last time.
+  (function() {
+    var hasLocatedBefore = false;
+    try { hasLocatedBefore = localStorage.getItem('ctt-has-located') === '1'; } catch (e) {}
+    if (hasLocatedBefore) { locateAndStart(); }
+  })();
+
+  // ---- Downloadable PDF trail guide ----
+  // Generates a single-page PDF from whatever is CURRENTLY on today's live
+  // trail (activeRoute) - not a static file, so it always reflects closures
+  // and any shops you've added/removed. The "map" is a simple connect-the-
+  // dots diagram built from real coordinates, not actual map tiles (map
+  // providers don't allow capturing their tiles into a generated PDF like
+  // this, so a clean geographic loop diagram is the honest substitute).
+  function stripEntities(str) {
+    return (str || '').replace(/&middot;/g, '\u00b7').replace(/&amp;/g, '&').replace(/&rarr;/g, '\u2192');
+  }
+  document.getElementById('ctt-pdf-btn').addEventListener('click', function() {
+    var btn = this;
+    if (typeof window.jspdf === 'undefined') {
+      alert('The PDF tool is still loading \u2014 give it a second and try again.');
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Building your PDF\u2026';
+
+    var jsPDFCtor = window.jspdf.jsPDF;
+    var doc = new jsPDFCtor({ orientation: 'portrait', unit: 'mm', format: 'letter' });
+    var pageWidth = 215.9;
+    var margin = 15;
+    var ink = [44, 36, 23], taupe = [90, 82, 64], rust = [181, 80, 47];
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(ink[0], ink[1], ink[2]);
+    doc.text('The Chattanooga Thrift Trail', pageWidth / 2, 20, { align: 'center' });
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(taupe[0], taupe[1], taupe[2]);
+    var todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    doc.text('Today\u2019s Trail \u2014 ' + todayStr, pageWidth / 2, 27, { align: 'center' });
+
+    var stops = activeRoute.slice();
+
+    if (stops.length === 0) {
+      doc.setFontSize(13);
+      doc.setTextColor(ink[0], ink[1], ink[2]);
+      doc.text('Nothing is open today \u2014 check back another day!', pageWidth / 2, 60, { align: 'center' });
+      doc.save('chattanooga-thrift-trail.pdf');
+      btn.disabled = false;
+      btn.innerHTML = '&#128196; Download Printable Trail Guide (PDF)';
+      return;
+    }
+
+    // Stats line
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(rust[0], rust[1], rust[2]);
+    var statsText = '~' + lastRouteMiles.toFixed(1) + ' miles' + '  \u00b7  ' + stops.length + ' shop' + (stops.length === 1 ? '' : 's');
+    doc.text(statsText, pageWidth / 2, 35, { align: 'center' });
+
+    // Numbered list, two columns
+    var listY = 44;
+    var colGap = 8;
+    var colWidth = (pageWidth - margin * 2 - colGap) / 2;
+    var col2X = margin + colWidth + colGap;
+    var itemsPerCol = Math.ceil(stops.length / 2);
+    var mapHReserve = 40, mapGapReserve = 8, bottomMargin = 15, pageHeight = 279.4;
+    var availableForList = pageHeight - bottomMargin - mapHReserve - mapGapReserve - listY;
+    var rowHeight = Math.min(13, availableForList / itemsPerCol);
+
+    stops.forEach(function(s, idx) {
+      var col = idx < itemsPerCol ? 0 : 1;
+      var row = idx < itemsPerCol ? idx : idx - itemsPerCol;
+      var x = col === 0 ? margin : col2X;
+      var y = listY + row * rowHeight;
+      var textX = x + 4;
+
+      doc.setFillColor(rust[0], rust[1], rust[2]);
+      doc.rect(x, y - 2.6, 2.2, 2.2, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(ink[0], ink[1], ink[2]);
+      doc.text((idx + 1) + '. ' + s.name, textX, y);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(taupe[0], taupe[1], taupe[2]);
+      doc.text(s.address, textX, y + 3.4);
+      doc.text(stripEntities(s.hours), textX, y + 6.4);
+    });
+
+    // Small connect-the-dots map at the bottom
+    var listBottom = listY + (itemsPerCol * rowHeight) + 8;
+    var mapH = 40;
+    var mapY = listBottom;
+    var mapX = margin, mapW = pageWidth - margin * 2;
+    doc.setDrawColor(rust[0], rust[1], rust[2]);
+    doc.setLineWidth(0.3);
+    doc.rect(mapX, mapY, mapW, mapH);
+
+    var lats = stops.map(function(s) { return s.lat; });
+    var lngs = stops.map(function(s) { return s.lng; });
+    var minLat = Math.min.apply(null, lats), maxLat = Math.max.apply(null, lats);
+    var minLng = Math.min.apply(null, lngs), maxLng = Math.max.apply(null, lngs);
+    var latRange = (maxLat - minLat) || 0.01;
+    var lngRange = (maxLng - minLng) || 0.01;
+    var pad = 6;
+
+    function project(lat, lng) {
+      var x = mapX + pad + ((lng - minLng) / lngRange) * (mapW - pad * 2);
+      var y = mapY + pad + ((maxLat - lat) / latRange) * (mapH - pad * 2);
+      return [x, y];
+    }
+
+    doc.setDrawColor(rust[0], rust[1], rust[2]);
+    doc.setLineWidth(0.35);
+    for (var i = 0; i < stops.length; i++) {
+      var p1 = project(stops[i].lat, stops[i].lng);
+      var p2 = project(stops[(i + 1) % stops.length].lat, stops[(i + 1) % stops.length].lng);
+      doc.line(p1[0], p1[1], p2[0], p2[1]);
+    }
+    stops.forEach(function(s, idx) {
+      var p = project(s.lat, s.lng);
+      doc.setFillColor(ink[0], ink[1], ink[2]);
+      doc.circle(p[0], p[1], 1.7, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(5);
+      doc.text(String(idx + 1), p[0], p[1] + 0.6, { align: 'center' });
+    });
+
+    doc.save('chattanooga-thrift-trail.pdf');
+    btn.disabled = false;
+    btn.innerHTML = '&#128196; Download Printable Trail Guide (PDF)';
+  });
+
+  document.getElementById('ctt-howworks-toggle').addEventListener('click', function() {
+    var panel = document.getElementById('ctt-howworks-panel');
+    var isHidden = panel.style.display === 'none';
+    panel.style.display = isHidden ? 'block' : 'none';
+    this.innerHTML = isHidden ? '&#8505;&#65039; How this works &#9652;' : '&#8505;&#65039; How this works &#9662;';
+  });
+
+  document.getElementById('ctt-offroute-toggle').addEventListener('click', function() {
+    offRouteExpanded = !offRouteExpanded;
+    offRouteListEl.style.display = offRouteExpanded ? 'block' : 'none';
+    this.innerHTML = 'Bonus &amp; Closed Shops ' + (offRouteExpanded ? '&#9652;' : '&#9662;');
+    if (offRouteExpanded) {
+      setTimeout(function() {
+        offRouteListEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+    setTimeout(function() { map.invalidateSize(); }, 60);
+  });
+
+  document.getElementById('ctt-day-today-btn').addEventListener('click', function() {
+    document.getElementById('ctt-day-today-btn').classList.add('active');
+    document.getElementById('ctt-day-plan-btn').classList.remove('active');
+    document.getElementById('ctt-day-plan-inputs').style.display = 'none';
+    document.getElementById('ctt-schedule-date').value = '';
+    exitPlanningPreview();
+  });
+  document.getElementById('ctt-day-plan-btn').addEventListener('click', function() {
+    document.getElementById('ctt-day-plan-btn').classList.add('active');
+    document.getElementById('ctt-day-today-btn').classList.remove('active');
+    document.getElementById('ctt-day-plan-inputs').style.display = 'flex';
+    applyPlanningContext();
+  });
+
+  // ---- Plan-ahead preview: pick a date + start time, and the SAME
+  // interactive card list / map above re-renders as if it were that day
+  // and time, fully customizable (add/remove, reviews, everything) just
+  // like the live view. ----
+  function isSameCalendarDay(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  function applyPlanningContext() {
+    var dateVal = document.getElementById('ctt-schedule-date').value;
+    var timeVal = document.getElementById('ctt-schedule-time').value;
+    if (!timeVal) return;
+    var timeParts = timeVal.split(':');
+    var decHour = parseInt(timeParts[0], 10) + parseInt(timeParts[1], 10) / 60;
+
+    var targetDate;
+    if (dateVal) {
+      var dp = dateVal.split('-');
+      targetDate = new Date(parseInt(dp[0], 10), parseInt(dp[1], 10) - 1, parseInt(dp[2], 10));
+    } else {
+      targetDate = new Date();
+    }
+
+    if (isSameCalendarDay(targetDate, new Date())) {
+      displayContext = null;
+    } else {
+      displayContext = {
+        dayIdx: targetDate.getDay(),
+        decHour: decHour,
+        label: targetDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }),
+        dateVal: dateVal,
+        timeVal: timeVal
+      };
+    }
+    recalibrate(0);
+    updatePlanningBanner();
+  }
+
+  function exitPlanningPreview() {
+    displayContext = null;
+    document.getElementById('ctt-day-today-btn').classList.add('active');
+    document.getElementById('ctt-day-plan-btn').classList.remove('active');
+    document.getElementById('ctt-day-plan-inputs').style.display = 'none';
+    recalibrate(lastStartIdx);
+    updatePlanningBanner();
+  }
+
+  function updatePlanningBanner() {
+    var banner = document.getElementById('ctt-planning-banner');
+    if (displayContext) {
+      banner.style.display = 'block';
+      banner.innerHTML = '<div style="margin-bottom:10px;">Previewing <strong>' + displayContext.label + '</strong> starting at ' + formatHour(displayContext.decHour) + ' \u2014 add, remove, and review shops just like you would for today.</div>'
+        + '<button class="ctt-back-to-today-btn" id="ctt-back-to-today-btn">Back to Today</button>'
+        + '<button class="ctt-back-to-today-btn" id="ctt-share-day-btn" style="background:var(--olive);">Share This Day</button>'
+        + '<span id="ctt-share-day-status" style="margin-left:8px; font-size:11.5px; color:var(--olive); font-weight:600;"></span>';
+      document.getElementById('ctt-back-to-today-btn').addEventListener('click', function() {
+        document.getElementById('ctt-schedule-date').value = '';
+        exitPlanningPreview();
+      });
+      document.getElementById('ctt-share-day-btn').addEventListener('click', function() {
+        var overridePairs = [];
+        Object.keys(manualOverrides).forEach(function(name) {
+          overridePairs.push(encodeURIComponent(name) + ':' + (manualOverrides[name] === 'include' ? 'i' : 's'));
+        });
+        var params = new URLSearchParams();
+        if (displayContext.dateVal) params.set('date', displayContext.dateVal);
+        params.set('time', displayContext.timeVal);
+        if (overridePairs.length) params.set('overrides', overridePairs.join(','));
+        var shareUrl = window.location.origin + window.location.pathname + '?' + params.toString();
+        var statusEl = document.getElementById('ctt-share-day-status');
+        function showCopied() { statusEl.textContent = 'Link copied \u2014 send it over!'; setTimeout(function() { statusEl.textContent = ''; }, 3000); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareUrl).then(showCopied).catch(function() { fallbackCopy(shareUrl); showCopied(); });
+        } else { fallbackCopy(shareUrl); showCopied(); }
+      });
+    } else {
+      banner.style.display = 'none';
+      banner.innerHTML = '';
+    }
+  }
+
+  document.getElementById('ctt-schedule-date').addEventListener('change', applyPlanningContext);
+  document.getElementById('ctt-schedule-time').addEventListener('change', applyPlanningContext);
+
+  // If this page was opened from a shared "planning day" link, restore it.
+  if (urlParams.get('time')) {
+    var sharedDate = urlParams.get('date') || '';
+    var sharedTime = urlParams.get('time');
+    document.getElementById('ctt-schedule-date').value = sharedDate;
+    document.getElementById('ctt-schedule-time').value = sharedTime;
+    document.getElementById('ctt-day-plan-inputs').style.display = 'flex';
+    document.getElementById('ctt-day-plan-btn').classList.add('active');
+    document.getElementById('ctt-day-today-btn').classList.remove('active');
+    applyPlanningContext();
+  }
+
+  // ---- Share buttons ----
+  document.getElementById('ctt-share-fb').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=580,height=520');
+  });
+  document.getElementById('ctt-share-x').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    var text = encodeURIComponent('Check out The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga!');
+    window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=580,height=520');
+  });
+  document.getElementById('ctt-share-pin').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    var desc = encodeURIComponent('The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga.');
+    window.open('https://pinterest.com/pin/create/button/?url=' + url + '&description=' + desc, '_blank', 'width=750,height=520');
+  });
+  document.getElementById('ctt-share-copy').addEventListener('click', function() {
+    var url = window.location.href;
+    var statusEl = document.getElementById('ctt-share-status');
+    function showCopied() { statusEl.textContent = 'Link copied!'; setTimeout(function() { statusEl.textContent = ''; }, 2500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(showCopied).catch(function() { fallbackCopy(url); showCopied(); });
+    } else { fallbackCopy(url); showCopied(); }
+  });
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  // ---- Feedback (EMAIL OBFUSCATION: built from char codes, not plain text) ----
+  var emailCodes = [100,101,114,101,107,64,102,105,108,109,112,114,111,100,117,99,101,114,46,99,111];
+  var feedbackEmail = String.fromCharCode.apply(null, emailCodes);
+  document.getElementById('ctt-feedback-toggle').addEventListener('click', function() {
+    var section = document.getElementById('ctt-feedback-section');
+    var isHidden = section.style.display === 'none';
+    section.style.display = isHidden ? 'block' : 'none';
+    this.textContent = isHidden ? 'Hide feedback form' : 'Send feedback';
+  });
+  document.getElementById('ctt-feedback-send').addEventListener('click', function() {
+    var textEl = document.getElementById('ctt-feedback-text');
+    var statusEl = document.getElementById('ctt-feedback-status');
+    var text = textEl.value.trim();
+    if (!text) { statusEl.textContent = 'Type something first!'; return; }
+    var subject = encodeURIComponent('Chattanooga Thrift Trail Feedback');
+    var body = encodeURIComponent(text);
+    window.location.href = 'mailto:' + feedbackEmail + '?subject=' + subject + '&body=' + body;
+    statusEl.textContent = 'Opening your email app\u2026';
+  });
+
+  document.getElementById('ctt-disclaimer-toggle').addEventListener('click', function() {
+    var el = document.getElementById('ctt-disclaimer-text');
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  });
+})();
+</script>
+
+
+<!--
+  ===========================================================================
+  REVIEWS (Firebase Firestore only) - FREE SPARK PLAN, NO STORAGE, NO LOGIN
+  ===========================================================================
+  Reviews auto-post immediately. Moderation is entirely community-driven:
+  every review has thumbs up/down. At 3 thumbs down, it is deleted
+  automatically - and this is enforced by the Firestore security rule
+  itself (not just the page's JavaScript), so it can't be bypassed by
+  someone calling the database directly.
+
+  Photos: Firebase Storage now requires the paid Blaze plan even to create
+  the bucket, so this version skips Storage entirely. Instead, photos are
+  resized/compressed right in the visitor's browser and stored as encoded
+  text directly inside the review itself in Firestore. Stays 100% on the
+  free Spark plan - no card on file, ever. Trade-off: photos come out as
+  smallish, clearly-compressed images rather than full resolution, and a
+  handful of very large/detailed photos might get compressed further to
+  fit. Fine for small thumbnail-style review photos; not meant for anything
+  needing full quality.
+
+  SETUP:
+
+  1. Go to https://console.firebase.google.com, create a project (free).
+     Build > Firestore Database > Create database > production mode.
+     Project settings (gear icon) > General > "Your apps" > Add app > Web.
+     Copy the firebaseConfig object and paste it over the placeholder below.
+
+  2. Firestore > Rules tab, paste this and Publish:
+
+     rules_version = '2';
+     service cloud.firestore {
+       match /databases/{database}/documents {
+         match /reviews/{reviewId} {
+           allow read: if true;
+           allow create: if request.resource.data.storeName is string
+                         && request.resource.data.reviewerName is string
+                         && request.resource.data.reviewerName.size() < 60
+                         && request.resource.data.text is string
+                         && request.resource.data.text.size() < 1000
+                         && request.resource.data.rating is int
+                         && request.resource.data.rating >= 1
+                         && request.resource.data.rating <= 5
+                         && request.resource.data.upvotes == 0
+                         && request.resource.data.downvotes == 0
+                         && (request.resource.data.photoUrl == null
+                             || (request.resource.data.photoUrl is string
+                                 && request.resource.data.photoUrl.size() < 900000));
+           allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['upvotes', 'downvotes'])
+                         && (request.resource.data.upvotes == resource.data.upvotes + 1
+                             || request.resource.data.downvotes == resource.data.downvotes + 1);
+           allow delete: if resource.data.downvotes >= 3;
+         }
+       }
+     }
+
+  HONESTY NOTES:
+  - The profanity filter is client-side and not exhaustive - it stops
+    casual bad language, not a determined bad actor.
+  - Thumbs-down voting uses this browser's localStorage to stop the same
+    person from clicking the same button repeatedly. That's a soft
+    deterrent, not real security - someone could clear their browser data
+    or use another device to vote again. For a small local site this is a
+    reasonable trade-off; it is not abuse-proof at scale.
+  - There is no owner override/login in this version, by request - once
+    something is posted, the only way it comes down is 3 real downvotes.
+    If you want a manual "just let me delete this one thing" backstop
+    later, that's a small addition (brings back a lightweight login) -
+    just ask.
+-->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, increment, getDocs, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyDSJYyUkpUQuwyZ6E7gNwutNb819BS_sTU",
+    authDomain: "chattanooga-thrift-trail.firebaseapp.com",
+    projectId: "chattanooga-thrift-trail",
+    messagingSenderId: "553643358865",
+    appId: "1:553643358865:web:66cbf21479e7ab67c71d30"
+  };
+
+  var app, db;
+  var firebaseReady = false;
+  try {
+    if (firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('YOUR_') !== 0) {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      firebaseReady = true;
+    }
+  } catch (e) { firebaseReady = false; console.error('Chattanooga Thrift Trail: Firebase failed to initialize.', e); }
+
+  // Resize + JPEG-compress a photo in the browser, then return it as a data
+  // URL (a base64-encoded string). This gets stored directly inside the
+  // Firestore review document - no Firebase Storage needed at all, which
+  // means no Blaze plan / no card on file required. Firestore documents cap
+  // out at 1MB total, so this shrinks the photo until it's safely under
+  // that, trying progressively smaller sizes if needed.
+  function resizeAndCompressImage(file, maxDim, quality) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var w = img.width, h = img.height;
+          if (w > h && w > maxDim) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else if (h >= w && h > maxDim) { w = Math.round(w * maxDim / h); h = maxDim; }
+          canvas.width = w; canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = function() { reject(new Error('image load failed')); };
+        img.src = e.target.result;
+      };
+      reader.onerror = function() { reject(new Error('file read failed')); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function compressUntilSmallEnough(file) {
+    var attempts = [
+      { maxDim: 1000, quality: 0.7 },
+      { maxDim: 800, quality: 0.6 },
+      { maxDim: 600, quality: 0.5 },
+      { maxDim: 400, quality: 0.4 }
+    ];
+    var i = 0;
+    function tryNext() {
+      var opt = attempts[i];
+      return resizeAndCompressImage(file, opt.maxDim, opt.quality).then(function(dataUrl) {
+        if (dataUrl.length < 700000 || i === attempts.length - 1) return dataUrl;
+        i++;
+        return tryNext();
+      });
+    }
+    return tryNext();
+  }
+
+  // A moderate list of common English profanity/slurs. Not exhaustive -
+  // see the honesty note above. Word-boundary matched, case-insensitive.
+  var BLOCKED_WORDS = [
+    "fuck","shit","bitch","asshole","bastard","cunt","dick","piss","cock",
+    "whore","slut","fag","nigger","nigga","retard","douchebag","twat"
+  ];
+  function containsProfanity(text) {
+    var lower = text.toLowerCase();
+    return BLOCKED_WORDS.some(function(w) {
+      var re = new RegExp('\\b' + w + '\\b', 'i');
+      return re.test(lower);
+    });
+  }
+
+  function getVotedIds() {
+    try { return JSON.parse(localStorage.getItem('ctt_voted_reviews') || '{}'); } catch (e) { return {}; }
+  }
+  function markVoted(id, dir) {
+    var voted = getVotedIds();
+    voted[id] = dir;
+    try { localStorage.setItem('ctt_voted_reviews', JSON.stringify(voted)); } catch (e) {}
+  }
+
+  var reviewsByStore = {};
+  var reviewsLoaded = false;
+
+  function loadAllReviews(callback) {
+    if (!firebaseReady) { callback && callback(); return; }
+    getDocs(collection(db, "reviews")).then(function(snap) {
+      reviewsByStore = {};
+      snap.forEach(function(d) {
+        var data = d.data();
+        data._id = d.id;
+        if (!reviewsByStore[data.storeName]) reviewsByStore[data.storeName] = [];
+        reviewsByStore[data.storeName].push(data);
+      });
+      Object.keys(reviewsByStore).forEach(function(name) {
+        reviewsByStore[name].sort(function(a, b) {
+          var scoreA = (a.upvotes || 0) - (a.downvotes || 0);
+          var scoreB = (b.upvotes || 0) - (b.downvotes || 0);
+          if (scoreB !== scoreA) return scoreB - scoreA;
+          var at = a.createdAt && a.createdAt.seconds ? a.createdAt.seconds : 0;
+          var bt = b.createdAt && b.createdAt.seconds ? b.createdAt.seconds : 0;
+          return bt - at;
+        });
+      });
+      reviewsLoaded = true;
+      document.querySelectorAll('[data-review-count]').forEach(function(el) {
+        var name = decodeURIComponent(el.getAttribute('data-review-count'));
+        var n = (reviewsByStore[name] || []).length;
+        el.textContent = n > 0 ? (' \u00b7 ' + n) : '';
+      });
+      document.querySelectorAll('[data-rating-display]').forEach(function(el) {
+        var name = decodeURIComponent(el.getAttribute('data-rating-display'));
+        var seedStr = el.getAttribute('data-seed-rating');
+        var seed = seedStr === '' ? null : parseFloat(seedStr);
+        var revs = reviewsByStore[name] || [];
+        var sum = 0, count = 0;
+        if (seed !== null && !isNaN(seed)) { sum += seed; count += 1; }
+        revs.forEach(function(r) { sum += r.rating; count += 1; });
+        var avg = count > 0 ? (sum / count) : null;
+        el.innerHTML = renderBlendedStars(avg);
+      });
+      document.querySelectorAll('[data-photo-col]').forEach(function(el) {
+        var name = decodeURIComponent(el.getAttribute('data-photo-col'));
+        var revs = reviewsByStore[name] || [];
+        var storefront = revs.find(function(r) { return r.photoCategory === 'Storefront' && r.photoUrl; });
+        if (storefront) {
+          el.innerHTML = '<img class="ctt-tag-photo" src="' + storefront.photoUrl + '" alt="">';
+        }
+      });
+      if (callback) callback();
+    }).catch(function(err) {
+      console.error('Chattanooga Thrift Trail: failed to load reviews from Firestore.', err);
+      if (callback) callback();
+    });
+  }
+
+  // Mirrors the main script's renderStars() so ratings display consistently
+  // (filled/half/hollow stars out of 5, or "no rating").
+  function renderBlendedStars(rating) {
+    if (rating === null || rating === undefined) return '<span style="color:#b8ad95;">\u2606\u2606\u2606\u2606\u2606 no rating</span>';
+    var full = Math.floor(rating);
+    var half = rating % 1 >= 0.5;
+    var str = '';
+    for (var i = 0; i < full; i++) str += '\u2605';
+    if (half) str += '\u00bd';
+    var filledCount = full + (half ? 1 : 0);
+    for (var j = filledCount; j < 5; j++) str += '\u2606';
+    return '<span style="color:var(--gold);">' + str + '</span>';
+  }
+
+  function starsHtml(rating) {
+    var s = '';
+    for (var i = 1; i <= 5; i++) s += (i <= rating ? '\u2605' : '\u2606');
+    return s;
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function renderReviewSection(storeName, container) {
+    var list = reviewsByStore[storeName] || [];
+    var votedIds = getVotedIds();
+    var html = '';
+
+    html += '<button class="ctt-review-close-btn" data-review-close="' + encodeURIComponent(storeName) + '" aria-label="Close reviews">&#10005;</button>';
+
+    html += '<div class="ctt-review-form">'
+      + '<input type="text" placeholder="Your name" class="ctt-review-input-name">'
+      + '<div class="ctt-review-stars-input">'
+      + [1,2,3,4,5].map(function(n) { return '<button type="button" data-star="' + n + '">\u2605</button>'; }).join('')
+      + '</div>'
+      + '<textarea placeholder="Write a review..." rows="3" class="ctt-review-input-text"></textarea>'
+      + '<input type="file" accept="image/*" class="ctt-review-input-photo">'
+      + '<div class="ctt-photo-category-input">'
+      + '<button type="button" data-photo-cat="Storefront">Storefront</button>'
+      + '<button type="button" data-photo-cat="Interior">Interior</button>'
+      + '</div>'
+      + '<div style="margin-top:6px;"><button class="ctt-review-submit-btn" data-review-submit="' + encodeURIComponent(storeName) + '">Post Review</button>'
+      + '<span class="ctt-review-status"></span></div>'
+      + '</div>';
+
+    if (list.length === 0) {
+      html += '<div style="font-size:12px; color:#8a8069; margin-top:10px;">No reviews yet - be the first!</div>';
+    } else {
+      html += '<div class="ctt-review-gallery-wrap">'
+        + '<button class="ctt-review-arrow" data-gallery-arrow="prev" aria-label="Previous review">&#8249;</button>'
+        + '<div class="ctt-review-gallery" data-gallery="' + encodeURIComponent(storeName) + '">';
+      list.forEach(function(r) {
+        var myVote = votedIds[r._id];
+        html += '<div class="ctt-review-card">'
+          + '<div class="ctt-review-item-head">'
+          + '<span class="ctt-review-name">' + escapeHtml(r.reviewerName) + '</span>'
+          + '<span class="ctt-review-stars">' + starsHtml(r.rating) + '</span>'
+          + '</div>'
+          + '<div class="ctt-review-text">' + escapeHtml(r.text) + '</div>'
+          + (r.photoUrl ? '<img class="ctt-review-photo" src="' + r.photoUrl + '" alt="">' : '')
+          + (r.photoUrl && r.photoCategory ? '<div class="ctt-review-photo-tag">' + escapeHtml(r.photoCategory) + '</div>' : '')
+          + '<div class="ctt-review-votes">'
+          + '<button class="ctt-vote-btn up' + (myVote === 'up' ? ' voted' : '') + '" data-vote-up="' + r._id + '" ' + (myVote ? 'disabled' : '') + '>\ud83d\udc4d ' + (r.upvotes || 0) + '</button>'
+          + '<button class="ctt-vote-btn down' + (myVote === 'down' ? ' voted' : '') + '" data-vote-down="' + r._id + '" ' + (myVote ? 'disabled' : '') + '>\ud83d\udc4e ' + (r.downvotes || 0) + '</button>'
+          + '</div>'
+          + '</div>';
+      });
+      html += '</div>'
+        + '<button class="ctt-review-arrow" data-gallery-arrow="next" aria-label="Next review">&#8250;</button>'
+        + '</div>';
+    }
+
+    container.innerHTML = html;
+
+    var galleryEl = container.querySelector('[data-gallery]');
+    if (galleryEl) {
+      container.querySelectorAll('[data-gallery-arrow]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var dir = btn.getAttribute('data-gallery-arrow') === 'next' ? 1 : -1;
+          var cardWidth = galleryEl.querySelector('.ctt-review-card') ? galleryEl.querySelector('.ctt-review-card').offsetWidth + 10 : 220;
+          galleryEl.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+        });
+      });
+    }
+
+    var selectedStars = 0;
+    var starBtns = container.querySelectorAll('[data-star]');
+    starBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        selectedStars = parseInt(btn.getAttribute('data-star'), 10);
+        starBtns.forEach(function(b) { b.classList.toggle('active', parseInt(b.getAttribute('data-star'), 10) <= selectedStars); });
+      });
+    });
+
+    var selectedPhotoCat = null;
+    var photoCatBtns = container.querySelectorAll('[data-photo-cat]');
+    photoCatBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        selectedPhotoCat = btn.getAttribute('data-photo-cat');
+        photoCatBtns.forEach(function(b) { b.classList.toggle('active', b === btn); });
+      });
+    });
+
+    container.querySelectorAll('[data-vote-up]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = btn.getAttribute('data-vote-up');
+        updateDoc(doc(db, "reviews", id), { upvotes: increment(1) }).then(function() {
+          markVoted(id, 'up');
+          loadAllReviews(function() { renderReviewSection(storeName, container); });
+        });
+      });
+    });
+    container.querySelectorAll('[data-vote-down]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = btn.getAttribute('data-vote-down');
+        var current = list.find(function(r) { return r._id === id; });
+        var newCount = (current ? (current.downvotes || 0) : 0) + 1;
+        updateDoc(doc(db, "reviews", id), { downvotes: increment(1) }).then(function() {
+          markVoted(id, 'down');
+          if (newCount >= 3) {
+            return deleteDoc(doc(db, "reviews", id));
+          }
+        }).then(function() {
+          loadAllReviews(function() { renderReviewSection(storeName, container); });
+        });
+      });
+    });
+
+    var submitBtn = container.querySelector('[data-review-submit]');
+    submitBtn.addEventListener('click', function() {
+      var statusEl = container.querySelector('.ctt-review-status');
+      if (!firebaseReady) { statusEl.className = 'ctt-review-status err'; statusEl.textContent = 'Reviews aren\'t set up yet.'; return; }
+      var nameVal = container.querySelector('.ctt-review-input-name').value.trim();
+      var textVal = container.querySelector('.ctt-review-input-text').value.trim();
+      var fileInput = container.querySelector('.ctt-review-input-photo');
+      if (!nameVal || !textVal || selectedStars === 0) {
+        statusEl.className = 'ctt-review-status err'; statusEl.textContent = 'Name, rating, and review text are required.'; return;
+      }
+      if (containsProfanity(nameVal) || containsProfanity(textVal)) {
+        statusEl.className = 'ctt-review-status err'; statusEl.textContent = 'Please remove inappropriate language.'; return;
+      }
+      statusEl.className = 'ctt-review-status'; statusEl.textContent = 'Posting...';
+      submitBtn.disabled = true;
+
+      function writeReview(photoUrl) {
+        addDoc(collection(db, "reviews"), {
+          storeName: storeName, reviewerName: nameVal, rating: selectedStars,
+          text: textVal, photoUrl: photoUrl || null,
+          photoCategory: photoUrl ? (selectedPhotoCat || 'Storefront') : null,
+          upvotes: 0, downvotes: 0, createdAt: serverTimestamp()
+        }).then(function() {
+          statusEl.className = 'ctt-review-status ok'; statusEl.textContent = 'Posted!';
+          loadAllReviews(function() { renderReviewSection(storeName, container); });
+        }).catch(function() {
+          statusEl.className = 'ctt-review-status err'; statusEl.textContent = 'Something went wrong. Try again.';
+          submitBtn.disabled = false;
+        });
+      }
+
+      if (fileInput.files && fileInput.files[0]) {
+        statusEl.textContent = 'Processing photo\u2026';
+        compressUntilSmallEnough(fileInput.files[0]).then(function(dataUrl) {
+          writeReview(dataUrl);
+        }).catch(function() {
+          statusEl.className = 'ctt-review-status err'; statusEl.textContent = 'Photo processing failed. Try again without a photo.';
+          submitBtn.disabled = false;
+        });
+      } else {
+        writeReview(null);
+      }
+    });
+  }
+
+  // Event delegation so this keeps working across re-renders (add/remove,
+  // relocate, recalibrate all rebuild the card list).
+  document.addEventListener('click', function(e) {
+    var toggleBtn = e.target.closest('[data-review-toggle]');
+    if (toggleBtn) {
+      e.stopPropagation();
+      var name = decodeURIComponent(toggleBtn.getAttribute('data-review-toggle'));
+      var section = document.querySelector('[data-review-section="' + toggleBtn.getAttribute('data-review-toggle') + '"]');
+      var arrowEl = document.querySelector('[data-review-arrow="' + toggleBtn.getAttribute('data-review-toggle') + '"]');
+      var isHidden = section.style.display === 'none';
+      if (isHidden) {
+        (function show() { renderReviewSection(name, section); section.style.display = 'block'; })();
+        if (!reviewsLoaded) loadAllReviews(function() { renderReviewSection(name, section); });
+        if (arrowEl) arrowEl.innerHTML = '&#9652;';
+      } else {
+        section.style.display = 'none';
+        if (arrowEl) arrowEl.innerHTML = '&#9662;';
+      }
+    }
+    var closeBtn = e.target.closest('[data-review-close]');
+    if (closeBtn) {
+      e.stopPropagation();
+      var closeKey = closeBtn.getAttribute('data-review-close');
+      var closeSection = document.querySelector('[data-review-section="' + closeKey + '"]');
+      var closeArrowEl = document.querySelector('[data-review-arrow="' + closeKey + '"]');
+      closeSection.style.display = 'none';
+      if (closeArrowEl) closeArrowEl.innerHTML = '&#9662;';
+    }
+  });
+
+  loadAllReviews();
+</script>
