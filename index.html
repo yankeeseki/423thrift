@@ -352,11 +352,16 @@
     #ctt-map { height: 340px !important; }
   }
 
+  .ctt-list-outer {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
   .ctt-list {
     display: flex;
     flex-direction: column;
     gap: 9px;
-    max-height: 800px;
+    max-height: 650px;
     overflow-y: auto;
     padding-right: 4px;
   }
@@ -767,7 +772,7 @@
   <div class="ctt-planning-banner" id="ctt-planning-banner" style="display:none;"></div>
 
   <div class="ctt-layout" id="ctt-layout">
-    <div class="ctt-list" id="ctt-list">
+    <div class="ctt-list-outer">
       <div class="ctt-trail-header">
         <span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span>
         <div class="ctt-day-picker">
@@ -780,7 +785,9 @@
         <input type="time" class="ctt-schedule-input" id="ctt-schedule-time" value="09:00" min="07:00" max="19:00" title="Most stores close by 6-8 PM (a couple stay open till 10 PM Fri/Sat)">
         <span style="font-size:11px; color:#8a8069;">Most stores close by 6-8 PM &mdash; a couple stay open till 10 PM on Fri/Sat.</span>
       </div>
-      <div id="ctt-route-list"></div>
+      <div class="ctt-list" id="ctt-list">
+        <div id="ctt-route-list"></div>
+      </div>
       <div class="ctt-offroute-container">
         <button class="ctt-offroute-toggle" id="ctt-offroute-toggle">Bonus &amp; Closed Shops &#9662;</button>
         <div id="ctt-offroute-list" style="display:none;"></div>
