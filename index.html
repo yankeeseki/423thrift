@@ -375,7 +375,6 @@
     display: flex;
     flex-direction: column;
     gap: 9px;
-    max-height: 650px;
     overflow-y: auto;
     padding-right: 4px;
   }
@@ -713,11 +712,7 @@
   .ctt-share-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--paper); margin: 0 0 4px 0; }
   .ctt-share-sub { font-size: 13px; color: #f5e4d8; margin: 0 0 12px 0; }
   .ctt-poster-sub { font-size: 12px; color: #f5e4d8; margin: 16px 0 8px 0; opacity: 0.9; }
-  .ctt-poster-btn {
-    display: inline-block; background: var(--ink) !important; color: var(--paper) !important;
-    text-decoration: none; font-weight: 700;
-  }
-  .ctt-poster-btn:hover { background: #000 !important; }
+  .ctt-poster-btn { display: inline-block; text-decoration: none; }
   .ctt-share-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
   .ctt-pdf-section {
     margin: 0; padding: 18px 20px; background: #a9c1cb; border-radius: 5px;
@@ -838,7 +833,7 @@
         <button class="ctt-share-btn" id="ctt-share-pin">Pinterest</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">Copy Link</button>
-        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">&#128196; Storefront Poster</a>
+        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">Storefront Poster</a>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
       <p class="ctt-poster-sub">Own a shop on the trail? Print the poster above for your window or counter.</p>
@@ -864,7 +859,7 @@
 
       <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein.</p>
-      <p class="ctt-version">v4.6 &mdash; August 11, 2026</p>
+      <p class="ctt-version">v5.0 &mdash; August 11, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -1252,6 +1247,36 @@
   var routeListEl = document.getElementById('ctt-route-list');
   var offRouteListEl = document.getElementById('ctt-offroute-list');
   var offRouteExpanded = false;
+  function heightForFirstFive(cardsParent) {
+    var cards = cardsParent.children;
+    if (cards.length <= 5) return null;
+    var gap = 9, total = 0;
+    for (var i = 0; i < 5; i++) {
+      total += cards[i].offsetHeight;
+      if (i < 4) total += gap;
+    }
+    return total;
+  }
+  function equalizeListHeights() {
+    var listContainerEl = document.getElementById('ctt-list');
+    var routeHeight = heightForFirstFive(routeListEl);
+
+    // offsetHeight reads 0 while display:none, so briefly make it
+    // measurable (invisible, but laid out) if it's currently hidden.
+    var wasHidden = offRouteListEl.style.display === 'none' || offRouteListEl.style.display === '';
+    if (wasHidden) { offRouteListEl.style.visibility = 'hidden'; offRouteListEl.style.display = 'flex'; }
+    var offRouteHeight = heightForFirstFive(offRouteListEl);
+    if (wasHidden) { offRouteListEl.style.display = 'none'; offRouteListEl.style.visibility = ''; }
+
+    if (routeHeight === null && offRouteHeight === null) {
+      listContainerEl.style.maxHeight = 'none';
+      offRouteListEl.style.maxHeight = 'none';
+      return;
+    }
+    var finalHeight = Math.max(routeHeight || 0, offRouteHeight || 0);
+    listContainerEl.style.maxHeight = finalHeight + 'px';
+    offRouteListEl.style.maxHeight = finalHeight + 'px';
+  }
   var routeMarkers = [];
   var userMarker = null;
 
@@ -1400,7 +1425,8 @@
         offRouteListEl.appendChild(card);
       });
     }
-    offRouteListEl.style.display = offRouteExpanded ? 'block' : 'none';
+    equalizeListHeights();
+    offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     drawRoadRoute(optimized);
     setTimeout(function() {
       map.invalidateSize();
@@ -1800,7 +1826,8 @@
 
   document.getElementById('ctt-offroute-toggle').addEventListener('click', function() {
     offRouteExpanded = !offRouteExpanded;
-    offRouteListEl.style.display = offRouteExpanded ? 'block' : 'none';
+    equalizeListHeights();
+    offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     this.innerHTML = 'Bonus &amp; Closed Shops ' + (offRouteExpanded ? '&#9652;' : '&#9662;');
     if (offRouteExpanded) {
       setTimeout(function() {
