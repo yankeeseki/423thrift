@@ -713,6 +713,9 @@
     font-family: 'Libre Franklin', sans-serif;
   }
   .ctt-disclaimer { margin-top: 6px; font-size: 10px; color: #8a8069; line-height: 1.5; width: 100%; text-align: right; }
+  .ctt-charities { margin-top: 8px; font-size: 11.5px; color: #6b6252; line-height: 1.5; width: 100%; text-align: left; }
+  .ctt-charities p { margin: 0 0 8px 0; }
+  .ctt-charities strong { color: var(--ink); }
   .ctt-version { margin-top: 10px; font-size: 9.5px; color: #c9bb99; text-align: right; }
   .ctt-tip-section {
     text-align: center; margin-top: 20px; padding: 12px; display: flex;
@@ -903,9 +906,24 @@
         </div>
       </div>
 
+      <button class="ctt-disclaimer-toggle" id="ctt-charities-toggle">Charities</button>
+      <div class="ctt-charities" id="ctt-charities-text" style="display:none;">
+        <p style="margin:0 0 10px 0;">Several shops on this trail are nonprofit thrift stores whose proceeds directly fund real, specific work in the community. Here's what each one actually does, researched from each organization's own stated mission &mdash; where a shop isn't listed below, it's a regular for-profit business (a boutique, antique mall, or thrift chain) rather than a charity, as far as we could confirm.</p>
+        <p><strong>Ladies of Charity Thrift Store</strong> &mdash; a volunteer-run shop whose proceeds go toward medicine, utilities, housing, and clothing for neighbors facing hardship. Every dollar spent here stays local.</p>
+        <p><strong>Providence Thrift Store</strong> (both locations) &mdash; part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a "To Feed the Hungry" meal program.</p>
+        <p><strong>SACs Thrift Avenue</strong> &mdash; funds the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008. Proceeds directly support free services for survivors of sexual violence.</p>
+        <p><strong>Goodwill Store</strong> (Fort Oglethorpe, E. Brainerd, Hwy 58, Hixson &amp; East Ridge) &mdash; funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.</p>
+        <p><strong>The Thrift Store (benefits Chambliss Center)</strong> (both locations) &mdash; supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.</p>
+        <p><strong>America's Thrift Stores</strong> (Brainerd Rd &amp; Northgate) &mdash; primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.</p>
+        <p><strong>Humane Educational Society Boutique &amp; Thrift</strong> &mdash; funds the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.</p>
+        <p><strong>Bethel Thrift Store</strong> &mdash; supports Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.</p>
+        <p><strong>Northside Neighborhood House</strong> (Red Bank &amp; Northshore) &mdash; thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.</p>
+        <p><strong>Samaritan Center</strong> &mdash; rooted in a Seventh-day Adventist community-service ministry over 90 years old, the Samaritan Center provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.</p>
+        <p><strong>Habitat For Humanity ReStore</strong> &mdash; funds Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.</p>
+      </div>
       <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein.</p>
-      <p class="ctt-version">v6.4 &mdash; August 11, 2026</p>
+      <p class="ctt-version">v6.6 &mdash; August 11, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2169,6 +2187,10 @@
     statusEl.textContent = 'Opening your email app\u2026';
   });
 
+  document.getElementById('ctt-charities-toggle').addEventListener('click', function() {
+    var el = document.getElementById('ctt-charities-text');
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  });
   document.getElementById('ctt-disclaimer-toggle').addEventListener('click', function() {
     var el = document.getElementById('ctt-disclaimer-text');
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
