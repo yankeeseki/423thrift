@@ -273,7 +273,7 @@
     padding: 0;
   }
   .ctt-offroute-toggle:hover { color: var(--rust); }
-  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 4px; }
+  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 4px; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
     display: flex;
     align-items: center;
@@ -379,7 +379,12 @@
     gap: 9px;
     overflow-y: auto;
     padding-right: 4px;
+    scrollbar-color: var(--olive) var(--paper);
   }
+  .ctt-list::-webkit-scrollbar, #ctt-offroute-list::-webkit-scrollbar { width: 8px; }
+  .ctt-list::-webkit-scrollbar-track, #ctt-offroute-list::-webkit-scrollbar-track { background: var(--paper); }
+  .ctt-list::-webkit-scrollbar-thumb, #ctt-offroute-list::-webkit-scrollbar-thumb { background: var(--olive); border-radius: 4px; }
+  .ctt-list::-webkit-scrollbar-thumb:hover, #ctt-offroute-list::-webkit-scrollbar-thumb:hover { background: var(--rust); }
 
   .ctt-trail-header {
     display: flex;
@@ -458,13 +463,23 @@
     padding: 9px 12px;
     cursor: pointer;
     transition: transform 0.12s ease, border-color 0.12s ease;
+    position: relative;
   }
   .ctt-tag:hover, .ctt-tag.active { border-color: var(--rust); transform: translateX(2px); }
+  .ctt-custom-order-banner {
+    margin: 0 0 8px 0; font-size: 11px; color: #8a8069; text-align: right;
+  }
+  .ctt-custom-order-banner button {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 600; font-size: 11px;
+    color: var(--rust); background: none; border: none; text-decoration: underline;
+    cursor: pointer; padding: 0;
+  }
+  .ctt-custom-order-banner button:hover { color: var(--ink); }
   .ctt-tag.featured { border-style: solid; border-color: var(--rust); border-width: 1.5px; background: #f6e6c2; }
   .ctt-tag.offroute { opacity: 0.65; border-style: dashed; border-color: #b0a688; background: #eae2cd; }
 
-  .ctt-tag-row { display: flex; gap: 10px; align-items: center; }
-  .ctt-tag-photo-col { flex-shrink: 0; }
+  .ctt-tag-row { display: flex; gap: 8px; align-items: flex-start; }
+  .ctt-tag-photo-col { flex-shrink: 0; align-self: center; }
   .ctt-tag-photo {
     width: 52px; height: 52px; border-radius: 50%;
     object-fit: cover; display: block;
@@ -476,7 +491,25 @@
     border: 2px solid var(--paper); box-shadow: 0 0 0 1.5px var(--line);
     font-family: 'Libre Franklin', sans-serif; font-size: 19px; line-height: 1; color: var(--paper);
   }
-  .ctt-tag-info { flex: 1; min-width: 0; }
+  .ctt-tag-info { flex: 1 1 auto; min-width: 0; }
+  .ctt-tag-controls-col {
+    flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 5px;
+  }
+  .ctt-ctrl-btn {
+    position: relative;
+    background: none; border: 1px solid var(--line); border-radius: 3px; cursor: pointer;
+    font-size: 12px; color: var(--line); width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;
+  }
+  .ctt-ctrl-btn:hover:not(:disabled) { color: var(--rust); border-color: var(--rust); }
+  .ctt-ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+  .ctt-ctrl-btn:hover:not(:disabled)::after {
+    content: attr(title);
+    position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%);
+    background: var(--ink); color: var(--paper); font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;
+    white-space: nowrap; z-index: 20; pointer-events: none;
+  }
 
   .ctt-featured-ribbon {
     font-family: 'Libre Franklin', sans-serif;
@@ -496,7 +529,7 @@
   }
   .ctt-tag-rating { font-family: 'Libre Franklin', sans-serif; font-size: 12px; color: var(--gold); white-space: nowrap; }
   .ctt-tag-rating.unrated { color: #b8ad95; }
-  .ctt-tag-bottom-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .ctt-tag-bottom-row { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
   .ctt-tag-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .ctt-tag-category-row { margin-bottom: 4px; }
   .ctt-tag-rating-row { margin-top: 6px; }
@@ -539,7 +572,7 @@
   .ctt-tag.visited { opacity: 0.5; }
   .ctt-tag.visited .ctt-tag-name { text-decoration: line-through; }
 
-  .ctt-review-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ctt-review-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-left: auto; margin-right: 10px; }
   .ctt-review-toggle-btn {
     font-family: 'Libre Franklin', sans-serif; font-size: 11.5px; font-weight: 600;
     color: var(--olive); background: none; border: none; text-decoration: underline;
@@ -644,6 +677,14 @@
     font-weight: 700;
     line-height: 1;
     flex-shrink: 0;
+    position: relative;
+  }
+  .ctt-toggle-btn:hover::after {
+    content: attr(title);
+    position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%);
+    background: var(--ink); color: var(--paper); font-family: 'Libre Franklin', sans-serif;
+    font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;
+    white-space: nowrap; z-index: 20; pointer-events: none;
   }
   .ctt-toggle-btn.remove { background: #c0392b; }
   .ctt-toggle-btn.remove:hover { background: #a5281a; }
@@ -809,6 +850,9 @@
         <input type="time" class="ctt-schedule-input" id="ctt-schedule-time" value="09:00" min="07:00" max="19:00" title="Most stores close by 6-8 PM (a couple stay open till 10 PM Fri/Sat)">
         <span style="font-size:11px; color:#8a8069;">Most stores close by 6-8 PM &mdash; a couple stay open till 10 PM on Fri/Sat.</span>
       </div>
+      <div class="ctt-custom-order-banner" id="ctt-custom-order-banner" style="display:none;">
+        Custom order &middot; <button id="ctt-reset-order-btn">Reset</button>
+      </div>
       <div class="ctt-list" id="ctt-list">
         <div id="ctt-route-list"></div>
       </div>
@@ -830,12 +874,12 @@
       <h3 class="ctt-share-title">Share The Trail</h3>
       <p class="ctt-share-sub">Know someone who'd love a custom, optimized day of treasure hunting? Send them down the trail.</p>
       <div class="ctt-share-row" style="justify-content:center;">
-        <button class="ctt-share-btn" id="ctt-share-fb">Facebook</button>
-        <button class="ctt-share-btn" id="ctt-share-x">X</button>
-        <button class="ctt-share-btn" id="ctt-share-pin">Pinterest</button>
+        <button class="ctt-share-btn" id="ctt-share-fb">&#128216; Facebook</button>
+        <button class="ctt-share-btn" id="ctt-share-x">&#128227; X</button>
+        <button class="ctt-share-btn" id="ctt-share-pin">&#128204; Pinterest</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
-        <button class="ctt-share-btn" id="ctt-share-copy">Copy Link</button>
-        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">Storefront Poster</a>
+        <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
+        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">&#128424; Storefront Poster</a>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
       <p class="ctt-poster-sub">Own a shop on the trail? Print the poster above for your window or counter.</p>
@@ -861,7 +905,7 @@
 
       <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein.</p>
-      <p class="ctt-version">v5.2 &mdash; August 11, 2026</p>
+      <p class="ctt-version">v6.3 &mdash; August 11, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -1245,6 +1289,8 @@
   }
 
   var activeRoute = [];
+  var manualOrderNames = null;
+  var pinnedStartName = null;
   var lastStartIdx = 0;
   var routeListEl = document.getElementById('ctt-route-list');
   var offRouteListEl = document.getElementById('ctt-offroute-list');
@@ -1298,13 +1344,14 @@
     return L.divIcon({ html: '<div class="ctt-bonus-icon"><span>' + letter + '</span></div>', className: '', iconSize: [15, 15], iconAnchor: [8, 8], popupAnchor: [0, -8] });
   }
 
-  function buildCard(store, label, color, onRoute) {
+  function buildCard(store, label, color, onRoute, routeIndex, routeTotal) {
     var card = document.createElement('div');
     var isVisited = onRoute && !!visitedStores[store.name];
     card.className = 'ctt-tag' + (onRoute ? '' : ' offroute') + (isFeaturedToday(store) ? ' featured' : '') + (isVisited ? ' visited' : '');
+    card.setAttribute('data-store-name', encodeURIComponent(store.name));
     var toggleHtml = onRoute
-      ? '<button class="ctt-toggle-btn remove" title="Remove from trail">&minus;</button>'
-      : '<button class="ctt-toggle-btn add" title="Add to trail">&#43;</button>';
+      ? '<button class="ctt-toggle-btn remove" title="Remove Shop">&minus;</button>'
+      : '<button class="ctt-toggle-btn add" title="Add Shop">&#43;</button>';
     var visitedHtml = onRoute
       ? '<label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> Visited</label>'
       : '';
@@ -1317,6 +1364,13 @@
     var photoCol = '<div class="ctt-tag-photo-col" data-photo-col="' + encodeURIComponent(store.name) + '">'
       + '<div class="ctt-tag-photo-fallback" style="background:' + color + ';">' + initial + '</div>'
       + '</div>';
+    var startHereHtml = (onRoute && routeIndex > 0)
+      ? '<button type="button" class="ctt-ctrl-btn ctt-start-here" title="Start Here">&#9654;</button>'
+      : '';
+    var upDownHtml = onRoute
+      ? '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (routeIndex === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+        '<button type="button" class="ctt-ctrl-btn ctt-reorder-down" title="Move Down"' + (routeIndex === routeTotal - 1 ? ' disabled' : '') + '>&#9660;</button>'
+      : '';
     card.innerHTML =
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
@@ -1324,7 +1378,6 @@
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? '' : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
         '</div>' +
-        toggleHtml +
       '</div>' +
       reasonHtml +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
@@ -1341,13 +1394,52 @@
         '</div>' +
       '</div>' +
       '<div class="ctt-review-section" data-review-section="' + encodeURIComponent(store.name) + '" style="display:none;"></div>' +
-      '</div></div>';
+      '</div>' +
+      '<div class="ctt-tag-controls-col">' + toggleHtml + startHereHtml + upDownHtml + '</div>' +
+      '</div>';
     var toggleBtn = card.querySelector('.ctt-toggle-btn');
     toggleBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       manualOverrides[store.name] = onRoute ? 'skip' : 'include';
       recalibrate(lastStartIdx);
     });
+    var startHereBtn = card.querySelector('.ctt-start-here');
+    if (startHereBtn) {
+      startHereBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = allLocations.findIndex(function(s) { return s.name === store.name; });
+        if (idx === -1) return;
+        manualOrderNames = null;
+        pinnedStartName = store.name;
+        recalibrate(idx);
+      });
+    }
+    var upBtn = card.querySelector('.ctt-reorder-up');
+    if (upBtn) {
+      upBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (routeIndex <= 0) return;
+        var names = activeRoute.map(function(s) { return s.name; });
+        var tmp = names[routeIndex - 1];
+        names[routeIndex - 1] = names[routeIndex];
+        names[routeIndex] = tmp;
+        manualOrderNames = names;
+        recalibrate(lastStartIdx);
+      });
+    }
+    var downBtn = card.querySelector('.ctt-reorder-down');
+    if (downBtn) {
+      downBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (routeIndex >= routeTotal - 1) return;
+        var names = activeRoute.map(function(s) { return s.name; });
+        var tmp = names[routeIndex + 1];
+        names[routeIndex + 1] = names[routeIndex];
+        names[routeIndex] = tmp;
+        manualOrderNames = names;
+        recalibrate(lastStartIdx);
+      });
+    }
     var visitedCheckbox = card.querySelector('.ctt-visited-checkbox');
     if (visitedCheckbox) {
       var visitedLabel = card.querySelector('.ctt-visited-check');
@@ -1363,6 +1455,33 @@
     return card;
   }
 
+  // When starting from the Tennessee side, these four Fort Oglethorpe
+  // shops default to this specific order (Nifty -> SACs -> Goodwill ->
+  // Providence) rather than pure nearest-neighbor, since that's the
+  // sequence that tends to work best coming in from that direction. When
+  // starting from the Georgia side, nearest-neighbor is left alone. This
+  // only ever reorders the four shops relative to each other - it doesn't
+  // touch where they sit relative to everything else in the route. A
+  // manual drag/reorder always overrides this default.
+  var FTO_PREFERRED_ORDER = ['Nifty Thrifty', 'SACs Thrift Avenue', 'Goodwill Store Fort Oglethorpe', 'Providence Thrift Store'];
+  function applyFtOPreference(route, startLat) {
+    var isTNSide = startLat === null || startLat === undefined || startLat >= 35.00;
+    if (!isTNSide) return route;
+    var positions = [];
+    route.forEach(function(s, i) { if (FTO_PREFERRED_ORDER.indexOf(s.name) !== -1) positions.push(i); });
+    if (positions.length < 2) return route;
+    var presentInOrder = FTO_PREFERRED_ORDER.filter(function(name) {
+      return route.some(function(s) { return s.name === name; });
+    });
+    var insertAt = Math.min.apply(null, positions);
+    var rest = route.filter(function(s) { return FTO_PREFERRED_ORDER.indexOf(s.name) === -1; });
+    var toInsert = presentInOrder.map(function(name) {
+      return route.filter(function(s) { return s.name === name; })[0];
+    });
+    rest.splice.apply(rest, [insertAt, 0].concat(toInsert));
+    return rest;
+  }
+
   function recalibrate(startIdx) {
     lastStartIdx = startIdx || 0;
     var now = effectiveNow();
@@ -1372,6 +1491,27 @@
     var included = [], excluded = [];
     rotated.forEach(function(s) { if (isOnRouteToday(s, now)) included.push(s); else excluded.push(s); });
     var optimized = included.length > 2 ? optimizeLoop(included, now.dayIdx, now.decHour) : included;
+
+    // A manually dragged order overrides the auto-optimized one, as long
+    // as it's still describing the exact same set of shops. If the route
+    // has changed since (a shop closed, was added/removed, etc.), the
+    // manual arrangement no longer applies and we fall back to auto.
+    if (manualOrderNames) {
+      var includedNamesSorted = included.map(function(s) { return s.name; }).sort();
+      var manualNamesSorted = manualOrderNames.slice().sort();
+      var setsMatch = includedNamesSorted.length === manualNamesSorted.length &&
+        includedNamesSorted.every(function(n, i) { return n === manualNamesSorted[i]; });
+      if (setsMatch) {
+        optimized = manualOrderNames.map(function(name) {
+          return included.filter(function(s) { return s.name === name; })[0];
+        });
+      } else {
+        manualOrderNames = null;
+        optimized = applyFtOPreference(optimized, rotated.length ? rotated[0].lat : null);
+      }
+    } else {
+      optimized = applyFtOPreference(optimized, rotated.length ? rotated[0].lat : null);
+    }
     activeRoute = optimized;
 
     routeMarkers.forEach(function(m) { map.removeLayer(m); });
@@ -1391,7 +1531,7 @@
       var marker = L.marker([store.lat, store.lng], { icon: isFeaturedToday(store) ? featuredStarIcon(i + 1) : numberedIcon(i + 1, color), zIndexOffset: 1000 }).addTo(map);
       marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
       routeMarkers.push(marker);
-      var card = buildCard(store, i + 1, color, true);
+      var card = buildCard(store, i + 1, color, true, i, optimized.length);
       (function(store, marker, card) {
         card.addEventListener('click', function() {
           map.flyTo([store.lat, store.lng], 14, { duration: 0.6 });
@@ -1429,6 +1569,8 @@
     }
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
+    var customOrderBanner = document.getElementById('ctt-custom-order-banner');
+    if (customOrderBanner) customOrderBanner.style.display = manualOrderNames ? 'block' : 'none';
     drawRoadRoute(optimized);
     setTimeout(function() {
       map.invalidateSize();
@@ -1616,6 +1758,26 @@
     hasClickedLocateBefore = true;
     var nearestLine = isRefresh ? 'Let\u2019s continue to your next closest shop.' : 'Let\u2019s begin at your nearest shop.';
     if (displayContext) { exitPlanningPreview(); }
+
+    // A "Start Here" pin takes priority over the usual GPS nearest-shop
+    // lookup - pinning a specific stop as the start is the whole point.
+    // The pin clears itself automatically once that shop's been visited,
+    // removed, or closed, rather than needing a separate "unpin" step.
+    if (pinnedStartName) {
+      var pinnedIdx = allLocations.findIndex(function(s) { return s.name === pinnedStartName; });
+      var pinnedStore = pinnedIdx !== -1 ? allLocations[pinnedIdx] : null;
+      var pinnedStillValid = pinnedStore && !visitedStores[pinnedStore.name] &&
+        manualOverrides[pinnedStore.name] !== 'skip' && isOnRouteToday(pinnedStore, effectiveNow());
+      if (pinnedStillValid) {
+        recalibrate(pinnedIdx);
+        startCountdown('');
+        ctaBtn.disabled = false;
+        setCtaBtnText('&#128717; Refresh!', nearestLine);
+        return;
+      }
+      pinnedStartName = null;
+    }
+
     ctaBtn.disabled = true;
     setCtaBtnText('&#9203; Finding your location&hellip;', nearestLine);
     if (!navigator.geolocation) {
@@ -2408,6 +2570,11 @@
       }
     });
   }
+
+  document.getElementById('ctt-reset-order-btn').addEventListener('click', function() {
+    manualOrderNames = null;
+    recalibrate(lastStartIdx);
+  });
 
   // Event delegation so this keeps working across re-renders (add/remove,
   // relocate, recalibrate all rebuild the card list).
