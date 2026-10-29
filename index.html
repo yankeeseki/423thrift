@@ -1616,9 +1616,6 @@
     font-family: 'Libre Franklin', sans-serif;
   }
   .ctt-disclaimer { margin-top: 6px; font-size: 10px; color: #8a8069; line-height: 1.5; width: 100%; text-align: right; }
-  .ctt-charities { margin-top: 8px; font-size: 11.5px; color: #6b6252; line-height: 1.5; width: 100%; text-align: left; }
-  .ctt-charities p { margin: 0 0 8px 0; }
-  .ctt-charities strong { color: var(--ink); }
   .ctt-version { margin-top: 10px; font-size: 9.5px; color: #c9bb99; text-align: right; }
   .ctt-tip-section {
     text-align: center; margin-top: 20px; padding: 12px; display: flex;
@@ -1736,9 +1733,7 @@
   .ctt-shop-card .ctt-shop-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 10px; padding: 0 7px; margin-right: 4px; }
   .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
   .ctt-shop-card a { color: var(--olive); font-weight: 700; }
-  .ctt-shops-charities { font-family: 'Libre Franklin', sans-serif; font-size: 13.5px; line-height: 1.55; color: #5c5240; }
-  .ctt-shops-charities p { margin: 0 0 10px 0; }
-  .ctt-shops-charities strong { color: var(--ink); }
+  .ctt-shop-card .ctt-shop-benefit { background: #f3ecd2; border-left: 3px solid var(--gold, #c98a2b); padding: 6px 9px; border-radius: 3px; font-size: 13px; color: #5c5240; }
   .ctt-shops-none { display: none; font-family: 'Libre Franklin', sans-serif; color: #8a8069; margin-top: 16px; }
   .ctt-shops-tip { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; margin-top: 24px; padding-top: 14px; border-top: 1.5px dashed var(--line); font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: #8a8069; }
   .ctt-shops-tip a { font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 14px; padding: 5px 13px; text-decoration: none; }
@@ -1803,7 +1798,7 @@
     <div class="ctt-shops-dialog">
       <div class="ctt-shops-top">
         <h2 class="ctt-shops-title" id="ctt-shops-title">Shops &amp; Charities</h2>
-        <p class="ctt-shops-sub">Every stop on the Trail by neighborhood, and the causes your thrifting supports.</p>
+        <p class="ctt-shops-sub">Every stop on the Trail by neighborhood. A &#128155; note means your purchase supports a local cause.</p>
         <button type="button" class="ctt-shops-close" id="ctt-shops-close" aria-label="Close shop list">&times;</button>
       </div>
       <div class="ctt-shops-body" id="ctt-shops-body"></div>
@@ -3512,27 +3507,40 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-share-poster');
     if (!btn) return;
-    var posterFile = null;
+    var posterFile = null, posterExists = false;
+    var driveHref = (document.querySelector('.ctt-poster-btn') || {}).href || '';
     function loadPoster() {
       fetch('trail-poster.jpg').then(function(r) {
         if (!r.ok) throw new Error('missing');
         return r.blob();
       }).then(function(b) {
         if (!/^image\//.test(b.type)) throw new Error('not an image');
+        posterExists = true;
         var f = new File([b], 'chattanooga-thrift-trail-poster.jpg', { type: b.type });
         if (navigator.canShare && navigator.canShare({ files: [f] })) posterFile = f;
       }).catch(function() {});
     }
-    if (document.readyState === 'complete') setTimeout(loadPoster, 1000);
-    else window.addEventListener('load', function() { setTimeout(loadPoster, 1000); });
+    // Load right away so the file is ready before the first tap
+    loadPoster();
+    function say(msg) {
+      var st = document.getElementById('ctt-share-status');
+      if (st) { st.textContent = msg; setTimeout(function() { st.textContent = ''; }, 7000); }
+    }
+    function openFallback() {
+      // Open the image (or the Drive copy if the image file isn't on the site yet) via a real link click, which browsers don't block.
+      var a = document.createElement('a');
+      a.href = posterExists ? 'trail-poster.jpg' : driveHref;
+      a.target = '_blank'; a.rel = 'noopener';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      say('Save the poster, then post it to Instagram!');
+    }
     btn.addEventListener('click', function() {
       cttTrack('share', { method: 'instagram' });
-      if (posterFile) {
-        navigator.share({ files: [posterFile], title: 'The Chattanooga Thrift Trail', text: 'Chattanooga thrift trail: 423thrift.com' }).catch(function() {});
+      if (posterFile && navigator.share) {
+        navigator.share({ files: [posterFile], title: 'The Chattanooga Thrift Trail', text: 'Chattanooga thrift trail: 423thrift.com' })
+          .catch(function(err) { if (!err || err.name !== 'AbortError') openFallback(); });
       } else {
-        window.open('trail-poster.jpg', '_blank', 'noopener');
-        var st = document.getElementById('ctt-share-status');
-        if (st) { st.textContent = 'Save the poster, then post it to Instagram!'; setTimeout(function() { st.textContent = ''; }, 6000); }
+        openFallback();
       }
     });
   })();
@@ -3602,7 +3610,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     ['Fort Oglethorpe, GA', ['Fort Oglethorpe']],
     ['Ooltewah', ['Ooltewah']]
   ];
-  var CHARITY_HTML = "\n        <p style=\"margin:0 0 10px 0;\">Several shops on this trail are nonprofit thrift stores whose proceeds directly fund real, specific work in the community. Here's what each one actually does, researched from each organization's own stated mission &mdash; where a shop isn't listed below, it's a regular for-profit business (a boutique, antique mall, or thrift chain) rather than a charity, as far as we could confirm.</p>\n        <p><strong>Ladies of Charity Thrift Store</strong> &mdash; a volunteer-run shop whose proceeds go toward medicine, utilities, housing, and clothing for neighbors facing hardship. Every dollar spent here stays local.</p>\n        <p><strong>Providence Thrift Store</strong> (both locations) &mdash; part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.</p>\n        <p><strong>SACs Thrift Avenue</strong> &mdash; funds the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008. Proceeds directly support free services for survivors of sexual violence.</p>\n        <p><strong>Goodwill Store</strong> (Fort Oglethorpe, E. Brainerd, Hwy 58, Hixson &amp; East Ridge) &mdash; funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.</p>\n        <p><strong>The Thrift Store (benefits Chambliss Center)</strong> (both locations) &mdash; supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.</p>\n        <p><strong>America's Thrift Stores</strong> (Brainerd Rd &amp; Northgate) &mdash; primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.</p>\n        <p><strong>Humane Educational Society Boutique &amp; Thrift</strong> &mdash; funds the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.</p>\n        <p><strong>Bethel Thrift Store</strong> &mdash; supports Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.</p>\n        <p><strong>Northside Neighborhood House</strong> (Red Bank &amp; Northshore) &mdash; thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.</p>\n        <p><strong>Samaritan Center</strong> &mdash; rooted in a Seventh-day Adventist community-service ministry over 90 years old, the Samaritan Center provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.</p>\n        <p><strong>Habitat For Humanity ReStore</strong> &mdash; funds Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.</p>\n      ";
+  var SHOP_BENEFIT = {"Ladies of Charity Thrift Store": "A volunteer-run shop whose proceeds go toward medicine, utilities, housing, and clothing for neighbors facing hardship. Every dollar spent here stays local.", "Providence Thrift Store": "Part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "Funds the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008. Proceeds directly support free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "Primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "Funds the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "Primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Supports Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.", "The Thrift Store (Chambliss, Red Bank)": "Supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.", "Goodwill Store Hixson": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "Rooted in a Seventh-day Adventist community-service ministry over 90 years old, the Samaritan Center provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Funds Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them."};
   var SHOP_CAT = { 'Thrift Store': 'Thrift store', 'Antique Mall': 'Antique mall', 'Curated Shop': 'Vintage / curated' };
   var shopsBuilt = false, shopsLastFocus = null;
   function buildShopsPopup() {
@@ -3622,6 +3630,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         secs += '<div class="ctt-shop-card" data-q="' + q.replace(/"/g, '') + '"><h4>' + x.name + '</h4>' +
           '<p><span class="ctt-shop-tag">' + (SHOP_CAT[x.category] || 'Shop') + '</span>' + x.address + '</p>' +
           '<p><strong>Hours:</strong> ' + x.hours + '</p><p>' + x.note + '</p>' +
+          (SHOP_BENEFIT[x.name] ? '<p class="ctt-shop-benefit">&#128155; <strong>Where it goes:</strong> ' + SHOP_BENEFIT[x.name] + '</p>' : '') +
           (x.closesAfter ? '<p class="ctt-shop-closing">Closing after Dec 27, 2026.</p>' : '') +
           '<p><a href="' + directionsLink(x.address) + '" target="_blank" rel="noopener">Get directions &rarr;</a>' +
           (x.url ? ' &middot; <a href="' + x.url + '" target="_blank" rel="noopener">Website</a>' : '') + '</p></div>';
@@ -3629,9 +3638,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       secs += '</div>';
     });
     body.innerHTML = '<input type="search" class="ctt-shops-q" id="ctt-shops-q" placeholder="Search by shop name or neighborhood" aria-label="Search shops">' +
-      '<div class="ctt-shops-jump" id="ctt-shops-jump">' + jump + '<a data-target="ctt-hood-charities">Charities</a></div>' +
+      '<div class="ctt-shops-jump" id="ctt-shops-jump">' + jump + '</div>' +
       '<p class="ctt-shops-none" id="ctt-shops-none">No shops match that search.</p>' + secs +
-      '<h3 class="ctt-shops-hood" id="ctt-hood-charities">Charities</h3><div class="ctt-shops-charities">' + CHARITY_HTML + '</div>' +
       '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>' +
       '<button type="button" class="ctt-shops-back" id="ctt-shops-back">&larr; Back to the map</button>';
     document.getElementById('ctt-shops-q').addEventListener('input', function() {
@@ -3647,8 +3655,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       document.getElementById('ctt-shops-none').style.display = shown ? 'none' : 'block';
       document.getElementById('ctt-shops-jump').style.display = q ? 'none' : '';
-      var chh = document.getElementById('ctt-hood-charities'), chd = body.querySelector('.ctt-shops-charities');
-      if (chh && chd) { chh.style.display = q ? 'none' : ''; chd.style.display = q ? 'none' : ''; }
     });
     document.getElementById('ctt-shops-jump').addEventListener('click', function(e) {
       var a = e.target.closest && e.target.closest('a[data-target]');
