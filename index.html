@@ -1432,8 +1432,7 @@
     background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2px 9px; cursor: pointer;
   }
   .ctt-names-toggle:hover { border-color: var(--olive); }
-  #ctt-map .ctt-shops-map-btn { left: 10px; right: auto; text-decoration: none; }
-  #ctt-map .ctt-names-toggle { position: absolute; right: 10px; bottom: 30px; z-index: 1000; font-size: 12px; padding: 5px 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: 1.5px solid var(--olive); }
+  #ctt-map .ctt-names-toggle { position: absolute; right: 0; bottom: 0; margin: 0; z-index: 1000; font-size: 12px; padding: 5px 11px; border: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); border-radius: 6px 0 0 0; }
   #ctt-map.ctt-labels-off .ctt-map-label { display: none; }
   /* ---- Holiday banners: big and thrift days are prominent, goofy days are one small line ---- */
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
@@ -1850,7 +1849,7 @@
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
-    <div id="ctt-map"><a class="ctt-names-toggle ctt-shops-map-btn" id="ctt-shops-open" href="shops/">&#128203; All shops</a><button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="true">&#127991;&#65039; Names: On</button></div>
+    <div id="ctt-map"><button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="true">&#127991;&#65039; Names: On</button></div>
   </div>
 
   <div class="ctt-split-row">
@@ -2475,6 +2474,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
 
   var map = L.map('ctt-map', { scrollWheelZoom: false }).setView([35.045, -85.24], 10.5);
+  map.attributionControl.setPosition('bottomleft'); // keeps the credit visible while the Names button sits in the bottom-right corner
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors' }).addTo(map);
 
   // The map's height now stretches to match the location list (no more
@@ -3630,7 +3630,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     document.body.style.overflow = '';
     if (shopsLastFocus && shopsLastFocus.focus) shopsLastFocus.focus();
   }
-  document.getElementById('ctt-shops-open').addEventListener('click', function(e) { e.preventDefault(); openShopsPopup(); });
+  var shopsOpenEl = document.getElementById('ctt-shops-open');
+  if (shopsOpenEl) shopsOpenEl.addEventListener('click', function(e) { e.preventDefault(); openShopsPopup(); });
   document.getElementById('ctt-shops-close').addEventListener('click', closeShopsPopup);
   document.getElementById('ctt-shops-overlay').addEventListener('click', function(e) { if (e.target === this) closeShopsPopup(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && document.getElementById('ctt-shops-overlay').classList.contains('open')) closeShopsPopup(); });
@@ -3655,7 +3656,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var saved = null;
     try { saved = localStorage.getItem('ctt-names'); } catch (e) {}
     apply(saved !== 'off');
-    ['mousedown','dblclick','touchstart'].forEach(function(ev) { [btn, document.getElementById('ctt-shops-open')].forEach(function(el) { el.addEventListener(ev, function(e) { e.stopPropagation(); }); }); });
+    ['mousedown','dblclick','touchstart'].forEach(function(ev) { [btn].forEach(function(el) { el.addEventListener(ev, function(e) { e.stopPropagation(); }); }); });
     btn.addEventListener('click', function() {
       var on = mapEl.classList.contains('ctt-labels-off');
       apply(on);
