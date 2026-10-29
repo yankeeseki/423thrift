@@ -1432,6 +1432,8 @@
     background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2px 9px; cursor: pointer;
   }
   .ctt-names-toggle:hover { border-color: var(--olive); }
+  #ctt-map .ctt-shops-map-btn { left: 10px; right: auto; text-decoration: none; }
+  #ctt-map .ctt-names-toggle { position: absolute; right: 10px; bottom: 30px; z-index: 1000; font-size: 12px; padding: 5px 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: 1.5px solid var(--olive); }
   #ctt-map.ctt-labels-off .ctt-map-label { display: none; }
   /* ---- Holiday banners: big and thrift days are prominent, goofy days are one small line ---- */
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
@@ -1703,9 +1705,38 @@
   }
   @media (max-width: 600px) { .ctt-map-label { max-width: 120px; font-size: 10px; padding: 0 4px; } }
 
+
+  /* ---- All shops popup ---- */
+  .ctt-shops-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(44,36,23,0.6); display: none; align-items: flex-start; justify-content: center; padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .ctt-shops-overlay.open { display: flex; }
+  .ctt-shops-dialog { position: relative; width: 100%; max-width: 760px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); margin: 0 auto 16px; }
+  .ctt-shops-top { position: sticky; top: 0; z-index: 2; background: var(--paper); border-bottom: 1.5px dashed var(--line); border-radius: 8px 8px 0 0; padding: 14px 64px 12px 20px; }
+  .ctt-shops-title { font-family: 'Archivo Black', sans-serif; font-size: 32px; line-height: 1.05; color: var(--ink); margin: 0 0 4px 0; }
+  .ctt-shops-sub { font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: var(--taupe, #5c5240); margin: 0; }
+  .ctt-shops-close { position: absolute; top: 10px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink); background: var(--card); color: var(--ink); font-size: 26px; line-height: 1; font-weight: 700; cursor: pointer; }
+  .ctt-shops-close:hover { background: var(--ink); color: var(--paper); }
+  .ctt-shops-body { padding: 14px 20px 22px; }
+  .ctt-shops-q { width: 100%; padding: 11px 12px; font-size: 16px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--card); color: var(--ink); font-family: 'Libre Franklin', sans-serif; margin-bottom: 10px; }
+  .ctt-shops-jump { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 6px; }
+  .ctt-shops-jump a { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 14px; padding: 4px 11px; text-decoration: none; background: var(--card); cursor: pointer; }
+  .ctt-shops-jump a:hover { background: var(--olive); color: var(--paper); }
+  .ctt-shops-hood { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--ink); margin: 26px 0 10px; padding-bottom: 4px; border-bottom: 1.5px dashed var(--line); scroll-margin-top: 110px; }
+  .ctt-shops-hood span { font-family: 'Libre Franklin', sans-serif; font-weight: 400; font-size: 14px; color: #8a8069; }
+  .ctt-shop-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 15px; margin: 0 0 10px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
+  .ctt-shop-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 18px; margin: 0 0 3px; color: var(--ink); }
+  .ctt-shop-card p { margin: 3px 0; }
+  .ctt-shop-card .ctt-shop-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 10px; padding: 0 7px; margin-right: 4px; }
+  .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
+  .ctt-shop-card a { color: var(--olive); font-weight: 700; }
+  .ctt-shops-none { display: none; font-family: 'Libre Franklin', sans-serif; color: #8a8069; margin-top: 16px; }
+  .ctt-shops-tip { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; margin-top: 24px; padding-top: 14px; border-top: 1.5px dashed var(--line); font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: #8a8069; }
+  .ctt-shops-tip a { font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 14px; padding: 5px 13px; text-decoration: none; }
+  .ctt-shops-back { display: block; width: 100%; margin-top: 18px; padding: 13px; font-family: 'Libre Franklin', sans-serif; font-size: 15px; font-weight: 700; background: var(--olive); color: var(--paper); border: none; border-radius: 6px; cursor: pointer; }
+  @media (max-width: 600px) { .ctt-shops-overlay { padding: 8px; } .ctt-shops-title { font-size: 26px; } .ctt-shops-top { padding-left: 14px; } .ctt-shops-body { padding: 12px 14px 20px; } }
+
   /* ---- Add to home screen help ---- */
   .ctt-homescreen-link {
-    font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust);
+    font-family: 'Libre Franklin', sans-serif; font-size: 26px; line-height: 1.2; font-weight: 700; color: var(--rust);
     background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
@@ -1749,9 +1780,7 @@
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
         <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
         <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span><button type="button" class="ctt-legend-link" id="ctt-featured-toggle" aria-expanded="false">Featured</button></span>
-        <button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="true">&#127991;&#65039; Names: On</button>
       </div>
-      <a class="ctt-howworks-toggle ctt-shoplist-link" href="shops/">&#128203; All shops</a>
       <button class="ctt-howworks-toggle" id="ctt-howworks-toggle">&#8505;&#65039; How this works &#9662;</button>
     </div>
   </div>
@@ -1759,6 +1788,17 @@
   <div id="ctt-holiday" style="display:none;"></div>
 
   <div class="ctt-featured-panel" id="ctt-featured-panel" style="display:none;"></div>
+
+  <div class="ctt-shops-overlay" id="ctt-shops-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-shops-title">
+    <div class="ctt-shops-dialog">
+      <div class="ctt-shops-top">
+        <h2 class="ctt-shops-title" id="ctt-shops-title">All the Shops</h2>
+        <p class="ctt-shops-sub">Every stop on the Trail, by neighborhood.</p>
+        <button type="button" class="ctt-shops-close" id="ctt-shops-close" aria-label="Close shop list">&times;</button>
+      </div>
+      <div class="ctt-shops-body" id="ctt-shops-body"></div>
+    </div>
+  </div>
 
   <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
@@ -1811,13 +1851,13 @@
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
-    <div id="ctt-map"></div>
+    <div id="ctt-map"><a class="ctt-names-toggle ctt-shops-map-btn" id="ctt-shops-open" href="shops/">&#128203; All shops</a><button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="true">&#127991;&#65039; Names: On</button></div>
   </div>
 
   <div class="ctt-split-row">
     <div class="ctt-pdf-section ctt-split-half">
       <h3 class="ctt-pdf-title">Take It With You</h3>
-      <p class="ctt-pdf-sub">Your custom route, built just for you today &mdash; a simple one-page guide with today's shops, addresses, and hours.</p>
+      <p class="ctt-pdf-sub">Your custom route, built just for you today &mdash; a simple one-page list of today's shops, addresses, and hours, in order from where you start and back again.</p>
       <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128196; Download Printable Trail Guide (PDF)</button>
     </div>
     <div class="ctt-share-section ctt-split-half" style="text-align:center;">
@@ -1913,7 +1953,7 @@
 <h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
 <p>The Chattanooga Thrift Trail is a free, self-guided map of more than 30 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours today.</p>
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
-<details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 13</strong> &mdash; Jewel Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>Apr 22</strong> &mdash; Earth Day</li><li><strong>May 3</strong> &mdash; National Textiles Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Jun 1</strong> &mdash; Tennessee Statehood Day</li><li><strong>Jun 13</strong> &mdash; Sewing Machine Day</li><li><strong>Jun 23</strong> &mdash; National Typewriter Day</li><li><strong>Jun 29</strong> &mdash; Camera Day</li><li><strong>Jul 15</strong> &mdash; National Give Something Away Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Oct 10</strong> &mdash; Handbag Day</li><li><strong>Oct 21</strong> &mdash; Count Your Buttons Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
+<details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
       <p class="ctt-version">v6.9 &mdash; October 28, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
@@ -3260,76 +3300,49 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var statsText = '~' + lastRouteMiles.toFixed(1) + ' miles' + '  \u00b7  ' + stops.length + ' shop' + (stops.length === 1 ? '' : 's');
     doc.text(statsText, pageWidth / 2, 35, { align: 'center' });
 
-    // Numbered list, two columns
-    var listY = 44;
+    // Numbered list in route order: starts near the visitor, loops back to the start.
+    var listY = 46;
+    var pageHeight = 279.4, bottomMargin = 15;
+    var items = stops.length + 1; // +1 for the "back to start" line
+    var twoCols = items > 17;
     var colGap = 8;
-    var colWidth = (pageWidth - margin * 2 - colGap) / 2;
+    var colWidth = twoCols ? (pageWidth - margin * 2 - colGap) / 2 : (pageWidth - margin * 2);
     var col2X = margin + colWidth + colGap;
-    var itemsPerCol = Math.ceil(stops.length / 2);
-    var mapHReserve = 40, mapGapReserve = 8, bottomMargin = 15, pageHeight = 279.4;
-    var availableForList = pageHeight - bottomMargin - mapHReserve - mapGapReserve - listY;
-    var rowHeight = Math.min(13, availableForList / itemsPerCol);
+    var itemsPerCol = twoCols ? Math.ceil(items / 2) : items;
+    var rowHeight = Math.min(15, (pageHeight - bottomMargin - listY) / itemsPerCol);
+    var big = !twoCols && rowHeight >= 12;
 
-    stops.forEach(function(s, idx) {
+    function placeAt(idx) {
       var col = idx < itemsPerCol ? 0 : 1;
       var row = idx < itemsPerCol ? idx : idx - itemsPerCol;
-      var x = col === 0 ? margin : col2X;
-      var y = listY + row * rowHeight;
-      var textX = x + 4;
+      return { x: col === 0 ? margin : col2X, y: listY + row * rowHeight };
+    }
+
+    stops.forEach(function(s, idx) {
+      var pt = placeAt(idx), x = pt.x, y = pt.y, textX = x + 5;
 
       doc.setFillColor(rust[0], rust[1], rust[2]);
-      doc.rect(x, y - 2.6, 2.2, 2.2, 'F');
+      doc.rect(x, y - 3, 2.6, 2.6, 'F');
 
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      doc.setFontSize(big ? 12 : 9);
       doc.setTextColor(ink[0], ink[1], ink[2]);
       doc.text((idx + 1) + '. ' + s.name, textX, y);
 
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7.5);
+      doc.setFontSize(big ? 9.5 : 7.5);
       doc.setTextColor(taupe[0], taupe[1], taupe[2]);
-      doc.text(s.address, textX, y + 3.4);
-      doc.text(stripEntities(s.hours), textX, y + 6.4);
+      var lineGap = big ? 4.6 : 3.4;
+      doc.text(s.address, textX, y + lineGap);
+      doc.text(stripEntities(s.hours), textX, y + lineGap * 2);
     });
 
-    // Small connect-the-dots map at the bottom
-    var listBottom = listY + (itemsPerCol * rowHeight) + 8;
-    var mapH = 40;
-    var mapY = listBottom;
-    var mapX = margin, mapW = pageWidth - margin * 2;
-    doc.setDrawColor(rust[0], rust[1], rust[2]);
-    doc.setLineWidth(0.3);
-    doc.rect(mapX, mapY, mapW, mapH);
-
-    var lats = stops.map(function(s) { return s.lat; });
-    var lngs = stops.map(function(s) { return s.lng; });
-    var minLat = Math.min.apply(null, lats), maxLat = Math.max.apply(null, lats);
-    var minLng = Math.min.apply(null, lngs), maxLng = Math.max.apply(null, lngs);
-    var latRange = (maxLat - minLat) || 0.01;
-    var lngRange = (maxLng - minLng) || 0.01;
-    var pad = 6;
-
-    function project(lat, lng) {
-      var x = mapX + pad + ((lng - minLng) / lngRange) * (mapW - pad * 2);
-      var y = mapY + pad + ((maxLat - lat) / latRange) * (mapH - pad * 2);
-      return [x, y];
-    }
-
-    doc.setDrawColor(rust[0], rust[1], rust[2]);
-    doc.setLineWidth(0.35);
-    for (var i = 0; i < stops.length; i++) {
-      var p1 = project(stops[i].lat, stops[i].lng);
-      var p2 = project(stops[(i + 1) % stops.length].lat, stops[(i + 1) % stops.length].lng);
-      doc.line(p1[0], p1[1], p2[0], p2[1]);
-    }
-    stops.forEach(function(s, idx) {
-      var p = project(s.lat, s.lng);
-      doc.setFillColor(ink[0], ink[1], ink[2]);
-      doc.circle(p[0], p[1], 1.7, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(5);
-      doc.text(String(idx + 1), p[0], p[1] + 0.6, { align: 'center' });
-    });
+    // Final line: loop back to the first stop
+    var endPt = placeAt(stops.length);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(big ? 12 : 9);
+    doc.setTextColor(rust[0], rust[1], rust[2]);
+    doc.text('Then head back to ' + stops[0].name + ' where you started.', endPt.x, endPt.y);
 
     doc.save('chattanooga-thrift-trail.pdf');
     btn.disabled = false;
@@ -3577,6 +3590,91 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (e.target && e.target.closest && e.target.closest('.ctt-feat-more')) toggleFeaturedPanel(true);
   });
 
+
+  // ---- All shops popup (built from the same data as the map) ----
+  var SHOP_GROUPS = [
+    ['Downtown & North Shore', ['Downtown', 'North Shore']],
+    ['Southside', ['Southside']],
+    ['McCallie Ave & Highland Park', ['McCallie Ave', 'Highland Park']],
+    ['Rossville Blvd & East Ridge', ['Rossville Blvd', 'East Ridge']],
+    ['Brainerd', ['Brainerd']],
+    ['East Brainerd & Hamilton Place', ['East Brainerd', 'Hamilton Place area', 'Near Hamilton Place']],
+    ['Hixson', ['Hixson']],
+    ['Red Bank', ['Red Bank', 'Red Bank/Hixson']],
+    ['Fort Oglethorpe, GA', ['Fort Oglethorpe']],
+    ['Ooltewah', ['Ooltewah']]
+  ];
+  var SHOP_CAT = { 'Thrift Store': 'Thrift store', 'Antique Mall': 'Antique mall', 'Curated Shop': 'Vintage / curated' };
+  var shopsBuilt = false, shopsLastFocus = null;
+  function buildShopsPopup() {
+    var all = routeDefaults.concat(bonusDefaults);
+    var body = document.getElementById('ctt-shops-body');
+    var used = {}, jump = '', secs = '';
+    SHOP_GROUPS.forEach(function(g, gi) {
+      var rows = all.filter(function(x) { return g[1].indexOf(x.area) !== -1; });
+      rows.forEach(function(x) { used[x.name] = true; });
+      if (!rows.length) return;
+      rows.sort(function(a, b) { return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1; });
+      var id = 'ctt-hood-' + gi;
+      jump += '<a data-target="' + id + '">' + g[0].replace(/&/g, '&amp;') + '</a>';
+      secs += '<div class="ctt-shops-sec"><h3 class="ctt-shops-hood" id="' + id + '">' + g[0].replace(/&/g, '&amp;') + ' <span>(' + rows.length + ')</span></h3>';
+      rows.forEach(function(x) {
+        var q = (x.name + ' ' + x.area + ' ' + x.address + ' ' + (SHOP_CAT[x.category] || '')).toLowerCase();
+        secs += '<div class="ctt-shop-card" data-q="' + q.replace(/"/g, '') + '"><h4>' + x.name + '</h4>' +
+          '<p><span class="ctt-shop-tag">' + (SHOP_CAT[x.category] || 'Shop') + '</span>' + x.address + '</p>' +
+          '<p><strong>Hours:</strong> ' + x.hours + '</p><p>' + x.note + '</p>' +
+          (x.closesAfter ? '<p class="ctt-shop-closing">Closing after Dec 27, 2026.</p>' : '') +
+          '<p><a href="' + directionsLink(x.address) + '" target="_blank" rel="noopener">Get directions &rarr;</a>' +
+          (x.url ? ' &middot; <a href="' + x.url + '" target="_blank" rel="noopener">Website</a>' : '') + '</p></div>';
+      });
+      secs += '</div>';
+    });
+    body.innerHTML = '<input type="search" class="ctt-shops-q" id="ctt-shops-q" placeholder="Search by shop name or neighborhood" aria-label="Search shops">' +
+      '<div class="ctt-shops-jump" id="ctt-shops-jump">' + jump + '</div>' +
+      '<p class="ctt-shops-none" id="ctt-shops-none">No shops match that search.</p>' + secs +
+      '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>' +
+      '<button type="button" class="ctt-shops-back" id="ctt-shops-back">&larr; Back to the map</button>';
+    document.getElementById('ctt-shops-q').addEventListener('input', function() {
+      var q = this.value.trim().toLowerCase(), shown = 0;
+      [].forEach.call(body.querySelectorAll('.ctt-shops-sec'), function(sec) {
+        var n = 0;
+        [].forEach.call(sec.querySelectorAll('.ctt-shop-card'), function(c) {
+          var ok = !q || c.getAttribute('data-q').indexOf(q) !== -1;
+          c.style.display = ok ? '' : 'none'; if (ok) n++;
+        });
+        sec.style.display = n ? '' : 'none'; shown += n;
+        var c2 = sec.querySelector('.ctt-shops-hood span'); if (c2) c2.textContent = '(' + n + ')';
+      });
+      document.getElementById('ctt-shops-none').style.display = shown ? 'none' : 'block';
+      document.getElementById('ctt-shops-jump').style.display = q ? 'none' : '';
+    });
+    document.getElementById('ctt-shops-jump').addEventListener('click', function(e) {
+      var a = e.target.closest && e.target.closest('a[data-target]');
+      if (a) { var t = document.getElementById(a.getAttribute('data-target')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+    document.getElementById('ctt-shops-back').addEventListener('click', function() { closeShopsPopup(); });
+    shopsBuilt = true;
+  }
+  function openShopsPopup() {
+    if (!shopsBuilt) buildShopsPopup();
+    var ov = document.getElementById('ctt-shops-overlay');
+    shopsLastFocus = document.activeElement;
+    ov.classList.add('open');
+    ov.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    cttTrack('open_all_shops');
+    document.getElementById('ctt-shops-close').focus();
+  }
+  function closeShopsPopup() {
+    document.getElementById('ctt-shops-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    if (shopsLastFocus && shopsLastFocus.focus) shopsLastFocus.focus();
+  }
+  document.getElementById('ctt-shops-open').addEventListener('click', function(e) { e.preventDefault(); openShopsPopup(); });
+  document.getElementById('ctt-shops-close').addEventListener('click', closeShopsPopup);
+  document.getElementById('ctt-shops-overlay').addEventListener('click', function(e) { if (e.target === this) closeShopsPopup(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && document.getElementById('ctt-shops-overlay').classList.contains('open')) closeShopsPopup(); });
+
   // ---- Offline support (see sw.js; needs https) ----
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     window.addEventListener('load', function() {
@@ -3597,6 +3695,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var saved = null;
     try { saved = localStorage.getItem('ctt-names'); } catch (e) {}
     apply(saved !== 'off');
+    ['mousedown','dblclick','touchstart'].forEach(function(ev) { [btn, document.getElementById('ctt-shops-open')].forEach(function(el) { el.addEventListener(ev, function(e) { e.stopPropagation(); }); }); });
     btn.addEventListener('click', function() {
       var on = mapEl.classList.contains('ctt-labels-off');
       apply(on);
