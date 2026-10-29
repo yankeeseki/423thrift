@@ -1,6 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!--
+==================== PROJECT HANDOFF NOTES (invisible on the page; for the site owner) ====================
+If the chat is ever lost: start a new chat, attach this index.html, and say
+"Read the handoff notes at the top of this file and pick up where we left off."
+
+WHAT THIS IS
+The Chattanooga Thrift Trail: a single-file map and route planner for thrift, vintage and antique shops.
+Live at https://423thrift.com/ on GitHub Pages (repo "423thrift", custom domain via CNAME).
+Leaflet + OpenStreetMap, OSRM routing, jsPDF, Firebase Firestore reviews, Google Analytics (G-6DXP5B81PJ).
+
+FILES IN THE REPO
+index.html (this file) | sw.js (offline) | manifest.webmanifest | CNAME | robots.txt | sitemap.xml
+icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png, favicon.ico
+og-image.png (link-preview picture = the poster) | trail-poster.jpg (Instagram / share-sheet poster)
+shops/index.html (standalone "Shops & Charities" page for Google; the popup on the main page uses the same data)
+How to deploy: open the file in GitHub, click the pencil, paste, commit (about a minute to go live). Reload twice.
+
+VERSION RULE
+Each round of changes adds 0.1 (7.1, 7.2 ... 7.9), then moves to the next whole number (8.0, 8.1 ...).
+Update the small "v..." line near the bottom of the page and its date every time.
+
+WHERE THINGS LIVE IN THIS FILE
+routeDefaults / bonusDefaults ... the shop data (hours, notes, area, category, closesAfter). Category sets the marker color.
+SHOP_BENEFIT ................... which shops show the "Proceeds benefit" charity note (mirrored in shops/index.html).
+isFeaturedToday() .............. gold-star Featured Shop: Poor Taste on Saturdays; Vinterest Southside until it closes
+                                 Dec 27 2026, then Vinterest - Hixson from Dec 28 2026.
+HOLIDAY_FUN / HOLIDAY_STARS .... daily banners. FUN = the owner's list of goofy days (tiny line). STARS = thrift days (prominent).
+                                 Themed weeks before Christmas, Thanksgiving, Halloween, Easter. "Open" badge becomes
+                                 "Check hours" on major holidays. Never include Juneteenth, Pride or Black History Month.
+cttTrack(...) .................. Google Analytics events.
+The bottom "days to mark on your calendar" list is separate static HTML (12 days).
+
+OWNER PREFERENCES
+Walk through steps one at a time (Mac user). Exact color matching matters (owner is colorblind).
+No dedicated Featured Shops page. Keep banners family-friendly. A new page/popup always gets the tip buttons at the bottom.
+Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
+
+STILL TO DO / IDEAS
+- Set up Google Search Console and submit sitemap.xml (add https://423thrift.com/shops/ to it).
+- In Google Analytics, mark key events: start_trail, get_directions, download_poster, tip_click.
+- Review about a week of analytics together.
+- Hixson shop note/rating not verified. Hours match Google.
+- Mercantile at the Ridge is now a Curated Shop; confirm Dirty Jane's Antiques category.
+- JSON-LD and static SEO shop lists still include Vinterest Southside after Dec 27 2026; trim then.
+- Neighborhood landing pages (sample Hixson page exists, not live) undecided.
+==========================================================================================================
+-->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
@@ -1798,7 +1846,7 @@
     <div class="ctt-shops-dialog">
       <div class="ctt-shops-top">
         <h2 class="ctt-shops-title" id="ctt-shops-title">Shops &amp; Charities</h2>
-        <p class="ctt-shops-sub">Every stop on the Trail by neighborhood. A &#128155; note means your purchase supports a local cause.</p>
+        <p class="ctt-shops-sub">Every stop on the Trail by neighborhood. A &#128155; note shows which local cause a shop&rsquo;s proceeds benefit.</p>
         <button type="button" class="ctt-shops-close" id="ctt-shops-close" aria-label="Close shop list">&times;</button>
       </div>
       <div class="ctt-shops-body" id="ctt-shops-body"></div>
@@ -1946,7 +1994,7 @@
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v6.9 &mdash; October 28, 2026</p>
+      <p class="ctt-version">v7.3 &mdash; October 29, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3610,7 +3658,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     ['Fort Oglethorpe, GA', ['Fort Oglethorpe']],
     ['Ooltewah', ['Ooltewah']]
   ];
-  var SHOP_BENEFIT = {"Ladies of Charity Thrift Store": "A volunteer-run shop whose proceeds go toward medicine, utilities, housing, and clothing for neighbors facing hardship. Every dollar spent here stays local.", "Providence Thrift Store": "Part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "Funds the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008. Proceeds directly support free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "Primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Part of a nine-store network run by Providence Ministries, founded in 1985 to fight homelessness, hunger, addiction, and spiritual poverty. Proceeds help fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "Funds the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "Primarily benefits Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Supports Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.", "The Thrift Store (Chambliss, Red Bank)": "Supports Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Thrift store sales make up almost half of NNH's total income, directly funding their neighbor-assistance programs across the community.", "Goodwill Store Hixson": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Funds Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "Rooted in a Seventh-day Adventist community-service ministry over 90 years old, the Samaritan Center provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Funds Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them."};
+  var SHOP_BENEFIT = {"Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "The Thrift Store (Chambliss, Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill Store Hixson": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission."};
   var SHOP_CAT = { 'Thrift Store': 'Thrift store', 'Antique Mall': 'Antique mall', 'Curated Shop': 'Vintage / curated' };
   var shopsBuilt = false, shopsLastFocus = null;
   function buildShopsPopup() {
@@ -3630,7 +3678,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         secs += '<div class="ctt-shop-card" data-q="' + q.replace(/"/g, '') + '"><h4>' + x.name + '</h4>' +
           '<p><span class="ctt-shop-tag">' + (SHOP_CAT[x.category] || 'Shop') + '</span>' + x.address + '</p>' +
           '<p><strong>Hours:</strong> ' + x.hours + '</p><p>' + x.note + '</p>' +
-          (SHOP_BENEFIT[x.name] ? '<p class="ctt-shop-benefit">&#128155; <strong>Where it goes:</strong> ' + SHOP_BENEFIT[x.name] + '</p>' : '') +
+          (SHOP_BENEFIT[x.name] ? '<p class="ctt-shop-benefit">&#128155; <strong>Proceeds benefit</strong> ' + SHOP_BENEFIT[x.name] + '</p>' : '') +
           (x.closesAfter ? '<p class="ctt-shop-closing">Closing after Dec 27, 2026.</p>' : '') +
           '<p><a href="' + directionsLink(x.address) + '" target="_blank" rel="noopener">Get directions &rarr;</a>' +
           (x.url ? ' &middot; <a href="' + x.url + '" target="_blank" rel="noopener">Website</a>' : '') + '</p></div>';
