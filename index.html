@@ -818,7 +818,7 @@
 <meta property="og:image" content="https://423thrift.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Chattanooga Thrift Trail: a covered wagon icon above the site name">
+<meta property="og:image:alt" content="Join the Chattanooga Thrift Trail poster: a covered wagon, a QR code, and 423thrift.com">
 <meta name="twitter:image" content="https://423thrift.com/og-image.png">
 <meta name="twitter:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
 <meta name="twitter:description" content="Free map and route planner for Chattanooga thrift stores, vintage shops and antique malls, with today’s hours and the best driving order from where you are.">
@@ -1406,6 +1406,10 @@
     font-family: 'Libre Franklin', sans-serif; font-size: 11px; line-height: 1; border-radius: 50%;
     margin-right: 6px; flex-shrink: 0;
   }
+  .ctt-tag-num.star {
+    width: 28px; height: 28px; padding-top: 3px; margin-right: 5px; border-radius: 0; color: #2c2417; font-size: 12px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z' fill='%23eddcac' stroke='%23a3872f' stroke-width='1'/></svg>") center / contain no-repeat;
+  }
   .ctt-tag-num.diamond {
     background: var(--gold); border-radius: 3px; transform: rotate(45deg);
     padding-top: 0; border: 1.5px solid var(--paper); box-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -1742,7 +1746,7 @@
     background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
-  .ctt-homescreen-row { margin: 0 0 12px 0; text-align: center; }
+  .ctt-homescreen-row { margin: 36px 0 12px 0; text-align: center; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-homescreen-panel {
     margin: 0 0 14px 0; padding: 16px 20px; background: var(--card);
@@ -1867,10 +1871,10 @@
       <div class="ctt-share-row" style="justify-content:center;">
         <button class="ctt-share-btn" id="ctt-share-fb">&#128216; Facebook</button>
         <button class="ctt-share-btn" id="ctt-share-x">&#128227; X</button>
-        <button class="ctt-share-btn" id="ctt-share-pin">&#128204; Pinterest</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
         <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
+        <button class="ctt-share-btn" id="ctt-share-poster">&#128247; Instagram</button>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
@@ -1997,7 +2001,7 @@
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Daily 11-6", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
     { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Large multi-booth antique district with a wide variety and reviewers calling prices reasonable for what's found.", myNote: "", url: null },
-    { name: "Mercantile at the Ridge", area: "East Ridge", category: "Antique Mall", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: null },
+    { name: "Mercantile at the Ridge", area: "East Ridge", category: "Curated Shop", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: null },
     { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: null },
     { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: null },
     { name: "Local Dive Retail", area: "North Shore", category: "Curated Shop", lat: 35.0699765, lng: -85.3175202, address: "607 Cherokee Blvd D, Chattanooga, TN 37405", hours: "Mon/Tue/Thu/Fri 10-6 &middot; Wed/Sat Closed &middot; Sun 10-5", myRating: null, note: "Packed with vintage clothing, vinyl, and oddities; reviewers especially like the friendly, low-pressure staff.", myNote: "", url: "https://www.instagram.com/localdiveretail" },
@@ -2728,7 +2732,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
-        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? '' : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
+        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
         '</div>' +
       '</div>' +
@@ -3511,12 +3515,35 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var text = encodeURIComponent('Check out The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga!');
     window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=580,height=520');
   });
-  document.getElementById('ctt-share-pin').addEventListener('click', function() {
-    cttTrack('share', { method: 'pinterest' });
-    var url = encodeURIComponent(window.location.href);
-    var desc = encodeURIComponent('The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga.');
-    window.open('https://pinterest.com/pin/create/button/?url=' + url + '&description=' + desc, '_blank', 'width=750,height=520');
-  });
+  // ---- Instagram: shares the poster image. Phones get the share sheet (pick Instagram Feed/Stories);
+  // desktops open the image to save and post. The "Trail Poster" button stays the print version. ----
+  (function() {
+    var btn = document.getElementById('ctt-share-poster');
+    if (!btn) return;
+    var posterFile = null;
+    function loadPoster() {
+      fetch('trail-poster.jpg').then(function(r) {
+        if (!r.ok) throw new Error('missing');
+        return r.blob();
+      }).then(function(b) {
+        if (!/^image\//.test(b.type)) throw new Error('not an image');
+        var f = new File([b], 'chattanooga-thrift-trail-poster.jpg', { type: b.type });
+        if (navigator.canShare && navigator.canShare({ files: [f] })) posterFile = f;
+      }).catch(function() {});
+    }
+    if (document.readyState === 'complete') setTimeout(loadPoster, 1000);
+    else window.addEventListener('load', function() { setTimeout(loadPoster, 1000); });
+    btn.addEventListener('click', function() {
+      cttTrack('share', { method: 'instagram' });
+      if (posterFile) {
+        navigator.share({ files: [posterFile], title: 'The Chattanooga Thrift Trail', text: 'Chattanooga thrift trail: 423thrift.com' }).catch(function() {});
+      } else {
+        window.open('trail-poster.jpg', '_blank', 'noopener');
+        var st = document.getElementById('ctt-share-status');
+        if (st) { st.textContent = 'Save the poster, then post it to Instagram!'; setTimeout(function() { st.textContent = ''; }, 6000); }
+      }
+    });
+  })();
   document.getElementById('ctt-share-text').addEventListener('click', function() {
     cttTrack('share', { method: 'text_message' });
     var message = 'Hey, check out this thrift trail site \u2014 it would be awesome for our treasure hunts! ' + window.location.href;
