@@ -942,6 +942,7 @@
   }
   .ctt-route-stat strong { color: var(--rust); opacity: 1; }
 
+  .ctt-shoplist-link { display: inline; }
   .ctt-howworks-toggle {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 12px;
@@ -979,6 +980,7 @@
   .ctt-legend-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .ctt-legend-item { display: flex; align-items: center; gap: 6px; }
   .ctt-legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .ctt-legend-link { font: inherit; color: inherit; background: none; border: none; padding: 0; text-decoration: underline; cursor: pointer; }
   .ctt-legend-star { color: var(--gold); font-size: 14px; }
   .ctt-mini-num {
     display: inline-flex; align-items: center; justify-content: center;
@@ -1354,6 +1356,16 @@
     white-space: nowrap; z-index: 20; pointer-events: none;
   }
 
+  .ctt-feat-more { font: inherit; color: inherit; background: none; border: none; padding: 0; text-decoration: underline; text-transform: none; letter-spacing: 0; margin-left: 6px; cursor: pointer; }
+  .ctt-featured-panel {
+    margin: 0 0 12px 0; padding: 12px 16px; background: #fbf1d4; border: 1.5px solid #c9a93a; border-left-width: 6px;
+    border-radius: 6px; font-family: 'Libre Franklin', sans-serif; font-size: 13px; line-height: 1.5; color: #5c5240;
+  }
+  .ctt-featured-panel h3 { font-family: 'Archivo Black', sans-serif; font-size: 16px; color: var(--ink); margin: 0 0 4px 0; }
+  .ctt-featured-panel p { margin: 0 0 8px 0; }
+  .ctt-featured-item { padding: 8px 0; border-top: 1px dashed #d8c27a; }
+  .ctt-featured-item strong { color: var(--ink); font-size: 14px; }
+  .ctt-featured-when { color: var(--rust); font-weight: 700; display: block; }
   .ctt-featured-ribbon {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 10px;
@@ -1415,6 +1427,39 @@
   .ctt-tag.visited { opacity: 0.5; }
   .ctt-tag.visited .ctt-tag-name { text-decoration: line-through; }
 
+  .ctt-names-toggle {
+    font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; color: var(--olive);
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2px 9px; cursor: pointer;
+  }
+  .ctt-names-toggle:hover { border-color: var(--olive); }
+  #ctt-map.ctt-labels-off .ctt-map-label { display: none; }
+  /* ---- Holiday banners: big and thrift days are prominent, goofy days are one small line ---- */
+  .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
+  .ctt-holiday-card {
+    display: flex; align-items: flex-start; gap: 12px; margin: 0 0 12px 0; padding: 12px 14px;
+    background: var(--card); border: 1.5px solid var(--line); border-left: 6px solid var(--olive); border-radius: 6px;
+    font-family: 'Libre Franklin', sans-serif; font-size: 13.5px; line-height: 1.45; color: var(--ink);
+  }
+  .ctt-holiday-emo { font-size: 30px; line-height: 1; flex-shrink: 0; }
+  .ctt-holiday-text { flex: 1; min-width: 0; }
+  .ctt-holiday-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #6b5818; margin-bottom: 2px; }
+  .ctt-holiday-head { font-family: 'Archivo Black', sans-serif; font-size: 16px; line-height: 1.25; }
+  .ctt-holiday-body { margin-top: 3px; color: #5c5240; }
+  .ctt-holiday-x { background: none; border: none; font-size: 22px; line-height: 1; color: var(--taupe); cursor: pointer; padding: 0 2px; }
+  .ctt-holiday-x:hover { color: var(--ink); }
+  .ctt-hd-major { border-left-color: var(--rust); background: #fbefe4; }
+  .ctt-hd-star { border-color: #c9a93a; border-left: 6px solid #c9a93a; background: #fbf1d4; }
+  .ctt-hd-star.ctt-hd-top { border-width: 2px; border-left-width: 8px; background: #f7e7ae; box-shadow: 0 2px 8px rgba(163,135,47,0.25); }
+  .ctt-hd-star.ctt-hd-top .ctt-holiday-head { font-size: 19px; }
+  .ctt-hd-star.ctt-hd-top .ctt-holiday-emo { font-size: 38px; }
+  .ctt-open-badge.check { background: #f5e2bc; color: #6b4a10; border: 1px solid #d8b66a; text-decoration: none; cursor: pointer; }
+  .ctt-open-badge.check:hover { background: #efd79b; }
+  .ctt-report-row { margin: 3px 0 0 0; }
+  .ctt-report-btn {
+    font-family: 'Libre Franklin', sans-serif; font-size: 10.5px; color: var(--taupe);
+    background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
+  }
+  .ctt-report-btn:hover { color: var(--rust); }
   .ctt-review-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-left: auto; margin-right: 10px; }
   .ctt-review-toggle-btn {
     font-family: 'Libre Franklin', sans-serif; font-size: 11.5px; font-weight: 600;
@@ -1545,6 +1590,7 @@
   .ctt-seo h2 { font-size: 14px; color: var(--ink); margin: 0 0 6px; }
   .ctt-seo h3 { font-size: 12px; color: var(--ink); margin: 12px 0 4px; }
   .ctt-seo p { margin: 0 0 6px; }
+  .ctt-seo summary { cursor: pointer; font-weight: 700; color: var(--ink); margin: 10px 0 4px; }
   .ctt-seo ul { margin: 0; padding-left: 18px; columns: 2 260px; column-gap: 24px; }
   .ctt-seo li { margin-bottom: 2px; break-inside: avoid; }
   .ctt-seo strong { color: var(--ink); }
@@ -1702,11 +1748,17 @@
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
         <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
-        <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span>Featured</span>
+        <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span><button type="button" class="ctt-legend-link" id="ctt-featured-toggle" aria-expanded="false">Featured</button></span>
+        <button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="true">&#127991;&#65039; Names: On</button>
       </div>
+      <a class="ctt-howworks-toggle ctt-shoplist-link" href="shops/">&#128203; All shops</a>
       <button class="ctt-howworks-toggle" id="ctt-howworks-toggle">&#8505;&#65039; How this works &#9662;</button>
     </div>
   </div>
+
+  <div id="ctt-holiday" style="display:none;"></div>
+
+  <div class="ctt-featured-panel" id="ctt-featured-panel" style="display:none;"></div>
 
   <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
@@ -1859,50 +1911,9 @@
       <!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
 <section class="ctt-seo" aria-label="About the Chattanooga Thrift Trail">
 <h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
-<p>The Chattanooga Thrift Trail is a free, self-guided map of 37 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours today.</p>
-<h3>Thrift stores</h3><ul>
-<li><strong>Lookout Thrift</strong> &mdash; 2441 Broad St, Chattanooga, TN 37408</li>
-<li><strong>Ladies of Charity Thrift Store</strong> &mdash; 2821 Rossville Blvd, Chattanooga, TN 37407</li>
-<li><strong>Providence Thrift Store</strong> &mdash; 491 Battlefield Pkwy, Fort Oglethorpe, GA 30742</li>
-<li><strong>Nifty Thrifty</strong> &mdash; 2749 Lafayette Rd, Fort Oglethorpe, GA 30742</li>
-<li><strong>SACs Thrift Avenue</strong> &mdash; 1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742</li>
-<li><strong>Goodwill Store Fort Oglethorpe</strong> &mdash; 1873 Battlefield Pkwy, Fort Oglethorpe, GA 30742</li>
-<li><strong>The Thrift Store (benefits Chambliss Center)</strong> &mdash; 3723 Brainerd Rd, Chattanooga, TN 37411</li>
-<li><strong>America&#x27;s Thrift Stores (Brainerd Rd)</strong> &mdash; 5844 Brainerd Rd, Chattanooga, TN 37411</li>
-<li><strong>Hunts Thrift</strong> &mdash; 1301 Hickory Valley Rd, Chattanooga, TN 37421</li>
-<li><strong>Goodwill Store E. Brainerd</strong> &mdash; 7601 E Brainerd Rd, Chattanooga, TN 37421</li>
-<li><strong>Providence Thrift Store (Lee Hwy)</strong> &mdash; 6933 Lee Hwy, Chattanooga, TN 37421</li>
-<li><strong>Humane Educational Society Boutique &amp; Thrift</strong> &mdash; 4784 TN-58, Chattanooga, TN 37416</li>
-<li><strong>Goodwill Store Hwy 58</strong> &mdash; 4850 TN-58, Chattanooga, TN 37416</li>
-<li><strong>America&#x27;s Thrift Stores (Northgate)</strong> &mdash; 248 Northgate Mall Dr #122, Chattanooga, TN 37415</li>
-<li><strong>Bethel Thrift Store</strong> &mdash; 5135 Hixson Pike, Hixson, TN 37343</li>
-<li><strong>Friends and Family Discount and Thrift</strong> &mdash; 4707 Dayton Blvd Ste A, Chattanooga, TN 37415</li>
-<li><strong>Northside Neighborhood House (Red Bank)</strong> &mdash; 3605 Dayton Blvd, Red Bank, TN 37415</li>
-<li><strong>The Thrift Store (Chambliss, Red Bank)</strong> &mdash; 1936 Dayton Blvd, Red Bank, TN 37415</li>
-<li><strong>Northside Neighborhood House Northshore</strong> &mdash; 211 Minor St, Chattanooga, TN 37405</li>
-<li><strong>Goodwill Store Hixson</strong> &mdash; 1966 Northpoint Blvd Ste A, Hixson, TN 37343</li>
-<li><strong>Goodwill Store East Ridge</strong> &mdash; 3715 Ringgold Rd, East Ridge, TN 37412</li>
-<li><strong>Samaritan Center</strong> &mdash; 9231 Lee Hwy, Ooltewah, TN 37363</li>
-<li><strong>Pop&#x27;s &amp; Granny&#x27;s Thrift Store</strong> &mdash; 3238 Wilcox Blvd, Chattanooga, TN 37411</li>
-<li><strong>Habitat For Humanity ReStore</strong> &mdash; 1150 E 14th St, Chattanooga, TN 37408</li>
-</ul>
-<h3>Antique malls</h3><ul>
-<li><strong>East Ridge Antique District</strong> &mdash; 6511 Slater Rd, East Ridge, TN 37412</li>
-<li><strong>Mercantile at the Ridge</strong> &mdash; 6725 Ringgold Rd, East Ridge, TN 37412</li>
-<li><strong>Dirty Jane&#x27;s Antiques</strong> &mdash; 1910 Dayton Blvd, Red Bank, TN 37415</li>
-<li><strong>Vintage &amp; More On The Blvd</strong> &mdash; 3920 Dayton Blvd, Red Bank, TN 37415</li>
-</ul>
-<h3>Vintage and curated shops</h3><ul>
-<li data-closes-after="2026-12-27"><strong>Vinterest Southside</strong> &mdash; 2121 Chestnut St, Chattanooga, TN 37408</li>
-<li><strong>Poor Taste</strong> &mdash; 61 E Main St, Chattanooga, TN 37408</li>
-<li><strong>Edith&#x27;s Emporium</strong> &mdash; 1914 McCallie Ave, Chattanooga, TN 37404</li>
-<li><strong>Collective Clothing</strong> &mdash; 40 Frazier Ave, Chattanooga, TN 37405</li>
-<li><strong>Vinterest - Hixson</strong> &mdash; 2105 Northpoint Blvd, Hixson, TN 37343</li>
-<li><strong>Local Dive Retail</strong> &mdash; 607 Cherokee Blvd D, Chattanooga, TN 37405</li>
-<li><strong>THE REFINDERY on McCallie</strong> &mdash; 1300 McCallie Ave, Chattanooga, TN 37404</li>
-<li><strong>Electric Crocodile (North Shore)</strong> &mdash; 607 Cherokee Blvd Ste 1, Chattanooga, TN 37405</li>
-<li><strong>Electric Crocodile (Southside)</strong> &mdash; 1791 Reggie White Blvd, Chattanooga, TN 37408</li>
-</ul>
+<p>The Chattanooga Thrift Trail is a free, self-guided map of more than 30 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours today.</p>
+<p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
+<details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 13</strong> &mdash; Jewel Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>Apr 22</strong> &mdash; Earth Day</li><li><strong>May 3</strong> &mdash; National Textiles Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Jun 1</strong> &mdash; Tennessee Statehood Day</li><li><strong>Jun 13</strong> &mdash; Sewing Machine Day</li><li><strong>Jun 23</strong> &mdash; National Typewriter Day</li><li><strong>Jun 29</strong> &mdash; Camera Day</li><li><strong>Jul 15</strong> &mdash; National Give Something Away Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Oct 10</strong> &mdash; Handbag Day</li><li><strong>Oct 21</strong> &mdash; Count Your Buttons Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
       <p class="ctt-version">v6.9 &mdash; October 28, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
@@ -2059,6 +2070,144 @@
     if (now.dayIdx === 6) return store.name === 'Poor Taste';
     return store.name === (now.dateStr >= '2027-01-01' ? 'Vinterest - Hixson' : 'Vinterest Southside');
   }
+
+var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02": ["🍰", "National Cream Puff Day"], "01-03": ["🍰", "Fruitcake Toss Day"], "01-04": ["🧠", "Trivia Day"], "01-05": ["🐦", "National Bird Day"], "01-06": ["🫘", "Bean Day"], "01-07": ["🪨", "Old Rock Day"], "01-08": ["🌍", "Earth's Rotation Day"], "01-09": ["⚡", "Static Electricity Day"], "01-10": ["🪴", "Houseplant Appreciation Day"], "01-11": ["📡", "Learn Your Name in Morse Code Day"], "01-12": ["🍬", "Marzipan Day"], "01-13": ["🌠", "Make Your Dreams Come True Day"], "01-14": ["🐶", "Dress Up Your Pet Day"], "01-15": ["🍓", "Strawberry Ice Cream Day"], "01-16": ["🛋️", "Nothing Day"], "01-17": ["🧪", "Kid Inventors' Day"], "01-18": ["📖", "Thesaurus Day"], "01-19": ["🍿", "National Popcorn Day"], "01-20": ["🐧", "Penguin Awareness Day"], "01-21": ["🐿️", "Squirrel Appreciation Day"], "01-22": ["🐈", "Answer Your Cat's Questions Day"], "01-23": ["✍️", "National Handwriting Day"], "01-24": ["💬", "Compliment Day"], "01-25": ["🙃", "Opposite Day"], "01-26": ["🥜", "National Peanut Brittle Day"], "01-27": ["🍫", "Chocolate Cake Day"], "01-28": ["🎉", "Fun at Work Day"], "01-29": ["🧩", "Puzzle Day"], "01-30": ["🥐", "Croissant Day"], "01-31": ["🔄", "Backwards Day"], "02-01": ["🍫", "National Dark Chocolate Day"], "02-02": ["🦫", "Groundhog Day"], "02-03": ["🥕", "Carrot Cake Day"], "02-04": ["🍄", "Stuffed Mushroom Day"], "02-05": ["🫕", "Chocolate Fondue Day"], "02-06": ["🦆", "Lame Duck Day"], "02-07": ["💌", "National Send a Card to a Friend Day"], "02-08": ["😂", "Laugh and Get Rich Day"], "02-09": ["🍕", "National Pizza Day"], "02-10": ["☂️", "Umbrella Day"], "02-11": ["🥛", "Don't Cry Over Spilled Milk Day"], "02-12": ["🧁", "National Plum Pudding Day"], "02-13": ["📻", "World Radio Day"], "02-14": ["🎡", "Ferris Wheel Day"], "02-15": ["🍬", "Gumdrop Day"], "02-16": ["😠", "Do a Grouch a Favor Day"], "02-17": ["💝", "Random Acts of Kindness Day"], "02-18": ["🔋", "Battery Day"], "02-19": ["🍫", "Chocolate Mint Day"], "02-20": ["🐾", "National Love Your Pet Day"], "02-21": ["🥮", "National Sticky Bun Day"], "02-22": ["🧘", "Be Humble Day"], "02-23": ["🦴", "International Dog Biscuit Appreciation Day"], "02-24": ["🌮", "Tortilla Chip Day"], "02-25": ["🍫", "National Chocolate Covered Nut Day"], "02-26": ["🧚", "Tell a Fairy Tale Day"], "02-27": ["🐻‍❄️", "International Polar Bear Day"], "02-28": ["😴", "Public Sleeping Day"], "02-29": ["🐸", "Leap Day"], "03-01": ["🥜", "Peanut Butter Lover's Day"], "03-02": ["📻", "Old Stuff Day"], "03-03": ["🐾", "If Pets Had Thumbs Day"], "03-04": ["🚀", "March Forth and Do Something Day"], "03-05": ["🎊", "Cinco de Marcho"], "03-06": ["🍪", "National Oreo Cookie Day"], "03-07": ["🥣", "National Cereal Day"], "03-08": ["📝", "Proofreading Day"], "03-09": ["🍝", "National Meatball Day"], "03-10": ["🍄", "Mario Day"], "03-11": ["🧇", "Oatmeal Nut Waffle Day"], "03-12": ["🎬", "Alfred Hitchcock Day"], "03-13": ["💎", "Jewel Day"], "03-14": ["🥧", "Pi Day"], "03-15": ["🙃", "Everything You Think Is Wrong Day"], "03-16": ["🏆", "Everything You Do Is Right Day"], "03-17": ["🍀", "St. Patrick's Day"], "03-18": ["😳", "Awkward Moments Day"], "03-19": ["😂", "Let's Laugh Day"], "03-20": ["📖", "World Storytelling Day"], "03-21": ["🧦", "National Common Courtesy Day"], "03-22": ["🛋️", "International Goof Off Day"], "03-23": ["🐶", "Puppy Day"], "03-24": ["🍫", "Chocolate Covered Raisins Day"], "03-25": ["🧙", "Tolkien Reading Day"], "03-26": ["🎉", "Make Up Your Own Holiday Day"], "03-27": ["🥘", "Spanish Paella Day"], "03-28": ["🍡", "Something on a Stick Day"], "03-29": ["🪄", "Smoke and Mirrors Day"], "03-30": ["🌳", "Take a Walk in the Park Day"], "03-31": ["🧪", "Bunsen Burner Day"], "04-01": ["🤡", "April Fools' Day"], "04-02": ["🥜", "National Peanut Butter and Jelly Day"], "04-03": ["🎊", "World Party Day"], "04-04": ["🥕", "International Carrot Day"], "04-05": ["🗺️", "Read a Road Map Day"], "04-06": ["🍿", "National Caramel Popcorn Day"], "04-07": ["🧺", "National No Housework Day"], "04-08": ["🦁", "National Zoo Lovers Day"], "04-09": ["🦄", "National Unicorn Day"], "04-10": ["🫂", "Siblings Day"], "04-11": ["🐕", "National Pet Day"], "04-12": ["🧀", "Grilled Cheese Day"], "04-13": ["🔤", "Scrabble Day"], "04-14": ["😂", "International Moment of Laughter Day"], "04-15": ["🧺", "National Laundry Day"], "04-16": ["🍳", "Eggs Benedict Day"], "04-17": ["🦇", "Bat Appreciation Day"], "04-18": ["🐻", "National Animal Crackers Day"], "04-19": ["🧄", "National Garlic Day"], "04-20": ["🍍", "National Pineapple Upside-Down Cake Day"], "04-21": ["🍫", "National Chocolate Covered Cashews Day"], "04-22": ["🍬", "Jelly Bean Day"], "04-23": ["🚀", "Impossible Astronaut Day"], "04-24": ["🐷", "National Pigs in a Blanket Day"], "04-25": ["🐧", "World Penguin Day"], "04-26": ["🥨", "Pretzel Day"], "04-27": ["📖", "National Tell a Story Day"], "04-28": ["🫐", "National Blueberry Pie Day"], "04-29": ["🤐", "Zipper Day"], "04-30": ["🧋", "National Bubble Tea Day"], "05-01": ["🦇", "Batman Day"], "05-02": ["🍫", "National Truffle Day"], "05-03": ["👟", "National Two Different Colored Shoes Day"], "05-04": ["⭐", "Star Wars Day"], "05-05": ["🌮", "Cinco de Mayo"], "05-06": ["🥤", "Beverage Day"], "05-07": ["🍗", "National Roast Leg of Lamb Day"], "05-08": ["🥥", "National Coconut Cream Pie Day"], "05-09": ["🧦", "Lost Sock Memorial Day"], "05-10": ["🦐", "National Shrimp Day"], "05-11": ["🍕", "Eat What You Want Day"], "05-12": ["✍️", "Limerick Day"], "05-13": ["🐸", "Frog Jumping Day"], "05-14": ["🐔", "Dance Like a Chicken Day"], "05-15": ["🍪", "Chocolate Chip Day"], "05-16": ["🥩", "National Barbecue Day"], "05-17": ["🍒", "National Cherry Cobbler Day"], "05-18": ["🍽️", "No Dirty Dishes Day"], "05-19": ["☀️", "May Ray Day"], "05-20": ["💰", "Be a Millionaire Day"], "05-21": ["🛸", "Talk Like Yoda Day"], "05-22": ["🎸", "Buy a Musical Instrument Day"], "05-23": ["🐢", "World Turtle Day"], "05-24": ["🗺️", "Scavenger Hunt Day"], "05-25": ["🪐", "Towel Day"], "05-26": ["🫐", "National Blueberry Cheesecake Day"], "05-27": ["🍇", "National Grape Popsicle Day"], "05-28": ["🍔", "Hamburger Day"], "05-29": ["🧊", "Put a Pillow on Your Fridge Day"], "05-30": ["🪣", "My Bucket's Got a Hole Day"], "05-31": ["🦜", "World Parrot Day"], "06-01": ["🥛", "World Milk Day"], "06-02": ["🍗", "National Rotisserie Chicken Day"], "06-03": ["🥚", "National Egg Day"], "06-04": ["🧀", "National Cheese Day"], "06-05": ["🌍", "World Environment Day"], "06-06": ["🎬", "Drive-In Movie Day"], "06-07": ["🍫", "Chocolate Ice Cream Day"], "06-08": ["🌊", "World Oceans Day"], "06-09": ["🥧", "Strawberry Rhubarb Pie Day"], "06-10": ["🧊", "Iced Tea Day"], "06-11": ["🌽", "Corn on the Cob Day"], "06-12": ["🍪", "Peanut Butter Cookie Day"], "06-13": ["🪡", "Sewing Machine Day"], "06-14": ["🇺🇸", "Flag Day"], "06-15": ["📸", "Nature Photography Day"], "06-16": ["🐢", "World Sea Turtle Day"], "06-17": ["🥦", "Eat Your Vegetables Day"], "06-18": ["🍣", "International Sushi Day"], "06-20": ["🍦", "Ice Cream Soda Day"], "06-21": ["🦒", "World Giraffe Day"], "06-22": ["🧅", "Onion Rings Day"], "06-23": ["💗", "National Pink Day"], "06-24": ["🧚", "International Fairy Day"], "06-25": ["🍓", "Strawberry Parfait Day"], "06-26": ["🍫", "Chocolate Pudding Day"], "06-27": ["🕶️", "Sunglasses Day"], "06-28": ["🍨", "National Tapioca Day"], "06-29": ["📷", "Camera Day"], "06-30": ["🌠", "Meteor Watch Day"], "07-01": ["🍦", "Creative Ice Cream Flavors Day"], "07-02": ["🛸", "World UFO Day"], "07-03": ["🍫", "National Chocolate Wafer Day"], "07-04": ["🎆", "Independence Day"], "07-05": ["🥧", "National Apple Turnover Day"], "07-06": ["🍗", "National Fried Chicken Day"], "07-07": ["🍫", "World Chocolate Day"], "07-08": ["🎮", "Video Game Day"], "07-09": ["🍪", "National Sugar Cookie Day"], "07-10": ["🧸", "Teddy Bear Picnic Day"], "07-11": ["🫐", "National Blueberry Muffin Day"], "07-12": ["🥧", "National Pecan Pie Day"], "07-13": ["🍟", "National French Fry Day"], "07-14": ["🧀", "National Mac and Cheese Day"], "07-15": ["🐴", "National I Love Horses Day"], "07-16": ["🐍", "World Snake Day"], "07-17": ["😂", "World Emoji Day"], "07-18": ["🍬", "National Sour Candy Day"], "07-19": ["🍰", "National Raspberry Cake Day"], "07-20": ["♟️", "International Chess Day"], "07-21": ["🍭", "National Junk Food Day"], "07-22": ["🥭", "National Mango Day"], "07-23": ["🍦", "National Vanilla Ice Cream Day"], "07-24": ["👪", "National Cousins Day"], "07-25": ["🍨", "National Hot Fudge Sundae Day"], "07-26": ["🥯", "National Bagelfest Day"], "07-27": ["🥃", "National Scotch Day"], "07-28": ["🍫", "National Milk Chocolate Day"], "07-29": ["🍗", "National Chicken Wing Day"], "07-30": ["🤝", "International Friendship Day"], "07-31": ["🥑", "National Avocado Day"], "08-01": ["🕷️", "Spider-Man Day"], "08-02": ["🍦", "National Ice Cream Sandwich Day"], "08-03": ["🍉", "National Watermelon Day"], "08-04": ["🍪", "National Chocolate Chip Cookie Day"], "08-05": ["🦪", "National Oyster Day"], "08-06": ["🥤", "National Root Beer Float Day"], "08-07": ["🗼", "National Lighthouse Day"], "08-08": ["🐈", "International Cat Day"], "08-09": ["📚", "National Book Lovers Day"], "08-10": ["🔥", "National S'mores Day"], "08-11": ["🏖️", "Play in the Sand Day"], "08-12": ["🐘", "World Elephant Day"], "08-13": ["🥩", "National Filet Mignon Day"], "08-14": ["🍦", "National Creamsicle Day"], "08-15": ["😌", "National Relaxation Day"], "08-16": ["🎢", "National Roller Coaster Day"], "08-17": ["🐈‍⬛", "Black Cat Appreciation Day"], "08-18": ["🍨", "National Ice Cream Pie Day"], "08-19": ["📸", "World Photography Day"], "08-20": ["🍫", "National Chocolate Pecan Pie Day"], "08-21": ["🧓", "National Senior Citizens Day"], "08-22": ["😇", "Be an Angel Day"], "08-23": ["🍰", "National Sponge Cake Day"], "08-24": ["🧇", "National Waffle Day"], "08-25": ["🍌", "National Banana Split Day"], "08-26": ["🐕", "National Dog Day"], "08-27": ["🍌", "National Banana Lovers Day"], "08-28": ["🍒", "National Cherry Turnover Day"], "08-29": ["🍋", "National Lemon Juice Day"], "08-30": ["🏖️", "National Beach Day"], "08-31": ["🥜", "National Trail Mix Day"], "09-01": ["🤪", "No Rhyme or Reason Day"], "09-02": ["🦬", "Bison Ten Yell Day"], "09-03": ["🏙️", "Skyscraper Day"], "09-04": ["🍰", "Eat an Extra Dessert Day"], "09-05": ["🍕", "Cheese Pizza Day"], "09-06": ["📚", "Read a Book Day"], "09-07": ["🥪", "Salami Day"], "09-08": ["🖖", "Star Trek Day"], "09-09": ["🧸", "Teddy Bear Day"], "09-10": ["💡", "Swap Ideas Day"], "09-12": ["🥤", "Chocolate Milkshake Day"], "09-13": ["🐶", "Hug Your Hound Day"], "09-14": ["🍩", "National Cream-Filled Donut Day"], "09-15": ["🎩", "Make a Hat Day"], "09-16": ["🥑", "Guacamole Day"], "09-17": ["🍎", "National Apple Dumpling Day"], "09-18": ["🍔", "National Cheeseburger Day"], "09-19": ["🏴‍☠️", "International Talk Like a Pirate Day"], "09-20": ["🍹", "Punch Day"], "09-21": ["⛳", "Miniature Golf Day"], "09-22": ["🧙", "Hobbit Day"], "09-23": ["♟️", "Checkers Day"], "09-24": ["✏️", "Punctuation Day"], "09-25": ["🦸", "Comic Book Day"], "09-26": ["💌", "Love Note Day"], "09-27": ["🥫", "Crush a Can Day"], "09-28": ["❓", "Ask a Stupid Question Day"], "09-29": ["☕", "National Coffee Day"], "09-30": ["🍎", "Hot Mulled Cider Day"], "10-01": ["☕", "International Coffee Day"], "10-02": ["🚗", "National Name Your Car Day"], "10-03": ["💌", "World Card Making Day"], "10-04": ["🌮", "National Taco Day"], "10-05": ["🕵️", "Chic Spy Day"], "10-06": ["🎩", "Mad Hatter Day"], "10-07": ["🥤", "Frappé Day"], "10-08": ["🥟", "Pierogi Day"], "10-09": ["🛸", "Curious Events Day"], "10-10": ["👜", "Handbag Day"], "10-11": ["🎉", "It's My Party Day"], "10-12": ["🌽", "Old Farmers Day"], "10-13": ["🧠", "International Skeptics Day"], "10-14": ["🍰", "National Dessert Day"], "10-15": ["📺", "I Love Lucy Day"], "10-16": ["📖", "Dictionary Day"], "10-17": ["🦚", "Wear Something Gaudy Day"], "10-18": ["🧁", "Chocolate Cupcake Day"], "10-19": ["💻", "Clean Out Your Virtual Desktop Day"], "10-20": ["🦥", "International Sloth Day"], "10-21": ["🔘", "Count Your Buttons Day"], "10-22": ["🔠", "CAPS LOCK DAY"], "10-23": ["🧪", "Mole Day"], "10-24": ["🥪", "Bologna Day"], "10-25": ["🍋", "Sourest Day"], "10-26": ["🐺", "Howl at the Moon Day and Night"], "10-27": ["🐈‍⬛", "National Black Cat Day"], "10-28": ["🍫", "National Chocolate Day"], "10-29": ["🐈", "National Cat Day"], "10-30": ["🍬", "Candy Corn Day"], "10-31": ["👻", "Halloween"], "11-01": ["🍏", "National Caramel Apple Day"], "11-02": ["🥚", "Deviled Eggs Day"], "11-03": ["🥪", "Sandwich Day"], "11-04": ["🍬", "National Candy Day"], "11-05": ["🍩", "National Donut Day"], "11-06": ["🎷", "Saxophone Day"], "11-07": ["🍫", "Bittersweet Chocolate with Almonds Day"], "11-08": ["👅", "Tongue Twister Day"], "11-09": ["🌪️", "Chaos Never Dies Day"], "11-10": ["🧁", "Vanilla Cupcake Day"], "11-11": ["🦢", "Origami Day"], "11-12": ["🍕", "National Pizza with the Works Except Anchovies Day"], "11-13": ["💗", "World Kindness Day"], "11-14": ["🥒", "Pickle Day"], "11-15": ["🧊", "Clean Out Your Refrigerator Day"], "11-16": ["🍔", "Fast Food Day"], "11-17": ["🥾", "Take a Hike Day"], "11-18": ["🐭", "Mickey Mouse Day"], "11-19": ["🎲", "National Play Monopoly Day"], "11-20": ["🤪", "National Absurdity Day"], "11-21": ["👋", "World Hello Day"], "11-22": ["🚲", "Go for a Ride Day"], "11-23": ["🔢", "Fibonacci Day"], "11-24": ["🎤", "Celebrate Your Unique Talent Day"], "11-25": ["🍨", "National Parfait Day"], "11-26": ["🎂", "Cake Day"], "11-27": ["🥧", "National Bavarian Cream Pie Day"], "11-28": ["🪐", "Red Planet Day"], "11-29": ["💃", "National Square Dance Day"], "11-30": ["🍮", "National Mousse Day"], "12-01": ["🍎", "Eat a Red Apple Day"], "12-02": ["🍩", "Fritters Day"], "12-03": ["🎁", "Make a Gift Day"], "12-04": ["🍪", "Cookie Day"], "12-05": ["🛁", "Bathtub Party Day"], "12-06": ["🥣", "Gazpacho Day"], "12-07": ["🍭", "Cotton Candy Day"], "12-08": ["🍫", "Brownie Day"], "12-09": ["🦙", "National Llama Day"], "12-10": ["📚", "National Dewey Decimal System Day"], "12-11": ["🥯", "Have a Bagel Day"], "12-12": ["🏠", "Gingerbread House Day"], "12-13": ["🎻", "Violin Day"], "12-14": ["🐒", "Monkey Day"], "12-15": ["🧁", "National Cupcake Day"], "12-16": ["🍫", "Chocolate Covered Anything Day"], "12-17": ["🍁", "Maple Syrup Day"], "12-18": ["🍪", "Bake Cookies Day"], "12-19": ["🧁", "Oatmeal Muffin Day"], "12-20": ["🎶", "Go Caroling Day"], "12-21": ["🧩", "Crossword Puzzle Day"], "12-22": ["🍞", "Date Nut Bread Day"], "12-23": ["🎉", "Festivus"], "12-24": ["🥛", "Eggnog Day"], "12-25": ["🎅", "Christmas Day"], "12-26": ["💌", "Thank You Note Day"], "12-27": ["🍰", "Fruitcake Day"], "12-28": ["🃏", "Card Playing Day"], "12-29": ["🍲", "Pepper Pot Day"], "12-30": ["🥓", "National Bacon Day"], "12-31": ["🥂", "New Year's Eve"]};
+  var HOLIDAY_STARS = {"02-27": {"e": "📻", "n": "National Retro Day", "t": "Everything vintage deserves the spotlight. Go find something retro!", "top": false, "teaser": false}, "03-02": {"e": "📻", "n": "Old Stuff Day", "t": "Old stuff is our specialty. Go find some!", "top": false, "teaser": false}, "03-13": {"e": "💎", "n": "Jewel Day", "t": "Vintage jewelry is one of thrifting’s best treasures.", "top": false, "teaser": false}, "03-18": {"e": "♻️", "n": "Global Recycling Day", "t": "Thrifting keeps good stuff out of the landfill.", "top": false, "teaser": false}, "03-29": {"e": "🏪", "n": "Mom and Pop Business Owners Day", "t": "Every shop on the Trail is somebody’s passion. Shop local today!", "top": false, "teaser": false}, "04-22": {"e": "🌎", "n": "Earth Day", "t": "Thrifting is the original recycling. Give something a second life!", "top": true, "teaser": false}, "05-03": {"e": "🧵", "n": "National Textiles Day", "t": "Fabric, linens and quilts: the Trail is full of them.", "top": false, "teaser": false}, "05-22": {"e": "🎸", "n": "Buy a Musical Instrument Day", "t": "Secondhand instruments are the best deal around.", "top": false, "teaser": false}, "05-24": {"e": "🔍", "n": "Scavenger Hunt Day", "t": "That’s literally what the Thrift Trail is. Happy hunting!", "top": false, "teaser": false}, "06-01": {"e": "⭐", "n": "Tennessee Statehood Day", "t": "Tennessee pride! Shop local, thrift local.", "top": true, "teaser": false}, "06-13": {"e": "🪡", "n": "Sewing Machine Day", "t": "Hunt for vintage sewing machines and notions.", "top": false, "teaser": false}, "06-23": {"e": "⌨️", "n": "National Typewriter Day", "t": "Vintage typewriters are waiting for you.", "top": false, "teaser": false}, "06-29": {"e": "📷", "n": "Camera Day", "t": "Vintage cameras turn up on the Trail all the time.", "top": false, "teaser": false}, "07-15": {"e": "🎁", "n": "National Give Something Away Day", "t": "Donate something you no longer need, then go hunting!", "top": false, "teaser": false}, "08-12": {"e": "💿", "n": "National Vinyl Record Day", "t": "Dig through the crates. Treasure is in there!", "top": false, "teaser": false}, "08-17": {"e": "🛍️", "n": "National Thrift Store Day", "t": "It’s OUR day! Visit a shop on the Trail and show some love.", "top": true, "teaser": true}, "08-25": {"e": "👗", "n": "National Secondhand Wardrobe Day", "t": "Refresh your closet the secondhand way!", "top": true, "teaser": true}, "10-07": {"e": "🏷️", "n": "National Consignment Day", "t": "Our kind of holiday! Shop consignment today.", "top": true, "teaser": true}, "10-10": {"e": "👜", "n": "Handbag Day", "t": "Vintage handbags are a thrift-store specialty.", "top": false, "teaser": false}, "10-21": {"e": "🔘", "n": "Count Your Buttons Day", "t": "Vintage buttons: a thrifter’s secret treasure.", "top": false, "teaser": false}, "11-15": {"e": "♻️", "n": "America Recycles Day", "t": "Thrifting is recycling. Make today count!", "top": false, "teaser": false}};
+
+  var HOLIDAY_SALES = 'Check each shop’s website and social media for holiday sales.';
+  function hdParse(ds) { var p = ds.split('-'); return { y: +p[0], m: +p[1] - 1, d: +p[2] }; }
+  function hdNth(y, m, wd, n) { var first = new Date(Date.UTC(y, m, 1)).getUTCDay(); return 1 + ((wd - first + 7) % 7) + (n - 1) * 7; }
+  function hdLast(y, m, wd) { var last = new Date(Date.UTC(y, m + 1, 0)); return last.getUTCDate() - ((last.getUTCDay() - wd + 7) % 7); }
+  function hdEaster(y) { // Gregorian Easter (month 0-11, day)
+    var a = y % 19, b = Math.floor(y / 100), c = y % 100, dd = Math.floor(b / 4), e = b % 4,
+        f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - dd - g + 15) % 30,
+        i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7,
+        m = Math.floor((a + 11 * h + 22 * l) / 451), mo = Math.floor((h + l - 7 * m + 114) / 31),
+        da = ((h + l - 7 * m + 114) % 31) + 1;
+    return { m: mo - 1, d: da };
+  }
+  function hdDaysUntil(t, m, d) { return Math.round((Date.UTC(t.y, m, d) - Date.UTC(t.y, t.m, t.d)) / 86400000); }
+  var HD_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  // Returns { kind: 'major'|'week'|'star'|'holiday'|'small', e, head, body, tag } or null.
+  // Big holidays and thrift days are prominent; the goofy "national days" are a tiny one-line note.
+  function getHolidayBanner(ds) {
+    var t = hdParse(ds), y = t.y, mmdd = ds.slice(5);
+    var easter = hdEaster(y), thanks = hdNth(y, 10, 4, 4);
+
+    // 1. Big holidays: hours + sales reminder
+    var majors = [
+      { m: 0, d: 1, e: '🎆', head: 'Happy New Year!' },
+      { m: easter.m, d: easter.d, e: '🐣', head: 'Happy Easter!' },
+      { m: 4, d: hdLast(y, 4, 1), e: '🇺🇸', head: 'Memorial Day. We remember and honor those who gave their lives in service.' },
+      { m: 6, d: 4, e: '🎆', head: 'Happy 4th of July!' },
+      { m: 8, d: hdNth(y, 8, 1, 1), e: '🛠️', head: 'Happy Labor Day!' },
+      { m: 10, d: thanks, e: '🦃', head: 'Happy Thanksgiving!' },
+      { m: 11, d: 24, e: '🎄', head: 'Merry Christmas Eve!' },
+      { m: 11, d: 25, e: '🎄', head: 'Merry Christmas!' },
+      { m: 11, d: 31, e: '🎉', head: 'Happy New Year’s Eve!' }
+    ];
+    for (var i = 0; i < majors.length; i++) {
+      if (majors[i].m === t.m && majors[i].d === t.d) {
+        return { kind: 'major', e: majors[i].e, tag: 'Holiday hours', head: majors[i].head,
+          body: 'Many shops are closed or on holiday hours today. Check each shop’s Google listing for updated hours, and their website and social media for holiday sales.' };
+      }
+    }
+
+    // 2. The week before Easter, Halloween, Thanksgiving and Christmas
+    var weeks = [
+      { m: easter.m, d: easter.d, e: '🐰', head: 'Hoppy Easter week!', label: 'Easter', tail: 'Spring finds are blooming.', min: 1 },
+      { m: 9, d: 31, e: '🎃', head: 'Halloween week!', label: 'Halloween', tail: 'Thrift stores are the best costume shops.', min: 1 },
+      { m: 10, d: thanks, e: '🦃', head: 'Thanksgiving week!', label: 'Thanksgiving', tail: 'Thankful for thrift finds.', min: 1 },
+      { m: 11, d: 25, e: '🎄', head: 'Happy Holidays!', label: 'Christmas', tail: 'Thrifted gifts are the best gifts.', min: 2 }
+    ];
+    for (var w = 0; w < weeks.length; w++) {
+      var n = hdDaysUntil(t, weeks[w].m, weeks[w].d);
+      if (n >= weeks[w].min && n <= 7) {
+        return { kind: 'week', e: weeks[w].e, head: weeks[w].head + ' ' + (n === 1 ? 'Tomorrow is ' : n + ' days until ') + weeks[w].label + '.',
+          body: weeks[w].tail + ' ' + HOLIDAY_SALES };
+      }
+    }
+    if (t.m === 9 && t.d === 31) return { kind: 'holiday', e: '🎃', head: 'Happy Halloween!', body: 'Thrift stores are the best costume shops. ' + HOLIDAY_SALES };
+
+    // 3. Thrift spotlight days (and Small Business Saturday)
+    var star = HOLIDAY_STARS[mmdd];
+    if (t.m === 10 && t.d === thanks + 2) star = { e: '🛍️', n: 'Small Business Saturday', t: 'Shop small, shop local, and thrift with your neighbors!', top: true };
+    if (star) return { kind: 'star', top: !!star.top, e: star.e, tag: 'Thrift spotlight', head: 'Today is ' + star.n + '!', body: star.t };
+
+    // 4. Teaser: the week before the three big thrift days
+    for (var key in HOLIDAY_STARS) {
+      var s = HOLIDAY_STARS[key];
+      if (!s.teaser) continue;
+      var tn = hdDaysUntil(t, +key.slice(0, 2) - 1, +key.slice(3));
+      if (tn >= 1 && tn <= 7) {
+        return { kind: 'star', top: true, e: s.e, tag: 'Coming up', head: s.n + ' is ' + (tn === 1 ? 'tomorrow' : 'in ' + tn + ' days (' + HD_MONTHS[+key.slice(0, 2) - 1] + ' ' + (+key.slice(3)) + ')') + '!', body: s.t };
+      }
+    }
+
+    // 5. Other well-known days: Valentine's, Mother's, Father's, Veterans
+    if (t.m === 8 && t.d === 11) return { kind: 'holiday', e: '\uD83C\uDDFA\uD83C\uDDF8', head: 'Patriot Day', body: 'We remember September 11, 2001, and honor the lives lost and the heroes who answered.' };
+    if (t.m === 1 && t.d === 14) return { kind: 'holiday', e: '💝', head: 'Happy Valentine’s Day!', body: 'Vintage finds for the ones you love.' };
+    if (t.m === 4 && t.d === hdNth(y, 4, 0, 2)) return { kind: 'holiday', e: '🌷', head: 'Happy Mother’s Day!', body: 'Take Mom thrifting!' };
+    if (t.m === 5 && t.d === hdNth(y, 5, 0, 3)) return { kind: 'holiday', e: '👔', head: 'Happy Father’s Day!', body: 'Take Dad thrifting!' };
+    if (t.m === 10 && t.d === 11) return { kind: 'holiday', e: '🇺🇸', head: 'Veterans Day', body: 'Thank you to all who have served.' };
+
+    // 6. Goofy "national days": one small line
+    var floaters = [
+      { m: 1, d: hdNth(y, 1, 6, 1), e: '🍦', n: 'Eat Ice Cream for Breakfast Day' },
+      { m: 2, d: hdNth(y, 2, 0, 2) + 1, e: '😴', n: 'Napping Day' },
+      { m: 4, d: hdNth(y, 4, 6, 1), e: '📚', n: 'Free Comic Book Day' },
+      { m: 5, d: hdNth(y, 5, 5, 1), e: '🍩', n: 'National Donut Day' },
+      { m: 6, d: hdNth(y, 6, 0, 3), e: '🍦', n: 'National Ice Cream Day' },
+      { m: 9, d: hdNth(y, 9, 5, 1), e: '😊', n: 'World Smile Day' }
+    ];
+    for (var f = 0; f < floaters.length; f++) {
+      if (floaters[f].m === t.m && floaters[f].d === t.d) return { kind: 'small', e: floaters[f].e, head: 'Today is ' + floaters[f].n + '!' };
+    }
+    var fun = HOLIDAY_FUN[mmdd];
+    if (fun) return { kind: 'small', e: fun[0], head: 'Today is ' + fun[1] + '!' };
+    return null;
+  }
+
+  var hdCache = {};
+  function holidayFor(ds) { if (!(ds in hdCache)) hdCache[ds] = getHolidayBanner(ds); return hdCache[ds]; }
+  // On big-holiday days the usual "Open" badges can't be trusted, so cards say "Check hours" instead.
+  function isHoursCheckDay() { var b = holidayFor(getEasternNow().dateStr); return !!(b && b.kind === 'major'); }
+  function checkHoursBadge(store) {
+    var url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(store.name + ' ' + store.address);
+    return '<a class="ctt-open-badge check" href="' + url + '" target="_blank" rel="noopener" title="Open this shop’s Google listing">Check hours &rarr;</a>';
+  }
+  function renderHolidayBanner() {
+    var el = document.getElementById('ctt-holiday');
+    if (!el) return;
+    var ds = getEasternNow().dateStr, b = holidayFor(ds);
+    if (!b) { el.style.display = 'none'; return; }
+    if (b.kind === 'small') {
+      el.className = 'ctt-holiday-small';
+      el.textContent = b.e + ' ' + b.head;
+      el.style.display = 'block';
+      return;
+    }
+    var dismissed = null;
+    try { dismissed = localStorage.getItem('ctt-holiday-dismissed'); } catch (e) {}
+    if (dismissed === ds) { el.style.display = 'none'; return; }
+    el.className = 'ctt-holiday-card ctt-hd-' + b.kind + (b.top ? ' ctt-hd-top' : '');
+    el.innerHTML = '<div class="ctt-holiday-emo" aria-hidden="true">' + b.e + '</div>' +
+      '<div class="ctt-holiday-text">' + (b.tag ? '<div class="ctt-holiday-tag">' + (b.kind === 'star' ? '&#9733; ' : '') + b.tag + '</div>' : '') +
+      '<div class="ctt-holiday-head">' + b.head + '</div>' +
+      (b.body ? '<div class="ctt-holiday-body">' + b.body + '</div>' : '') + '</div>' +
+      '<button type="button" class="ctt-holiday-x" aria-label="Dismiss">&times;</button>';
+    el.style.display = 'flex';
+    el.querySelector('.ctt-holiday-x').addEventListener('click', function() {
+      el.style.display = 'none';
+      try { localStorage.setItem('ctt-holiday-dismissed', ds); } catch (e) {}
+      cttTrack('holiday_banner_dismiss', { kind: b.kind });
+    });
+    cttTrack('holiday_banner_view', { kind: b.kind, name: b.head });
+  }
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest && e.target.closest('.ctt-open-badge.check')) cttTrack('check_hours_click');
+  });
 
   function getOpenStatus(hoursStr) {
     var schedule = parseHoursString(hoursStr);
@@ -2520,7 +2669,7 @@
       : '';
     card.innerHTML =
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
-      (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
+      (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop <button type="button" class="ctt-feat-more">See all featured shops</button></div>' : '') +
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? '' : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
@@ -2529,10 +2678,11 @@
       reasonHtml +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
       '<div class="ctt-tag-note">' + store.note + (store.myNote ? '<br><em>' + store.myNote + '</em>' : '') + '</div>' +
+      '<div class="ctt-report-row"><button type="button" class="ctt-report-btn" title="Closed? Wrong hours? Tell us.">&#9873; Report a problem</button></div>' +
       '<div class="ctt-tag-bottom-row">' +
         '<div class="ctt-tag-meta">' +
           '<span class="ctt-badge" style="background:' + color + ';">' + store.category + '</span>' +
-          (function() { var s = getOpenStatus(store.hours); return '<span class="ctt-open-badge ' + s.state + '">' + s.text + '</span>'; })() +
+          (function() { if (isHoursCheckDay()) return checkHoursBadge(store); var s = getOpenStatus(store.hours); return '<span class="ctt-open-badge ' + s.state + '">' + s.text + '</span>'; })() +
           '<span class="ctt-tag-rating-wrap" data-rating-display="' + encodeURIComponent(store.name) + '" data-seed-rating="' + (store.myRating === null || store.myRating === undefined ? '' : store.myRating) + '">' + renderStars(store.myRating) + '</span>' +
         '</div>' +
         '<div class="ctt-review-toggle-row">' +
@@ -3386,6 +3536,91 @@
   // Hide a closed shop from the plain-text shop list once its closing date has passed.
   Array.prototype.forEach.call(document.querySelectorAll('.ctt-seo [data-closes-after]'), function(li) {
     if (getEasternNow().dateStr > li.getAttribute('data-closes-after')) li.style.display = 'none';
+  });
+
+  renderHolidayBanner();
+
+  // ---- Featured shops list (opens in place; keep in sync with isFeaturedToday) ----
+  var FEATURED_SCHEDULE = [
+    { name: 'Vinterest Southside', when: 'Featured Sunday through Friday, through Dec 27, 2026', to: '2026-12-27' },
+    { name: 'Vinterest - Hixson', when: 'Featured Sunday through Friday, starting Jan 1, 2027' },
+    { name: 'Poor Taste', when: 'Featured every Saturday' }
+  ];
+  function renderFeaturedPanel() {
+    var panel = document.getElementById('ctt-featured-panel');
+    var today = getEasternNow().dateStr;
+    var html = '<h3>&#9733; Featured Shops</h3><p>The Trail&rsquo;s spotlight stops, marked with a gold star. Who&rsquo;s featured, and when:</p>';
+    FEATURED_SCHEDULE.forEach(function(f) {
+      var s = locationsByName[f.name];
+      if (!s || (f.to && today > f.to)) return;
+      html += '<div class="ctt-featured-item"><strong>&#9733; ' + s.name + '</strong>' +
+        '<span class="ctt-featured-when">' + f.when + '</span>' +
+        s.address + ' &middot; ' + s.hours + '<br>' + s.note +
+        ' <a href="' + directionsLink(s.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>';
+    });
+    panel.innerHTML = html;
+  }
+  function toggleFeaturedPanel(forceOpen) {
+    var panel = document.getElementById('ctt-featured-panel');
+    var btn = document.getElementById('ctt-featured-toggle');
+    var show = forceOpen === true ? true : panel.style.display === 'none';
+    if (show) renderFeaturedPanel();
+    panel.style.display = show ? 'block' : 'none';
+    btn.setAttribute('aria-expanded', show ? 'true' : 'false');
+    if (show) {
+      cttTrack('open_featured_list');
+      setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+    }
+  }
+  document.getElementById('ctt-featured-toggle').addEventListener('click', function() { toggleFeaturedPanel(); });
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest && e.target.closest('.ctt-feat-more')) toggleFeaturedPanel(true);
+  });
+
+  // ---- Offline support (see sw.js; needs https) ----
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('sw.js').catch(function() {});
+    });
+  }
+
+  // ---- Map names on/off (remembered on this device) ----
+  (function() {
+    var btn = document.getElementById('ctt-names-toggle');
+    var mapEl = document.getElementById('ctt-map');
+    function apply(on) {
+      mapEl.classList.toggle('ctt-labels-off', !on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.innerHTML = '&#127991;&#65039; Names: ' + (on ? 'On' : 'Off');
+      if (on) layoutLabels();
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('ctt-names'); } catch (e) {}
+    apply(saved !== 'off');
+    btn.addEventListener('click', function() {
+      var on = mapEl.classList.contains('ctt-labels-off');
+      apply(on);
+      try { localStorage.setItem('ctt-names', on ? 'on' : 'off'); } catch (e) {}
+      cttTrack('toggle_map_names', { state: on ? 'on' : 'off' });
+    });
+  })();
+
+  // ---- Report a problem with one shop (opens a pre-filled email) ----
+  document.addEventListener('click', function(e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.ctt-report-btn') : null;
+    if (!btn) return;
+    var card = btn.closest('.ctt-tag');
+    if (!card) return;
+    var name = decodeURIComponent(card.getAttribute('data-store-name') || '');
+    var shop = locationsByName[name];
+    cttTrack('report_problem', { shop: name });
+    var subject = encodeURIComponent('Thrift Trail: problem with ' + name);
+    var body = encodeURIComponent(
+      'Shop: ' + name + '\n' +
+      (shop ? 'Address: ' + shop.address + '\n' : '') +
+      '\nWhat\u2019s wrong? (closed for good, wrong hours, wrong address, something else)\n\n'
+    );
+    window.location.href = 'mailto:' + feedbackEmail + '?subject=' + subject + '&body=' + body;
   });
 
   // ---- Add-to-home-screen help ----
