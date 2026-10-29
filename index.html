@@ -1627,6 +1627,7 @@
   .ctt-tip-btn:hover { background: var(--olive); color: var(--paper); }
 
   .ctt-num-icon {
+    position: relative; z-index: 1;
     background: var(--ink); color: var(--paper); border-radius: 50%;
     width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; padding-top: 2px;
     font-family: 'Libre Franklin', sans-serif; font-size: 11px; line-height: 1;
@@ -1694,8 +1695,10 @@
   .ctt-feedback-status { font-size: 12px; color: var(--olive); font-weight: 600; }
 
   /* ---- Store-name tags beside the numbered map markers ---- */
+  .ctt-leader { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; z-index: 0; }
+  .ctt-leader line { stroke: #2c2417; stroke-width: 1.2; stroke-opacity: 0.75; }
   .ctt-map-label {
-    position: absolute; left: 15px; top: 3px; box-sizing: border-box;
+    z-index: 1; position: absolute; left: 15px; top: 3px; box-sizing: border-box;
     height: 16px; line-height: 14px; max-width: 190px; padding: 0 6px;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; color: var(--ink);
@@ -1740,7 +1743,7 @@
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
   .ctt-homescreen-row { margin: 0 0 12px 0; text-align: center; }
-  .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; }
+  .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-homescreen-panel {
     margin: 0 0 14px 0; padding: 16px 20px; background: var(--card);
     border: 1.5px dashed var(--line); border-radius: 6px;
@@ -2594,7 +2597,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return L.divIcon({ html: '<div class="ctt-num-icon" style="background:' + color + ';">' + num + '</div>' + (name ? labelHtml(name) : ''), className: '', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -11] });
   }
   function featuredStarIcon(num, name) {
-    var html = '<div style="position:relative;width:34px;height:34px;">' +
+    var html = '<div style="position:relative;z-index:1;width:34px;height:34px;">' +
       '<svg width="34" height="34" viewBox="0 0 24 24" style="position:absolute;top:0;left:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">' +
         '<path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1"/>' +
       '</svg>' +
@@ -2674,6 +2677,22 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       // container-space rect -> offset from the marker icon's own top-left corner
       it.label.style.left = Math.round(rects[i].x - (it.x - it.anchor[0])) + 'px';
       it.label.style.top = Math.round(rects[i].y - (it.y - it.anchor[1])) + 'px';
+      // Thin leader line from the number to its name tag (only when the tag was moved off to the side/stacked)
+      var icon = it.label.parentNode;
+      var old = icon.querySelector('.ctt-leader');
+      if (old) icon.removeChild(old);
+      var ax = it.anchor[0], ay = it.anchor[1];
+      var lx = rects[i].x - (it.x - ax), ly = rects[i].y - (it.y - ay);
+      var onLeft = (lx + rects[i].w / 2) < ax;
+      var tx = onLeft ? lx + rects[i].w : lx, ty = ly + rects[i].h / 2;
+      if (Math.abs(ty - ay) > 4) {
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('class', 'ctt-leader');
+        var ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        ln.setAttribute('x1', ax); ln.setAttribute('y1', ay); ln.setAttribute('x2', tx); ln.setAttribute('y2', ty);
+        svg.appendChild(ln);
+        icon.insertBefore(svg, icon.firstChild);
+      }
     });
   }
   map.on('zoomend resize', layoutLabels);
