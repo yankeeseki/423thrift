@@ -1736,7 +1736,7 @@
 
   /* ---- Add to home screen help ---- */
   .ctt-homescreen-link {
-    font-family: 'Libre Franklin', sans-serif; font-size: 26px; line-height: 1.2; font-weight: 700; color: var(--rust);
+    font-family: 'Libre Franklin', sans-serif; font-size: 19.5px; line-height: 1.2; font-weight: 700; color: var(--rust);
     background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
@@ -1779,7 +1779,7 @@
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
         <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
-        <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span><button type="button" class="ctt-legend-link" id="ctt-featured-toggle" aria-expanded="false">Featured</button></span>
+        <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span>Featured</span>
       </div>
       <button class="ctt-howworks-toggle" id="ctt-howworks-toggle">&#8505;&#65039; How this works &#9662;</button>
     </div>
@@ -1787,7 +1787,6 @@
 
   <div id="ctt-holiday" style="display:none;"></div>
 
-  <div class="ctt-featured-panel" id="ctt-featured-panel" style="display:none;"></div>
 
   <div class="ctt-shops-overlay" id="ctt-shops-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-shops-title">
     <div class="ctt-shops-dialog">
@@ -1869,10 +1868,9 @@
         <button class="ctt-share-btn" id="ctt-share-pin">&#128204; Pinterest</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
-        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">&#128424; Storefront Poster*</a>
+        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/uc?export=download&id=1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w" target="_blank" rel="noopener">&#128424; Trail Poster</a>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
-      <p class="ctt-poster-sub">Manage a shop on the trail? Print the poster above for your window or counter.*</p>
     </div>
   </div>
 
@@ -2709,7 +2707,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       : '';
     card.innerHTML =
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
-      (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop <button type="button" class="ctt-feat-more">See all featured shops</button></div>' : '') +
+      (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? '' : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
@@ -3552,44 +3550,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   });
 
   renderHolidayBanner();
-
-  // ---- Featured shops list (opens in place; keep in sync with isFeaturedToday) ----
-  var FEATURED_SCHEDULE = [
-    { name: 'Vinterest Southside', when: 'Featured Sunday through Friday, through Dec 27, 2026', to: '2026-12-27' },
-    { name: 'Vinterest - Hixson', when: 'Featured Sunday through Friday, starting Jan 1, 2027' },
-    { name: 'Poor Taste', when: 'Featured every Saturday' }
-  ];
-  function renderFeaturedPanel() {
-    var panel = document.getElementById('ctt-featured-panel');
-    var today = getEasternNow().dateStr;
-    var html = '<h3>&#9733; Featured Shops</h3><p>The Trail&rsquo;s spotlight stops, marked with a gold star. Who&rsquo;s featured, and when:</p>';
-    FEATURED_SCHEDULE.forEach(function(f) {
-      var s = locationsByName[f.name];
-      if (!s || (f.to && today > f.to)) return;
-      html += '<div class="ctt-featured-item"><strong>&#9733; ' + s.name + '</strong>' +
-        '<span class="ctt-featured-when">' + f.when + '</span>' +
-        s.address + ' &middot; ' + s.hours + '<br>' + s.note +
-        ' <a href="' + directionsLink(s.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>';
-    });
-    panel.innerHTML = html;
-  }
-  function toggleFeaturedPanel(forceOpen) {
-    var panel = document.getElementById('ctt-featured-panel');
-    var btn = document.getElementById('ctt-featured-toggle');
-    var show = forceOpen === true ? true : panel.style.display === 'none';
-    if (show) renderFeaturedPanel();
-    panel.style.display = show ? 'block' : 'none';
-    btn.setAttribute('aria-expanded', show ? 'true' : 'false');
-    if (show) {
-      cttTrack('open_featured_list');
-      setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
-    }
-  }
-  document.getElementById('ctt-featured-toggle').addEventListener('click', function() { toggleFeaturedPanel(); });
-  document.addEventListener('click', function(e) {
-    if (e.target && e.target.closest && e.target.closest('.ctt-feat-more')) toggleFeaturedPanel(true);
-  });
-
 
   // ---- All shops popup (built from the same data as the map) ----
   var SHOP_GROUPS = [
