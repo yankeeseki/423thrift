@@ -14,7 +14,7 @@ Leaflet + OpenStreetMap, OSRM routing, jsPDF, Firebase Firestore reviews, Google
 FILES IN THE REPO
 index.html (this file) | sw.js (offline) | manifest.webmanifest | CNAME | robots.txt | sitemap.xml
 icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png, favicon.ico
-og-image.png (link-preview picture = the poster) | trail-poster.jpg (Instagram / share-sheet poster)
+og-image.png (link-preview picture = the poster) | trail-poster-story.jpg (1080x1920) and trail-poster-post.jpg (1080x1080): Instagram share images
 shops/index.html (standalone "Shops & Charities" page for Google; the popup on the main page uses the same data)
 How to deploy: open the file in GitHub, click the pencil, paste, commit (about a minute to go live). Reload twice.
 
@@ -1922,7 +1922,8 @@ STILL TO DO / IDEAS
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
         <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
-        <button class="ctt-share-btn" id="ctt-share-poster">&#128247; Instagram</button>
+        <button class="ctt-share-btn" id="ctt-share-story">&#128247; IG Story</button>
+        <button class="ctt-share-btn" id="ctt-share-post">&#128247; IG Post</button>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
@@ -1994,7 +1995,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v7.4 &mdash; October 29, 2026</p>
+      <p class="ctt-version">v7.5 &mdash; October 29, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3543,47 +3544,46 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var text = encodeURIComponent('Check out The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga!');
     window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=580,height=520');
   });
-  // ---- Instagram: shares the poster image. Phones get the share sheet (pick Instagram Feed/Stories);
-  // desktops open the image to save and post. The "Trail Poster" button stays the print version. ----
+  // ---- Instagram: two buttons, each shares its own poster image (Story = tall 9:16, Post = square 1:1).
+  // Phones get the share sheet; desktops open the image to save and post. "Trail Poster" stays the print version. ----
   (function() {
-    var btn = document.getElementById('ctt-share-poster');
-    if (!btn) return;
-    var posterFile = null, posterExists = false;
     var driveHref = (document.querySelector('.ctt-poster-btn') || {}).href || '';
-    function loadPoster() {
-      fetch('trail-poster.jpg').then(function(r) {
-        if (!r.ok) throw new Error('missing');
-        return r.blob();
-      }).then(function(b) {
-        if (!/^image\//.test(b.type)) throw new Error('not an image');
-        posterExists = true;
-        var f = new File([b], 'chattanooga-thrift-trail-poster.jpg', { type: b.type });
-        if (navigator.canShare && navigator.canShare({ files: [f] })) posterFile = f;
-      }).catch(function() {});
-    }
-    // Load right away so the file is ready before the first tap
-    loadPoster();
     function say(msg) {
       var st = document.getElementById('ctt-share-status');
       if (st) { st.textContent = msg; setTimeout(function() { st.textContent = ''; }, 7000); }
     }
-    function openFallback() {
-      // Open the image (or the Drive copy if the image file isn't on the site yet) via a real link click, which browsers don't block.
-      var a = document.createElement('a');
-      a.href = posterExists ? 'trail-poster.jpg' : driveHref;
-      a.target = '_blank'; a.rel = 'noopener';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      say('Save the poster, then post it to Instagram!');
-    }
-    btn.addEventListener('click', function() {
-      cttTrack('share', { method: 'instagram' });
-      if (posterFile && navigator.share) {
-        navigator.share({ files: [posterFile], title: 'The Chattanooga Thrift Trail', text: 'Chattanooga thrift trail: 423thrift.com' })
-          .catch(function(err) { if (!err || err.name !== 'AbortError') openFallback(); });
-      } else {
-        openFallback();
+    function setup(btnId, imgPath, fileName, method) {
+      var btn = document.getElementById(btnId);
+      if (!btn) return;
+      var shareFile = null, exists = false;
+      fetch(imgPath).then(function(r) {
+        if (!r.ok) throw new Error('missing');
+        return r.blob();
+      }).then(function(b) {
+        if (!/^image\//.test(b.type)) throw new Error('not an image');
+        exists = true;
+        var f = new File([b], fileName, { type: b.type });
+        if (navigator.canShare && navigator.canShare({ files: [f] })) shareFile = f;
+      }).catch(function() {});
+      function openFallback() {
+        var a = document.createElement('a');
+        a.href = exists ? imgPath : driveHref;
+        a.target = '_blank'; a.rel = 'noopener';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        say('Save the poster, then post it to Instagram!');
       }
-    });
+      btn.addEventListener('click', function() {
+        cttTrack('share', { method: method });
+        if (shareFile && navigator.share) {
+          navigator.share({ files: [shareFile], title: 'The Chattanooga Thrift Trail', text: 'Chattanooga thrift trail: 423thrift.com' })
+            .catch(function(err) { if (!err || err.name !== 'AbortError') openFallback(); });
+        } else {
+          openFallback();
+        }
+      });
+    }
+    setup('ctt-share-story', 'trail-poster-story.jpg', 'chattanooga-thrift-trail-story.jpg', 'instagram_story');
+    setup('ctt-share-post', 'trail-poster-post.jpg', 'chattanooga-thrift-trail-post.jpg', 'instagram_post');
   })();
   document.getElementById('ctt-share-text').addEventListener('click', function() {
     cttTrack('share', { method: 'text_message' });
