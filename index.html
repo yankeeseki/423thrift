@@ -1910,7 +1910,7 @@ STILL TO DO / IDEAS
   <div class="ctt-split-row">
     <div class="ctt-pdf-section ctt-split-half">
       <h3 class="ctt-pdf-title">Take It With You</h3>
-      <p class="ctt-pdf-sub">Your custom route, built just for you today &mdash; a simple one-page list of today's shops, addresses, and hours, in order from where you start and back again.</p>
+      <p class="ctt-pdf-sub">Your custom route, built just for you today &mdash; a simple one-page list of today's shops, addresses, and hours, in route order.</p>
       <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128196; Download Printable Trail Guide (PDF)</button>
     </div>
     <div class="ctt-share-section ctt-split-half" style="text-align:center;">
@@ -1994,7 +1994,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v7.3 &mdash; October 29, 2026</p>
+      <p class="ctt-version">v7.4 &mdash; October 29, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3356,10 +3356,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var statsText = '~' + lastRouteMiles.toFixed(1) + ' miles' + '  \u00b7  ' + stops.length + ' shop' + (stops.length === 1 ? '' : 's');
     doc.text(statsText, pageWidth / 2, 35, { align: 'center' });
 
-    // Numbered list in route order: starts near the visitor, loops back to the start.
+    // Numbered list in route order, starting near the visitor.
     var listY = 46;
     var pageHeight = 279.4, bottomMargin = 15;
-    var items = stops.length + 1; // +1 for the "back to start" line
+    var items = stops.length;
     var twoCols = items > 17;
     var colGap = 8;
     var colWidth = twoCols ? (pageWidth - margin * 2 - colGap) / 2 : (pageWidth - margin * 2);
@@ -3392,13 +3392,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       doc.text(s.address, textX, y + lineGap);
       doc.text(stripEntities(s.hours), textX, y + lineGap * 2);
     });
-
-    // Final line: loop back to the first stop
-    var endPt = placeAt(stops.length);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(big ? 12 : 9);
-    doc.setTextColor(rust[0], rust[1], rust[2]);
-    doc.text('Then head back to ' + stops[0].name + ' where you started.', endPt.x, endPt.y);
 
     doc.save('chattanooga-thrift-trail.pdf');
     btn.disabled = false;
