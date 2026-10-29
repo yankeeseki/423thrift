@@ -14,7 +14,7 @@ Leaflet + OpenStreetMap, OSRM routing, jsPDF, Firebase Firestore reviews, Google
 FILES IN THE REPO
 index.html (this file) | sw.js (offline) | manifest.webmanifest | CNAME | robots.txt | sitemap.xml
 icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png, favicon.ico
-og-image.png (link-preview picture = the poster) | trail-poster-story.jpg (1080x1920) and trail-poster-post.jpg (1080x1080): Instagram share images
+og-image.png (link-preview picture = the poster) | trail-poster.jpg (1080x1920, poster centered on white): the single Instagram share image for Story, Reel, Post and Message
 shops/index.html (standalone "Shops & Charities" page for Google; the popup on the main page uses the same data)
 How to deploy: open the file in GitHub, click the pencil, paste, commit (about a minute to go live). Reload twice.
 
@@ -1922,8 +1922,7 @@ STILL TO DO / IDEAS
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
         <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
-        <button class="ctt-share-btn" id="ctt-share-story">&#128247; IG Story</button>
-        <button class="ctt-share-btn" id="ctt-share-post">&#128247; IG Post</button>
+        <button class="ctt-share-btn" id="ctt-share-poster">&#128247; Instagram</button>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
@@ -1995,7 +1994,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v7.5 &mdash; October 29, 2026</p>
+      <p class="ctt-version">v7.6 &mdash; October 29, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3544,7 +3543,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var text = encodeURIComponent('Check out The Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga!');
     window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=580,height=520');
   });
-  // ---- Instagram: two buttons, each shares its own poster image (Story = tall 9:16, Post = square 1:1).
+  // ---- Instagram: one button, one image (trail-poster.jpg, 1080x1920, poster centered with white space so Story, Reel, Post and Message all work).
   // Phones get the share sheet; desktops open the image to save and post. "Trail Poster" stays the print version. ----
   (function() {
     var driveHref = (document.querySelector('.ctt-poster-btn') || {}).href || '';
@@ -3582,8 +3581,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         }
       });
     }
-    setup('ctt-share-story', 'trail-poster-story.jpg', 'chattanooga-thrift-trail-story.jpg', 'instagram_story');
-    setup('ctt-share-post', 'trail-poster-post.jpg', 'chattanooga-thrift-trail-post.jpg', 'instagram_post');
+    setup('ctt-share-poster', 'trail-poster.jpg', 'chattanooga-thrift-trail.jpg', 'instagram');
   })();
   document.getElementById('ctt-share-text').addEventListener('click', function() {
     cttTrack('share', { method: 'text_message' });
