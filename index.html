@@ -34,6 +34,7 @@ cttTrack(...) .................. Google Analytics events.
 The bottom "days to mark on your calendar" list is separate static HTML (12 days).
 
 OWNER PREFERENCES
+PUBLIC WORDING: on the site, in the how-to and in blog posts never say "the owner" / "the Trail's owner" / a personal name for whoever runs the Trail. Say "the moderators" (or "Mod's") so it reads as a group, not one person. ("Owner" is fine for SHOP owners.)
 Walk through steps one at a time (Mac user). Exact color matching matters (owner is colorblind).
 No dedicated Featured Shops page. Keep banners family-friendly. A new page/popup always gets the tip buttons at the bottom.
 MAP (v9.0): numbers-only by default; hover/tap a card or marker enlarges it and shows a SHORT name (SHORT_NAMES list); Names button turns all on ('ctt-names2').
@@ -42,8 +43,13 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- TODO (owner request, Oct 30 2026, not built yet): in the "How this works" panel, right-align the "Add the trail to your home screen" link so it sits on the SAME LINE as "Read the full how-to guide" (that one stays left, home-screen link at the right).
+- DONE in v9.1 (Oct 30 2026): Filter rework (Mod's Top 25 is the 4th checkbox; boxes add together; nothing checked = empty map + Reset; second list is "Bonus & Closed Shops" in the classic/Top-25-only views and "All Other Shops" for any other mix); areas renamed/merged (Highland Park, East Ridge, Brainerd & Hamilton Place; Ladies of Charity now in Southside; no Ooltewah chip); featured star number is drawn inside the star SVG (black); map auto-fits every route stop (Whole route button removed); Share order Instagram, Facebook, X, Text It, Copy Link, Trail Poster; automatic update check (meta ctt-build + banner) and sw.js fetches pages with no-store.
+- EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
+- BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
+  MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
 - Set up Google Search Console and submit sitemap.xml (add https://423thrift.com/shops/ to it) AND sitemap-blog.xml.
-- BLOG: /blog/ folder = index.html + 48 post folders (generated; 1st & 3rd Monday, Nov 2 2026 to Oct 16 2028). Each page hides itself until its Eastern-time date
+- BLOG: /blog/ folder = index.html + 49 post folders (48 scheduled + the live guide; generated; 1st & 3rd Monday, Nov 2 2026 to Oct 16 2028). Each page hides itself until its Eastern-time date
   (script adds noindex before then). Footer 'Blog' link sits below Disclaimer. Posts: Vinterest Southside closing (Nov 2 2026), Vinterest Hixson (Mar 1 2027).
   Generator + post text live outside the site (scratchpad); to change a post, edit the post's index.html directly.
 - In Google Analytics, mark key events: start_trail, get_directions, download_poster, tip_click.
@@ -57,6 +63,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="ctt-build" content="v9.1-20261030">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Free Chattanooga thrift store map and route planner. Find 35+ thrift, vintage &amp; antique shops, check today’s hours, and get the best driving loop.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1080,8 +1087,8 @@ STILL TO DO / IDEAS
   .ctt-route-stat-row {
     display: flex;
     align-items: baseline;
-    justify-content: flex-end;
-    text-align: right;
+    justify-content: center;
+    text-align: center;
     gap: 22px;
     flex-wrap: wrap;
     margin-top: 8px;
@@ -1997,13 +2004,11 @@ STILL TO DO / IDEAS
   <div class="ctt-planning-banner" id="ctt-planning-banner" style="display:none;"></div>
 
   <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
-    <div class="ctt-fp-sec"><div class="ctt-fp-h">Hand-picked</div>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="top25"> &#11088; Mod&rsquo;s Top 25 (overrides shop type)</label>
-    </div>
     <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">The experience you want</div>
       <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift stores</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated &amp; vintage</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
+      <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> &#11088; Mod&rsquo;s Top 25</label>
       <button type="button" class="ctt-fp-link" id="ctt-fp-all">Everything</button>
     </div>
     <div class="ctt-fp-sec"><div class="ctt-fp-h">Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
@@ -2045,7 +2050,7 @@ STILL TO DO / IDEAS
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
-    <div id="ctt-map" class="ctt-labels-off"><button type="button" class="ctt-fit-btn" id="ctt-fit-btn">Whole route</button><button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="false">&#127991;&#65039; Names: Off</button></div>
+    <div id="ctt-map" class="ctt-labels-off"><button type="button" class="ctt-names-toggle" id="ctt-names-toggle" aria-pressed="false">&#127991;&#65039; Names: Off</button></div>
   </div>
 
   <div class="ctt-split-row">
@@ -2058,12 +2063,12 @@ STILL TO DO / IDEAS
       <h3 class="ctt-share-title">Share The Trail</h3>
       <p class="ctt-share-sub">Know someone who'd love a custom, optimized day of treasure hunting? Send them down the trail.</p>
       <div class="ctt-share-row" style="justify-content:center;">
+        <button class="ctt-share-btn" id="ctt-share-poster">&#128247; Instagram</button>
         <button class="ctt-share-btn" id="ctt-share-fb">&#128216; Facebook</button>
         <button class="ctt-share-btn" id="ctt-share-x">&#128227; X</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
         <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
-        <button class="ctt-share-btn" id="ctt-share-poster">&#128247; Instagram</button>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
@@ -2136,7 +2141,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.0 &mdash; October 30, 2026</p>
+      <p class="ctt-version">v9.1 &mdash; October 30, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2206,16 +2211,16 @@ STILL TO DO / IDEAS
 
   var SHOP_GROUPS = [
     ['Downtown & North Shore', ['Downtown', 'North Shore']],
-    ['Southside', ['Southside']],
-    ['McCallie Ave & Highland Park', ['McCallie Ave', 'Highland Park']],
-    ['Rossville Blvd & East Ridge', ['Rossville Blvd', 'East Ridge']],
-    ['Brainerd', ['Brainerd']],
-    ['East Brainerd & Hamilton Place', ['East Brainerd', 'Hamilton Place area', 'Near Hamilton Place']],
+    ['Southside', ['Southside', 'Rossville Blvd']],
+    ['Highland Park', ['McCallie Ave', 'Highland Park']],
+    ['East Ridge', ['East Ridge']],
+    ['Brainerd & Hamilton Place', ['Brainerd', 'East Brainerd', 'Hamilton Place area', 'Near Hamilton Place']],
     ['Hixson', ['Hixson']],
     ['Red Bank', ['Red Bank', 'Red Bank/Hixson']],
     ['Fort Oglethorpe, GA', ['Fort Oglethorpe']],
-    ['Ooltewah', ['Ooltewah']]
+    ['Ooltewah', ['Ooltewah']]   // listed on the Shops & Charities popup only; no Filter chip (see AREA_CHIP_SKIP)
   ];
+  var AREA_CHIP_SKIP = ['Ooltewah'];
   var SHOP_BENEFIT = {"Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "The Thrift Store (Chambliss, Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill Store Hixson": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which provides shelter, support, and stability to women and children experiencing homelessness in Chattanooga."};
 
   // ---- FILTERS (top-right "Filter" link). Default = the original "Thrift" experience. ----
@@ -2247,24 +2252,35 @@ STILL TO DO / IDEAS
     "Habitat For Humanity ReStore",
     "Electric Crocodile (North Shore)",
     "Archive Thrift Store"];
-  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false }, areas: [], open: false, late: false, charity: false, unvisited: false, top25: false };
+  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false }, areas: [], open: false, late: false, charity: false, unvisited: false };
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
   var unvisitedSnap = null;
   try {
     var rawF = localStorage.getItem('ctt-filters');
-    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { filters = { types: { thrift: !!pf.types.thrift, curated: !!pf.types.curated, antique: !!pf.types.antique }, areas: Array.isArray(pf.areas) ? pf.areas : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, unvisited: !!pf.unvisited, top25: !!pf.top25 }; } }
+    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop }, areas: Array.isArray(pf.areas) ? pf.areas : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, unvisited: !!pf.unvisited }; } }
   } catch (e) {}
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
-  function legacyTypes() { return filters.types.thrift && !filters.types.curated && !filters.types.antique; }
+  // How the four "experience" boxes read:
+  //   'none'  = nothing checked (empty map and lists)
+  //   'thrift'= only Thrift stores (the original page: route = thrift loop, rest in the second list)
+  //   'top25' = only Mod's Top 25 (only those shops are shown, same second-list behavior)
+  //   'wide'  = any other combination: checked types add together to make the route, and every other shop goes in the second list
+  function typeMode() {
+    var t = filters.types;
+    if (!t.thrift && !t.curated && !t.antique && !t.top25) return 'none';
+    if (t.thrift && !t.curated && !t.antique && !t.top25) return 'thrift';
+    if (t.top25 && !t.thrift && !t.curated && !t.antique) return 'top25';
+    return 'wide';
+  }
+  function legacyTypes() { return typeMode() === 'thrift'; }
   function areaGroupOf(loc) {
     for (var gi = 0; gi < SHOP_GROUPS.length; gi++) { if (SHOP_GROUPS[gi][1].indexOf(loc.area) !== -1) return SHOP_GROUPS[gi][0]; }
     return null;
   }
   function filtersActiveCount() {
     var n = 0;
-    if (filters.top25) n++;
-    if (!legacyTypes() && !filters.top25) n++;
+    if (typeMode() !== 'thrift') n++;
     if (filters.areas.length) n++;
     if (filters.open) n++;
     if (filters.late) n++;
@@ -2274,8 +2290,9 @@ STILL TO DO / IDEAS
   }
   // Does this shop survive the filters (shown on the map and in the lists at all)?
   function isVisible(loc, now) {
-    if (filters.top25 && TOP25.indexOf(loc.name) === -1) return false;
-    if (!filters.top25 && !legacyTypes() && !filters.types[typeKey(loc.category)]) return false;
+    var mode = typeMode();
+    if (mode === 'none') return false;
+    if (mode === 'top25' && TOP25.indexOf(loc.name) === -1) return false;
     if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
     if (filters.charity && !SHOP_BENEFIT[loc.name]) return false;
     if (filters.unvisited && unvisitedSnap && unvisitedSnap[loc.name]) return false;
@@ -2286,7 +2303,13 @@ STILL TO DO / IDEAS
     }
     return true;
   }
-  function defaultIncluded(loc) { if (filters.top25) return true; return legacyTypes() ? !loc.defaultBonus : !!filters.types[typeKey(loc.category)]; }
+  function defaultIncluded(loc) {
+    var mode = typeMode();
+    if (mode === 'top25') return true;
+    if (mode === 'thrift') return !loc.defaultBonus;
+    if (mode === 'none') return false;
+    return !!filters.types[typeKey(loc.category)] || (filters.types.top25 && TOP25.indexOf(loc.name) !== -1);
+  }
 
   function mapsLink(address) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address); }
   function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving'; }
@@ -2564,6 +2587,23 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return withDist.slice(0, keepCount).map(function(x) { return [x.s.lat, x.s.lng]; });
   }
 
+  // Frame EVERY stop on the route (including bonus shops you've added; shops you haven't added are ignored)
+  // with a small margin so no number is clipped, using the map box's real shape so little empty map is left.
+  function fitRouteView(stops) {
+    if (!stops || !stops.length) return;
+    map.invalidateSize();
+    var pts = stops.map(function(s) { return [s.lat, s.lng]; });
+    map.fitBounds(L.latLngBounds(pts), { padding: [30, 30], maxZoom: 16 });
+  }
+
+  (function() {
+    var lastW = window.innerWidth, t = null;
+    window.addEventListener('resize', function() {
+      clearTimeout(t);
+      t = setTimeout(function() { if (window.innerWidth !== lastW) { lastW = window.innerWidth; fitRouteView(activeRoute); } }, 250);
+    });
+  })();
+
   function optimizeLoop(points, dayIdx, startDecHour) {
     var n = points.length;
     if (n <= 2) return points.slice();
@@ -2747,7 +2787,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return true;
   }
 
-  var map = L.map('ctt-map', { scrollWheelZoom: false }).setView([35.045, -85.24], 10.5);
+  var map = L.map('ctt-map', { scrollWheelZoom: false, zoomSnap: 0.25 }).setView([35.045, -85.24], 10.5);
   map.attributionControl.setPosition('bottomleft'); // keeps the credit visible while the Names button sits in the bottom-right corner
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors' }).addTo(map);
 
@@ -2823,6 +2863,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var liveStartIdx = 0; // the start picked for "today", remembered while a future-day preview is open
   var routeListEl = document.getElementById('ctt-route-list');
   var offRouteListEl = document.getElementById('ctt-offroute-list');
+  function offRouteLabel() { return typeMode() === 'wide' ? 'All Other Shops' : 'Bonus &amp; Closed Shops'; }
+  function refreshOffRouteLabel() { var b = document.getElementById('ctt-offroute-toggle'); if (b) b.innerHTML = offRouteLabel() + ' ' + (offRouteExpanded ? '&#9652;' : '&#9662;'); }
   var offRouteExpanded = false;
   function heightForFirstFive(cardsParent) {
     var cards = cardsParent.children;
@@ -2892,13 +2934,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return L.divIcon({ html: '<div class="ctt-num-icon" style="background:' + color + ';">' + num + '</div>' + (name ? labelHtml(name) : ''), className: '', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -11] });
   }
   function featuredStarIcon(num, name) {
-    var html = '<div style="position:relative;z-index:1;width:34px;height:34px;">' +
-      '<svg width="34" height="34" viewBox="0 0 24 24" style="position:absolute;top:0;left:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">' +
+    // The stop number is drawn INSIDE the star's own SVG (black, bold) so it can never be hidden or misplaced by page styles.
+    var fs = String(num).length > 1 ? 9.5 : 11.5;
+    var html = '<div style="position:relative;z-index:1;width:30px;height:30px;">' +
+      '<svg width="30" height="30" viewBox="0 0 24 24" style="position:absolute;top:0;left:0;overflow:visible;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));">' +
         '<path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1"/>' +
+        '<text x="12" y="14.6" text-anchor="middle" font-family="Libre Franklin, Arial, sans-serif" font-size="' + fs + '" font-weight="800" fill="#000000" stroke="none">' + num + '</text>' +
       '</svg>' +
-      '<div style="position:absolute;top:0;left:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding-top:3px;font-family:\'Libre Franklin\',sans-serif;font-size:15px;font-weight:800;line-height:1;color:#2c2417;text-shadow:0 0 2px #fff6dc,0 0 2px #fff6dc;z-index:2;">' + num + '</div>' +
     '</div>' + (name ? labelHtml(name) : '');
-    return L.divIcon({ html: html, className: '', iconSize: [34, 34], iconAnchor: [17, 19], popupAnchor: [0, -17] });
+    return L.divIcon({ html: html, className: '', iconSize: [30, 30], iconAnchor: [15, 17], popupAnchor: [0, -15] });
   }
   function offRouteIcon(letter) {
     return L.divIcon({ html: '<div class="ctt-bonus-icon"><span>' + letter + '</span></div>', className: '', iconSize: [15, 15], iconAnchor: [8, 8], popupAnchor: [0, -8] });
@@ -3014,7 +3058,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       : '';
     var reasonHtml = '';
     if (!onRoute) {
-      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (store.defaultBonus ? 'Bonus shop' : 'Closed today'));
+      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (typeMode() === 'wide' ? (defaultIncluded(store) ? 'Closed today' : 'Not in your picks') : (store.defaultBonus ? 'Bonus shop' : 'Closed today')));
       reasonHtml = '<div class="ctt-tag-meta"><span class="ctt-offroute-reason">' + reason + '</span></div>';
     }
     var initial = store.name.charAt(0).toUpperCase();
@@ -3190,7 +3234,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (optimized.length === 0) {
       var emptyMsg = document.createElement('div');
       emptyMsg.style.cssText = 'padding:16px; text-align:center; color:#8a8069; font-size:13px; background:var(--card); border:1px dashed var(--line); border-radius:4px;';
-      emptyMsg.innerHTML = filtersActiveCount() ? '&#128546; No shops match these filters right now. <button type="button" class="ctt-filter-reset-inline" style="background:none;border:none;color:var(--rust);text-decoration:underline;cursor:pointer;font-size:13px;">Reset filters</button>' : '&#128546; Sorry, no stores are open today &mdash; plan for another day!';
+      emptyMsg.innerHTML = typeMode() === 'none' ? '&#128558; Nothing is checked, so there\'s nothing to show. Pick an experience in Filter, or <button type="button" class="ctt-filter-reset-inline" style="background:none;border:none;color:var(--rust);text-decoration:underline;cursor:pointer;font-size:13px;">Reset filters</button>.' : filtersActiveCount() ? '&#128546; No shops match these filters right now. <button type="button" class="ctt-filter-reset-inline" style="background:none;border:none;color:var(--rust);text-decoration:underline;cursor:pointer;font-size:13px;">Reset filters</button>' : '&#128546; Sorry, no stores are open today &mdash; plan for another day!';
       routeListEl.appendChild(emptyMsg);
     }
 
@@ -3198,8 +3242,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
       var featuredNow = isFeaturedToday(store);
       var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(i + 1, store.name) : numberedIcon(i + 1, color, store.name), zIndexOffset: 1000 }).addTo(map);
-      marker._cttR = featuredNow ? 17 : 11;
-      marker._cttAnchor = featuredNow ? [17, 19] : [11, 11];
+      marker._cttR = featuredNow ? 15 : 11;
+      marker._cttAnchor = featuredNow ? [15, 17] : [11, 11];
       marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
       routeMarkers.push(marker);
       marker._cttBaseZ = 1000; markerByName[store.name] = marker;
@@ -3251,6 +3295,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
+    refreshOffRouteLabel();
     var customOrderBanner = document.getElementById('ctt-custom-order-banner');
     if (customOrderBanner) customOrderBanner.style.display = manualOrderNames ? 'block' : 'none';
     drawRoadRoute(optimized);
@@ -3258,10 +3303,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     updateSavedNote();
     setTimeout(function() {
       map.invalidateSize();
-      if (optimized.length > 0) {
-        var bounds = computeTightBounds(optimized);
-        map.fitBounds(bounds, { padding: [10, 10], maxZoom: 16 });
-      }
+      fitRouteView(optimized);
       layoutLabels();
     }, 50);
     if (typeof refreshCountdown === 'function') refreshCountdown();
@@ -3360,6 +3402,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var areasEl = document.getElementById('ctt-fp-areas');
     if (!toggle || !panel) return;
     SHOP_GROUPS.forEach(function(g) {
+      if (AREA_CHIP_SKIP.indexOf(g[0]) !== -1) return;
       var b = document.createElement('button'); b.type = 'button'; b.textContent = g[0].replace(/, GA$/, ''); b.setAttribute('data-area', g[0]);
       areasEl.appendChild(b);
     });
@@ -3372,7 +3415,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       [].forEach.call(panel.querySelectorAll('input[data-flag]'), function(i) { i.checked = !!filters[i.getAttribute('data-flag')]; });
       [].forEach.call(areasEl.querySelectorAll('button'), function(b) { b.className = filters.areas.indexOf(b.getAttribute('data-area')) !== -1 ? 'on' : ''; });
       var n = filtersActiveCount();
-      document.getElementById('ctt-fp-types').style.opacity = filters.top25 ? '0.45' : '1';
       toggle.textContent = n ? 'Filter (' + n + ')' : 'Filter';
       toggle.className = 'ctt-filter-toggle' + (n ? ' on' : '');
       document.getElementById('ctt-fp-count').textContent = 'Showing ' + countVisible() + ' shops';
@@ -3392,7 +3434,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var t = e.target;
       if (t.hasAttribute('data-type')) {
         filters.types[t.getAttribute('data-type')] = t.checked;
-        if (!filters.types.thrift && !filters.types.curated && !filters.types.antique) filters.types[t.getAttribute('data-type')] = true; // always keep at least one
         apply('type');
       } else if (t.hasAttribute('data-flag')) {
         var f = t.getAttribute('data-flag'); filters[f] = t.checked;
@@ -3406,7 +3447,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (ix === -1) filters.areas.push(a); else filters.areas.splice(ix, 1);
       apply('area');
     });
-    document.getElementById('ctt-fp-all').addEventListener('click', function() { filters.types = { thrift: true, curated: true, antique: true }; apply('type'); });
+    document.getElementById('ctt-fp-all').addEventListener('click', function() { filters.types = { thrift: true, curated: true, antique: true, top25: false }; apply('type'); });
     function reset() { filters = JSON.parse(JSON.stringify(FILTER_DEFAULT)); unvisitedSnap = null; apply('reset'); }
     document.getElementById('ctt-fp-reset').addEventListener('click', reset);
     document.addEventListener('click', function(e) { if (e.target && e.target.className === 'ctt-filter-reset-inline') reset(); });
@@ -3747,7 +3788,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     offRouteExpanded = !offRouteExpanded;
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
-    this.innerHTML = 'Bonus &amp; Closed Shops ' + (offRouteExpanded ? '&#9652;' : '&#9662;');
+    refreshOffRouteLabel();
     if (offRouteExpanded) {
       setTimeout(function() {
         offRouteListEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -4048,6 +4089,45 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   document.getElementById('ctt-shops-overlay').addEventListener('click', function(e) { if (e.target === this) closeShopsPopup(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && document.getElementById('ctt-shops-overlay').classList.contains('open')) closeShopsPopup(); });
 
+  // ---- Automatic updates: when a newer version of the site has been published, say so and reload (saved progress is kept) ----
+  (function() {
+    if (location.protocol === 'file:') return;
+    var metaEl = document.querySelector('meta[name="ctt-build"]');
+    var cur = metaEl ? metaEl.getAttribute('content') : null;
+    if (!cur) return;
+    var shown = false;
+    function banner(newBuild, auto) {
+      if (shown) return; shown = true;
+      var b = document.createElement('div');
+      b.setAttribute('role', 'status');
+      b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:100000;background:#b5502f;color:#f2ead9;font-family:"Libre Franklin",Arial,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.35);';
+      var go = function() { try { sessionStorage.setItem('ctt-reloaded-for', newBuild); } catch (e) {} location.reload(); };
+      if (auto) {
+        b.textContent = '\u2728 A new version of the Trail is ready. Updating now\u2026 (your progress is saved)';
+        document.body.appendChild(b);
+        setTimeout(go, 2500);
+      } else {
+        b.innerHTML = '\u2728 A new version of the Trail is ready. <button type="button" style="margin-left:8px;background:#f2ead9;color:#b5502f;border:none;border-radius:12px;padding:5px 14px;font-weight:800;font-size:14px;cursor:pointer;">Tap to update</button>';
+        document.body.appendChild(b);
+        b.querySelector('button').addEventListener('click', go);
+      }
+    }
+    function typing() { var a = document.activeElement; return a && /^(TEXTAREA|INPUT)$/.test(a.tagName) && /text|search|email|^$/.test(a.type || ''); }
+    function check() {
+      if (shown) return;
+      fetch(location.pathname + '?v=' + Date.now(), { cache: 'no-store' }).then(function(r) { return r.ok ? r.text() : ''; }).then(function(t) {
+        var m = t.match(/<meta name="ctt-build" content="([^"]+)"/);
+        if (!m || m[1] === cur) return;
+        var already = null; try { already = sessionStorage.getItem('ctt-reloaded-for'); } catch (e) {}
+        // Reload by itself once; if the browser somehow still serves the old copy, ask for a tap instead of looping.
+        banner(m[1], already !== m[1] && !typing());
+      }).catch(function() {});
+    }
+    setTimeout(check, 3000);
+    document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') check(); });
+    setInterval(function() { if (document.visibilityState === 'visible') check(); }, 5 * 60 * 1000);
+  })();
+
   // ---- Offline support (see sw.js; needs https) ----
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     window.addEventListener('load', function() {
@@ -4077,18 +4157,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
   })();
 
-  // ---- Whole-route button, back-to-map button and gentle scroll-follow (phones) ----
+  // ---- Back-to-map button and gentle scroll-follow (phones) ----
   (function() {
     var FOLLOW = true; // set to false to turn off the map drifting along as you scroll the list on a phone
     var mq = window.matchMedia('(max-width: 780px)');
     var mapEl = document.getElementById('ctt-map');
     var backBtn = document.getElementById('ctt-backtomap');
-    var fitBtn = document.getElementById('ctt-fit-btn');
-    ['mousedown','dblclick','touchstart'].forEach(function(ev) { fitBtn.addEventListener(ev, function(e) { e.stopPropagation(); }); });
-    fitBtn.addEventListener('click', function() {
-      if (activeRoute.length) map.fitBounds(computeTightBounds(activeRoute), { padding: [10, 10], maxZoom: 16 });
-      lastFollow = null;
-    });
     var lastFollow = null, timer = null;
     function mapVisibleFrac() {
       var r = mapEl.getBoundingClientRect(), vh = window.innerHeight;

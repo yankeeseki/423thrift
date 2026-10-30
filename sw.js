@@ -3,7 +3,7 @@
      and the last good copy is used when you're offline.
    - Map library, fonts and map tiles you've already viewed are kept for offline use.
    - Live things (route lines, reviews, analytics) are never stored. */
-var VERSION = 'ctt-v1';
+var VERSION = 'ctt-v2';
 var SHELL_CACHE = VERSION + '-shell';
 var RUNTIME_CACHE = VERSION + '-runtime';
 var TILE_CACHE = VERSION + '-tiles';
@@ -54,11 +54,12 @@ self.addEventListener('fetch', function(e) {
   var req = e.request;
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
+  if (req.cache === 'no-store') return; // the page's own "is there a newer version?" check always goes to the network
 
   // The page: network first, saved copy when offline.
   if (req.mode === 'navigate') {
     e.respondWith(
-      fetch(req).then(function(res) {
+      fetch(req.url, { cache: 'no-store', credentials: 'same-origin' }).then(function(res) {
         if (res && res.ok && url.origin === self.location.origin) {
           var copy = res.clone();
           caches.open(SHELL_CACHE).then(function(c) { c.put(req, copy); });
