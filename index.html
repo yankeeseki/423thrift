@@ -109,6 +109,15 @@ STILL TO DO / IDEAS
   - DONE in v10.55: removed from the map: Names On/Off button (names always on), +/- zoom buttons, and the Leaflet/OpenStreetMap credit. Footer now credits 'Map data (c) OpenStreetMap contributors · Leaflet' with links.
   - DONE in v10.56: page-bottom spacing evened out (home-screen link, footer links, tip row, big gap above the SEO section cut from 180px to 72px, space above version/credit lines).
   - DONE in v10.57: gap above the SEO section cut again (72px to 28px).
+  - DONE in v10.58: more space above the version line (110px) to keep it tucked away; credits now include 'Site sponsored by Thrifty Flea' linking to instagram.com/thethriftyflea.
+  - DONE in v10.59: removed the '<Loop> is on. Uncheck it to choose other experiences.' note from Filter (the other boxes still lock while a loop is on).
+  - DONE in v10.60: hamburger icon has no box around it (rust icon, darker when open or hovered).
+  - DONE in v10.61: Account menu item says just 'Account' (no '(optional)'); removed the email-use note under the email field.
+  - DONE in v10.62: 'Chattanooga Thrift Trail' title uses var(--rust), the same color as the Share The Trail box.
+  - DONE in v10.63: hamburger menu: Send feedback then Disclaimer moved to the very bottom (after the tip links).
+  - DONE in v10.64: every hamburger menu line has its own emoji (Shops, Calendar, Get Involved, Blog, tips, feedback, disclaimer added).
+  - DONE in v10.65: hamburger: Shops & Charities is first; 'Printable Trail Guide' (no 'Download'/'PDF') sits just above the Share The Trail group.
+  - DONE in v10.66: hamburger: Account is first, Shops & Charities second; Add the Trail to Your Home Screen sits just below the Share The Trail group.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -129,7 +138,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.57-20261031">
+<meta name="ctt-build" content="v10.66-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1205,8 +1214,10 @@ STILL TO DO / IDEAS
   .ctt-fp-done { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff; background: var(--olive); border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; }
   .ctt-header { margin-bottom: 10px; position: relative; }
   .ctt-header .ctt-title { padding-right: 56px; }
-  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--card); color: var(--rust); border: 2px solid var(--rust); border-radius: 12px; cursor: pointer; padding: 0; }
-  .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: var(--rust); color: #fff; }
+  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: none; color: var(--ink); }
+  .ctt-menu-btn:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
+  .ctt-menu-btn svg { width: 30px; height: 30px; }
   .ctt-menu { position: absolute; top: 52px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu button { font-family: 'Libre Franklin', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); background: none; border: none; text-align: left; padding: 14px 12px; border-radius: 8px; cursor: pointer; }
@@ -1220,6 +1231,7 @@ STILL TO DO / IDEAS
   .ctt-acct-row button { font-size: 15px; font-weight: 700; padding: 9px 16px !important; border-radius: 8px !important; background: var(--rust); color: #fff !important; border: 2px solid var(--rust) !important; border-top: 2px solid var(--rust) !important; }
   .ctt-menu .ctt-acct-row button, .ctt-menu .ctt-acct-row button:hover, .ctt-menu .ctt-acct-row button:focus-visible { background: var(--rust) !important; color: #fff !important; }
   .ctt-menu .ctt-acct-row button.ghost, .ctt-menu .ctt-acct-row button.ghost:hover, .ctt-menu .ctt-acct-row button.ghost:focus-visible { background: var(--card) !important; color: var(--rust) !important; }
+  .ctt-menu .ctt-menu-divide { border-top: 1px solid var(--line); margin-top: 6px; border-radius: 0 0 8px 8px; }
   .ctt-menu-head { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--rust); padding: 12px 12px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
   .ctt-menu-status { font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); padding: 6px 12px 8px; }
   .ctt-menu { max-height: calc(100vh - 80px); overflow-y: auto; }
@@ -1240,7 +1252,7 @@ STILL TO DO / IDEAS
     font-size: 48px;
     line-height: 1.05;
     margin: 0;
-    color: var(--ink);
+    color: var(--rust);
   }
   .ctt-route-stat-row {
     display: flex;
@@ -2000,7 +2012,7 @@ STILL TO DO / IDEAS
   .ctt-seo li strong { font-weight: 700; }
   .ctt-seo summary { font-size: 14px; }
   .ctt-seo strong { color: var(--ink); }
-  .ctt-footer { margin-top: 14px; padding-bottom: 12px; font-size: 11.5px; color: #6b6252; font-family: 'Libre Franklin', sans-serif; text-align: center; }
+  .ctt-footer { margin-top: 14px; padding-bottom: 0; font-size: 11.5px; color: #6b6252; font-family: 'Libre Franklin', sans-serif; text-align: center; }
   .ctt-footlinks { margin-top: 10px; text-align: right; font-size: 10px; color: #6b6252; }
   .ctt-footlinks .ctt-disclaimer-toggle { display: inline; margin: 0; }
   .ctt-disclaimer-toggle {
@@ -2017,8 +2029,9 @@ STILL TO DO / IDEAS
     font-family: 'Libre Franklin', sans-serif;
   }
   .ctt-disclaimer { margin-top: 6px; font-size: 10px; color: #6b6252; line-height: 1.5; width: 100%; text-align: center; }
-  @media (max-width: 780px) { .ctt-footer { padding-bottom: 56px; } }
-  .ctt-version { margin-top: 28px; font-size: 9.5px; color: #c9bb99; text-align: center; }
+  .ctt-footer + .ctt-footer { margin-top: 4px; }
+  @media (max-width: 780px) { .ctt-footer:last-of-type, .ctt-footer + .ctt-footer { padding-bottom: 56px; } .ctt-footer:not(:last-of-type) { padding-bottom: 0; } }
+  .ctt-version { margin-top: 110px; font-size: 9.5px; color: #c9bb99; text-align: center; }
   .ctt-tip-section {
     text-align: center; margin-top: 34px; padding: 12px; display: flex;
     align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
@@ -2344,7 +2357,6 @@ STILL TO DO / IDEAS
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top20"> Silver Loop</label>
           <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
           </div>
-          <p class="ctt-fp-hint" id="ctt-fp-loophint" style="display:none;"></p>
         </div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Experience</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="thrift"> Thrift shops</label>
@@ -2455,8 +2467,9 @@ STILL TO DO / IDEAS
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 </section>
-      <p class="ctt-version">v10.57 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.66 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
+      <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
   </div>
 </div>
@@ -3844,8 +3857,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var mine = i.getAttribute('data-type') === loop, off = !!loop && !mine;
         i.disabled = off; if (i.parentNode) i.parentNode.className = 'ctt-fp-opt' + (off ? ' dis' : '');
       });
-      var hint = document.getElementById('ctt-fp-loophint');
-      if (hint) { hint.style.display = loop ? 'block' : 'none'; hint.textContent = loop ? (loop === 'top25' ? 'Gold Loop' : 'Silver Loop') + ' is on. Uncheck it to choose other experiences.' : ''; }
       document.getElementById('ctt-fp-all').checked = !!(filters.types.thrift && filters.types.curated && filters.types.antique);
       [].forEach.call(panel.querySelectorAll('input[data-flag]'), function(i) { i.checked = !!filters[i.getAttribute('data-flag')]; });
       [].forEach.call(areasEl.querySelectorAll('button'), function(b) { b.className = filters.areas.indexOf(b.getAttribute('data-area')) !== -1 ? 'on' : ''; });
@@ -4947,21 +4958,29 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
     if (!btn || !menu) return;
+    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
-      var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account (optional)' }, { label: '\uD83D\uDCF2 Add the Trail to Your Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false }];
-      ['ctt-feedback-toggle', 'ctt-shops-open', 'ctt-cal-open', 'ctt-gi-open', 'ctt-disclaimer-toggle', 'ctt-blog-open'].forEach(function(id) {
+      var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
+      ['ctt-cal-open', 'ctt-gi-open', 'ctt-blog-open'].forEach(function(id) {
         var el = document.getElementById(id);
-        if (el && el.style.display !== 'none') list.push({ label: el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
+        if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
       });
-      list.splice(1, 0, { label: '\uD83D\uDCC4 Download Printable Trail Guide (PDF)', el: document.getElementById('ctt-pdf-btn'), scroll: false });
+      list.push({ label: '\uD83D\uDCC4 Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
       list.push({ heading: 'Share The Trail' });
       [['ctt-share-poster', '\uD83D\uDCF7 Instagram'], ['ctt-share-fb', '\uD83D\uDCD8 Facebook'], ['ctt-share-x', '\uD83D\uDCE3 X'], ['ctt-share-text', '\uD83D\uDCF1 Text It'], ['ctt-share-copy', '\uD83D\uDD17 Copy Link']].forEach(function(p) {
         var el = document.getElementById(p[0]); if (el) list.push({ label: p[1], el: el, scroll: false, stay: true });
       });
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
+      list.push({ label: '\uD83D\uDCF2 Add the Trail to Your Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       var tips = document.querySelectorAll('.ctt-tip-btn');
-      if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: t.textContent.trim(), el: t, scroll: false }); }); }
+      if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
+      ['ctt-feedback-toggle', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
+        var el = document.getElementById(id);
+        if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: true, divider: n === 0 });
+      });
+      var shopsEl = document.getElementById('ctt-shops-open');
+      if (shopsEl) list.splice(1, 0, { label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
       return list;
     }
     function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
@@ -4975,7 +4994,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           ap.innerHTML = '<p class="ctt-acct-note">Optional. Saved on this device only, so the Trail can say hello and fill in your name on reviews. No password needed.</p>'
             + '<label>What should we call you?<input type="text" id="ctt-acct-name" maxlength="40" autocomplete="nickname" value="' + cttEsc(a0.name || '') + '"></label>'
             + '<label>Email (optional)<input type="email" id="ctt-acct-email" maxlength="80" autocomplete="email" value="' + cttEsc(a0.email || '') + '"></label>'
-            + '<p class="ctt-acct-note">If you add an email, the moderators may use it to reach you about the Trail. It is never shown publicly.</p>'
             + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear from this device</button>' : '') + '</div>'
             + '<div class="ctt-menu-status" id="ctt-acct-msg" role="status"></div>';
           ab.addEventListener('click', function() { ap.hidden = !ap.hidden; ab.setAttribute('aria-expanded', ap.hidden ? 'false' : 'true'); if (!ap.hidden) { var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus(); } });
@@ -4990,15 +5008,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
             }
             cttTrack('account_save', { has_email: !!em });
             msg.textContent = nm ? 'Saved. Hi, ' + nm + '!' : 'Saved.';
-            ab.textContent = nm ? '\uD83D\uDC64 Hi, ' + nm : '\uD83D\uDC64 Account (optional)';
+            ab.textContent = nm ? '\uD83D\uDC64 Hi, ' + nm : '\uD83D\uDC64 Account';
             renderHolidayBanner();
           });
           var clr = ap.querySelector('#ctt-acct-clear');
-          if (clr) clr.addEventListener('click', function() { try { localStorage.removeItem('ctt-account'); } catch (e) {} ap.querySelector('#ctt-acct-name').value = ''; ap.querySelector('#ctt-acct-email').value = ''; ap.querySelector('#ctt-acct-msg').textContent = 'Cleared from this device.'; ab.textContent = '\uD83D\uDC64 Account (optional)'; renderHolidayBanner(); });
+          if (clr) clr.addEventListener('click', function() { try { localStorage.removeItem('ctt-account'); } catch (e) {} ap.querySelector('#ctt-acct-name').value = ''; ap.querySelector('#ctt-acct-email').value = ''; ap.querySelector('#ctt-acct-msg').textContent = 'Cleared from this device.'; ab.textContent = '\uD83D\uDC64 Account'; renderHolidayBanner(); });
           return;
         }
         if (it.heading) { var h = document.createElement('div'); h.className = 'ctt-menu-head'; h.textContent = it.heading; menu.appendChild(h); return; }
         var b = document.createElement('button'); b.type = 'button'; b.textContent = it.label;
+        if (it.divider) b.className = 'ctt-menu-divide';
         b.addEventListener('click', function() {
           if (it.stay) {
             it.el.click();
