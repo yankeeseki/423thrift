@@ -71,13 +71,17 @@ STILL TO DO / IDEAS
   - DONE in v10.18: 'Tennessee only' filter checkbox (ON by default; hides the 4 Fort Oglethorpe GA shops, so Mod's Top 25 shows 21; picking the Fort Oglethorpe area chip shows them anyway). Saved filters without it default to on.
   - DONE in v10.19: Mod's Top 25 -> Chattanooga Top 20 (the 4 Georgia shops, Habitat ReStore and Electric Crocodile removed from the list).
   - DONE in v10.20: Filter (left) and shop count (right) now sit in a sticky bar at the top of the shop list box; the filter panel opens right under it (it used to open far above the button on phones, which looked broken).
-  - DONE in v10.21: the term 'bonus shop' removed from visitor-facing text: second list = 'More Shops', reason tag = 'Off the main loop', gold diamonds = 'extra shops' (legend, FAQ, blog).
+  - DONE in v10.21: the term 'bonus shop' removed from visitor-facing text: second list = 'More Shops', reason tag = 'Off the main loop', gold diamonds = 'bonus shops' (legend, FAQ, blog).
   - DONE in v10.22: two list filters: Mod's Top 25 (original list, 26 names incl. Georgia + Habitat ReStore + Electric Crocodile) and Chattanooga Top 20 (Tennessee-only list); star emoji removed from both labels.
   - DONE in v10.23: Filter area chip 'Downtown & North Shore' split into 'Downtown' and 'North Shore' (also two sections in the Shops & Charities popup); saved filters migrate.
   - DONE in v10.24: 'Curated & vintage' -> 'Curated shops'; 'store' -> 'shop' in visitor-facing app text (filters, card tags, notes, disclaimer). Kept 'thrift store' in business names, page titles/descriptions/URLs for search.
   - DONE in v10.25: new 'Hwy 58' area button (Goodwill Hwy 58 + Humane Educational Society, via AREA_OVERRIDE); Filter has a new 'Leave out areas' chip row (filters.xareas; leaving out wins, picking one side clears the other).
   - DONE in v10.26: bottom SEO section restyled (rust links, outlined 'See the full list' button, neighborhood chips, darker/larger intro, tidy dated calendar list); wording unchanged.
   - DONE in v10.27: Community Calendar is now a month view (arrows/swipe, 14 months ahead, tap a day to filter) with pre-generated special days: thrift days, Small Business Saturday, World's Longest Yard Sale (first Thursday of Aug), holiday-hours days; community events overlay with the existing submit/report.
+  - DONE in v10.28: the 'Off the main loop' status tag removed; bonus shops show only 'Closed today' (when closed) or 'Closed for good'; otherwise no status.
+  - DONE in v10.29: 'Thrift and shop-local days' list removed from the bottom of the main page; every thrift day gets a banner lead-up (3 days; 7 for the big three), 'Tomorrow is ...', and a top banner on the day; all 21 thrift days are on the Community Calendar.
+  - DONE in v10.30: neighborhood pages/buttons split: Downtown and North Shore, Signal Mountain and Ooltewah are four separate pages (old combined addresses forward to the new ones); /shops/ jump list splits Downtown and North Shore.
+  - DONE in v10.31: 'Extra' wording changed back to 'Bonus' (legend, FAQ, blog); the 'Bonus shop' status tag on cards stays removed; second list stays 'More Shops'.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -98,7 +102,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.27-20261031">
+<meta name="ctt-build" content="v10.31-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2174,7 +2178,7 @@ STILL TO DO / IDEAS
     <div class="ctt-route-stat-row">
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
-        <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Extra</span>
+        <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
         <span class="ctt-legend-item"><span class="ctt-legend-star">&#9733;</span>Featured</span>
       </div>
       <button class="ctt-howworks-toggle" id="ctt-howworks-toggle">&#8505;&#65039; How this works &#9662;</button>
@@ -2221,7 +2225,7 @@ STILL TO DO / IDEAS
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort Oglethorpe, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
     <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
-    <p><strong>Extra shops:</strong> Gold diamonds are extra shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
+    <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
     <p><strong>More shops than Google Maps:</strong> Google Maps limits how many stops a route can have. The Trail has no built-in limit and orders your loop around each shop&rsquo;s hours. <a class="ctt-fullguide-link" href="blog/why-not-just-use-google-maps-for-thrifting/">Why not just use Google Maps?</a></p>
     <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button></div>
   </div>
@@ -2379,10 +2383,9 @@ STILL TO DO / IDEAS
 <p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 <p class="ctt-seo-cta"><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <p class="ctt-seo-label">Browse by neighborhood</p>
-<p class="ctt-seo-hoods"><a href="thrift-stores-downtown-north-shore/">Downtown &amp; North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain-ooltewah/">Signal Mountain &amp; Ooltewah</a></p>
-<details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
+<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a></p>
 </section>
-      <p class="ctt-version">v10.27 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.31 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2776,16 +2779,20 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     // 3. Thrift spotlight days (and Small Business Saturday)
     var star = HOLIDAY_STARS[mmdd];
     if (t.m === 10 && t.d === thanks + 2) star = { e: '🛍️', n: 'Small Business Saturday', t: 'Shop small, shop local, and thrift with your neighbors!', top: true };
-    if (star) return { kind: 'star', top: !!star.top, e: star.e, tag: 'Thrift spotlight', head: 'Today is ' + star.n + '!', body: star.t };
+    if (star) return { kind: 'star', top: true, e: star.e, tag: 'Thrift spotlight', head: 'Today is ' + star.n + '!', body: star.t };
 
-    // 4. Teaser: the week before the three big thrift days
+    // 4. Lead-up: a few days before every thrift day (a full week for the three big ones), with "Tomorrow is ..." the day before
+    var lead = null;
     for (var key in HOLIDAY_STARS) {
-      var s = HOLIDAY_STARS[key];
-      if (!s.teaser) continue;
+      var s2 = HOLIDAY_STARS[key];
       var tn = hdDaysUntil(t, +key.slice(0, 2) - 1, +key.slice(3));
-      if (tn >= 1 && tn <= 7) {
-        return { kind: 'star', top: true, e: s.e, tag: 'Coming up', head: s.n + ' is ' + (tn === 1 ? 'tomorrow' : 'in ' + tn + ' days (' + HD_MONTHS[+key.slice(0, 2) - 1] + ' ' + (+key.slice(3)) + ')') + '!', body: s.t };
-      }
+      if (tn >= 1 && tn <= (s2.teaser ? 7 : 3) && (!lead || tn < lead.tn)) lead = { tn: tn, s: s2, mo: +key.slice(0, 2) - 1, dd: +key.slice(3) };
+    }
+    var sbd = hdDaysUntil(t, 10, thanks + 2);
+    if (sbd >= 1 && sbd <= 3 && (!lead || sbd < lead.tn)) lead = { tn: sbd, s: { e: '🛍️', n: 'Small Business Saturday', t: 'Shop small, shop local, and thrift with your neighbors!' }, mo: 10, dd: thanks + 2 };
+    if (lead) {
+      return { kind: 'star', top: true, e: lead.s.e, tag: 'Coming up',
+        head: lead.tn === 1 ? 'Tomorrow is ' + lead.s.n + '!' : lead.s.n + ' is in ' + lead.tn + ' days (' + HD_MONTHS[lead.mo] + ' ' + lead.dd + ')!', body: 'Plan your route ahead, and find every special day on the Community Calendar.' };
     }
 
     // 5. Other well-known days: Valentine's, Mother's, Father's, Veterans
@@ -2898,7 +2905,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return withDist.slice(0, keepCount).map(function(x) { return [x.s.lat, x.s.lng]; });
   }
 
-  // Frame EVERY stop on the route (including extra shops you've added; shops you haven't added are ignored)
+  // Frame EVERY stop on the route (including bonus shops you've added; shops you haven't added are ignored)
   // with a small margin so no number is clipped, using the map box's real shape so little empty map is left.
   var lastUserPos = null, lastVisited = null, keepZoomOnce = false;
   function fitRouteView(stops) {
@@ -3099,6 +3106,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
   }
 
+  function closedToday(loc) {
+    var now = effectiveNow(), today = parseHoursString(loc.hours)[now.dayIdx];
+    return !today || now.decHour >= today[1];
+  }
   function isOnRouteToday(loc, now) {
     if (loc.closesAfter && now.dateStr > loc.closesAfter) return false;
     if (!isVisible(loc, now)) return false;
@@ -3394,8 +3405,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       : '';
     var reasonHtml = '';
     if (!onRoute) {
-      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (typeMode() === 'wide' ? (defaultIncluded(store) ? 'Closed today' : 'Not in your picks') : (store.defaultBonus ? 'Off the main loop' : 'Closed today')));
-      reasonHtml = '<div class="ctt-tag-meta"><span class="ctt-offroute-reason">' + reason + '</span></div>';
+      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (typeMode() === 'wide' ? (defaultIncluded(store) ? 'Closed today' : 'Not in your picks') : (store.defaultBonus ? (closedToday(store) ? 'Closed today' : '') : 'Closed today')));
+      reasonHtml = reason ? '<div class="ctt-tag-meta"><span class="ctt-offroute-reason">' + reason + '</span></div>' : '';
     }
     var initial = store.name.charAt(0).toUpperCase();
     var photoCol = '<div class="ctt-tag-photo-col" data-photo-col="' + encodeURIComponent(store.name) + '">'
@@ -5383,7 +5394,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   // ---- Month calendar: pre-filled special days + community events ----
   var calView = null, calSel = null;
-  var CAL_THRIFT = [[1,27,'National Retro Day'],[2,2,'Old Stuff Day'],[2,18,'Global Recycling Day'],[2,29,'Mom and Pop Business Owners Day'],[4,22,'Buy a Musical Instrument Day'],[4,24,'Scavenger Hunt Day'],[7,12,'National Vinyl Record Day'],[7,17,'National Thrift Store Day'],[7,25,'National Secondhand Wardrobe Day'],[9,7,'National Consignment Day'],[10,15,'America Recycles Day']];
+  var CAL_THRIFT = [[1,27,'National Retro Day'],[2,2,'Old Stuff Day'],[2,13,'Jewel Day'],[2,18,'Global Recycling Day'],[2,29,'Mom and Pop Business Owners Day'],[3,22,'Earth Day'],[4,3,'National Textiles Day'],[4,22,'Buy a Musical Instrument Day'],[4,24,'Scavenger Hunt Day'],[5,1,'Tennessee Statehood Day'],[5,13,'Sewing Machine Day'],[5,23,'National Typewriter Day'],[5,29,'Camera Day'],[6,15,'National Give Something Away Day'],[7,12,'National Vinyl Record Day'],[7,17,'National Thrift Store Day'],[7,25,'National Secondhand Wardrobe Day'],[9,7,'National Consignment Day'],[9,10,'Handbag Day'],[9,21,'Count Your Buttons Day'],[10,15,'America Recycles Day']];
   var CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   var HOURS_NOTE = 'Many shops are closed or on holiday hours. Check each shop’s Google listing for updated hours.';
   function p2(n) { return (n < 10 ? '0' : '') + n; }
