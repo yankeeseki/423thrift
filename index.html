@@ -68,6 +68,8 @@ STILL TO DO / IDEAS
   - DONE in v10.15: 'Get directions' link is rust (was olive).
   - DONE in v10.16: list shows 8 shops before it scrolls in its own box (LIST_VISIBLE=8); new count line above the list (updateListCount).
   - DONE in v10.17: 'thrift run' -> 'thrift experience' (tagline, blog, FAQ).
+  - DONE in v10.18: 'Tennessee only' filter checkbox (ON by default; hides the 4 Fort Oglethorpe GA shops, so Mod's Top 25 shows 21; picking the Fort Oglethorpe area chip shows them anyway). Saved filters without it default to on.
+  - DONE in v10.19: Mod's Top 25 -> Chattanooga Top 20 (the 4 Georgia shops, Habitat ReStore and Electric Crocodile removed from the list).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -88,7 +90,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.17-20261031">
+<meta name="ctt-build" content="v10.19-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2198,11 +2200,12 @@ STILL TO DO / IDEAS
       <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift stores</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated &amp; vintage</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> &#11088; Mod&rsquo;s Top 25</label>
+      <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> &#11088; Chattanooga Top 20</label>
       <button type="button" class="ctt-fp-link" id="ctt-fp-all">Everything</button>
     </div>
     <div class="ctt-fp-sec"><div class="ctt-fp-h">Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
     <div class="ctt-fp-sec"><div class="ctt-fp-h">Also show only</div>
+      <label class="ctt-fp-opt"><input type="checkbox" data-flag="tn"> Tennessee only</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late (closes 6 PM or later)</label>
       <label class="ctt-fp-opt"><input type="checkbox" data-flag="charity"> Supports a charity &#128155;</label>
@@ -2331,7 +2334,7 @@ STILL TO DO / IDEAS
 <p>Browse by neighborhood: <a href="thrift-stores-downtown-north-shore/">Downtown &amp; North Shore</a> &middot; <a href="thrift-stores-southside/">Southside</a> &middot; <a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a> &middot; <a href="thrift-stores-east-ridge/">East Ridge</a> &middot; <a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a> &middot; <a href="thrift-stores-hixson/">Hixson</a> &middot; <a href="thrift-stores-red-bank/">Red Bank</a> &middot; <a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a> &middot; <a href="thrift-stores-signal-mountain-ooltewah/">Signal Mountain &amp; Ooltewah</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v10.17 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.19 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2432,14 +2435,10 @@ STILL TO DO / IDEAS
   var SHOP_BENEFIT = {"Bachman Bargain Barn": "Bachman Community Center, a nonprofit that keeps a historic 1937 school building open as a free community resource, with a public library and space for local groups. The thrift store is volunteer-run and provides almost half of the center's operating budget.", "The Clothes House on Signal Mountain": "Signal Mountain Social Services, which provides food assistance, educational support, and emergency help to local families and individuals.", "Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store (Fort Oglethorpe)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill (Fort Oglethorpe)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Chambliss Thrift Store (Brainerd)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill (East Brainerd)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill (Hwy 58)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Chambliss Thrift Store (Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House (North Shore)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill (Hixson)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill (East Ridge)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "St. Timothy's Thrift Shop": "St. Timothy's Episcopal Church's outreach, including Family Promise, Welcome Home of Chattanooga, Metropolitan Ministries, Widows' Harvest, and scholarships for St. Timothy's Preschool.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which provides shelter, support, and stability to women and children experiencing homelessness in Chattanooga."};
 
   // ---- FILTERS (top-right "Filter" link). Default = the original "Thrift" experience. ----
-  // OWNER'S TOP 25: edit this list (exact shop names) to change which shops the "Mod's Top 25" filter shows.
+  // CHATTANOOGA TOP 20: edit this list (exact shop names) to change which shops the "Chattanooga Top 20" filter shows.
   var TOP25 = [
     "Lookout Thrift",
     "Ladies of Charity Thrift Store",
-    "Providence Thrift Store (Fort Oglethorpe)",
-    "Nifty Thrifty",
-    "SACs Thrift Avenue",
-    "Goodwill (Fort Oglethorpe)",
     "Chambliss Thrift Store (Brainerd)",
     "America's Thrift Stores (Brainerd)",
     "Hunts Thrift",
@@ -2457,15 +2456,14 @@ STILL TO DO / IDEAS
     "Goodwill (East Ridge)",
     "Vinterest (Southside)",
     "Vinterest (Hixson)",
-    "Habitat For Humanity ReStore",
-    "Electric Crocodile (North Shore)",
-    "Archive Thrift Store"];
-  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false }, areas: [], open: false, late: false, charity: false, unvisited: false };
+    "Archive Thrift Store",
+  ];
+  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false }, areas: [], open: false, late: false, charity: false, unvisited: false, tn: true };
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
   var unvisitedSnap = null;
   try {
     var rawF = localStorage.getItem('ctt-filters');
-    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop }, areas: Array.isArray(pf.areas) ? pf.areas : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, unvisited: !!pf.unvisited }; } }
+    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop }, areas: Array.isArray(pf.areas) ? pf.areas : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, unvisited: !!pf.unvisited, tn: pf.tn === undefined ? true : !!pf.tn }; } }
   } catch (e) {}
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
@@ -2494,6 +2492,7 @@ STILL TO DO / IDEAS
     if (filters.late) n++;
     if (filters.charity) n++;
     if (filters.unvisited) n++;
+    if (!filters.tn) n++;
     return n;
   }
   // Does this shop survive the filters (shown on the map and in the lists at all)?
@@ -2502,6 +2501,8 @@ STILL TO DO / IDEAS
     if (mode === 'none') return false;
     if (mode === 'top25' && TOP25.indexOf(loc.name) === -1) return false;
     if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
+    // Tennessee only (on by default): hides the Georgia shops unless their own area chip is picked.
+    if (filters.tn && /,\s*GA\b/.test(loc.address || '') && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
     if (filters.charity && !SHOP_BENEFIT[loc.name]) return false;
     if (filters.unvisited && unvisitedSnap && unvisitedSnap[loc.name]) return false;
     if (filters.open || filters.late) {
