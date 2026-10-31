@@ -44,6 +44,7 @@ Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
+- DONE in v9.6 (Oct 31 2026): price line ($ to $$$$$) from Mod's ratings; 'Helpful?' label on review votes; Get Involved form (Web3Forms key in GI_KEY, storefronts-only note); Community Calendar (Firestore 'sales', rules published Oct 31; link hidden until reads succeed; Submit your event / Report; 3 reports removes); feedback email now 423thrift@gmail.com.
 - DONE in v9.5 (Oct 31 2026): per-shop details line (restrooms, wheelchair, payments, Wi-Fi, sales) on map popups, Shops list and /shops/; World's Longest Yard Sale banners (1 week, day before, Thu-Sun with btw line); /shops/ footer wording fixed.
 - DONE in v9.4 (Oct 31 2026): all shops verified against Google (hours, addresses, pins, websites), Savers bag note, Hixson Coming in 2027 note, East Ridge Antique District 5pm note, North Shore blog address fix.
 - DONE in v9.3 (Oct 30 2026): silent automatic updates (no banner or button; refreshes when tab is hidden, visitor idle ~20s or just arrived; ?cb= cache-buster; two tries then waits 10 min). Still NEXT: Most visited, per-shop details display, community calendar, World's Longest Yard Sale banners.
@@ -69,7 +70,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v9.5-20261031">
+<meta name="ctt-build" content="v9.6-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Free Chattanooga thrift store map and route planner. Find 35+ thrift, vintage &amp; antique shops, check today’s hours, and get the best driving loop.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1757,6 +1758,7 @@ STILL TO DO / IDEAS
     letter-spacing: 0.03em; color: var(--taupe); margin-top: 4px;
   }
   .ctt-review-votes { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+  .ctt-vote-label { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--taupe); }
   .ctt-vote-btn {
     font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 600;
     background: none; border: 1px solid var(--line); border-radius: 12px;
@@ -1985,6 +1987,32 @@ STILL TO DO / IDEAS
   .ctt-shops-back { display: block; width: 100%; margin-top: 18px; padding: 13px; font-family: 'Libre Franklin', sans-serif; font-size: 15px; font-weight: 700; background: var(--olive); color: var(--paper); border: none; border-radius: 6px; cursor: pointer; }
   @media (max-width: 600px) { .ctt-shops-overlay { padding: 8px; } .ctt-shops-title { font-size: 26px; } .ctt-shops-top { padding-left: 14px; } .ctt-shops-body { padding: 12px 14px 20px; } }
 
+  /* ---- Get involved ---- */
+  .ctt-gi-form label { display: block; font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink); margin: 12px 0 4px; }
+  .ctt-gi-form input[type=text], .ctt-gi-form input[type=email], .ctt-gi-form select, .ctt-gi-form textarea { width: 100%; padding: 11px 12px; font-size: 16px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--card); color: var(--ink); font-family: 'Libre Franklin', sans-serif; }
+  .ctt-gi-form textarea { min-height: 110px; resize: vertical; }
+  .ctt-gi-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .ctt-gi-status { font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--rust); margin-top: 10px; min-height: 18px; }
+  .ctt-gi-thanks { text-align: center; font-family: 'Libre Franklin', sans-serif; color: var(--ink); padding: 10px 0; }
+  .ctt-gi-thanks h3 { font-family: 'Archivo Black', sans-serif; font-size: 24px; margin: 6px 0; }
+  .ctt-gi-share { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0; }
+  .ctt-gi-share a, .ctt-gi-share button { font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 700; color: var(--olive); background: var(--card); border: 1px solid var(--olive); border-radius: 16px; padding: 8px 14px; text-decoration: none; cursor: pointer; }
+  .ctt-gi-note { font-family: 'Libre Franklin', sans-serif; font-size: 13px; background: #f3ecd2; border-left: 3px solid var(--gold, #c98a2b); padding: 8px 10px; border-radius: 3px; color: #5c5240; margin: 0 0 4px; }
+  .ctt-gi-promo { text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); margin: 22px 0 0; }
+  .ctt-gi-link { color: var(--olive); font-weight: 700; }
+
+  /* ---- Community calendar ---- */
+  .ctt-cal-sub { font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
+  .ctt-cal-add { display: block; width: 100%; margin: 4px 0 10px; padding: 13px; font-family: 'Libre Franklin', sans-serif; font-size: 15px; font-weight: 700; background: var(--olive); color: var(--paper); border: none; border-radius: 6px; cursor: pointer; }
+  .ctt-cal-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 15px; margin: 0 0 10px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
+  .ctt-cal-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 17px; margin: 0 0 3px; }
+  .ctt-cal-card p { margin: 3px 0; }
+  .ctt-cal-date { font-weight: 700; color: var(--rust); }
+  .ctt-cal-rep { background: none; border: none; padding: 0; margin-top: 4px; font-family: 'Libre Franklin', sans-serif; font-size: 12px; color: #8a8069; text-decoration: underline; cursor: pointer; }
+  .ctt-cal-empty { text-align: center; font-family: 'Libre Franklin', sans-serif; color: #8a8069; margin: 20px 0; }
+  .ctt-cal-check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400 !important; }
+  .ctt-cal-check input { width: 20px; height: 20px; margin-top: 2px; flex: none; }
+
   /* ---- Add to home screen help ---- */
   .ctt-homescreen-link {
     font-family: 'Libre Franklin', sans-serif; font-size: 19.5px; line-height: 1.2; font-weight: 700; color: var(--rust);
@@ -2049,6 +2077,28 @@ STILL TO DO / IDEAS
         <button type="button" class="ctt-shops-close" id="ctt-shops-close" aria-label="Close shop list">&times;</button>
       </div>
       <div class="ctt-shops-body" id="ctt-shops-body"></div>
+    </div>
+  </div>
+
+  <div class="ctt-shops-overlay" id="ctt-gi-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-gi-title">
+    <div class="ctt-shops-dialog">
+      <div class="ctt-shops-top">
+        <h2 class="ctt-shops-title" id="ctt-gi-title">Get Involved</h2>
+        <p class="ctt-shops-sub">Love thrift and vintage? Help the Trail grow. Tell the moderators who you are and how you&rsquo;d like to help.</p>
+        <button type="button" class="ctt-shops-close" id="ctt-gi-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="ctt-shops-body" id="ctt-gi-body"></div>
+    </div>
+  </div>
+
+  <div class="ctt-shops-overlay" id="ctt-cal-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-cal-title">
+    <div class="ctt-shops-dialog">
+      <div class="ctt-shops-top">
+        <h2 class="ctt-shops-title" id="ctt-cal-title">Community Calendar</h2>
+        <p class="ctt-shops-sub">Yard sales, church sales and shop events happening in person around Chattanooga.</p>
+        <button type="button" class="ctt-shops-close" id="ctt-cal-close" aria-label="Close calendar">&times;</button>
+      </div>
+      <div class="ctt-shops-body" id="ctt-cal-body"></div>
     </div>
   </div>
 
@@ -2200,7 +2250,7 @@ STILL TO DO / IDEAS
         </div>
       </div>
 
-      <div class="ctt-footlinks"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a></div>
+      <div class="ctt-footlinks"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a> <a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="#calendar" style="display:none">Community Calendar</a> <a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a></div>
       
       <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it.</p>
@@ -2212,7 +2262,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.5 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v9.6 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2297,10 +2347,11 @@ STILL TO DO / IDEAS
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
-  var SHOP_DETAILS = {"Vinterest - Hixson": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Ladies of Charity Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Providence Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store Fort Oglethorpe": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "The Thrift Store (benefits Chambliss Center)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "America's Thrift Stores (Brainerd Rd)": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store E. Brainerd": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Providence Thrift Store (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "America's Thrift Stores (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks"}, "Goodwill Store Hwy 58": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Humane Educational Society Boutique & Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Bethel Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Friends and Family Discount and Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Northside Neighborhood House (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "The Thrift Store (Chambliss, Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Northside Neighborhood House Northshore": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store Hixson": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Vinterest Southside": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Habitat For Humanity ReStore": {"w": 1, "p": "Cash"}, "Archive Thrift Store": {"p": "Cash"}, "Goodwill Store East Ridge": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Electric Crocodile (North Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}};
+  var SHOP_DETAILS = {"Vinterest - Hixson": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Ladies of Charity Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$"}, "Providence Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill Store Fort Oglethorpe": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "The Thrift Store (benefits Chambliss Center)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "America's Thrift Stores (Brainerd Rd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill Store E. Brainerd": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Providence Thrift Store (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift Stores (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$"}, "Goodwill Store Hwy 58": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Humane Educational Society Boutique & Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Friends and Family Discount and Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Northside Neighborhood House (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$"}, "The Thrift Store (Chambliss, Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Northside Neighborhood House Northshore": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill Store Hixson": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Vinterest Southside": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity ReStore": {"w": 1, "p": "Cash", "x": "$$$"}, "Archive Thrift Store": {"p": "Cash", "x": "$$$"}, "Goodwill Store East Ridge": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Electric Crocodile (North Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
     var b = [];
+    if (d.x) b.push('Price: ' + d.x);
     if (d.r) b.push('Restrooms: ' + d.r);
     if (d.w) b.push('&#9855; Wheelchair: Yes');
     if (d.p) b.push('Pay: ' + d.p);
@@ -4093,7 +4144,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
 
   // ---- Feedback (EMAIL OBFUSCATION: built from char codes, not plain text) ----
-  var emailCodes = [100,101,114,101,107,64,102,105,108,109,112,114,111,100,117,99,101,114,46,99,111];
+  var emailCodes = [52,50,51,116,104,114,105,102,116,64,103,109,97,105,108,46,99,111,109];
   var feedbackEmail = String.fromCharCode.apply(null, emailCodes);
   document.getElementById('ctt-feedback-toggle').addEventListener('click', function() {
     var section = document.getElementById('ctt-feedback-section');
@@ -4151,6 +4202,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     body.innerHTML = '<input type="search" class="ctt-shops-q" id="ctt-shops-q" placeholder="Search by shop name or neighborhood" aria-label="Search shops">' +
       '<div class="ctt-shops-jump" id="ctt-shops-jump">' + jump + '</div>' +
       '<p class="ctt-shops-none" id="ctt-shops-none">No shops match that search.</p>' + secs +
+      (typeof window.cttOpenGetInvolved === 'function' ? '<p class="ctt-gi-promo">Love thrift and vintage? <a href="#get-involved" class="ctt-gi-link" id="ctt-shops-gi">Get involved</a> and help the Trail grow.</p>' : '') +
       '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>' +
       '<button type="button" class="ctt-shops-back" id="ctt-shops-back">&larr; Back to the map</button>';
     document.getElementById('ctt-shops-q').addEventListener('input', function() {
@@ -4172,6 +4224,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (a) { var t = document.getElementById(a.getAttribute('data-target')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
     document.getElementById('ctt-shops-back').addEventListener('click', function() { closeShopsPopup(); });
+    var gi = document.getElementById('ctt-shops-gi');
+    if (gi) gi.addEventListener('click', function(e) { e.preventDefault(); closeShopsPopup(); window.cttOpenGetInvolved(); });
     shopsBuilt = true;
   }
   function openShopsPopup() {
@@ -4194,6 +4248,68 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   document.getElementById('ctt-shops-close').addEventListener('click', closeShopsPopup);
   document.getElementById('ctt-shops-overlay').addEventListener('click', function(e) { if (e.target === this) closeShopsPopup(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && document.getElementById('ctt-shops-overlay').classList.contains('open')) closeShopsPopup(); });
+
+  // ---- Get Involved form. Hidden until a Web3Forms access key is pasted below (free key at web3forms.com, sent to the moderators' inbox). ----
+  var GI_KEY = 'c1c6f136-31d8-41aa-b9f0-c27e4e92665a';
+  (function() {
+    var openEl = document.getElementById('ctt-gi-open');
+    if (!GI_KEY || !openEl) return;
+    openEl.style.display = '';
+    var ov = document.getElementById('ctt-gi-overlay'), body = document.getElementById('ctt-gi-body'), last = null;
+    var ROLES = ['Fan of vintage & thrift', 'Shop manager or staff', 'Vendor in a physical shop', 'Charity or nonprofit', 'Sponsor or advertise', 'Blogger, creator or local media', 'Other'];
+    function form() {
+      body.innerHTML = '<form class="ctt-gi-form" id="ctt-gi-form" novalidate>' +
+        '<p class="ctt-gi-note"><strong>Storefronts only.</strong> The Trail is for thrift, vintage and antique shops with a physical location you can visit. We can&rsquo;t list online-only sellers or online shops.</p>' +
+        '<label for="gi-name">Your name</label><input type="text" id="gi-name" autocomplete="name" required>' +
+        '<label for="gi-email">Email</label><input type="email" id="gi-email" autocomplete="email" required>' +
+        '<label for="gi-role">I am a&hellip;</label><select id="gi-role">' + ROLES.map(function(r) { return '<option>' + r.replace(/&/g, '&amp;') + '</option>'; }).join('') + '</select>' +
+        '<label for="gi-biz">Shop, charity or business (if any)</label><input type="text" id="gi-biz">' +
+        '<label for="gi-msg">How would you like to help?</label><textarea id="gi-msg" placeholder="Share the Trail, tell me about a shop, sponsor a spot, anything at all"></textarea>' +
+        '<div class="ctt-gi-hp" aria-hidden="true"><label>Leave blank<input type="text" id="gi-hp" tabindex="-1" autocomplete="off"></label></div>' +
+        '<div class="ctt-gi-status" id="gi-status" role="status"></div>' +
+        '<button type="submit" class="ctt-shops-back" id="gi-send">Send</button></form>';
+      document.getElementById('ctt-gi-form').addEventListener('submit', send);
+    }
+    function thanks() {
+      var url = 'https://423thrift.com', txt = 'Plan a thrift route across Chattanooga with the free Chattanooga Thrift Trail:';
+      body.innerHTML = '<div class="ctt-gi-thanks"><div style="font-size:42px" aria-hidden="true">&#128155;</div><h3>Thank you!</h3>' +
+        '<p>The moderators will read your note. The best way to help right now is to share the Trail with someone who loves a good find.</p>' +
+        '<div class="ctt-gi-share"><button type="button" id="gi-share">Share</button><button type="button" id="gi-copy">Copy link</button>' +
+        '<a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '" target="_blank" rel="noopener">Facebook</a></div>' +
+        '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>' +
+        '<button type="button" class="ctt-shops-back" id="gi-done">Back to the map</button></div>';
+      var sh = document.getElementById('gi-share');
+      if (!navigator.share) sh.style.display = 'none';
+      sh.addEventListener('click', function() { navigator.share({ title: 'Chattanooga Thrift Trail', text: txt, url: url }).catch(function() {}); });
+      document.getElementById('gi-copy').addEventListener('click', function() {
+        var b = this; try { navigator.clipboard.writeText(url).then(function() { b.textContent = 'Copied!'; }); } catch (e) { b.textContent = url; }
+      });
+      document.getElementById('gi-done').addEventListener('click', close);
+    }
+    function send(e) {
+      e.preventDefault();
+      var st = document.getElementById('gi-status'), btn = document.getElementById('gi-send');
+      var name = document.getElementById('gi-name').value.trim(), email = document.getElementById('gi-email').value.trim();
+      if (document.getElementById('gi-hp').value) return;
+      if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { st.textContent = 'Please add your name and a valid email.'; return; }
+      var role = document.getElementById('gi-role').value;
+      btn.disabled = true; st.textContent = 'Sending...';
+      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ access_key: GI_KEY, subject: 'Thrift Trail: Get Involved (' + role + ')', from_name: 'Chattanooga Thrift Trail', name: name, email: email, role: role,
+          business: document.getElementById('gi-biz').value.trim(), message: document.getElementById('gi-msg').value.trim() }) })
+        .then(function(r) { return r.json(); })
+        .then(function(j) { if (j && j.success) { cttTrack('get_involved_submit', { role: role }); thanks(); } else { throw new Error('fail'); } })
+        .catch(function() { btn.disabled = false; st.textContent = 'Sorry, that did not send. Please try again in a moment.'; });
+    }
+    function open() { form(); last = document.activeElement; ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden'; cttTrack('open_get_involved'); document.getElementById('ctt-gi-close').focus(); }
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+    openEl.addEventListener('click', function(e) { e.preventDefault(); open(); });
+    document.getElementById('ctt-gi-close').addEventListener('click', close);
+    ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+    if (location.hash === '#get-involved') open();
+    window.cttOpenGetInvolved = open;
+  })();
 
   // ---- Automatic updates: silent. When a newer version has been published the page quietly refreshes itself (saved progress is kept). No banner, no button. ----
   (function() {
@@ -4645,6 +4761,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           + (r.photoUrl ? '<img class="ctt-review-photo" src="' + r.photoUrl + '" alt="">' : '')
           + (r.photoUrl && r.photoCategory ? '<div class="ctt-review-photo-tag">' + escapeHtml(r.photoCategory) + '</div>' : '')
           + '<div class="ctt-review-votes">'
+          + '<span class="ctt-vote-label">Helpful?</span>'
           + '<button class="ctt-vote-btn up' + (myVote === 'up' ? ' voted' : '') + '" data-vote-up="' + r._id + '" ' + (myVote ? 'disabled' : '') + '>\ud83d\udc4d ' + (r.upvotes || 0) + '</button>'
           + '<button class="ctt-vote-btn down' + (myVote === 'down' ? ' voted' : '') + '" data-vote-down="' + r._id + '" ' + (myVote ? 'disabled' : '') + '>\ud83d\udc4e ' + (r.downvotes || 0) + '</button>'
           + '</div>'
@@ -4795,6 +4912,112 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   loadAllReviews();
 </script>
+
+<script type="module">
+  // ---- Community calendar (Firestore collection "sales"; auto-publishes; 3 reports removes a listing). Link stays hidden until the database accepts reads. ----
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, increment, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  var cfg = { apiKey: "AIzaSyDSJYyUkpUQuwyZ6E7gNwutNb819BS_sTU", authDomain: "chattanooga-thrift-trail.firebaseapp.com", projectId: "chattanooga-thrift-trail", messagingSenderId: "553643358865", appId: "1:553643358865:web:66cbf21479e7ab67c71d30" };
+  var openEl = document.getElementById('ctt-cal-open'), ov = document.getElementById('ctt-cal-overlay'), body = document.getElementById('ctt-cal-body');
+  var db, sales = [], lastFocus = null;
+  var BAD = ["fuck","shit","bitch","asshole","bastard","cunt","dick","piss","cock","whore","slut","fag","nigger","nigga","retard","douchebag","twat"];
+  function bad(t) { t = t.toLowerCase(); return BAD.some(function(w) { return new RegExp('\\b' + w + '\\b').test(t); }); }
+  function hasLink(t) { return /(https?:|www\.|\.com|\.net|\.org|\.co\b|@\w+\.)/i.test(t); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function today() { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); }
+  function pretty(d) { var p = d.split('-'); var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return m[+p[1] - 1] + ' ' + (+p[2]); }
+  function reported() { try { return JSON.parse(localStorage.getItem('ctt_reported_sales') || '{}'); } catch (e) { return {}; } }
+  function load(cb) {
+    getDocs(collection(db, 'sales')).then(function(snap) {
+      var t = today(); sales = [];
+      snap.forEach(function(d) { var x = d.data(); x._id = d.id; if ((x.reports || 0) < 3 && (x.endDate || x.date) >= t) sales.push(x); });
+      sales.sort(function(a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+      cb && cb(true);
+    }).catch(function() { cb && cb(false); });
+  }
+  function render() {
+    var rep = reported();
+    var h = '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p><button type="button" class="ctt-cal-add" id="ctt-cal-add">Submit your event</button><div id="ctt-cal-formwrap"></div>';
+    if (!sales.length) h += '<p class="ctt-cal-empty">No upcoming events listed yet. Be the first to add one!</p>';
+    sales.forEach(function(x) {
+      var when = pretty(x.date) + (x.endDate && x.endDate !== x.date ? ' to ' + pretty(x.endDate) : '') + (x.time ? ' &middot; ' + esc(x.time) : '');
+      h += '<div class="ctt-cal-card"><h4>' + esc(x.title) + '</h4><p class="ctt-cal-date">' + when + '</p><p>' + esc(x.place) + ', ' + esc(x.city) + ' &middot; <a class="ctt-gi-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(x.place + ', ' + x.city) + '">Directions</a></p>' +
+        (x.details ? '<p>' + esc(x.details) + '</p>' : '') +
+        (rep[x._id] ? '<p style="font-size:12px;color:#8a8069">Thanks, reported.</p>' : '<button type="button" class="ctt-cal-rep" data-rep="' + x._id + '">Report</button>') + '</div>';
+    });
+    h += '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div><button type="button" class="ctt-shops-back" id="ctt-cal-back">&larr; Back to the map</button>';
+    body.innerHTML = h;
+    document.getElementById('ctt-cal-add').onclick = showForm;
+    document.getElementById('ctt-cal-back').onclick = close;
+    [].forEach.call(body.querySelectorAll('[data-rep]'), function(b) { b.onclick = function() { report(b.getAttribute('data-rep')); }; });
+  }
+  function report(id) {
+    var rep = reported(); if (rep[id]) return; rep[id] = 1;
+    try { localStorage.setItem('ctt_reported_sales', JSON.stringify(rep)); } catch (e) {}
+    var cur = sales.filter(function(x) { return x._id === id; })[0], n = ((cur && cur.reports) || 0) + 1;
+    updateDoc(doc(db, 'sales', id), { reports: increment(1) }).then(function() { if (n >= 3) return deleteDoc(doc(db, 'sales', id)).catch(function() {}); }).catch(function() {});
+    if (cur) { cur.reports = n; if (n >= 3) sales = sales.filter(function(x) { return x._id !== id; }); }
+    window.cttTrack && cttTrack('report_sale'); render();
+  }
+  function showForm() {
+    var w = document.getElementById('ctt-cal-formwrap'), t = today();
+    w.innerHTML = '<form class="ctt-gi-form" id="ctt-cal-form" novalidate>' +
+      '<label for="cs-title">What is it? (example: Church rummage sale or Grand opening)</label><input type="text" id="cs-title" maxlength="80">' +
+      '<label for="cs-place">Street address</label><input type="text" id="cs-place" maxlength="120" placeholder="123 Main St">' +
+      '<label for="cs-city">City</label><input type="text" id="cs-city" maxlength="60" value="Chattanooga">' +
+      '<label for="cs-date">Date</label><input type="date" id="cs-date" min="' + t + '">' +
+      '<label for="cs-end">Last day (only if it runs more than one day)</label><input type="date" id="cs-end" min="' + t + '">' +
+      '<label for="cs-time">Hours (example: 8am to 2pm)</label><input type="text" id="cs-time" maxlength="40">' +
+      '<label for="cs-details">Anything shoppers should know (optional)</label><textarea id="cs-details" maxlength="300"></textarea>' +
+      '<label class="ctt-cal-check"><input type="checkbox" id="cs-ok"> <span>This event happens in person at the address above. It is not online.</span></label>' +
+      '<div class="ctt-gi-hp" aria-hidden="true"><label>Leave blank<input type="text" id="cs-hp" tabindex="-1" autocomplete="off"></label></div>' +
+      '<div class="ctt-gi-status" id="cs-status" role="status"></div><button type="submit" class="ctt-shops-back" id="cs-send">Post my event</button></form>';
+    document.getElementById('ctt-cal-form').onsubmit = submit;
+    document.getElementById('cs-title').focus();
+  }
+  function submit(e) {
+    e.preventDefault();
+    var st = document.getElementById('cs-status'), btn = document.getElementById('cs-send');
+    function v(id) { return document.getElementById(id).value.trim(); }
+    if (v('cs-hp')) return;
+    var o = { title: v('cs-title'), place: v('cs-place'), city: v('cs-city'), date: v('cs-date'), endDate: v('cs-end') || null, time: v('cs-time'), details: v('cs-details'), reports: 0 };
+    var all = [o.title, o.place, o.city, o.time, o.details].join(' ');
+    var t = today(), max = new Date(Date.now() + 366 * 86400000).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    var err = '';
+    if (o.title.length < 3 || o.place.length < 5 || o.city.length < 2 || !o.date) err = 'Please fill in what it is, a street address, the city and the date.';
+    else if (!/\d/.test(o.place)) err = 'Please include a street number in the address. We only list in-person events.';
+    else if (o.date < t || o.date > max) err = 'Please pick a date from today to a year from now.';
+    else if (o.endDate && (o.endDate < o.date || o.endDate > max)) err = 'The last day needs to be on or after the first day.';
+    else if (!document.getElementById('cs-ok').checked) err = 'Please confirm the event is in person.';
+    else if (bad(all)) err = 'Please keep it family friendly.';
+    else if (hasLink(all)) err = 'Please leave out web links and email addresses.';
+    else { try { var last = +localStorage.getItem('ctt_sale_last') || 0; if (Date.now() - last < 60000) err = 'Please wait a minute before posting another.'; } catch (x) {} }
+    if (err) { st.textContent = err; return; }
+    btn.disabled = true; st.textContent = 'Posting...';
+    o.createdAt = serverTimestamp();
+    addDoc(collection(db, 'sales'), o).then(function() {
+      try { localStorage.setItem('ctt_sale_last', String(Date.now())); } catch (x) {}
+      window.cttTrack && cttTrack('submit_sale');
+      load(function() { render(); var w = document.getElementById('ctt-cal-formwrap'); if (w) w.innerHTML = '<p class="ctt-gi-status" style="color:var(--olive)">Posted! Thank you. Your event is on the calendar.</p>'; });
+    }).catch(function() { btn.disabled = false; st.textContent = 'Sorry, that did not post. Please try again in a moment.'; });
+  }
+  function open() { lastFocus = document.activeElement; render(); ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden'; window.cttTrack && cttTrack('open_calendar'); document.getElementById('ctt-cal-close').focus(); load(function(ok) { if (ok) render(); }); }
+  function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  try {
+    var app = getApps()[0] || initializeApp(cfg); db = getFirestore(app);
+    load(function(ok) {
+      if (!ok || !openEl) return;
+      openEl.style.display = '';
+      openEl.addEventListener('click', function(e) { e.preventDefault(); open(); });
+      document.getElementById('ctt-cal-close').addEventListener('click', close);
+      ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+      window.cttOpenCalendar = open;
+      if (location.hash === '#calendar') open();
+    });
+  } catch (e) {}
+</script>
+
 
 </body>
 </html>
