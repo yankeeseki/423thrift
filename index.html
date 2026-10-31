@@ -44,6 +44,7 @@ Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
+- DONE in v9.3 (Oct 30 2026): silent automatic updates (no banner or button; refreshes when tab is hidden, visitor idle ~20s or just arrived; ?cb= cache-buster; two tries then waits 10 min). Still NEXT: Most visited, per-shop details display, community calendar, World's Longest Yard Sale banners.
 - DONE in v9.2 (Oct 30 2026): 3 Signal Mountain shops added (St. Timothy's, The Clothes House, Bachman Bargain Barn, each with a heart note); Signal Mountain area chip; home-screen link on the same line as the how-to guide link; Goodwill Fort Oglethorpe corrected to 516 Battlefield Pkwy; websites added for Hunts, both Goodwills, Providence Lee Hwy, Chambliss Brainerd, America's Brainerd.
 - DONE in v9.1 (Oct 30 2026): Filter rework (Mod's Top 25 is the 4th checkbox; boxes add together; nothing checked = empty map + Reset; second list is "Bonus & Closed Shops" in the classic/Top-25-only views and "All Other Shops" for any other mix); areas renamed/merged (Highland Park, East Ridge, Brainerd & Hamilton Place; Ladies of Charity now in Southside; no Ooltewah chip); featured star number is drawn inside the star SVG (black); map auto-fits every route stop (Whole route button removed); Share order Instagram, Facebook, X, Text It, Copy Link, Trail Poster; automatic update check (meta ctt-build + banner) and sw.js fetches pages with no-store.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
@@ -66,7 +67,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v9.2-20261030">
+<meta name="ctt-build" content="v9.3-20261030">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Free Chattanooga thrift store map and route planner. Find 35+ thrift, vintage &amp; antique shops, check today’s hours, and get the best driving loop.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2207,7 +2208,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.2 &mdash; October 30, 2026</p>
+      <p class="ctt-version">v9.3 &mdash; October 30, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -4159,43 +4160,55 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   document.getElementById('ctt-shops-overlay').addEventListener('click', function(e) { if (e.target === this) closeShopsPopup(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && document.getElementById('ctt-shops-overlay').classList.contains('open')) closeShopsPopup(); });
 
-  // ---- Automatic updates: when a newer version of the site has been published, say so and reload (saved progress is kept) ----
+  // ---- Automatic updates: silent. When a newer version has been published the page quietly refreshes itself (saved progress is kept). No banner, no button. ----
   (function() {
     if (location.protocol === 'file:') return;
     var metaEl = document.querySelector('meta[name="ctt-build"]');
     var cur = metaEl ? metaEl.getAttribute('content') : null;
     if (!cur) return;
-    var shown = false;
-    function banner(newBuild, auto) {
-      if (shown) return; shown = true;
-      var b = document.createElement('div');
-      b.setAttribute('role', 'status');
-      b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:100000;background:#b5502f;color:#f2ead9;font-family:"Libre Franklin",Arial,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.35);';
-      var go = function() { try { sessionStorage.setItem('ctt-reloaded-for', newBuild); } catch (e) {} location.reload(); };
-      if (auto) {
-        b.textContent = '\u2728 A new version of the Trail is ready. Updating now\u2026 (your progress is saved)';
-        document.body.appendChild(b);
-        setTimeout(go, 2500);
-      } else {
-        b.innerHTML = '\u2728 A new version of the Trail is ready. <button type="button" style="margin-left:8px;background:#f2ead9;color:#b5502f;border:none;border-radius:12px;padding:5px 14px;font-weight:800;font-size:14px;cursor:pointer;">Tap to update</button>';
-        document.body.appendChild(b);
-        b.querySelector('button').addEventListener('click', go);
-      }
+    // A refresh adds a throwaway ?cb= to the address so the host's cache can't hand back the old copy; tidy it away once loaded.
+    try { var cu = new URL(location.href); if (cu.searchParams.has('cb')) { cu.searchParams.delete('cb'); history.replaceState(null, '', cu.pathname + cu.search + cu.hash); } } catch (e) {}
+    var loadedAt = Date.now(), lastTouch = 0, pending = null, timer = null;
+    ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(function(ev) {
+      document.addEventListener(ev, function() { lastTouch = Date.now(); }, { passive: true, capture: true });
+    });
+    function typing() { var a = document.activeElement; return a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName); }
+    // Safe moments to refresh: the tab is in the background, or the visitor just arrived and hasn't touched anything, or they've been idle a little while.
+    function safeNow() {
+      if (typing()) return false;
+      if (document.visibilityState === 'hidden') return true;
+      var now = Date.now();
+      if (!lastTouch) return now - loadedAt < 15000;
+      return now - lastTouch > 20000;
     }
-    function typing() { var a = document.activeElement; return a && /^(TEXTAREA|INPUT)$/.test(a.tagName) && /text|search|email|^$/.test(a.type || ''); }
+    function go(build) {
+      var rec = null; try { rec = JSON.parse(sessionStorage.getItem('ctt-upd') || 'null'); } catch (e) {}
+      var now = Date.now(), n = (rec && rec.b === build) ? rec.n : 0;
+      // Never loop: at most two quick tries per version, then wait ten minutes before trying again.
+      if (rec && rec.b === build && n >= 2 && now - rec.t < 600000) return;
+      if (rec && rec.b === build && n >= 2) n = 0;
+      try { sessionStorage.setItem('ctt-upd', JSON.stringify({ b: build, n: n + 1, t: now })); } catch (e) {}
+      try { var u = new URL(location.href); u.searchParams.set('cb', String(now)); location.replace(u.href); } catch (e) { location.reload(); }
+    }
+    function attempt() {
+      clearTimeout(timer);
+      if (!pending) return;
+      if (safeNow()) go(pending); else timer = setTimeout(attempt, 5000);
+    }
     function check() {
-      if (shown) return;
+      if (pending) { attempt(); return; }
       fetch(location.pathname + '?v=' + Date.now(), { cache: 'no-store' }).then(function(r) { return r.ok ? r.text() : ''; }).then(function(t) {
         var m = t.match(/<meta name="ctt-build" content="([^"]+)"/);
         if (!m || m[1] === cur) return;
-        var already = null; try { already = sessionStorage.getItem('ctt-reloaded-for'); } catch (e) {}
-        // Reload by itself once; if the browser somehow still serves the old copy, ask for a tap instead of looping.
-        banner(m[1], already !== m[1] && !typing());
+        pending = m[1];
+        attempt();
       }).catch(function() {});
     }
-    setTimeout(check, 3000);
-    document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') check(); });
-    setInterval(function() { if (document.visibilityState === 'visible') check(); }, 5 * 60 * 1000);
+    setTimeout(check, 1000);
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') attempt(); else check();
+    });
+    setInterval(check, 2 * 60 * 1000);
   })();
 
   // ---- Offline support (see sw.js; needs https) ----
