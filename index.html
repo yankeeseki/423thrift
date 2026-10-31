@@ -70,6 +70,7 @@ STILL TO DO / IDEAS
   - DONE in v10.17: 'thrift run' -> 'thrift experience' (tagline, blog, FAQ).
   - DONE in v10.18: 'Tennessee only' filter checkbox (ON by default; hides the 4 Fort Oglethorpe GA shops, so Mod's Top 25 shows 21; picking the Fort Oglethorpe area chip shows them anyway). Saved filters without it default to on.
   - DONE in v10.19: Mod's Top 25 -> Chattanooga Top 20 (the 4 Georgia shops, Habitat ReStore and Electric Crocodile removed from the list).
+  - DONE in v10.20: Filter (left) and shop count (right) now sit in a sticky bar at the top of the shop list box; the filter panel opens right under it (it used to open far above the button on phones, which looked broken).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -90,7 +91,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.19-20261031">
+<meta name="ctt-build" content="v10.20-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1541,7 +1542,9 @@ STILL TO DO / IDEAS
     font-size: 19px;
     color: var(--ink);
   }
-  .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 12.5px; font-weight: 600; color: var(--taupe); margin: 2px 0 6px; }
+  .ctt-list-bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--paper); border-bottom: 1.5px dashed var(--line); padding: 6px 4px 6px 2px; margin-right: -4px; }
+  .ctt-list-bar .ctt-filter-toggle { font-size: 13.5px; padding: 6px 4px; min-height: 32px; }
+  .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0; text-align: right; }
   .ctt-list-label {
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
@@ -2195,29 +2198,11 @@ STILL TO DO / IDEAS
   <div class="ctt-resume-banner" id="ctt-resume-banner" style="display:none;"></div>
   <div class="ctt-planning-banner" id="ctt-planning-banner" style="display:none;"></div>
 
-  <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
-    <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">The experience you want</div>
-      <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift stores</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated &amp; vintage</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> &#11088; Chattanooga Top 20</label>
-      <button type="button" class="ctt-fp-link" id="ctt-fp-all">Everything</button>
-    </div>
-    <div class="ctt-fp-sec"><div class="ctt-fp-h">Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
-    <div class="ctt-fp-sec"><div class="ctt-fp-h">Also show only</div>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="tn"> Tennessee only</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late (closes 6 PM or later)</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="charity"> Supports a charity &#128155;</label>
-      <label class="ctt-fp-opt"><input type="checkbox" data-flag="unvisited"> Shops I haven&rsquo;t visited</label>
-    </div>
-    <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
-  </div>
 
   <div class="ctt-layout" id="ctt-layout">
     <div class="ctt-list-outer">
       <div class="ctt-trail-header">
-        <div class="ctt-title-col"><span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button></div>
+        <div class="ctt-title-col"><span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span></div>
         <div class="ctt-day-picker">
           <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>
           <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button>
@@ -2237,8 +2222,26 @@ STILL TO DO / IDEAS
       <div class="ctt-custom-order-banner" id="ctt-saved-note" style="display:none;">
         Your changes are saved on this device &middot; <button id="ctt-start-over-btn">Start over</button>
       </div>
-      <p class="ctt-list-count" id="ctt-list-count" aria-live="polite"></p>
       <div class="ctt-list" id="ctt-list">
+        <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
+      <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
+        <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">The experience you want</div>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift stores</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated &amp; vintage</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> &#11088; Chattanooga Top 20</label>
+          <button type="button" class="ctt-fp-link" id="ctt-fp-all">Everything</button>
+        </div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">Also show only</div>
+          <label class="ctt-fp-opt"><input type="checkbox" data-flag="tn"> Tennessee only</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late (closes 6 PM or later)</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-flag="charity"> Supports a charity &#128155;</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-flag="unvisited"> Shops I haven&rsquo;t visited</label>
+        </div>
+        <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
+      </div>
         <div id="ctt-route-list"></div>
       </div>
       <div class="ctt-offroute-container">
@@ -2334,7 +2337,7 @@ STILL TO DO / IDEAS
 <p>Browse by neighborhood: <a href="thrift-stores-downtown-north-shore/">Downtown &amp; North Shore</a> &middot; <a href="thrift-stores-southside/">Southside</a> &middot; <a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a> &middot; <a href="thrift-stores-east-ridge/">East Ridge</a> &middot; <a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a> &middot; <a href="thrift-stores-hixson/">Hixson</a> &middot; <a href="thrift-stores-red-bank/">Red Bank</a> &middot; <a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a> &middot; <a href="thrift-stores-signal-mountain-ooltewah/">Signal Mountain &amp; Ooltewah</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v10.19 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.20 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3047,7 +3050,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var n = activeRoute.length;
     if (!n) { el.textContent = ''; return; }
     var v = activeRoute.filter(function(s) { return visitedStores[s.name]; }).length;
-    el.textContent = n + ' shop' + (n === 1 ? '' : 's') + ' on your route' + (v ? ' \u00b7 ' + v + ' visited' : '') + (n > LIST_VISIBLE ? ' \u00b7 scroll the list for more' : '');
+    el.textContent = n + ' shop' + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
   }
   function updateRouteStat(count, miles) {
     updateListCount();
@@ -3143,7 +3146,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       return;
     }
     var finalHeight = Math.max(routeHeight || 0, offRouteHeight || 0);
-    listContainerEl.style.maxHeight = finalHeight + 'px';
+    var barEl = document.getElementById('ctt-list-bar'); var barH = barEl ? barEl.offsetHeight + 9 : 0;
+    listContainerEl.style.maxHeight = (finalHeight + (routeHeight ? barH : 0)) + 'px';
     offRouteListEl.style.maxHeight = finalHeight + 'px';
   }
   var routeMarkers = [];
@@ -3681,6 +3685,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var open = panel.style.display === 'none';
       panel.style.display = open ? 'block' : 'none';
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { var lb = document.getElementById('ctt-list'); if (lb) lb.scrollTop = 0; }
     });
     document.getElementById('ctt-fp-done').addEventListener('click', function() { panel.style.display = 'none'; toggle.setAttribute('aria-expanded', 'false'); });
     panel.addEventListener('change', function(e) {
