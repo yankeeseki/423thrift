@@ -44,7 +44,7 @@ Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
-- DONE in v9.9 (Oct 31 2026): tagline under title (wording by Mod: 'Plan the perfect thrift run. Chattanooga area thrift, vintage and antique shops, in an optimized driving order...'); removed 'free'/'today' from meta + SEO paragraph; blog post why-not-just-use-google-maps-for-thrifting (no stop number stated, per Mod); How this works line; how-to FAQ; stale update-banner text fixed.
+- DONE in v9.9 (Oct 31 2026): tagline under title (wording by Mod: 'Plan the perfect thrift experience. Chattanooga area thrift, vintage and antique shops, in an optimized driving order...'); removed 'free'/'today' from meta + SEO paragraph; blog post why-not-just-use-google-maps-for-thrifting (no stop number stated, per Mod); How this works line; how-to FAQ; stale update-banner text fixed.
 - DONE in v9.8 (Oct 31 2026): Crafter's Emporium grouped with Hixson (Trail area, /shops/ page, Hixson landing page).
 - DONE in v9.7 (Oct 31 2026): blog audit fixes (Fort Oglethorpe post Goodwill address 516 Battlefield Pkwy; Hixson landing page Friends and Family Sat 10-5 and feedback wording).
 - DONE in v9.6 (Oct 31 2026): price line ($ to $$$$$) from Mod's ratings; 'Helpful?' label on review votes; Get Involved form (Web3Forms key in GI_KEY, storefronts-only note); Community Calendar (Firestore 'sales', rules published Oct 31; link hidden until reads succeed; Submit your event / Report; 3 reports removes); feedback email now 423thrift@gmail.com.
@@ -64,6 +64,10 @@ STILL TO DO / IDEAS
   - DONE in v10.11: PDF button now asks for location with a clear "Allow location to build your guide" button, then builds the guide automatically.
   - DONE in v10.12: wording "stop" -> "shop" for trail shops everywhere (button, tagline, FAQ, blog, neighborhood pages); coffee stays "coffee stop".
   - DONE in v10.13: per-shop 'Mark visited/Undo' text removed; just a plain Visited checkbox (auto-checked by 'Done here, next shop', uncheckable); 'Done here, next shop' now also refreshes the route like Next shop.
+  - DONE in v10.14: checkbox says 'Visited'; visited shops move into a subtle '✓ Visited (N)' drop-down above the next shop (organizeVisited); unchecking returns the shop to the top of the route.
+  - DONE in v10.15: 'Get directions' link is rust (was olive).
+  - DONE in v10.16: list shows 8 shops before it scrolls in its own box (LIST_VISIBLE=8); new count line above the list (updateListCount).
+  - DONE in v10.17: 'thrift run' -> 'thrift experience' (tagline, blog, FAQ).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -84,7 +88,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.13-20261031">
+<meta name="ctt-build" content="v10.17-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1535,6 +1539,7 @@ STILL TO DO / IDEAS
     font-size: 19px;
     color: var(--ink);
   }
+  .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 12.5px; font-weight: 600; color: var(--taupe); margin: 2px 0 6px; }
   .ctt-list-label {
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
@@ -1710,8 +1715,8 @@ STILL TO DO / IDEAS
     text-decoration: none; border-bottom: 1px solid var(--rust);
   }
   .ctt-directions-link {
-    display: inline-block; margin-top: 6px; margin-left: 10px; font-size: 12px; color: var(--olive);
-    text-decoration: none; border-bottom: 1px solid var(--olive);
+    display: inline-block; margin-top: 6px; margin-left: 10px; font-size: 12px; color: var(--rust);
+    text-decoration: none; border-bottom: 1px solid var(--rust);
   }
   .ctt-visited-check {
     display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;
@@ -1722,8 +1727,15 @@ STILL TO DO / IDEAS
   .ctt-tag.visited .ctt-tag-photo-col, .ctt-tag.visited .ctt-tag-note, .ctt-tag.visited .ctt-tag-addr, .ctt-tag.visited .ctt-tag-bottom-row .ctt-tag-meta, .ctt-tag.visited .ctt-review-toggle-btn, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-up, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-down, .ctt-tag.visited .ctt-start-here { display: none; }
   .ctt-vbadge { display: none; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); border: 1.5px solid var(--olive); border-radius: 12px; padding: 1px 9px; }
   .ctt-tag.visited .ctt-vbadge { display: inline-block; }
-  .ctt-visited-check { cursor: pointer; display: inline-flex; align-items: center; padding: 4px; }
-  .ctt-visited-checkbox { width: 22px; height: 22px; margin: 0; cursor: pointer; accent-color: var(--olive); }
+  .ctt-visited-check { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px; }
+  .ctt-visited-checkbox { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--olive); }
+  .ctt-tag.visited .ctt-vbadge { display: none; }
+  .ctt-visited-drop { margin: 0 0 9px; }
+  .ctt-visited-drop > summary { list-style: none; cursor: pointer; font-family: 'Libre Franklin', sans-serif; font-size: 12.5px; font-weight: 600; color: var(--olive); padding: 4px 2px; opacity: .85; }
+  .ctt-visited-drop > summary::-webkit-details-marker { display: none; }
+  .ctt-visited-drop > summary:hover { opacity: 1; text-decoration: underline; }
+  .ctt-visited-drop > summary:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
+  .ctt-visited-drop-body { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
   .ctt-done-btn { display: block; width: auto; margin: 10px auto 2px; font-family: 'Libre Franklin', sans-serif; font-size: 13.5px; font-weight: 700; color: #fff; background: var(--olive); border: 2px solid var(--olive); border-radius: 18px; padding: 7px 18px; cursor: pointer; }
   .ctt-done-btn:focus-visible, .ctt-visited-check:focus-within { outline: 3px solid var(--rust); outline-offset: 2px; }
   .ctt-tag.visited .ctt-tag-name { text-decoration: line-through; }
@@ -2111,7 +2123,7 @@ STILL TO DO / IDEAS
 <div id="ctt-thrift-wrap">
   <div class="ctt-header">
     <h1 class="ctt-title">Chattanooga Thrift Trail</h1>
-    <p class="ctt-tagline"><strong>Optimize your thrift run.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
+    <p class="ctt-tagline"><strong>Optimize your thrifting experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
     <div class="ctt-route-stat-row">
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
@@ -2222,6 +2234,7 @@ STILL TO DO / IDEAS
       <div class="ctt-custom-order-banner" id="ctt-saved-note" style="display:none;">
         Your changes are saved on this device &middot; <button id="ctt-start-over-btn">Start over</button>
       </div>
+      <p class="ctt-list-count" id="ctt-list-count" aria-live="polite"></p>
       <div class="ctt-list" id="ctt-list">
         <div id="ctt-route-list"></div>
       </div>
@@ -2318,7 +2331,7 @@ STILL TO DO / IDEAS
 <p>Browse by neighborhood: <a href="thrift-stores-downtown-north-shore/">Downtown &amp; North Shore</a> &middot; <a href="thrift-stores-southside/">Southside</a> &middot; <a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a> &middot; <a href="thrift-stores-east-ridge/">East Ridge</a> &middot; <a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a> &middot; <a href="thrift-stores-hixson/">Hixson</a> &middot; <a href="thrift-stores-red-bank/">Red Bank</a> &middot; <a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a> &middot; <a href="thrift-stores-signal-mountain-ooltewah/">Signal Mountain &amp; Ooltewah</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v10.13 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.17 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -3028,7 +3041,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var routePolyline = null;
 
   var lastRouteMiles = 0, lastRouteCount = 0;
+  function updateListCount() {
+    var el = document.getElementById('ctt-list-count'); if (!el) return;
+    var n = activeRoute.length;
+    if (!n) { el.textContent = ''; return; }
+    var v = activeRoute.filter(function(s) { return visitedStores[s.name]; }).length;
+    el.textContent = n + ' shop' + (n === 1 ? '' : 's') + ' on your route' + (v ? ' \u00b7 ' + v + ' visited' : '') + (n > LIST_VISIBLE ? ' \u00b7 scroll the list for more' : '');
+  }
   function updateRouteStat(count, miles) {
+    updateListCount();
     lastRouteMiles = miles;
     lastRouteCount = count;
     var el = document.getElementById('ctt-route-stat');
@@ -3093,7 +3114,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function offRouteLabel() { return typeMode() === 'wide' ? 'All Other Shops' : 'Bonus &amp; Closed Shops'; }
   function refreshOffRouteLabel() { var b = document.getElementById('ctt-offroute-toggle'); if (b) b.innerHTML = offRouteLabel() + ' ' + (offRouteExpanded ? '&#9652;' : '&#9662;'); }
   var offRouteExpanded = false;
-  var LIST_VISIBLE = 12; // how many stops show before the list scrolls inside its own box
+  var LIST_VISIBLE = 8; // how many shops show before the list scrolls inside its own box
   function heightForFirstFive(cardsParent) {
     var cards = cardsParent.children;
     if (cards.length <= LIST_VISIBLE) return null;
@@ -3282,7 +3303,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       ? '<button class="ctt-toggle-btn remove" title="Remove Shop">&minus;</button>'
       : '<button class="ctt-toggle-btn add" title="Add Shop">&#43;</button>';
     var visitedHtml = onRoute
-      ? '<span class="ctt-vbadge">&#10003; Visited</span><label class="ctt-visited-check" title="Visited"><input type="checkbox" class="ctt-visited-checkbox" aria-label="Visited"' + (isVisited ? ' checked' : '') + '></label>'
+      ? '<span class="ctt-vbadge">&#10003; Visited</span><label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> <span class="ctt-vtext">Visited</span></label>'
       : '';
     var reasonHtml = '';
     if (!onRoute) {
@@ -4052,7 +4073,31 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var a = b.getAttribute('data-cf');
     if (a === 'done' || a === 'remove') { coffeeStop = null; cfRenderRow(); }
   });
+  var visitedDropOpen = false;
+  function organizeVisited() {
+    var cards = Array.prototype.slice.call(routeListEl.querySelectorAll('.ctt-tag[data-store-name]'));
+    var vis = cards.filter(function(c) { return c.classList.contains('visited'); });
+    var drop = routeListEl.querySelector('.ctt-visited-drop');
+    if (!vis.length) { if (drop) drop.remove(); return; }
+    if (!drop) {
+      drop = document.createElement('details'); drop.className = 'ctt-visited-drop'; drop.open = visitedDropOpen;
+      drop.innerHTML = '<summary></summary><div class="ctt-visited-drop-body"></div>';
+      drop.addEventListener('toggle', function() { visitedDropOpen = drop.open; });
+      routeListEl.insertBefore(drop, routeListEl.firstChild);
+    }
+    var body = drop.querySelector('.ctt-visited-drop-body');
+    drop.querySelector('summary').innerHTML = '&#10003; Visited (' + vis.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
+    drop.addEventListener('toggle', function() { var sm = drop.querySelector('summary'); if (sm) sm.innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>'; });
+    // visited cards go into the drop-down; an unchecked one goes back to the top of the route
+    vis.forEach(function(c) { if (c.parentNode !== body) body.appendChild(c); });
+    cards.forEach(function(c) {
+      if (!c.classList.contains('visited') && c.parentNode === body) routeListEl.insertBefore(c, drop.nextSibling);
+    });
+    drop.querySelector('summary').innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
+    if (!body.children.length) drop.remove();
+  }
   function refreshNextButton() {
+    organizeVisited();
     routeListEl.querySelectorAll('.ctt-done-btn').forEach(function(b) { b.remove(); });
     var cards = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
     for (var i = 0; i < cards.length; i++) {
