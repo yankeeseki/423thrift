@@ -1,4 +1,4 @@
-/* The Chattanooga Thrift Trail: offline support.
+/* Chattanooga Thrift Trail: offline support.
    - The page itself is always fetched fresh when you're online (so updates arrive automatically)
      and the last good copy is used when you're offline.
    - Map library, fonts and map tiles you've already viewed are kept for offline use.
