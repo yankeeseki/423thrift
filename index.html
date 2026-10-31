@@ -43,11 +43,14 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
-- TODO (owner request, Oct 30 2026, not built yet): in the "How this works" panel, right-align the "Add the trail to your home screen" link so it sits on the SAME LINE as "Read the full how-to guide" (that one stays left, home-screen link at the right).
+- DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
+- DONE in v9.2 (Oct 30 2026): 3 Signal Mountain shops added (St. Timothy's, The Clothes House, Bachman Bargain Barn, each with a heart note); Signal Mountain area chip; home-screen link on the same line as the how-to guide link; Goodwill Fort Oglethorpe corrected to 516 Battlefield Pkwy; websites added for Hunts, both Goodwills, Providence Lee Hwy, Chambliss Brainerd, America's Brainerd.
 - DONE in v9.1 (Oct 30 2026): Filter rework (Mod's Top 25 is the 4th checkbox; boxes add together; nothing checked = empty map + Reset; second list is "Bonus & Closed Shops" in the classic/Top-25-only views and "All Other Shops" for any other mix); areas renamed/merged (Highland Park, East Ridge, Brainerd & Hamilton Place; Ladies of Charity now in Southside; no Ooltewah chip); featured star number is drawn inside the star SVG (black); map auto-fits every route stop (Whole route button removed); Share order Instagram, Facebook, X, Text It, Copy Link, Trail Poster; automatic update check (meta ctt-build + banner) and sw.js fetches pages with no-store.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
+- LATER (owner request, Oct 30 2026): per-shop visitor details to show on cards: public restrooms, card payments or cash only, card minimum purchase (e.g. "$5 minimum"), wheelchair access, price feel ($/$$), weekly sale info, free Wi-Fi. (Parking dropped by owner: about 95% of shops have free parking.) DISPLAY RULE (owner, Oct 30 2026): any detail we do not have is simply NOT SHOWN. No "unknown" or "not listed" placeholders; a shop with no details shows nothing extra. Source data lives in work/shop_details.json (null = hide). CASH RULE: every shop is assumed to accept cash unless the owner says otherwise (exceptions list in work/shop_details.json). Wheelchair access is shown simply as Yes (wheelchair icon) whenever Google lists any accessible item; no breakdown. Gemini/Deep Research could not read Google listings reliably (tested Oct 30; its output was mostly guesses), so collect by hand, screenshots of Google Maps About tabs, or the Google Places API. Verified so far: St. Timothy's (Signal Mountain) pays by cash, local check or Venmo.
+- NEXT BUILD (owner request, Oct 30 2026): public "Most visited" ranking at the very bottom of Shops & Charities (popup AND /shops/ page, above the tip buttons). Numbered 1-30 (TOP 30 only), only shops with at least one visit, small gray visit counts. Count +1 per shop per device when Visited is ticked; stored as totals only in Firebase (needs a Firestore rules update the owner pastes in). Low-key, just for fun.
 - Set up Google Search Console and submit sitemap.xml (add https://423thrift.com/shops/ to it) AND sitemap-blog.xml.
 - BLOG: /blog/ folder = index.html + 49 post folders (48 scheduled + the live guide; generated; 1st & 3rd Monday, Nov 2 2026 to Oct 16 2028). Each page hides itself until its Eastern-time date
   (script adds noindex before then). Footer 'Blog' link sits below Disclaimer. Posts: Vinterest Southside closing (Nov 2 2026), Vinterest Hixson (Mar 1 2027).
@@ -63,7 +66,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v9.1-20261030">
+<meta name="ctt-build" content="v9.2-20261030">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Free Chattanooga thrift store map and route planner. Find 35+ thrift, vintage &amp; antique shops, check today’s hours, and get the best driving loop.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -199,7 +202,7 @@ STILL TO DO / IDEAS
      "name": "Goodwill Store Fort Oglethorpe",
      "address": {
       "@type": "PostalAddress",
-      "streetAddress": "1873 Battlefield Pkwy",
+      "streetAddress": "516 Battlefield Pkwy",
       "addressLocality": "Fort Oglethorpe",
       "addressRegion": "GA",
       "postalCode": "30742",
@@ -207,8 +210,8 @@ STILL TO DO / IDEAS
      },
      "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 34.9495954,
-      "longitude": -85.2333329
+      "latitude": 34.953313,
+      "longitude": -85.257687
      }
     }
    },
@@ -953,6 +956,69 @@ STILL TO DO / IDEAS
       "longitude": -85.1512583
      }
     }
+   },
+   {
+    "@type": "ListItem",
+    "position": 42,
+    "item": {
+     "@type": "Store",
+     "name": "St. Timothy's Thrift Shop",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "627 Mississippi Ave",
+      "addressLocality": "Signal Mountain",
+      "addressRegion": "TN",
+      "postalCode": "37377",
+      "addressCountry": "US"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 35.122188,
+      "longitude": -85.349312
+     }
+    }
+   },
+   {
+    "@type": "ListItem",
+    "position": 43,
+    "item": {
+     "@type": "Store",
+     "name": "The Clothes House on Signal Mountain",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "710 Signal Mountain Blvd",
+      "addressLocality": "Signal Mountain",
+      "addressRegion": "TN",
+      "postalCode": "37377",
+      "addressCountry": "US"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 35.122563,
+      "longitude": -85.347938
+     }
+    }
+   },
+   {
+    "@type": "ListItem",
+    "position": 44,
+    "item": {
+     "@type": "Store",
+     "name": "Bachman Bargain Barn",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Anderson Pike",
+      "addressLocality": "Signal Mountain",
+      "addressRegion": "TN",
+      "postalCode": "37377",
+      "addressCountry": "US"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 35.163812,
+      "longitude": -85.322437
+     }
+    }
    }
   ]
  }
@@ -1386,7 +1452,6 @@ STILL TO DO / IDEAS
   }
   .ctt-backtomap.show { display: block; }
   @media (min-width: 781px) { .ctt-backtomap.show { display: none; } }
-  #ctt-map .ctt-fit-btn { position: absolute; right: 8px; top: 8px; z-index: 1000; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 10px; cursor: pointer; }
 
   .ctt-list-outer {
     display: flex;
@@ -1923,6 +1988,8 @@ STILL TO DO / IDEAS
   .ctt-homescreen-link:hover { color: var(--ink); }
   .ctt-homescreen-row { margin: 36px 0 12px 0; text-align: center; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
+  .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
+  .ctt-howworks-links .ctt-homescreen-link { margin: 0 0 0 auto; font-size: 13px; line-height: inherit; text-align: right; }
   .ctt-homescreen-panel {
     margin: 0 0 14px 0; padding: 16px 20px; background: var(--card);
     border: 1.5px dashed var(--line); border-radius: 6px;
@@ -1985,8 +2052,7 @@ STILL TO DO / IDEAS
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort Oglethorpe, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
     <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed stores are set aside automatically, and you can add or remove any shop yourself.</p>
     <p><strong>Bonus shops:</strong> Gold diamonds are extra shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
-    <p><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a></p>
-    <p><button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button></p>
+    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button></div>
   </div>
 
   <div class="ctt-cta-row">
@@ -2141,7 +2207,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.1 &mdash; October 30, 2026</p>
+      <p class="ctt-version">v9.2 &mdash; October 30, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2159,12 +2225,12 @@ STILL TO DO / IDEAS
     { name: "Providence Thrift Store", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.955506, lng: -85.257814, address: "491 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 4, note: "Big selection including furniture and mattresses, though some reviewers find pricing inconsistent for a thrift store.", myNote: "", url: null },
     { name: "Nifty Thrifty", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9492325, lng: -85.2586457, address: "2749 Lafayette Rd, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Fri 11-6 &middot; Sat/Sun Closed", myRating: 3, note: "Consistently five-star reviews for unbeatable prices and an owner reviewers describe as exceptionally kind.", myNote: "", url: null },
     { name: "SACs Thrift Avenue", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.952501, lng: -85.247213, address: "1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.", myNote: "", url: null },
-    { name: "Goodwill Store Fort Oglethorpe", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9495954, lng: -85.2333329, address: "1873 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers are split on this location, with several feeling prices run high for a thrift store.", myNote: "", url: null },
-    { name: "The Thrift Store (benefits Chambliss Center)", area: "Brainerd", category: "Thrift Store", lat: 35.023061, lng: -85.242554, address: "3723 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Rotating inventory with a good plus-size and kids selection, though reviews are mixed on furniture and electronics.", myNote: "", url: null },
-    { name: "America's Thrift Stores (Brainerd Rd)", area: "Brainerd", category: "Thrift Store", lat: 35.0114178, lng: -85.2106934, address: "5844 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Clean and well organized, but a common theme in reviews is that prices run higher than expected for a thrift store.", myNote: "", url: null },
-    { name: "Hunts Thrift", area: "East Brainerd", category: "Thrift Store", lat: 35.0174675, lng: -85.1824304, address: "1301 Hickory Valley Rd, Chattanooga, TN 37421", hours: "Mon-Sat 10-7 &middot; Sun 10-6", myRating: 4, note: "Reviews are notably mixed — some love the selection and staff, while many others feel prices are too high for donated goods.", myNote: "", url: null },
-    { name: "Goodwill Store E. Brainerd", area: "East Brainerd", category: "Thrift Store", lat: 35.0139539, lng: -85.1573659, address: "7601 E Brainerd Rd, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers frequently highlight specific staff members by name for going out of their way to help.", myNote: "", url: null },
-    { name: "Providence Thrift Store (Lee Hwy)", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0443448, lng: -85.16619, address: "6933 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 3, note: "Reviews are sharply divided — some find great deals and friendly staff, others describe the store as cluttered and poorly kept.", myNote: "", url: null },
+    { name: "Goodwill Store Fort Oglethorpe", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.953313, lng: -85.257687, address: "516 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers are split on this location, with several feeling prices run high for a thrift store.", myNote: "", url: "https://goodwillchatt.org" },
+    { name: "The Thrift Store (benefits Chambliss Center)", area: "Brainerd", category: "Thrift Store", lat: 35.023061, lng: -85.242554, address: "3723 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Rotating inventory with a good plus-size and kids selection, though reviews are mixed on furniture and electronics.", myNote: "", url: "https://chamblisscenter.org" },
+    { name: "America's Thrift Stores (Brainerd Rd)", area: "Brainerd", category: "Thrift Store", lat: 35.0114178, lng: -85.2106934, address: "5844 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Clean and well organized, but a common theme in reviews is that prices run higher than expected for a thrift store.", myNote: "", url: "https://americasthrift.com" },
+    { name: "Hunts Thrift", area: "East Brainerd", category: "Thrift Store", lat: 35.0174675, lng: -85.1824304, address: "1301 Hickory Valley Rd, Chattanooga, TN 37421", hours: "Mon-Sat 10-7 &middot; Sun 10-6", myRating: 4, note: "Reviews are notably mixed — some love the selection and staff, while many others feel prices are too high for donated goods.", myNote: "", url: "https://huntsthrift.com" },
+    { name: "Goodwill Store E. Brainerd", area: "East Brainerd", category: "Thrift Store", lat: 35.0139539, lng: -85.1573659, address: "7601 E Brainerd Rd, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers frequently highlight specific staff members by name for going out of their way to help.", myNote: "", url: "https://goodwillchatt.org" },
+    { name: "Providence Thrift Store (Lee Hwy)", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0443448, lng: -85.16619, address: "6933 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 3, note: "Reviews are sharply divided — some find great deals and friendly staff, others describe the store as cluttered and poorly kept.", myNote: "", url: "https://providencethriftstore.com" },
     { name: "Humane Educational Society Boutique & Thrift", area: "Near Hamilton Place", category: "Thrift Store", lat: 35.0888804, lng: -85.1867647, address: "4784 TN-58, Chattanooga, TN 37416", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Small but well-loved shop with pet goods and home items; proceeds support the local Humane Society.", myNote: "", url: null },
     { name: "Goodwill Store Hwy 58", area: "Near Hamilton Place", category: "Thrift Store", lat: 35.09156, lng: -85.182231, address: "4850 TN-58, Chattanooga, TN 37416", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Often praised as clean and well run, though a few reviews mention disorganization and spotty customer service.", myNote: "", url: null },
     { name: "America's Thrift Stores (Northgate)", area: "Hixson", category: "Thrift Store", lat: 35.1329116, lng: -85.238594, address: "248 Northgate Mall Dr #122, Chattanooga, TN 37415", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Large store with plenty of finds, though several reviewers have run into trouble with the store-credit-only return policy.", myNote: "", url: null },
@@ -2197,7 +2263,10 @@ STILL TO DO / IDEAS
     { name: "Archive Thrift Store", area: "Hamilton Place area", category: "Thrift Store", lat: 35.031297, lng: -85.1852429, address: "6215 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Wed 12-5 &middot; Thu-Sat 11-7 &middot; Sun Closed", myRating: null, note: "Thrift store on Lee Hwy in the Hamilton Place area.", myNote: "", url: null },
     { name: "Crafter's Emporium & Book Exchange", area: "Red Bank/Hixson", category: "Curated Shop", lat: 35.1145258, lng: -85.2633603, address: "3901 Hixson Pike #149, Chattanooga, TN 37415", hours: "Mon-Sat 10-7 &middot; Sun 11-6", myRating: null, note: "Craft and book marketplace on Hixson Pike.", myNote: "", url: null },
     { name: "Chattanooga Room in the Inn Thrift Store", area: "East Ridge", category: "Thrift Store", lat: 34.9998857, lng: -85.2565554, address: "3807 Ringgold Rd, East Ridge, TN 37412", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: null, note: "Opened in September 2025 next to the East Ridge Goodwill; every dollar supports shelter and stability for women and children experiencing homelessness.", myNote: "", url: "https://www.chattanoogaroomintheinn.com/thriftstore" },
-    { name: "Savers", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0306996, lng: -85.1512583, address: "2020 Gunbarrel Rd Ste 198, Chattanooga, TN 37421", hours: "Mon-Sat 9-9 &middot; Sun 10-7", myRating: null, note: "National for-profit thrift chain with a large, well-organized selection. Shopping does not fund a charity, but donations dropped off there benefit the Purple Heart Foundation.", myNote: "", url: null }
+    { name: "Savers", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0306996, lng: -85.1512583, address: "2020 Gunbarrel Rd Ste 198, Chattanooga, TN 37421", hours: "Mon-Sat 9-9 &middot; Sun 10-7", myRating: null, note: "National for-profit thrift chain with a large, well-organized selection. Shopping does not fund a charity, but donations dropped off there benefit the Purple Heart Foundation.", myNote: "", url: null },
+    { name: "St. Timothy's Thrift Shop", area: "Signal Mountain", category: "Thrift Store", lat: 35.122188, lng: -85.349312, address: "627 Mississippi Ave, Signal Mountain, TN 37377", hours: "Mon Closed &middot; Tue Closed &middot; Wed 9:30-12 &middot; Thu 3-5 &middot; Fri/Sat 10-1 &middot; Sun Closed", myRating: null, note: "Church-run thrift shop on Signal Mountain with clothing, household items and toys; sales fund local outreach.", myNote: "", url: "https://sttimothysignal.org/how-we-serve/thrift-shop/" },
+    { name: "The Clothes House on Signal Mountain", area: "Signal Mountain", category: "Thrift Store", lat: 35.122563, lng: -85.347938, address: "710 Signal Mountain Blvd, Signal Mountain, TN 37377", hours: "Sun-Tue Closed &middot; Wed-Sat 9-1", myRating: null, note: "Community thrift store on Signal Mountain with clothing and used goods, a quick, easy stop.", myNote: "", url: "https://signalmountainsocialservices.org" },
+    { name: "Bachman Bargain Barn", area: "Signal Mountain", category: "Thrift Store", lat: 35.163812, lng: -85.322437, address: "Anderson Pike, Signal Mountain, TN 37377", hours: "Sun-Thu Closed &middot; Fri/Sat 9-2", myRating: null, note: "Small weekend thrift shop on Anderson Pike on Signal Mountain.", myNote: "", url: "https://bachmancc.org" }
   ];
 
   // A shop with closesAfter ("YYYY-MM-DD", Eastern time) disappears from the trail the day after that date.
@@ -2218,10 +2287,11 @@ STILL TO DO / IDEAS
     ['Hixson', ['Hixson']],
     ['Red Bank', ['Red Bank', 'Red Bank/Hixson']],
     ['Fort Oglethorpe, GA', ['Fort Oglethorpe']],
+    ['Signal Mountain', ['Signal Mountain']],   // popup only, no Filter chip
     ['Ooltewah', ['Ooltewah']]   // listed on the Shops & Charities popup only; no Filter chip (see AREA_CHIP_SKIP)
   ];
-  var AREA_CHIP_SKIP = ['Ooltewah'];
-  var SHOP_BENEFIT = {"Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "The Thrift Store (Chambliss, Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill Store Hixson": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which provides shelter, support, and stability to women and children experiencing homelessness in Chattanooga."};
+  var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
+  var SHOP_BENEFIT = {"Bachman Bargain Barn": "Bachman Community Center, a nonprofit that keeps a historic 1937 school building open as a free community resource, with a public library and space for local groups. The thrift store is volunteer-run and provides almost half of the center's operating budget.", "The Clothes House on Signal Mountain": "Signal Mountain Social Services, which provides food assistance, educational support, and emergency help to local families and individuals.", "Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "The Thrift Store (Chambliss, Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill Store Hixson": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "St. Timothy's Thrift Shop": "St. Timothy's Episcopal Church's outreach, including Family Promise, Welcome Home of Chattanooga, Metropolitan Ministries, Widows' Harvest, and scholarships for St. Timothy's Preschool.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which provides shelter, support, and stability to women and children experiencing homelessness in Chattanooga."};
 
   // ---- FILTERS (top-right "Filter" link). Default = the original "Thrift" experience. ----
   // OWNER'S TOP 25: edit this list (exact shop names) to change which shops the "Mod's Top 25" filter shows.
@@ -2344,7 +2414,7 @@ STILL TO DO / IDEAS
     if (t.h >= 1 && t.h <= 6) return t.h + 12 + t.m / 60;
     return t.h + t.m / 60;
   }
-  function closeValueTo24(tok) { var t = parseHourToken(tok); return t.h + 12 + t.m / 60; }
+  function closeValueTo24(tok) { var t = parseHourToken(tok); if (t.h === 12) return 12 + t.m / 60; return t.h + 12 + t.m / 60; }
   function parseHoursString(str) {
     var schedule = [null, null, null, null, null, null, null];
     str.split(' &middot; ').forEach(function(seg) {
