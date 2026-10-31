@@ -44,6 +44,7 @@ Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
+- DONE in v9.5 (Oct 31 2026): per-shop details line (restrooms, wheelchair, payments, Wi-Fi, sales) on map popups, Shops list and /shops/; World's Longest Yard Sale banners (1 week, day before, Thu-Sun with btw line); /shops/ footer wording fixed.
 - DONE in v9.4 (Oct 31 2026): all shops verified against Google (hours, addresses, pins, websites), Savers bag note, Hixson Coming in 2027 note, East Ridge Antique District 5pm note, North Shore blog address fix.
 - DONE in v9.3 (Oct 30 2026): silent automatic updates (no banner or button; refreshes when tab is hidden, visitor idle ~20s or just arrived; ?cb= cache-buster; two tries then waits 10 min). Still NEXT: Most visited, per-shop details display, community calendar, World's Longest Yard Sale banners.
 - DONE in v9.2 (Oct 30 2026): 3 Signal Mountain shops added (St. Timothy's, The Clothes House, Bachman Bargain Barn, each with a heart note); Signal Mountain area chip; home-screen link on the same line as the how-to guide link; Goodwill Fort Oglethorpe corrected to 516 Battlefield Pkwy; websites added for Hunts, both Goodwills, Providence Lee Hwy, Chambliss Brainerd, America's Brainerd.
@@ -68,7 +69,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v9.4-20261031">
+<meta name="ctt-build" content="v9.5-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Free Chattanooga thrift store map and route planner. Find 35+ thrift, vintage &amp; antique shops, check today’s hours, and get the best driving loop.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1975,6 +1976,8 @@ STILL TO DO / IDEAS
   .ctt-shop-card .ctt-shop-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 10px; padding: 0 7px; margin-right: 4px; }
   .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
   .ctt-shop-card a { color: var(--olive); font-weight: 700; }
+  .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
+  .ctt-det { font-size: 12.5px; line-height: 1.5; color: #5c5240; margin: 6px 0 0; }
   .ctt-shop-card .ctt-shop-benefit { background: #f3ecd2; border-left: 3px solid var(--gold, #c98a2b); padding: 6px 9px; border-radius: 3px; font-size: 13px; color: #5c5240; }
   .ctt-shops-none { display: none; font-family: 'Libre Franklin', sans-serif; color: #8a8069; margin-top: 16px; }
   .ctt-shops-tip { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; margin-top: 24px; padding-top: 14px; border-top: 1.5px dashed var(--line); font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: #8a8069; }
@@ -2209,7 +2212,7 @@ STILL TO DO / IDEAS
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.4 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v9.5 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2293,6 +2296,19 @@ STILL TO DO / IDEAS
     ['Ooltewah', ['Ooltewah']]   // listed on the Shops & Charities popup only; no Filter chip (see AREA_CHIP_SKIP)
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
+
+  var SHOP_DETAILS = {"Vinterest - Hixson": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Ladies of Charity Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Providence Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store Fort Oglethorpe": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "The Thrift Store (benefits Chambliss Center)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "America's Thrift Stores (Brainerd Rd)": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store E. Brainerd": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Providence Thrift Store (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "America's Thrift Stores (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks"}, "Goodwill Store Hwy 58": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Humane Educational Society Boutique & Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Bethel Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Friends and Family Discount and Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Northside Neighborhood House (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "The Thrift Store (Chambliss, Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Northside Neighborhood House Northshore": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Goodwill Store Hixson": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Vinterest Southside": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1}, "Habitat For Humanity ReStore": {"w": 1, "p": "Cash"}, "Archive Thrift Store": {"p": "Cash"}, "Goodwill Store East Ridge": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Electric Crocodile (North Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay"}};
+  function shopDetailsHtml(name, tag) {
+    var d = SHOP_DETAILS[name]; if (!d) return '';
+    var b = [];
+    if (d.r) b.push('Restrooms: ' + d.r);
+    if (d.w) b.push('&#9855; Wheelchair: Yes');
+    if (d.p) b.push('Pay: ' + d.p);
+    if (d.f) b.push('Free Wi-Fi');
+    if (d.s) b.push('Sales: ' + d.s);
+    if (!b.length) return '';
+    return '<' + tag + ' class="ctt-det">' + b.join(' &middot; ') + '</' + tag + '>';
+  }
   var SHOP_BENEFIT = {"Bachman Bargain Barn": "Bachman Community Center, a nonprofit that keeps a historic 1937 school building open as a free community resource, with a public library and space for local groups. The thrift store is volunteer-run and provides almost half of the center's operating budget.", "The Clothes House on Signal Mountain": "Signal Mountain Social Services, which provides food assistance, educational support, and emergency help to local families and individuals.", "Ladies of Charity Thrift Store": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift Store": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill Store Fort Oglethorpe": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "The Thrift Store (benefits Chambliss Center)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift Stores (Brainerd Rd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill Store E. Brainerd": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift Store (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Educational Society Boutique & Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill Store Hwy 58": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift Stores (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift Store": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "Northside Neighborhood House (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "The Thrift Store (Chambliss, Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "Northside Neighborhood House Northshore": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill Store Hixson": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill Store East Ridge": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity ReStore": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "St. Timothy's Thrift Shop": "St. Timothy's Episcopal Church's outreach, including Family Promise, Welcome Home of Chattanooga, Metropolitan Ministries, Widows' Harvest, and scholarships for St. Timothy's Preschool.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which provides shelter, support, and stability to women and children experiencing homelessness in Chattanooga."};
 
   // ---- FILTERS (top-right "Filter" link). Default = the original "Thrift" experience. ----
@@ -2500,6 +2516,22 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var t = hdParse(ds), y = t.y, mmdd = ds.slice(5);
     var easter = hdEaster(y), thanks = hdNth(y, 10, 4, 4);
 
+    // 0. World's Longest Yard Sale (Hwy 127 Corridor Sale): first Thursday of August through Sunday.
+    //    One banner per day: 1 week before, the day before, then each day of the sale.
+    var ysd = hdNth(y, 7, 4, 1), ysn = hdDaysUntil(t, 7, ysd);
+    if (ysn === 7 || ysn === 1 || (ysn <= 0 && ysn >= -3)) {
+      var ysFun = HOLIDAY_FUN[mmdd];
+      var ysBtw = ysFun ? ('btw, it’s ' + ysFun[1] + '! ' + ysFun[0]) : '';
+      var ysLink = ' Dates are set by the sale, so confirm them at <a href="https://127yardsale.com" target="_blank" rel="noopener">127yardsale.com</a>.';
+      var ysRange = 'Thursday, August ' + ysd + ' through Sunday, August ' + (ysd + 3);
+      var ysHead, ysBody;
+      if (ysn === 7) { ysHead = 'One week until the World’s Longest Yard Sale!'; ysBody = 'About 690 miles of yard sales along Highway 127, including right here around Chattanooga. ' + ysRange + '.' + ysLink; }
+      else if (ysn === 1) { ysHead = 'The World’s Longest Yard Sale starts tomorrow!'; ysBody = 'Yard sales line Highway 127 for about 690 miles, including right here around Chattanooga. Thrift stores are the warm-up.' + ysLink; }
+      else if (ysn === -3) { ysHead = 'Last day of the World’s Longest Yard Sale!'; ysBody = 'Final chance to hunt the Highway 127 sales. Sellers often drop prices today.' + ysLink; }
+      else { ysHead = 'The World’s Longest Yard Sale is happening today!'; ysBody = 'Yard sales line Highway 127 for about 690 miles, Thursday through Sunday. Hit the thrift trail between stops.' + ysLink; }
+      return { kind: 'star', top: true, e: '🏷️', tag: 'World’s Longest Yard Sale', head: ysHead, body: ysBody, btw: ysBtw };
+    }
+
     // 1. Big holidays: hours + sales reminder
     var majors = [
       { m: 0, d: 1, e: '🎆', head: 'Happy New Year!' },
@@ -2600,7 +2632,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     el.innerHTML = '<div class="ctt-holiday-emo" aria-hidden="true">' + b.e + '</div>' +
       '<div class="ctt-holiday-text">' + (b.tag ? '<div class="ctt-holiday-tag">' + (b.kind === 'star' ? '&#9733; ' : '') + b.tag + '</div>' : '') +
       '<div class="ctt-holiday-head">' + b.head + '</div>' +
-      (b.body ? '<div class="ctt-holiday-body">' + b.body + '</div>' : '') + '</div>' +
+      (b.body ? '<div class="ctt-holiday-body">' + b.body + '</div>' : '') +
+      (b.btw ? '<div class="ctt-holiday-btw">' + b.btw + '</div>' : '') + '</div>' +
       '<button type="button" class="ctt-holiday-x" aria-label="Dismiss">&times;</button>';
     el.style.display = 'flex';
     el.querySelector('.ctt-holiday-x').addEventListener('click', function() {
@@ -3316,7 +3349,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(i + 1, store.name) : numberedIcon(i + 1, color, store.name), zIndexOffset: 1000 }).addTo(map);
       marker._cttR = featuredNow ? 15 : 11;
       marker._cttAnchor = featuredNow ? [15, 17] : [11, 11];
-      marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
+      marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div'), { maxWidth: 320, minWidth: 200 });
       routeMarkers.push(marker);
       marker._cttBaseZ = 1000; markerByName[store.name] = marker;
       var card = buildCard(store, i + 1, color, true, i, optimized.length);
@@ -3346,7 +3379,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var marker = L.marker([store.lat, store.lng], { icon: offRouteIcon(letter), zIndexOffset: -1000 }).addTo(map);
         offRouteMarkers.push(marker);
         marker._cttBaseZ = -1000; markerByName[store.name] = marker;
-        marker.bindPopup(popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note, { maxWidth: 320, minWidth: 200 });
+        marker.bindPopup(popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div'), { maxWidth: 320, minWidth: 200 });
         var card = buildCard(store, letter, color, false);
         card.addEventListener('click', function() {
           document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
@@ -4107,6 +4140,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         secs += '<div class="ctt-shop-card" data-q="' + q.replace(/"/g, '') + '"><h4>' + x.name + '</h4>' +
           '<p><span class="ctt-shop-tag">' + (SHOP_CAT[x.category] || 'Shop') + '</span>' + x.address + '</p>' +
           '<p><strong>Hours:</strong> ' + x.hours + '</p><p>' + x.note + '</p>' +
+          shopDetailsHtml(x.name, 'p') +
           (SHOP_BENEFIT[x.name] ? '<p class="ctt-shop-benefit">&#128155; <strong>Proceeds benefit</strong> ' + SHOP_BENEFIT[x.name] + '</p>' : '') +
           (x.closesAfter ? '<p class="ctt-shop-closing">Closing after Dec 27, 2026.</p>' : '') +
           '<p><a href="' + directionsLink(x.address) + '" target="_blank" rel="noopener">Get directions &rarr;</a>' +
