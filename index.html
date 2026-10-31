@@ -96,6 +96,11 @@ STILL TO DO / IDEAS
   - DONE in v10.42 (also): Visited checkbox moved up into the title row, right next to the remove button.
   - DONE in v10.43: footer links (Send feedback, Shops & Charities, Community Calendar, Get Involved, Disclaimer, Blog) doubled from 10px to 20px.
   - DONE in v10.44: 'See the full list of shops' button moved to the end of 'Browse by neighborhood'.
+  - DONE in v10.45: no boxes checked by default, but the default route is now the Gold Loop shops (new typeMode 'gold'; all other shops stay in More Shops). Checking Thrift shops gives the old Thrift trail. One-time migration clears an old saved Thrift-only filter (ctt-filters-ver).
+  - DONE in v10.46: 'See the full list of shops' is now the last item inside the Browse by neighborhood list (bold outlined chip).
+  - DONE in v10.47: hamburger menu top right of the main page: Add the Trail to Your Home Screen, Send feedback, Shops & Charities, Community Calendar (when shown), Get Involved (when shown), Disclaimer, Blog. Footer links stay too.
+  - DONE in v10.48: hamburger menu also has Download Printable Trail Guide (PDF) and a Share The Trail group (Instagram, Facebook, X, Text It, Copy Link, Trail Poster). Share items keep the menu open and show their status line in it.
+  - DONE in v10.49: hamburger menu has the tip links (Venmo, Cash App) at the bottom; a bit more padding between menu lines; share buttons no longer close the menu.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -116,7 +121,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.44-20261031">
+<meta name="ctt-build" content="v10.49-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1190,7 +1195,18 @@ STILL TO DO / IDEAS
   .ctt-fp-link { font-family: inherit; font-size: 12.5px; color: var(--rust); background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0 6px; }
   .ctt-fp-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed var(--line); padding-top: 8px; font-size: 13px; color: #5c5240; }
   .ctt-fp-done { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff; background: var(--olive); border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; }
-  .ctt-header { margin-bottom: 10px; }
+  .ctt-header { margin-bottom: 10px; position: relative; }
+  .ctt-header .ctt-title { padding-right: 56px; }
+  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--card); color: var(--rust); border: 2px solid var(--rust); border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: var(--rust); color: #fff; }
+  .ctt-menu { position: absolute; top: 52px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
+  .ctt-menu[hidden] { display: none; }
+  .ctt-menu button { font-family: 'Libre Franklin', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); background: none; border: none; text-align: left; padding: 14px 12px; border-radius: 8px; cursor: pointer; }
+  .ctt-menu button:hover, .ctt-menu button:focus-visible { background: var(--paper); color: var(--rust); outline: none; }
+  .ctt-menu-head { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--rust); padding: 12px 12px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+  .ctt-menu-status { font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); padding: 6px 12px 8px; }
+  .ctt-menu { max-height: calc(100vh - 80px); overflow-y: auto; }
+  .ctt-menu button + button { border-top: 1px solid var(--line); border-radius: 0 0 8px 8px; }
   @media (min-width: 781px) {
     .ctt-header {
       display: flex;
@@ -1956,6 +1972,7 @@ STILL TO DO / IDEAS
   .ctt-seo-label { font-weight: 700; color: var(--ink); margin: 14px 0 6px !important; }
   .ctt-seo-hoods { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px !important; }
   .ctt-seo-hoods a { text-decoration: none; border: 1px solid var(--rust); border-radius: 16px; padding: 4px 12px; font-size: 13px; background: var(--paper); }
+  .ctt-seo-hoods a.ctt-seo-all { font-weight: 700; border-width: 2px; }
   .ctt-seo-hoods a:hover { background: var(--rust); color: #fff; }
   .ctt-seo ul { margin: 0; padding-left: 0; list-style: none; columns: 2 260px; column-gap: 28px; }
   .ctt-seo li { margin-bottom: 4px; break-inside: avoid; display: grid; grid-template-columns: 9.5em 1fr; gap: 8px; border-bottom: 1px dashed var(--line); padding: 3px 0; }
@@ -2194,6 +2211,8 @@ STILL TO DO / IDEAS
 
 <div id="ctt-thrift-wrap">
   <div class="ctt-header">
+    <button type="button" class="ctt-menu-btn" id="ctt-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="ctt-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button>
+    <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
     <h1 class="ctt-title">Chattanooga Thrift Trail</h1>
     <p class="ctt-tagline"><strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
     <div class="ctt-route-stat-row">
@@ -2412,10 +2431,9 @@ STILL TO DO / IDEAS
 <h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
 <p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 <p class="ctt-seo-label">Browse by neighborhood</p>
-<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a></p>
-<p class="ctt-seo-cta"><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
+<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 </section>
-      <p class="ctt-version">v10.44 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.49 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2576,11 +2594,12 @@ STILL TO DO / IDEAS
     var rawF = localStorage.getItem('ctt-filters');
     if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Downtown', 'North Shore'] : [x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, tn: !!pf.tn, xareas: Array.isArray(pf.xareas) ? pf.xareas : [], xtypes: { thrift: !!(pf.xtypes && pf.xtypes.thrift), curated: !!(pf.xtypes && pf.xtypes.curated), antique: !!(pf.xtypes && pf.xtypes.antique) } }; } }
   } catch (e) {}
-  (function() { var t = filters.types; if (t.thrift && !t.curated && !t.antique && !t.top25 && !t.top20) filters.types.thrift = false; if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
+  (function() { var t = filters.types; try { if (localStorage.getItem('ctt-filters-ver') !== '2') { if (t.thrift && !t.curated && !t.antique && !t.top25 && !t.top20) filters.types.thrift = false; localStorage.setItem('ctt-filters-ver', '2'); } } catch (e) {} if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
   //   (nothing checked behaves like 'thrift': the default trail)
+  //   'gold'  = nothing checked: route = Gold Loop shops, every other shop is in More Shops (the invisible default)
   //   'thrift'= only Thrift stores (the original page: route = thrift loop, rest in the second list)
   //   'top25' = only Gold Loop (only those shops are shown, same second-list behavior)
   //   'wide'  = any other combination: checked types add together to make the route, and every other shop goes in the second list
@@ -2588,7 +2607,7 @@ STILL TO DO / IDEAS
   function typeMode() {
     var t = filters.types;
     var anyList = t.top25 || t.top20;
-    if (!t.thrift && !t.curated && !t.antique && !anyList) return 'thrift'; // nothing checked = the default Thrift trail
+    if (!t.thrift && !t.curated && !t.antique && !anyList) return 'gold'; // nothing checked = the default route (Gold Loop shops), with every other shop in More Shops
     if (t.thrift && !t.curated && !t.antique && !anyList) return 'thrift';
     if (anyList && !t.thrift && !t.curated && !t.antique) return 'top25';
     return 'wide';
@@ -2602,7 +2621,7 @@ STILL TO DO / IDEAS
   }
   function filtersActiveCount() {
     var n = 0;
-    if (typeMode() !== 'thrift') n++;
+    if (typeMode() !== 'gold') n++;
     if (filters.areas.length) n++;
     if (filters.xareas.length) n++;
     if (filters.xtypes.thrift || filters.xtypes.curated || filters.xtypes.antique) n++;
@@ -2633,6 +2652,7 @@ STILL TO DO / IDEAS
   function defaultIncluded(loc) {
     var mode = typeMode();
     if (mode === 'top25') return true;
+    if (mode === 'gold') return TOP25.indexOf(loc.name) !== -1;
     if (mode === 'thrift') return !loc.defaultBonus;
     if (mode === 'none') return false;
     return !!filters.types[typeKey(loc.category)] || inPickedLists(loc.name);
@@ -3435,7 +3455,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       : '';
     var reasonHtml = '';
     if (!onRoute) {
-      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (typeMode() === 'wide' ? (defaultIncluded(store) ? 'Closed today' : 'Not in your picks') : (store.defaultBonus ? (closedToday(store) ? 'Closed today' : '') : 'Closed today')));
+      var reason = manualOverrides[store.name] === 'skip' ? 'Removed by you' : (store.closesAfter && effectiveNow().dateStr > store.closesAfter ? 'Closed for good' : (typeMode() === 'wide' ? (defaultIncluded(store) ? 'Closed today' : 'Not in your picks') : ((store.defaultBonus || (typeMode() === 'gold' && !defaultIncluded(store))) ? (closedToday(store) ? 'Closed today' : '') : 'Closed today')));
       reasonHtml = reason ? '<div class="ctt-tag-meta"><span class="ctt-offroute-reason">' + reason + '</span></div>' : '';
     }
     var initial = store.name.charAt(0).toUpperCase();
@@ -4914,6 +4934,52 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     backBtn.addEventListener('click', function() { mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     mapEl.addEventListener('click', function(e) { if (e.target === mapEl || e.target.classList.contains('leaflet-container')) { stickyHL = null; applyHL(); } });
     updateBtn();
+  })();
+
+  // ---- Hamburger menu: Add to Home Screen + the footer links, in one place ----
+  (function() {
+    var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
+    if (!btn || !menu) return;
+    function items() {
+      var list = [{ label: '\uD83D\uDCF2 Add the Trail to Your Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false }];
+      ['ctt-feedback-toggle', 'ctt-shops-open', 'ctt-cal-open', 'ctt-gi-open', 'ctt-disclaimer-toggle', 'ctt-blog-open'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el && el.style.display !== 'none') list.push({ label: el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
+      });
+      list.splice(1, 0, { label: '\uD83D\uDCC4 Download Printable Trail Guide (PDF)', el: document.getElementById('ctt-pdf-btn'), scroll: false });
+      list.push({ heading: 'Share The Trail' });
+      [['ctt-share-poster', '\uD83D\uDCF7 Instagram'], ['ctt-share-fb', '\uD83D\uDCD8 Facebook'], ['ctt-share-x', '\uD83D\uDCE3 X'], ['ctt-share-text', '\uD83D\uDCF1 Text It'], ['ctt-share-copy', '\uD83D\uDD17 Copy Link']].forEach(function(p) {
+        var el = document.getElementById(p[0]); if (el) list.push({ label: p[1], el: el, scroll: false, stay: true });
+      });
+      var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
+      var tips = document.querySelectorAll('.ctt-tip-btn');
+      if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: t.textContent.trim(), el: t, scroll: false }); }); }
+      return list;
+    }
+    function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+    function open() {
+      menu.innerHTML = '';
+      items().forEach(function(it) {
+        if (it.heading) { var h = document.createElement('div'); h.className = 'ctt-menu-head'; h.textContent = it.heading; menu.appendChild(h); return; }
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = it.label;
+        b.addEventListener('click', function() {
+          if (it.stay) {
+            it.el.click();
+            setTimeout(function() { var st = document.getElementById('ctt-share-status'), m = menu.querySelector('.ctt-menu-status'); if (!m) { m = document.createElement('div'); m.className = 'ctt-menu-status'; m.setAttribute('role', 'status'); menu.appendChild(m); } m.textContent = (st && st.textContent) || ''; }, 250);
+            return;
+          }
+          close();
+          if (it.el.tagName === 'A' && /^(shops|blog)\//.test(it.el.getAttribute('href') || '')) { window.location.href = it.el.getAttribute('href'); return; }
+          it.el.click();
+          if (it.scroll) setTimeout(function() { it.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+        });
+        menu.appendChild(b);
+      });
+      menu.hidden = false; btn.setAttribute('aria-expanded', 'true');
+    }
+    btn.addEventListener('click', function(e) { e.stopPropagation(); menu.hidden ? open() : close(); });
+    document.addEventListener('click', function(e) { if (e.isTrusted && !menu.hidden && !menu.contains(e.target)) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
   })();
 
   // ---- Add-to-home-screen help ----
