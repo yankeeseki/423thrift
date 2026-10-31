@@ -129,6 +129,9 @@ STILL TO DO / IDEAS
   - DONE in v10.75: Get Involved storefront note now ends 'Please no online-only vendors.'
   - DONE in v10.76: blog index: every post card ends with a link that rotates through Read more / Learn more / Keep reading / Continue reading / See the full story / Get the details / Find out more / Dive in. (New posts added to blog/index.html need the same link.)
   - DONE in v10.77: blog index adds the 'Read more' style link to any post card that lacks one (script at the bottom of blog/index.html), so NEW POSTS NEED NOTHING EXTRA: just add the normal <article class="card"> to blog/index.html, plus the post folder and a sitemap-blog.xml line.
+  - DONE in v10.78: Filter button 20% less tall (40px to 32px).
+  - DONE in v10.79: red remove button (and the matching green add button) 10% smaller (30px to 27px).
+  - DONE in v10.80: the word 'Visited' beside each card's checkbox is 25% smaller (13px to 9.75px).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -149,7 +152,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.77-20261031">
+<meta name="ctt-build" content="v10.80-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1632,7 +1635,7 @@ STILL TO DO / IDEAS
     color: var(--ink);
   }
   .ctt-list-bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--paper); border-bottom: 1.5px dashed var(--line); padding: 6px 4px 6px 2px; margin-right: -4px; }
-  .ctt-list-bar .ctt-filter-toggle, .ctt-list-bar .ctt-filter-toggle.on { font-size: 14px; font-weight: 700; padding: 8px 34px; min-height: 40px; background: #a9c1cb; color: #2c3e44; border: none; border-radius: 999px; text-decoration: none; }
+  .ctt-list-bar .ctt-filter-toggle, .ctt-list-bar .ctt-filter-toggle.on { font-size: 14px; font-weight: 700; padding: 5px 34px; min-height: 32px; background: #a9c1cb; color: #2c3e44; border: none; border-radius: 999px; text-decoration: none; }
   .ctt-list-bar .ctt-filter-toggle:hover, .ctt-list-bar .ctt-filter-toggle.on:hover { background: #98b3bf; color: #2c3e44; }
   .ctt-list-bar .ctt-filter-toggle:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
   .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0; text-align: right; }
@@ -1824,7 +1827,7 @@ STILL TO DO / IDEAS
   .ctt-tag.visited .ctt-tag-photo-col, .ctt-tag.visited .ctt-tag-note, .ctt-tag.visited .ctt-tag-addr, .ctt-tag.visited .ctt-tag-bottom-row .ctt-tag-meta, .ctt-tag.visited .ctt-review-toggle-btn, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-up, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-down, .ctt-tag.visited .ctt-start-here { display: none; }
   .ctt-vbadge { display: none; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); border: 1.5px solid var(--olive); border-radius: 12px; padding: 1px 9px; }
   .ctt-tag.visited .ctt-vbadge { display: inline-block; }
-  .ctt-visited-check { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px; }
+  .ctt-visited-check { font-family: 'Libre Franklin', sans-serif; font-size: 9.75px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px; }
   .ctt-visited-checkbox { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--olive); }
   .ctt-tag.visited .ctt-vbadge { display: none; }
   .ctt-visited-drop { margin: 0 0 9px; }
@@ -1968,14 +1971,14 @@ STILL TO DO / IDEAS
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
     border-radius: 50%;
     padding: 0;
     cursor: pointer;
     border: none;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 14.4px;
     font-weight: 700;
     line-height: 1;
     flex-shrink: 0;
@@ -2479,7 +2482,7 @@ STILL TO DO / IDEAS
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 </section>
-      <p class="ctt-version">v10.77 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.80 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
