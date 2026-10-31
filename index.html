@@ -86,6 +86,11 @@ STILL TO DO / IDEAS
   - DONE in v10.33: more breathing room between Filter sections (dashed dividers, bigger gaps).
   - DONE in v10.34: Filter 'Everything' is now a checkbox (checks Thrift, Curated and Antique together; unchecking returns to Thrift shops only).
   - DONE in v10.35: Filter list names: Mod's Top 25 -> 'Gold Loop', Chattanooga Top 20 -> 'Silver Loop' (filter, FAQ, blog).
+  - DONE in v10.36: 'Tennessee only' is OFF by default (counts as an active filter only when on).
+  - DONE in v10.37: Filter has 'Exclude Experience' checkboxes (Thrift shops, Curated shops, Antique malls); excluding one unchecks its include box and hides that kind from every view, including Gold/Silver Loop.
+  - DONE in v10.38: choosing Gold Loop or Silver Loop locks the other experience boxes (and the other loop) until it is unchecked; unchecking returns to Thrift shops.
+  - DONE in v10.39: Filter option 'Shops I haven't visited' removed.
+  - DONE in v10.40: Filter experience boxes on two lines: Thrift/Curated/Antique, then Gold Loop, Silver Loop, Everything.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -106,7 +111,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.35-20261031">
+<meta name="ctt-build" content="v10.40-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1167,6 +1172,11 @@ STILL TO DO / IDEAS
   .ctt-fp-h { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #6b6252; margin-bottom: 10px; }
   .ctt-fp-opt { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); margin: 0 18px 12px 0; cursor: pointer; }
   .ctt-fp-opt input { width: 17px; height: 17px; accent-color: var(--olive); }
+  .ctt-fp-row { display: flex; flex-wrap: wrap; }
+  @media (max-width: 480px) { .ctt-fp-row .ctt-fp-opt { margin-right: 8px; gap: 5px; font-size: 13px; } .ctt-fp-row .ctt-fp-opt input { width: 16px; height: 16px; } }
+  .ctt-fp-hint { font-size: 12.5px; color: #4d4436; margin: 2px 0 0; }
+  .ctt-fp-opt.dis { opacity: .5; cursor: not-allowed; }
+  .ctt-fp-opt.dis input { cursor: not-allowed; }
   .ctt-fp-chips { display: flex; flex-wrap: wrap; gap: 9px 8px; }
   .ctt-fp-chips button { font-family: inherit; font-size: 12.5px; color: var(--olive); background: var(--paper); border: 1px solid var(--olive); border-radius: 14px; padding: 4px 10px; cursor: pointer; }
   .ctt-fp-xchips button.x { color: var(--rust); border-color: var(--rust); background: var(--card); text-decoration: line-through; font-weight: 700; }
@@ -2277,12 +2287,22 @@ STILL TO DO / IDEAS
         <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
       <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
         <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">The experience you want</div>
+          <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
+          </div>
+          <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> Gold Loop</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top20"> Silver Loop</label>
           <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
+          </div>
+          <p class="ctt-fp-hint" id="ctt-fp-loophint" style="display:none;"></p>
+        </div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Experience</div>
+          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="thrift"> Thrift shops</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Curated shops</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique malls</label>
         </div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">Add Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Area</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
@@ -2291,7 +2311,6 @@ STILL TO DO / IDEAS
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late (closes 6 PM or later)</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="charity"> Supports a charity &#128155;</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-flag="unvisited"> Shops I haven&rsquo;t visited</label>
         </div>
         <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
       </div>
@@ -2390,7 +2409,7 @@ STILL TO DO / IDEAS
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a></p>
 </section>
-      <p class="ctt-version">v10.35 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.40 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2545,13 +2564,13 @@ STILL TO DO / IDEAS
     "Electric Crocodile (North Shore)",
     "Archive Thrift Store",
   ];
-  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false, top20: false }, areas: [], open: false, late: false, charity: false, unvisited: false, tn: true, xareas: [] };
+  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false, top20: false }, areas: [], open: false, late: false, charity: false, tn: false, xareas: [], xtypes: { thrift: false, curated: false, antique: false } };
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
-  var unvisitedSnap = null;
   try {
     var rawF = localStorage.getItem('ctt-filters');
-    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Downtown', 'North Shore'] : [x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, unvisited: !!pf.unvisited, tn: pf.tn === undefined ? true : !!pf.tn, xareas: Array.isArray(pf.xareas) ? pf.xareas : [] }; } }
+    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Downtown', 'North Shore'] : [x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, tn: !!pf.tn, xareas: Array.isArray(pf.xareas) ? pf.xareas : [], xtypes: { thrift: !!(pf.xtypes && pf.xtypes.thrift), curated: !!(pf.xtypes && pf.xtypes.curated), antique: !!(pf.xtypes && pf.xtypes.antique) } }; } }
   } catch (e) {}
+  (function() { var t = filters.types; if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
@@ -2580,11 +2599,11 @@ STILL TO DO / IDEAS
     if (typeMode() !== 'thrift') n++;
     if (filters.areas.length) n++;
     if (filters.xareas.length) n++;
+    if (filters.xtypes.thrift || filters.xtypes.curated || filters.xtypes.antique) n++;
     if (filters.open) n++;
     if (filters.late) n++;
     if (filters.charity) n++;
-    if (filters.unvisited) n++;
-    if (!filters.tn) n++;
+    if (filters.tn) n++;
     return n;
   }
   // Does this shop survive the filters (shown on the map and in the lists at all)?
@@ -2592,12 +2611,12 @@ STILL TO DO / IDEAS
     var mode = typeMode();
     if (mode === 'none') return false;
     if (mode === 'top25' && !inPickedLists(loc.name)) return false;
+    if (filters.xtypes[typeKey(loc.category)]) return false;
     if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
     if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(loc)) !== -1) return false;
-    // Tennessee only (on by default): hides the Georgia shops unless their own area chip is picked.
+    // Tennessee only (off by default): hides the Georgia shops unless their own area chip is picked.
     if (filters.tn && /,\s*GA\b/.test(loc.address || '') && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
     if (filters.charity && !SHOP_BENEFIT[loc.name]) return false;
-    if (filters.unvisited && unvisitedSnap && unvisitedSnap[loc.name]) return false;
     if (filters.open || filters.late) {
       var today = parseHoursString(loc.hours)[now.dayIdx];
       if (!today || now.decHour >= today[1]) return false;
@@ -3673,7 +3692,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var initialStartIdx = 0;
   if (savedProgress && savedProgress.date === todayDateStr()) {
     (savedProgress.visitedNames || []).forEach(function(n) { visitedStores[n] = true; });
-    if (filters.unvisited) { unvisitedSnap = {}; Object.keys(visitedStores).forEach(function(n) { if (visitedStores[n]) unvisitedSnap[n] = true; }); }
     // Shops removed/added today come back after a refresh too. A shared plan-ahead
     // link brings its own set, so the two aren't mixed.
     if (!sharedOverridesApplied && savedProgress.overrides) {
@@ -3769,6 +3787,14 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     function sync() {
       [].forEach.call(panel.querySelectorAll('input[data-type]'), function(i) { i.checked = !!filters.types[i.getAttribute('data-type')]; });
+      [].forEach.call(panel.querySelectorAll('input[data-xtype]'), function(i) { i.checked = !!filters.xtypes[i.getAttribute('data-xtype')]; });
+      var loop = filters.types.top25 ? 'top25' : (filters.types.top20 ? 'top20' : null);
+      [].forEach.call(panel.querySelectorAll('input[data-type], #ctt-fp-all'), function(i) {
+        var mine = i.getAttribute('data-type') === loop, off = !!loop && !mine;
+        i.disabled = off; if (i.parentNode) i.parentNode.className = 'ctt-fp-opt' + (off ? ' dis' : '');
+      });
+      var hint = document.getElementById('ctt-fp-loophint');
+      if (hint) { hint.style.display = loop ? 'block' : 'none'; hint.textContent = loop ? (loop === 'top25' ? 'Gold Loop' : 'Silver Loop') + ' is on. Uncheck it to choose other experiences.' : ''; }
       document.getElementById('ctt-fp-all').checked = !!(filters.types.thrift && filters.types.curated && filters.types.antique);
       [].forEach.call(panel.querySelectorAll('input[data-flag]'), function(i) { i.checked = !!filters[i.getAttribute('data-flag')]; });
       [].forEach.call(areasEl.querySelectorAll('button'), function(b) { b.className = filters.areas.indexOf(b.getAttribute('data-area')) !== -1 ? 'on' : ''; });
@@ -3792,12 +3818,22 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     document.getElementById('ctt-fp-done').addEventListener('click', function() { panel.style.display = 'none'; toggle.setAttribute('aria-expanded', 'false'); });
     panel.addEventListener('change', function(e) {
       var t = e.target;
-      if (t.hasAttribute('data-type')) {
-        filters.types[t.getAttribute('data-type')] = t.checked;
+      if (t.hasAttribute('data-xtype')) {
+        var xk = t.getAttribute('data-xtype'); filters.xtypes[xk] = t.checked;
+        if (t.checked) filters.types[xk] = false;
+        apply('type');
+      } else if (t.hasAttribute('data-type')) {
+        var ik = t.getAttribute('data-type');
+        if (ik === 'top25' || ik === 'top20') {
+          // a loop stands alone: the other experiences are locked until it is unchecked
+          filters.types = t.checked ? { thrift: false, curated: false, antique: false, top25: ik === 'top25', top20: ik === 'top20' } : { thrift: true, curated: false, antique: false, top25: false, top20: false };
+        } else {
+          filters.types[ik] = t.checked;
+          if (t.checked && filters.xtypes.hasOwnProperty(ik)) filters.xtypes[ik] = false;
+        }
         apply('type');
       } else if (t.hasAttribute('data-flag')) {
         var f = t.getAttribute('data-flag'); filters[f] = t.checked;
-        if (f === 'unvisited') { unvisitedSnap = null; if (t.checked) { unvisitedSnap = {}; Object.keys(visitedStores).forEach(function(n) { if (visitedStores[n]) unvisitedSnap[n] = true; }); } }
         apply(f);
       }
     });
@@ -3814,10 +3850,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       apply('area');
     });
     document.getElementById('ctt-fp-all').addEventListener('change', function() {
+      filters.xtypes = { thrift: false, curated: false, antique: false };
       filters.types = this.checked ? { thrift: true, curated: true, antique: true, top25: false, top20: false } : { thrift: true, curated: false, antique: false, top25: false, top20: false };
       apply('type');
     });
-    function reset() { filters = JSON.parse(JSON.stringify(FILTER_DEFAULT)); unvisitedSnap = null; apply('reset'); }
+    function reset() { filters = JSON.parse(JSON.stringify(FILTER_DEFAULT)); apply('reset'); }
     document.getElementById('ctt-fp-reset').addEventListener('click', reset);
     document.addEventListener('click', function(e) { if (e.target && e.target.className === 'ctt-filter-reset-inline') reset(); });
     sync();
@@ -4890,7 +4927,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // ---- Start over (clears today's saved visited/removed/added shops) ----
   document.getElementById('ctt-start-over-btn').addEventListener('click', function() {
     if (!window.confirm('Clear your visited shops and any shops you added or removed today?')) return;
-    visitedStores = {}; unvisitedSnap = null;
+    visitedStores = {};
     manualOverrides = {};
     manualOrderNames = null;
     pinnedStartName = null;
