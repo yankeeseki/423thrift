@@ -53,6 +53,7 @@ STILL TO DO / IDEAS
 - DONE in v9.3 (Oct 30 2026): silent automatic updates (no banner or button; refreshes when tab is hidden, visitor idle ~20s or just arrived; ?cb= cache-buster; two tries then waits 10 min). Still NEXT: Most visited, per-shop details display, community calendar, World's Longest Yard Sale banners.
 - DONE in v9.2 (Oct 30 2026): 3 Signal Mountain shops added (St. Timothy's, The Clothes House, Bachman Bargain Barn, each with a heart note); Signal Mountain area chip; home-screen link on the same line as the how-to guide link; Goodwill Fort Oglethorpe corrected to 516 Battlefield Pkwy; websites added for Hunts, both Goodwills, Providence Lee Hwy, Chambliss Brainerd, America's Brainerd.
 - DONE in v9.1 (Oct 30 2026): Filter rework (Mod's Top 25 is the 4th checkbox; boxes add together; nothing checked = empty map + Reset; second list is "Bonus & Closed Shops" in the classic/Top-25-only views and "All Other Shops" for any other mix); areas renamed/merged (Highland Park, East Ridge, Brainerd & Hamilton Place; Ladies of Charity now in Southside; no Ooltewah chip); featured star number is drawn inside the star SVG (black); map auto-fits every route stop (Whole route button removed); Share order Instagram, Facebook, X, Text It, Copy Link, Trail Poster; automatic update check (meta ctt-build + banner) and sw.js fetches pages with no-store.
+- DONE in v10.0 (Oct 31 2026): coffee stops (COFFEE / COFFEE_PICKS data; 'Add a coffee stop' panel; coffee markers; route row), 'Refresh!' renamed 'Next stop' (continues from last checked shop when location fails, keeps zoom, 'Updated' time, nudge after ticking a shop), footer links in one row, new tagline. LATER: calendar map/date list.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -73,7 +74,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v9.9-20261031">
+<meta name="ctt-build" content="v10.0-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum stops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1260,6 +1261,29 @@ STILL TO DO / IDEAS
   .ctt-cta-btn-line2 { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 600; color: var(--rust); opacity: 1; }
   .ctt-cta-btn:hover { background: var(--rust); transform: scale(1.02); }
   .ctt-cta-btn:disabled { background: #a89f8a; cursor: wait; transform: none; }
+  .ctt-cta-updated { display:block; font-size:11.5px; color:#6b6252; margin-top:4px; min-height:0; }
+  .ctt-cta-btn.ctt-nudge { box-shadow: 0 0 0 4px var(--paper, #f2ead9), 0 0 0 7px var(--rust); }
+  .ctt-coffee-open { margin-top:10px; font-family:'Libre Franklin',sans-serif; font-size:15px; font-weight:700; color:var(--rust); background:var(--card); border:2px solid var(--rust); border-radius:24px; padding:9px 18px; cursor:pointer; }
+  .ctt-coffee-open:hover { background:var(--rust); color:#fff; }
+  .ctt-coffee-panel { display:none; margin-top:10px; padding:12px; background:var(--card); border:2px solid var(--rust); border-radius:8px; text-align:left; font-family:'Libre Franklin',sans-serif; }
+  .ctt-coffee-panel.open { display:block; }
+  .ctt-cf-head { display:flex; justify-content:space-between; gap:8px; font-size:14px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .ctt-cf-x { background:none; border:none; font-size:20px; line-height:1; cursor:pointer; color:var(--ink); padding:0 4px; }
+  .ctt-cf-card { border-top:1px solid var(--line); padding:9px 0; }
+  .ctt-cf-name { font-size:15px; font-weight:700; color:var(--ink); }
+  .ctt-cf-tag { display:inline-block; font-size:11px; font-weight:700; color:var(--rust); border:1px solid var(--rust); border-radius:10px; padding:0 7px; margin-left:6px; vertical-align:1px; }
+  .ctt-cf-meta { font-size:12.5px; color:#6b6252; margin:2px 0 6px; line-height:1.4; }
+  .ctt-cf-btn { display:inline-block; font-family:'Libre Franklin',sans-serif; font-size:13px; font-weight:700; color:var(--rust); background:var(--card); border:2px solid var(--rust); border-radius:6px; padding:5px 11px; margin-right:6px; text-decoration:none; cursor:pointer; }
+  .ctt-cf-btn.primary { background:var(--rust); color:#fff; }
+  .ctt-cf-note { font-size:11px; color:#6b6252; margin-top:6px; }
+  .ctt-cf-row { background:var(--card); border:2px dashed var(--rust); border-radius:6px; padding:10px 12px; font-family:'Libre Franklin',sans-serif; }
+  .ctt-cf-pin { width:26px; height:26px; line-height:22px; text-align:center; font-size:15px; background:#fff; border:2px solid var(--rust); border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,.35); }
+  .ctt-cf-pin.picked { background:var(--rust); }
+  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; margin-top:16px; font-size:11px; }
+  .ctt-footnav > * { padding:0 9px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
+  .ctt-footnav > *:first-child { border-left:none !important; }
+  .ctt-footnav > *:last-child { padding-right:0 !important; }
+  .ctt-footnav .ctt-disclaimer-toggle, .ctt-footnav .ctt-feedback-link-btn { display:inline; margin:0; font-size:11px; font-weight:400; color:#6b6252; background:none; border:none; text-decoration:underline; padding-top:0; padding-bottom:0; cursor:pointer; font-family:'Libre Franklin',sans-serif; }
   .ctt-cta-status { font-size: 18px; color: var(--ink); font-weight: 600; line-height: 1.5; margin-top: 6px; }
   .ctt-cta-status strong { color: var(--rust); }
   .ctt-cta-status.urgency-tight { color: var(--rust); }
@@ -2060,7 +2084,7 @@ STILL TO DO / IDEAS
 <div id="ctt-thrift-wrap">
   <div class="ctt-header">
     <h1 class="ctt-title">The Chattanooga Thrift Trail</h1>
-    <p class="ctt-tagline"><strong>Plan the perfect thrift run.</strong> Chattanooga area thrift, vintage and antique shops, in an optimized driving order, built to get you the maximum number of stops in the time you have.</p>
+    <p class="ctt-tagline"><strong>Optimize your thrift run.</strong> Maximum stops, minimum driving, across the Chattanooga area.</p>
     <div class="ctt-route-stat-row">
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
@@ -2123,7 +2147,10 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span>
       </button>
+      <span class="ctt-cta-updated" id="ctt-cta-updated" aria-live="polite"></span>
       <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
+      <button type="button" class="ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button>
+      <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
     </div>
   </div>
 
@@ -2247,28 +2274,23 @@ STILL TO DO / IDEAS
     </div>
 
     <div class="ctt-bottom-right">
-      <p class="ctt-feedback-row-simple"><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button></p>
-      <div class="ctt-feedback-section" id="ctt-feedback-section" style="display:none;">
+      <nav class="ctt-footnav" aria-label="Site links"><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="#calendar" style="display:none">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a></nav>
+      <div class="ctt-feedback-section" id="ctt-feedback-section" style="display:none;margin-top:10px">
         <textarea class="ctt-feedback-textarea" id="ctt-feedback-text" rows="4" placeholder="Type your feedback here..."></textarea>
         <div class="ctt-feedback-row">
           <button class="ctt-feedback-btn" id="ctt-feedback-send">Send Feedback</button>
           <span class="ctt-feedback-status" id="ctt-feedback-status"></span>
         </div>
       </div>
-
-      <div class="ctt-footlinks"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a> <a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="#calendar" style="display:none">Community Calendar</a> <a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a></div>
-      
-      <button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The information provided on this page, including store hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Store hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify store hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it.</p>
-      <div class="ctt-footlinks" style="margin-top:6px"><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a></div>
-      <!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
+<!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
 <section class="ctt-seo" aria-label="About the Chattanooga Thrift Trail">
 <h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
 <p>The Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 <p><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <details><summary>Thrift and shop-local days to mark on your calendar</summary><ul><li><strong>Feb 27</strong> &mdash; National Retro Day</li><li><strong>Mar 2</strong> &mdash; Old Stuff Day</li><li><strong>Mar 18</strong> &mdash; Global Recycling Day</li><li><strong>Mar 29</strong> &mdash; Mom and Pop Business Owners Day</li><li><strong>May 22</strong> &mdash; Buy a Musical Instrument Day</li><li><strong>May 24</strong> &mdash; Scavenger Hunt Day</li><li><strong>Aug 12</strong> &mdash; National Vinyl Record Day</li><li><strong>Aug 17</strong> &mdash; National Thrift Store Day</li><li><strong>Aug 25</strong> &mdash; National Secondhand Wardrobe Day</li><li><strong>Oct 7</strong> &mdash; National Consignment Day</li><li><strong>Nov 15</strong> &mdash; America Recycles Day</li><li><strong>Saturday after Thanksgiving</strong> &mdash; Small Business Saturday</li></ul></details>
 </section>
-      <p class="ctt-version">v9.9 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.0 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2751,8 +2773,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   // Frame EVERY stop on the route (including bonus shops you've added; shops you haven't added are ignored)
   // with a small margin so no number is clipped, using the map box's real shape so little empty map is left.
+  var lastUserPos = null, lastVisited = null, keepZoomOnce = false;
   function fitRouteView(stops) {
     if (!stops || !stops.length) return;
+    if (keepZoomOnce) { keepZoomOnce = false; return; }
     map.invalidateSize();
     var pts = stops.map(function(s) { return [s.lat, s.lng]; });
     map.fitBounds(L.latLngBounds(pts), { padding: [30, 30], maxZoom: 16 });
@@ -3313,6 +3337,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       visitedLabel.addEventListener('click', function(e) { e.stopPropagation(); });
       visitedCheckbox.addEventListener('change', function() {
         visitedStores[store.name] = this.checked;
+        if (this.checked) { lastVisited = { name: store.name, lat: store.lat, lng: store.lng, t: Date.now() }; nudgeNextStop(); }
         card.classList.toggle('visited', this.checked);
         refreshCountdown();
         updateRouteStat(lastRouteCount, lastRouteMiles);
@@ -3740,6 +3765,31 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function setCtaBtnText(line1, line2) {
     ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1">' + line1 + '</span><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span>';
   }
+  function stampUpdated() {
+    var el = document.getElementById('ctt-cta-updated'); if (!el) return;
+    var t = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
+    el.textContent = 'Updated ' + t;
+  }
+  function nudgeNextStop() {
+    if (!hasClickedLocateBefore || !ctaBtn) return;
+    ctaBtn.classList.add('ctt-nudge');
+    var l2 = document.getElementById('ctt-cta-btn-line2');
+    if (l2 && !ctaBtn.disabled) l2.textContent = 'Checked one off? Tap for your next closest shop.';
+  }
+  function fallbackOrigin() {
+    var u = lastUserPos && (Date.now() - lastUserPos.t < 3600000) ? lastUserPos : null;
+    var v = lastVisited;
+    if (u && v) return v.t > u.t ? v : u;
+    return u || v || null;
+  }
+  var usedFallback = false;
+  function pickFallback(isRefresh) {
+    var o = fallbackOrigin(); usedFallback = !!o;
+    return pickStartingLocation(o ? o.lat : null, o ? o.lng : null, isRefresh);
+  }
+  function fbTail() {
+    return usedFallback ? ', so I\u2019m continuing from where you left off. ' : ', so here\u2019s today\u2019s plan from the top. ';
+  }
   function locateAndStart() {
     // Coming back mid-trail (some shops already ticked off) counts as a "continue", not a fresh start.
     var isRefresh = hasClickedLocateBefore || Object.keys(visitedStores).some(function(n) { return visitedStores[n]; });
@@ -3760,34 +3810,37 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         recalibrate(pinnedIdx);
         startCountdown('');
         ctaBtn.disabled = false;
-        setCtaBtnText('&#128717; Refresh!', nearestLine);
+        setCtaBtnText('&#128717; Next stop', nearestLine);
+        stampUpdated();
         return;
       }
       pinnedStartName = null;
     }
 
-    ctaBtn.disabled = true;
+    ctaBtn.disabled = true; ctaBtn.classList.remove('ctt-nudge');
     setCtaBtnText('&#9203; Finding your location&hellip;', nearestLine);
     if (!navigator.geolocation) {
-      var picked0 = pickStartingLocation(null, null, isRefresh);
+      var picked0 = pickFallback(isRefresh);
       recalibrate(picked0.idx);
       var prefix0 = picked0.reason === 'opens-soon'
         ? 'Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked0.idx].name + '</strong>, opening at ' + formatHour(picked0.opensAt) + '. '
         : '';
       startCountdown(prefix0);
-      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Next stop', nearestLine);
+      stampUpdated();
       return;
     }
     var settled = false;
     var failsafe = setTimeout(function() {
       if (settled) return;
       settled = true;
-      var picked = pickStartingLocation(null, null, isRefresh);
+      var picked = pickFallback(isRefresh);
       recalibrate(picked.idx);
-      var prefix = 'Couldn\u2019t get your location, so here\u2019s today\u2019s plan from the top. ';
+      var prefix = 'Couldn\u2019t get your location' + fbTail();
       if (picked.reason === 'opens-soon') prefix = 'Couldn\u2019t get your location. Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked.idx].name + '</strong>, opening at ' + formatHour(picked.opensAt) + '. ';
       startCountdown(prefix);
-      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Next stop', nearestLine);
+      stampUpdated();
     }, 12000);
     navigator.geolocation.getCurrentPosition(function(pos) {
       if (settled) return;
@@ -3795,11 +3848,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       clearTimeout(failsafe);
       try { localStorage.setItem('ctt-has-located', '1'); } catch (e) {}
       var uLat = pos.coords.latitude, uLng = pos.coords.longitude;
+      lastUserPos = { lat: uLat, lng: uLng, t: Date.now() };
       var picked = pickStartingLocation(uLat, uLng, isRefresh);
       var bestIdx = picked.idx;
+      keepZoomOnce = isRefresh;
       recalibrate(bestIdx);
       placeStartMarker(uLat, uLng);
-      map.setView([uLat, uLng], 11);
+      map.setView([uLat, uLng], isRefresh ? map.getZoom() : 11);
       var prefix;
       if (picked.reason === 'opens-soon') {
         prefix = 'Nothing nearby is open yet \u2014 starting with <strong>' + allLocations[bestIdx].name + '</strong>, which opens at ' + formatHour(picked.opensAt) + '. ';
@@ -3807,24 +3862,147 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         prefix = 'Starting from <strong>' + allLocations[bestIdx].name + '</strong> (nearest open shop). ';
       }
       startCountdown(prefix);
-      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Next stop', nearestLine);
+      stampUpdated();
     }, function(err) {
       if (settled) return;
       settled = true;
       clearTimeout(failsafe);
       try { localStorage.setItem('ctt-has-located', '1'); } catch (e) {}
-      var picked = pickStartingLocation(null, null, isRefresh);
+      var picked = pickFallback(isRefresh);
       recalibrate(picked.idx);
       var msg = 'Couldn\u2019t get your location';
       if (err && err.code === 1) msg = 'Location permission denied';
       else if (err && err.code === 2) msg = 'Location unavailable';
       else if (err && err.code === 3) msg = 'Location request timed out';
-      var prefix = msg + ', so here\u2019s today\u2019s plan from the top. ';
+      var prefix = msg + '' + fbTail();
       if (picked.reason === 'opens-soon') prefix = msg + '. Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked.idx].name + '</strong>, opening at ' + formatHour(picked.opensAt) + '. ';
+      if (err && err.code === 1) prefix += 'To get a fresh start, turn location back on for this site in your browser settings. ';
       startCountdown(prefix);
-      ctaBtn.disabled = false; setCtaBtnText('&#128717; Refresh!', nearestLine);
+      ctaBtn.disabled = false; setCtaBtnText('&#128717; Next stop', nearestLine);
+      stampUpdated();
     }, { timeout: 10000, enableHighAccuracy: false });
   }
+  // ---- Coffee stops ----
+  // Hand-picked by the moderators. COFFEE_PICKS lists the favorites near each shop; the panel also
+  // weighs how far each place is off the way between where you are and the next shop.
+  var COFFEE = {"0":{"n":"Mean Mug Coffeehouse Southside","a":"114 W Main St, Chattanooga, TN 37408","la":35.03659,"lo":-85.30886,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"1":{"n":"The Livingstone","a":"420 S Willow St, Chattanooga, TN 37404","la":35.03327,"lo":-85.27246,"h":[null,[7.5,15.5],[7.5,15.5],[7.5,15.5],[7.5,18.5],[7.5,15.5],[7.5,15.5]]},"2":{"n":"Oaks Coffee House","a":"2916 Silverdale Rd, Chattanooga, TN 37421","la":35.06182,"lo":-85.13766,"h":[null,[7.0,19.0],[7.0,19.0],[7.0,19.0],[7.0,19.0],[7.0,19.0],[8.0,19.0]]},"3":{"n":"330 Main","a":"330 E Main St, Chattanooga, TN 37408","la":35.03435,"lo":-85.30292,"h":[[9.0,19.0],null,null,[9.0,18.0],[9.0,18.0],[9.0,23.0],[9.0,21.0]]},"4":{"n":"Sleepyhead Coffee","a":"735 Broad St Ste 104, Chattanooga, TN 37402","la":35.04729,"lo":-85.31082,"h":[[8.0,16.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[8.0,16.0]]},"5":{"n":"Milk & Honey","a":"135 N Market St, Chattanooga, TN 37405","la":35.06409,"lo":-85.30923,"h":[[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0]]},"6":{"n":"Mean Mug Coffeehouse Northshore","a":"205 Manufacturers Rd Ste 109, Chattanooga, TN 37405","la":35.0631,"lo":-85.31291,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"7":{"n":"Stone Cup Cafe","a":"208 Frazier Ave, Chattanooga, TN 37405","la":35.06216,"lo":-85.30635,"h":[[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0]]},"8":{"n":"Sleepyhead Coffee","a":"2602 E Main St #110, Chattanooga, TN 37404","la":35.02199,"lo":-85.2693,"h":[[8.0,16.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[8.0,16.0]]},"9":{"n":"Reve Coffee and Books","a":"1948 Northpoint Blvd #144, Chattanooga, TN 37415","la":35.13722,"lo":-85.24202,"h":[[8.0,16.0],null,null,[8.0,16.0],[8.0,16.0],[8.0,16.0],[8.0,16.0]]},"10":{"n":"New Wave Coffee Roasters","a":"2405 Lyndon Ave #121, Red Bank, TN 37415","la":35.09577,"lo":-85.30545,"h":[null,[8.0,14.0],[8.0,14.0],[8.0,13.0],[8.0,14.0],[8.0,13.0],null]},"11":{"n":"Red Owl Coffee Company","a":"4241 Hixson Pike, Chattanooga, TN 37415","la":35.11639,"lo":-85.25153,"h":[[7.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0]]},"12":{"n":"White Oak Mountain Coffee Bar & Roastery","a":"8206 Apison Pike, Ooltewah, TN 37363","la":35.06896,"lo":-85.09962,"h":[[7.0,16.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[7.0,16.0]]},"13":{"n":"Shredders Lair","a":"3230 Brainerd Rd, Chattanooga, TN 37411","la":35.02695,"lo":-85.25394,"h":[[8.0,0.0],[8.0,15.0],[8.0,15.0],[8.0,0.0],[8.0,0.0],[8.0,1.0],[8.0,1.0]]},"14":{"n":"Grindhead Coffee Chattanooga","a":"7955 E Brainerd Rd Ste 105, Chattanooga, TN 37421","la":35.00597,"lo":-85.15194,"h":[[8.0,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[8.0,15.0]]},"15":{"n":"7 Brew Coffee","a":"5771 Brainerd Rd, Chattanooga, TN 37411","la":35.01326,"lo":-85.21257,"h":[[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,23.0],[5.5,23.0]]},"16":{"n":"Red Owl Coffee Company","a":"7737 E Brainerd Rd, Chattanooga, TN 37421","la":35.01149,"lo":-85.15569,"h":[[7.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0]]},"17":{"n":"Scooter's Coffee","a":"5970 Brainerd Rd, Chattanooga, TN 37421","la":35.01673,"lo":-85.20659,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"18":{"n":"Together Cafe","a":"801 S Orchard Knob Ave, Chattanooga, TN 37404","la":35.03169,"lo":-85.27712,"h":[null,[7.0,16.5],[7.0,16.5],[7.0,16.5],[7.0,16.5],[7.0,16.5],[8.0,14.0]]},"19":{"n":"The Human Bean","a":"735 Battlefield Pkwy, Fort Oglethorpe, GA 30742","la":34.95459,"lo":-85.25303,"h":[[7.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[6.0,19.0]]},"20":{"n":"Scooter's Coffee","a":"1935 Battlefield Pkwy, Fort Oglethorpe, GA 30742","la":34.94797,"lo":-85.23297,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"21":{"n":"Mean Mug Coffeehouse Hamilton Place","a":"2090 Hamilton Pl Blvd #106, Chattanooga, TN 37421","la":35.03294,"lo":-85.16038,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"22":{"n":"Fifth Matcha and Coffee","a":"4423 tn-58 FIFTH trailer, Chattanooga, TN 37416","la":35.08484,"lo":-85.20145,"h":[null,[7.5,12.0],null,[7.5,0.0],null,null,null]},"23":{"n":"Scooter's Coffee","a":"4631 TN-58, Chattanooga, TN 37416","la":35.08662,"lo":-85.19232,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"24":{"n":"Mad Priest Coffee Roasters","a":"1200 McCallie Ave, Chattanooga, TN 37404","la":35.03909,"lo":-85.28404,"h":[[7,18],[7,18],[7,18],[7,18],[7,18],[7,18],[7,18]]},"25":{"n":"Mad Priest Coffee Roasters - Wilcox","a":"3399 Wilcox Blvd, Chattanooga, TN 37411","la":35.0477,"lo":-85.2395,"h":null,"k":"approx"},"26":{"n":"Velo Coffee Roasters","a":"509 E Main St #3, Chattanooga, TN 37408","la":35.03412,"lo":-85.30119,"h":[[8,17],[8,17],[8,17],[8,17],[8,17],[8,17],[8,17]]},"27":{"n":"Goodman Coffee Roasters - Warehouse Row","a":"1110 Market St, Chattanooga, TN 37408","la":35.04308,"lo":-85.30915,"h":[null,[7.5,18],[7.5,18],[7.5,18],[7.5,18],[7.5,18],[8,18]]},"28":{"n":"Starbucks North Shore","a":"20 Cherokee Blvd, Chattanooga, TN 37405","la":35.06319,"lo":-85.31001,"h":[[6,18],[6,18],[6,18],[6,18],[6,18],[6,18],[6,18]]},"29":{"n":"Starbucks","a":"1201 Broad St, Chattanooga, TN 37402","la":35.04076,"lo":-85.30961,"h":[[6,14],[5.5,16],[5.5,16],[5.5,16],[5.5,16],[5.5,16],[5.5,16]]},"30":{"n":"Starbucks","a":"5610 Brainerd Rd, Chattanooga, TN 37411","la":35.01107,"lo":-85.21494,"h":[[5,21],[5,21],[5,21],[5,21],[5,21],[5,21],[5,21]]},"31":{"n":"Starbucks","a":"5513 TN-153, Hixson, TN 37343","la":35.14359,"lo":-85.24958,"h":[[5,21],[5,21],[5,21],[5,21],[5,21],[5,21],[5,21]]},"32":{"n":"Starbucks","a":"5579 TN-153, Hixson, TN 37343","la":35.14815,"lo":-85.25038,"h":[[8,20],[8,20],[8,20],[8,20],[8,20],[8,20],[8,20]]},"33":{"n":"Starbucks","a":"5238 TN-153, Chattanooga, TN 37343","la":35.12492,"lo":-85.24012,"h":[[5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[5,22]]},"34":{"n":"Starbucks (Food City)","a":"3901 Dayton Blvd, Red Bank, TN 37415","la":35.11971,"lo":-85.29147,"h":[[7,20],[7,20],[7,20],[7,20],[7,20],[7,20],[7,20]],"k":"inside Food City"},"35":{"n":"Starbucks","a":"8021 E Brainerd Rd, Chattanooga, TN 37421","la":35.00497,"lo":-85.15117,"h":[[5,19.5],[5,20],[5,20],[5,20],[5,20],[5,20],[5,19.5]]},"36":{"n":"Starbucks (Food City)","a":"3636 Ringgold Rd, East Ridge, TN 37412","la":35.00151,"lo":-85.25954,"h":[[7,21],[7,21],[7,21],[7,21],[7,21],[7,21],[7,21]],"k":"inside Food City"},"37":{"n":"Starbucks","a":"635 Camp Jordan Pkwy, East Ridge, TN 37412","la":34.99154,"lo":-85.20148,"h":[[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22]]}};
+  var COFFEE_PICKS = {"America's Thrift Stores (Brainerd Rd)":[15,30,17],"Pop's & Granny's Thrift Store":[25,13,1],"The Thrift Store (benefits Chambliss Center)":[25,13],"Poor Taste":[0,27,26],"Goodwill Store E. Brainerd":[14,16,35],"Hunts Thrift":[16,17],"Chattanooga Room in the Inn Thrift Store":[36],"East Ridge Antique District":[37],"Goodwill Store East Ridge":[36],"Mercantile at the Ridge":[37],"Goodwill Store Fort Oglethorpe":[19],"Nifty Thrifty":[19],"Providence Thrift Store":[19],"SACs Thrift Avenue":[19,20],"Archive Thrift Store":[21,17],"Providence Thrift Store (Lee Hwy)":[21],"Savers":[21],"Habitat For Humanity ReStore":[24,26],"America's Thrift Stores (Northgate)":[9],"Bethel Thrift Store":[9,31,33],"Crafter's Emporium & Book Exchange":[11],"Goodwill Store Hixson":[9,31,33],"Vinterest - Hixson":[9,33,31],"Edith's Emporium":[24,8,18],"THE REFINDERY on McCallie":[24,18,1],"Humane Educational Society Boutique & Thrift":[22,23],"Collective Clothing":[6,7,5],"Electric Crocodile (North Shore)":[6,5,7],"Local Dive Retail":[6,5,28],"Northside Neighborhood House Northshore":[6,5,28],"Samaritan Center":[2,12],"Dirty Jane's Antiques":[10],"Northside Neighborhood House (Red Bank)":[34],"The Thrift Store (Chambliss, Red Bank)":[10],"Vintage & More On The Blvd":[34],"Friends and Family Discount and Thrift":[34,31],"Ladies of Charity Thrift Store":[26,3],"Bachman Bargain Barn":[34,32],"St. Timothy's Thrift Shop":[34,10],"The Clothes House on Signal Mountain":[34,10],"Electric Crocodile (Southside)":[26,0,4],"Lookout Thrift":[26,0,29],"Vinterest Southside":[0,27,26],"Goodwill Store Hwy 58":[23]};
+  var coffeeStop = null, coffeeMarkers = {};
+  function cfEsc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+  function cfBrand(n) { var m = n.match(/Starbucks|Mean Mug|Goodman|Scooter|Sleepyhead|Red Owl|Mad Priest/); return m ? m[0] : n; }
+  function cfTier(n) { if (/Mad Priest/.test(n)) return 0; if (/Goodman|Velo|Mean Mug/.test(n)) return 1; if (/Sleepyhead/.test(n)) return 2; if (/Starbucks/.test(n)) return 4; return 3; }
+  function cfAllow(n) { var t = cfTier(n); return t === 0 ? 1.5 : t === 4 ? 1.5 : t === 1 ? 1.0 : t === 2 ? 0.8 : 0.6; }
+  function cfStatus(c, now) {
+    if (!c.h) return { state: 'unknown', text: '' };
+    var sc = c.h[now.dayIdx];
+    if (!sc) return { state: 'closed', text: 'Closed today' };
+    if (now.decHour < sc[0]) return { state: 'closed', text: 'Opens ' + formatHour(sc[0]) };
+    if (now.decHour > sc[1] - 0.25) return { state: 'closed', text: 'Closing soon' };
+    return { state: 'open', text: 'Open until ' + formatHour(sc[1]) };
+  }
+  function cfOptions() {
+    var now = effectiveNow();
+    var remaining = activeRoute.filter(function(x) { return !visitedStores[x.name]; });
+    if (!remaining.length) return { target: null, items: [] };
+    var t = remaining[0], o = fallbackOrigin();
+    var pinned = {};
+    (COFFEE_PICKS[t.name] || []).forEach(function(id, i) { pinned[id] = i + 1; });
+    var list = [];
+    Object.keys(COFFEE).forEach(function(id) {
+      var c = COFFEE[id], st = cfStatus(c, now);
+      if (st.state === 'closed') return;
+      var dT = haversineMiles(c.la, c.lo, t.lat, t.lng);
+      var detour = o ? haversineMiles(o.lat, o.lng, c.la, c.lo) + dT - haversineMiles(o.lat, o.lng, t.lat, t.lng) : dT;
+      if (detour < 0) detour = 0;
+      if (!pinned[id] && detour > cfAllow(c.n)) return;
+      list.push({ id: id, c: c, st: st, detour: detour, tier: cfTier(c.n), pin: pinned[id] || 99, brand: cfBrand(c.n) });
+    });
+    list.sort(function(a, b) { return (a.tier - b.tier) || (a.pin - b.pin) || (a.detour - b.detour); });
+    var seen = {}, uniq = [];
+    list.forEach(function(x) { if (seen[x.brand]) return; seen[x.brand] = 1; uniq.push(x); });
+    var sb = uniq.filter(function(x) { return x.tier === 4; })[0];
+    var locals = uniq.filter(function(x) { return x.tier !== 4; });
+    var items = locals.slice(0, sb ? 2 : 3);
+    if (sb) items.push(sb);
+    return { target: t, items: items };
+  }
+  function cfDirections(c) { return directionsLink(c.n + ' ' + c.a); }
+  function cfTag(x) { return x.tier <= 2 ? 'Moderators\u2019 favorite' : x.tier === 3 ? 'Local' : ''; }
+  function cfMeta(x) {
+    var bits = [cfEsc(x.c.a.split(',')[0])];
+    if (x.c.k && x.c.k !== 'approx') bits.push(cfEsc(x.c.k));
+    bits.push(x.st.state === 'unknown' ? 'Hours not confirmed' : cfEsc(x.st.text));
+    var mins = Math.round(x.detour / 25 * 60);
+    bits.push(x.detour < 0.1 ? 'right on your way' : (x.tier === 0 && x.detour > 0.4 ? 'short detour, ' : '') + 'about ' + Math.max(1, mins) + ' min extra');
+    return bits.join(' &middot; ');
+  }
+  var cfPanel = document.getElementById('ctt-coffee-panel'), cfOpenBtn = document.getElementById('ctt-coffee-open');
+  function cfRenderPanel() {
+    var r = cfOptions(), h = '';
+    if (!r.target) {
+      h = '<div class="ctt-cf-head"><span>&#9749; Coffee stop</span><button class="ctt-cf-x" aria-label="Close" data-cf="close">&times;</button></div><div class="ctt-cf-meta">Every shop on today\u2019s trail is checked off, so there\u2019s no next stop to fit coffee into.</div>';
+    } else {
+      h = '<div class="ctt-cf-head"><span>&#9749; Coffee on the way to <em>' + cfEsc(r.target.name) + '</em></span><button class="ctt-cf-x" aria-label="Close" data-cf="close">&times;</button></div>';
+      if (!r.items.length) h += '<div class="ctt-cf-meta">Nothing open right on the way to this shop. Try again after the next stop.</div>';
+      r.items.forEach(function(x) {
+        var tag = cfTag(x);
+        h += '<div class="ctt-cf-card"><div class="ctt-cf-name">&#9749; ' + cfEsc(x.c.n) + (tag ? '<span class="ctt-cf-tag">' + tag + '</span>' : '') + '</div><div class="ctt-cf-meta">' + cfMeta(x) + '</div>' +
+          '<a class="ctt-cf-btn" href="' + cfDirections(x.c) + '" target="_blank" rel="noopener">Directions</a>' +
+          '<button type="button" class="ctt-cf-btn primary" data-cf="add" data-id="' + x.id + '" data-before="' + cfEsc(r.target.name) + '">Add to route</button></div>';
+      });
+      h += '<div class="ctt-cf-note">Hours come from Google and can change.</div>';
+    }
+    cfPanel.innerHTML = h;
+  }
+  function cfCardFor(name) { return routeListEl.querySelector('[data-store-name="' + encodeURIComponent(name) + '"]'); }
+  function cfRenderRow() {
+    var old = routeListEl.querySelector('.ctt-cf-row'); if (old) old.remove();
+    Object.keys(coffeeMarkers).forEach(function(id) { var e = coffeeMarkers[id]._icon; if (e && e.firstChild) e.firstChild.classList.remove('picked'); });
+    if (!coffeeStop) return;
+    if (visitedStores[coffeeStop.before]) { coffeeStop = null; return; }
+    var card = cfCardFor(coffeeStop.before); if (!card) return;
+    var c = COFFEE[coffeeStop.id];
+    var row = document.createElement('div'); row.className = 'ctt-cf-row';
+    row.innerHTML = '<div class="ctt-cf-name">&#9749; Coffee stop: ' + cfEsc(c.n) + '</div><div class="ctt-cf-meta">' + cfEsc(c.a.split(',')[0]) + ' &middot; before ' + cfEsc(coffeeStop.before) + '</div>' +
+      '<a class="ctt-cf-btn" href="' + cfDirections(c) + '" target="_blank" rel="noopener">Directions</a><button type="button" class="ctt-cf-btn" data-cf="done">Done</button><button type="button" class="ctt-cf-btn" data-cf="remove">Remove</button>';
+    card.parentNode.insertBefore(row, card);
+    var m = coffeeMarkers[coffeeStop.id]; if (m && m._icon && m._icon.firstChild) m._icon.firstChild.classList.add('picked');
+  }
+  function cfPopup(id) {
+    var c = COFFEE[id], st = cfStatus(c, effectiveNow());
+    return '<strong>&#9749; ' + cfEsc(c.n) + '</strong><br>' + cfEsc(c.a) + (c.k && c.k !== 'approx' ? '<br>' + cfEsc(c.k) : '') + '<br>' + (st.state === 'unknown' ? 'Hours not confirmed' : cfEsc(st.text)) +
+      '<br><a href="' + cfDirections(c) + '" target="_blank" rel="noopener">Directions</a>';
+  }
+  Object.keys(COFFEE).forEach(function(id) {
+    var c = COFFEE[id];
+    var m = L.marker([c.la, c.lo], { icon: L.divIcon({ className: '', html: '<div class="ctt-cf-pin" title="' + cfEsc(c.n) + '">&#9749;</div>', iconSize: [26, 26], iconAnchor: [13, 13] }), zIndexOffset: -500, keyboard: false }).addTo(map);
+    m.bindPopup(function() { return cfPopup(id); }, { maxWidth: 260 });
+    coffeeMarkers[id] = m;
+  });
+  cfOpenBtn.addEventListener('click', function() {
+    var open = cfPanel.classList.toggle('open');
+    if (open) { cfRenderPanel(); cttTrack('coffee_open'); }
+  });
+  cfPanel.addEventListener('click', function(e) {
+    var b = e.target.closest('[data-cf]'); if (!b) return;
+    if (b.getAttribute('data-cf') === 'close') { cfPanel.classList.remove('open'); }
+    if (b.getAttribute('data-cf') === 'add') {
+      coffeeStop = { id: b.getAttribute('data-id'), before: b.getAttribute('data-before') };
+      cttTrack('coffee_add', { shop: COFFEE[coffeeStop.id].n });
+      cfPanel.classList.remove('open'); cfRenderRow();
+      var row = routeListEl.querySelector('.ctt-cf-row'); if (row && row.scrollIntoView) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+  routeListEl.addEventListener('click', function(e) {
+    var b = e.target.closest('[data-cf]'); if (!b) return;
+    var a = b.getAttribute('data-cf');
+    if (a === 'done' || a === 'remove') { coffeeStop = null; cfRenderRow(); }
+  });
+  var cfBase = recalibrate;
+  recalibrate = function(i) { cfBase(i); cfRenderRow(); if (cfPanel.classList.contains('open')) cfRenderPanel(); };
+  document.addEventListener('change', function(e) { if (e.target && e.target.classList && e.target.classList.contains('ctt-visited-checkbox')) { cfRenderRow(); if (cfPanel.classList.contains('open')) cfRenderPanel(); } });
+
   ctaBtn.addEventListener('click', function() {
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
