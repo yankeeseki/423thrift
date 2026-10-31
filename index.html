@@ -91,6 +91,11 @@ STILL TO DO / IDEAS
   - DONE in v10.38: choosing Gold Loop or Silver Loop locks the other experience boxes (and the other loop) until it is unchecked; unchecking returns to Thrift shops.
   - DONE in v10.39: Filter option 'Shops I haven't visited' removed.
   - DONE in v10.40: Filter experience boxes on two lines: Thrift/Curated/Antique, then Gold Loop, Silver Loop, Everything.
+  - DONE in v10.41: tagline reads 'Optimize your thrift experience.'
+  - DONE in v10.42: no experience box is checked by default, but nothing checked = the original default Thrift trail (shown without saying so). Unchecking Gold/Silver Loop or Everything returns to nothing checked; the old 'nothing checked = empty map' rule is retired.
+  - DONE in v10.42 (also): Visited checkbox moved up into the title row, right next to the remove button.
+  - DONE in v10.43: footer links (Send feedback, Shops & Charities, Community Calendar, Get Involved, Disclaimer, Blog) doubled from 10px to 20px.
+  - DONE in v10.44: 'See the full list of shops' button moved to the end of 'Browse by neighborhood'.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -111,7 +116,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.40-20261031">
+<meta name="ctt-build" content="v10.44-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1333,11 +1338,11 @@ STILL TO DO / IDEAS
   .ctt-cf-pin.picked { background:var(--rust); }
   .ctt-cf-pin.ctt-cf-prev { width:34px; }
   .ctt-cf-n { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:800; color:var(--rust); margin-left:1px; vertical-align:2px; }
-  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:16px; font-size:10px; }
-  .ctt-footnav > * { padding:0 5px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
+  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:16px; font-size:20px; }
+  .ctt-footnav > * { padding:4px 10px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
   .ctt-footnav > *:first-child { border-left:none !important; }
-  .ctt-footnav > *:last-child { padding-right:5px !important; }
-  .ctt-footnav .ctt-disclaimer-toggle, .ctt-footnav .ctt-feedback-link-btn { display:inline; margin:0; font-size:10px; font-weight:400; color:#6b6252; background:none; border:none; text-decoration:underline; padding-top:0; padding-bottom:0; cursor:pointer; font-family:'Libre Franklin',sans-serif; }
+  .ctt-footnav > *:last-child { padding-right:10px !important; }
+  .ctt-footnav .ctt-disclaimer-toggle, .ctt-footnav .ctt-feedback-link-btn { display:inline; margin:0; font-size:20px; font-weight:400; color:#6b6252; background:none; border:none; text-decoration:underline; padding-top:0; padding-bottom:0; cursor:pointer; font-family:'Libre Franklin',sans-serif; }
   .ctt-cta-status { font-size: 18px; color: var(--ink); font-weight: 600; line-height: 1.5; margin-top: 6px; }
   .ctt-cta-status strong { color: var(--rust); }
   .ctt-cta-status.urgency-tight { color: var(--rust); }
@@ -1702,7 +1707,8 @@ STILL TO DO / IDEAS
     color: var(--rust);
     margin-bottom: 3px;
   }
-  .ctt-tag-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .ctt-tag-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .ctt-tag-top .ctt-visited-check { margin-top: -3px; }
   .ctt-tag-name { font-weight: 700; font-size: 14.5px; line-height: 1.25; color: var(--rust); }
   .ctt-tag-name-link { color: inherit; text-decoration: none; }
   .ctt-tag-name-link:hover { text-decoration: underline; }
@@ -2189,7 +2195,7 @@ STILL TO DO / IDEAS
 <div id="ctt-thrift-wrap">
   <div class="ctt-header">
     <h1 class="ctt-title">Chattanooga Thrift Trail</h1>
-    <p class="ctt-tagline"><strong>Optimize your thrifting experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
+    <p class="ctt-tagline"><strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
     <div class="ctt-route-stat-row">
       <div class="ctt-legend-group">
         <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
@@ -2405,11 +2411,11 @@ STILL TO DO / IDEAS
 <section class="ctt-seo" aria-label="About the Chattanooga Thrift Trail">
 <h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
 <p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort Oglethorpe. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
-<p class="ctt-seo-cta"><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a></p>
+<p class="ctt-seo-cta"><a href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 </section>
-      <p class="ctt-version">v10.40 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.44 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2564,17 +2570,17 @@ STILL TO DO / IDEAS
     "Electric Crocodile (North Shore)",
     "Archive Thrift Store",
   ];
-  var FILTER_DEFAULT = { types: { thrift: true, curated: false, antique: false, top25: false, top20: false }, areas: [], open: false, late: false, charity: false, tn: false, xareas: [], xtypes: { thrift: false, curated: false, antique: false } };
+  var FILTER_DEFAULT = { types: { thrift: false, curated: false, antique: false, top25: false, top20: false }, areas: [], open: false, late: false, charity: false, tn: false, xareas: [], xtypes: { thrift: false, curated: false, antique: false } };
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
   try {
     var rawF = localStorage.getItem('ctt-filters');
     if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Downtown', 'North Shore'] : [x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, tn: !!pf.tn, xareas: Array.isArray(pf.xareas) ? pf.xareas : [], xtypes: { thrift: !!(pf.xtypes && pf.xtypes.thrift), curated: !!(pf.xtypes && pf.xtypes.curated), antique: !!(pf.xtypes && pf.xtypes.antique) } }; } }
   } catch (e) {}
-  (function() { var t = filters.types; if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
+  (function() { var t = filters.types; if (t.thrift && !t.curated && !t.antique && !t.top25 && !t.top20) filters.types.thrift = false; if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
-  //   'none'  = nothing checked (empty map and lists)
+  //   (nothing checked behaves like 'thrift': the default trail)
   //   'thrift'= only Thrift stores (the original page: route = thrift loop, rest in the second list)
   //   'top25' = only Gold Loop (only those shops are shown, same second-list behavior)
   //   'wide'  = any other combination: checked types add together to make the route, and every other shop goes in the second list
@@ -2582,7 +2588,7 @@ STILL TO DO / IDEAS
   function typeMode() {
     var t = filters.types;
     var anyList = t.top25 || t.top20;
-    if (!t.thrift && !t.curated && !t.antique && !anyList) return 'none';
+    if (!t.thrift && !t.curated && !t.antique && !anyList) return 'thrift'; // nothing checked = the default Thrift trail
     if (t.thrift && !t.curated && !t.antique && !anyList) return 'thrift';
     if (anyList && !t.thrift && !t.curated && !t.antique) return 'top25';
     return 'wide';
@@ -3449,7 +3455,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + store.name + '</a>' : store.name) +
-        '</div>' +
+        '</div>' + visitedHtml +
       '</div>' +
       reasonHtml +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
@@ -3461,7 +3467,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           '<span class="ctt-tag-rating-wrap" data-rating-display="' + encodeURIComponent(store.name) + '" data-seed-rating="' + (store.myRating === null || store.myRating === undefined ? '' : store.myRating) + '">' + renderStars(store.myRating) + '</span>' +
         '</div>' +
         '<div class="ctt-review-toggle-row">' +
-          visitedHtml +
           '<button class="ctt-review-toggle-btn" data-review-toggle="' + encodeURIComponent(store.name) + '">Reviews<span data-review-count="' + encodeURIComponent(store.name) + '"></span> <span data-review-arrow="' + encodeURIComponent(store.name) + '">&#9662;</span></button>' +
         '</div>' +
       '</div>' +
@@ -3826,7 +3831,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var ik = t.getAttribute('data-type');
         if (ik === 'top25' || ik === 'top20') {
           // a loop stands alone: the other experiences are locked until it is unchecked
-          filters.types = t.checked ? { thrift: false, curated: false, antique: false, top25: ik === 'top25', top20: ik === 'top20' } : { thrift: true, curated: false, antique: false, top25: false, top20: false };
+          filters.types = t.checked ? { thrift: false, curated: false, antique: false, top25: ik === 'top25', top20: ik === 'top20' } : { thrift: false, curated: false, antique: false, top25: false, top20: false };
         } else {
           filters.types[ik] = t.checked;
           if (t.checked && filters.xtypes.hasOwnProperty(ik)) filters.xtypes[ik] = false;
@@ -3851,7 +3856,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
     document.getElementById('ctt-fp-all').addEventListener('change', function() {
       filters.xtypes = { thrift: false, curated: false, antique: false };
-      filters.types = this.checked ? { thrift: true, curated: true, antique: true, top25: false, top20: false } : { thrift: true, curated: false, antique: false, top25: false, top20: false };
+      filters.types = this.checked ? { thrift: true, curated: true, antique: true, top25: false, top20: false } : { thrift: false, curated: false, antique: false, top25: false, top20: false };
       apply('type');
     });
     function reset() { filters = JSON.parse(JSON.stringify(FILTER_DEFAULT)); apply('reset'); }
