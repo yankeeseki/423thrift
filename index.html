@@ -82,6 +82,10 @@ STILL TO DO / IDEAS
   - DONE in v10.29: 'Thrift and shop-local days' list removed from the bottom of the main page; every thrift day gets a banner lead-up (3 days; 7 for the big three), 'Tomorrow is ...', and a top banner on the day; all 21 thrift days are on the Community Calendar.
   - DONE in v10.30: neighborhood pages/buttons split: Downtown and North Shore, Signal Mountain and Ooltewah are four separate pages (old combined addresses forward to the new ones); /shops/ jump list splits Downtown and North Shore.
   - DONE in v10.31: 'Extra' wording changed back to 'Bonus' (legend, FAQ, blog); the 'Bonus shop' status tag on cards stays removed; second list stays 'More Shops'.
+  - DONE in v10.32: Filter area headings are 'Add Area' and 'Exclude Area'.
+  - DONE in v10.33: more breathing room between Filter sections (dashed dividers, bigger gaps).
+  - DONE in v10.34: Filter 'Everything' is now a checkbox (checks Thrift, Curated and Antique together; unchecking returns to Thrift shops only).
+  - DONE in v10.35: Filter list names: Mod's Top 25 -> 'Gold Loop', Chattanooga Top 20 -> 'Silver Loop' (filter, FAQ, blog).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -102,7 +106,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.31-20261031">
+<meta name="ctt-build" content="v10.35-20261031">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check their hours, and get an optimized driving order for maximum shops.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1158,11 +1162,12 @@ STILL TO DO / IDEAS
   .ctt-filter-toggle { font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; color: #6b6252; background: none; border: none; text-decoration: underline; cursor: pointer; padding: 2px 0; }
   .ctt-filter-toggle.on { color: var(--rust); font-weight: 700; }
   .ctt-filter-panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 4px 0 12px; font-family: 'Libre Franklin', sans-serif; }
-  .ctt-fp-sec { margin-bottom: 10px; }
-  .ctt-fp-h { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #6b6252; margin-bottom: 5px; }
-  .ctt-fp-opt { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink); margin: 0 14px 6px 0; cursor: pointer; }
+  .ctt-fp-sec { margin-bottom: 18px; }
+  .ctt-fp-sec + .ctt-fp-sec { border-top: 1px dashed var(--line); padding-top: 16px; }
+  .ctt-fp-h { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #6b6252; margin-bottom: 10px; }
+  .ctt-fp-opt { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); margin: 0 18px 12px 0; cursor: pointer; }
   .ctt-fp-opt input { width: 17px; height: 17px; accent-color: var(--olive); }
-  .ctt-fp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ctt-fp-chips { display: flex; flex-wrap: wrap; gap: 9px 8px; }
   .ctt-fp-chips button { font-family: inherit; font-size: 12.5px; color: var(--olive); background: var(--paper); border: 1px solid var(--olive); border-radius: 14px; padding: 4px 10px; cursor: pointer; }
   .ctt-fp-xchips button.x { color: var(--rust); border-color: var(--rust); background: var(--card); text-decoration: line-through; font-weight: 700; }
   .ctt-fp-xchips button.x::before { content: '\2715\00a0'; text-decoration: none; display: inline-block; }
@@ -2275,12 +2280,12 @@ STILL TO DO / IDEAS
           <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> Mod&rsquo;s Top 25</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-type="top20"> Chattanooga Top 20</label>
-          <button type="button" class="ctt-fp-link" id="ctt-fp-all">Everything</button>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> Gold Loop</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="top20"> Silver Loop</label>
+          <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
         </div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Leave out areas</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">Add Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Area</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">Also show only</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="tn"> Tennessee only</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
@@ -2385,7 +2390,7 @@ STILL TO DO / IDEAS
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort Oglethorpe</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a></p>
 </section>
-      <p class="ctt-version">v10.31 &mdash; October 31, 2026</p>
+      <p class="ctt-version">v10.35 &mdash; October 31, 2026</p>
       <p class="ctt-footer">Map data &copy; OpenStreetMap contributors</p>
     </div>
   </div>
@@ -2552,7 +2557,7 @@ STILL TO DO / IDEAS
   // How the four "experience" boxes read:
   //   'none'  = nothing checked (empty map and lists)
   //   'thrift'= only Thrift stores (the original page: route = thrift loop, rest in the second list)
-  //   'top25' = only Mod's Top 25 (only those shops are shown, same second-list behavior)
+  //   'top25' = only Gold Loop (only those shops are shown, same second-list behavior)
   //   'wide'  = any other combination: checked types add together to make the route, and every other shop goes in the second list
   function inPickedLists(name) { return (filters.types.top25 && TOP25.indexOf(name) !== -1) || (filters.types.top20 && TOP20.indexOf(name) !== -1); }
   function typeMode() {
@@ -3764,6 +3769,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     function sync() {
       [].forEach.call(panel.querySelectorAll('input[data-type]'), function(i) { i.checked = !!filters.types[i.getAttribute('data-type')]; });
+      document.getElementById('ctt-fp-all').checked = !!(filters.types.thrift && filters.types.curated && filters.types.antique);
       [].forEach.call(panel.querySelectorAll('input[data-flag]'), function(i) { i.checked = !!filters[i.getAttribute('data-flag')]; });
       [].forEach.call(areasEl.querySelectorAll('button'), function(b) { b.className = filters.areas.indexOf(b.getAttribute('data-area')) !== -1 ? 'on' : ''; });
       [].forEach.call(xEl.querySelectorAll('button'), function(b) { b.className = filters.xareas.indexOf(b.getAttribute('data-area')) !== -1 ? 'x' : ''; b.setAttribute('aria-pressed', b.className === 'x' ? 'true' : 'false'); });
@@ -3807,7 +3813,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (ix === -1) { filters.xareas.push(a); var ai = filters.areas.indexOf(a); if (ai !== -1) filters.areas.splice(ai, 1); } else filters.xareas.splice(ix, 1);
       apply('area');
     });
-    document.getElementById('ctt-fp-all').addEventListener('click', function() { filters.types = { thrift: true, curated: true, antique: true, top25: false, top20: false }; apply('type'); });
+    document.getElementById('ctt-fp-all').addEventListener('change', function() {
+      filters.types = this.checked ? { thrift: true, curated: true, antique: true, top25: false, top20: false } : { thrift: true, curated: false, antique: false, top25: false, top20: false };
+      apply('type');
+    });
     function reset() { filters = JSON.parse(JSON.stringify(FILTER_DEFAULT)); unvisitedSnap = null; apply('reset'); }
     document.getElementById('ctt-fp-reset').addEventListener('click', reset);
     document.addEventListener('click', function(e) { if (e.target && e.target.className === 'ctt-filter-reset-inline') reset(); });
