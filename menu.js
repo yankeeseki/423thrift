@@ -190,7 +190,7 @@
   var HOODS = [["/thrift-stores-downtown/", "Downtown"], ["/thrift-stores-north-shore/", "North Shore"], ["/thrift-stores-southside/", "Southside"], ["/thrift-stores-highland-park/", "Highland Park &amp; McCallie"], ["/thrift-stores-east-ridge/", "East Ridge"], ["/thrift-stores-brainerd-hamilton-place/", "Brainerd &amp; Hamilton Place"], ["/thrift-stores-hixson/", "Hixson"], ["/thrift-stores-red-bank/", "Red Bank"], ["/thrift-stores-fort-oglethorpe/", "Fort O"], ["/thrift-stores-signal-mountain/", "Signal Mountain"], ["/thrift-stores-ooltewah/", "Ooltewah"]], ABOUT = "<h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>\n<p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>\n";
   var fcss = document.createElement('style');
   fcss.textContent = '.tip,.sm-foot,#ctt-cal-body .ctt-shops-tip{display:none!important}' +
-    '.smx-foot{margin:264px 0 0;padding:0 16px 40px;font-family:Libre Franklin,system-ui,sans-serif;color:#5c5343}.smx-foot-in{max-width:1140px;margin:0 auto}' +
+    '.smx-foot{margin:317px 0 0;padding:0 16px 40px;font-family:Libre Franklin,system-ui,sans-serif;color:#5c5343}.smx-foot-in{max-width:1140px;margin:0 auto}' +
     '.smx-fnav{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;row-gap:6px;font-size:15px}' +
     '.smx-fnav>*{padding:6px 12px;border:none;border-left:1px solid #6b6252;background:none;color:#6b6252;font:inherit;line-height:1.2;text-decoration:underline;cursor:pointer}.smx-fnav>*:first-child{border-left:none}.smx-fnav>*:hover{color:var(--rust)}' +
     '.smx-ftips{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:26px 0 0;font-size:12.5px;color:#6b6252}' +
@@ -205,7 +205,7 @@
     '.smx-fnews input{flex:1 1 auto;min-width:0;font-family:inherit;font-size:15px;padding:8px 12px;border:1.5px solid var(--line);border-radius:999px;background:#fff;color:var(--ink)}' +
     '.smx-fnews button{flex:0 0 auto;font-family:inherit;font-size:14px;font-weight:700;padding:8px 18px;border:2px solid var(--rust);border-radius:999px;background:var(--rust);color:#fff;cursor:pointer}.smx-fnews button:disabled{opacity:.6;cursor:wait}' +
     '.smx-fnews .smx-nm{margin:6px 0 0;font-weight:700;white-space:normal;font-size:13.5px}.smx-fnews .smx-nm:empty{display:none}' +
-    '.smx-fcred{text-align:center;font-size:11.5px;color:#6b6252;margin:160px 0 0;line-height:2}.smx-fcred a{color:inherit}' +
+    '.smx-fcred{text-align:center;font-size:11.5px;color:#6b6252;margin:192px 0 0;line-height:2}.smx-fcred a{color:inherit}' +
     '.smx-fabout{max-width:70ch;margin:56px 0 0;padding-top:24px;border-top:1.5px dashed var(--line);font-size:13.5px;line-height:1.6;color:#5c5343}.smx-fabout h2{font-family:system-ui,sans-serif;font-size:16px;color:var(--ink);margin:0 0 6px;border:none;padding:0}.smx-fabout p{margin:0 0 6px}';
 
   // ---- match the home page: sans-serif text, 1140px width, big bold title (all sub-pages) ----
@@ -217,12 +217,13 @@
     ".topbar a.sitetitle,.sitehead .sitetitle{font-size:clamp(30px,7vw,48px);line-height:1.05}" +
     ".sitehead{max-width:1172px;margin:0 auto 6px;justify-content:space-between}" +
     ".wrap>header.sitehead{max-width:none;margin:0 0 6px}" +
-    "h1{margin-top:18px}" +
+    "h1{margin-top:22px;color:#43697b}" +
     "@media(min-width:900px){.wrap:has(>article.shop){display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap:has(>article.shop)>*{grid-column:1/-1}.wrap:has(>article.shop)>article.shop{grid-column:auto}.wrap:has(>article.shop)>.cta{justify-self:start}#shop-list,.wrap>section{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap>section>h2,.wrap>section>p,.wrap>section>div{grid-column:1/-1}}";
   document.head.appendChild(hcss);
+  if (/^\/how-to\/?/.test(location.pathname)) { var hh = document.createElement('style'); hh.textContent = '.crumbs,.topbar a.logo{display:none!important}'; document.head.appendChild(hh); }
   // ---- home-page look for shop cards, tagline and the gold "Plan your route" strip ----
   var scss = document.createElement('style');
-  scss.textContent = ".smx-tagline{font-size:14px;line-height:1.4;color:var(--ink);margin:2px 0 4px;max-width:640px}" +
+  scss.textContent = ".smx-tagline{font-size:14px;line-height:1.4;color:var(--ink);margin:-1px 0 4px;max-width:640px}" +
     ".shop{border:1px dashed var(--line)!important;border-radius:3px!important}" +
     ".shop h2.shopname,.shop h3{font-family:'Libre Franklin',system-ui,sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.01em;color:var(--rust);margin:0 0 4px}" +
     ".shop .tag{background:var(--olive);color:#fff;border:none;border-radius:2px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px}" +
@@ -237,8 +238,7 @@
     tg.innerHTML = '<strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.';
     var hd = wrap.querySelector(':scope > header.sitehead');
     if (hd) hd.insertAdjacentElement('afterend', tg); else wrap.insertBefore(tg, wrap.firstChild);
-    var cta = wrap.querySelector('a.cta');
-    if (cta) { var s = document.createElement('div'); s.className = 'smx-strip'; cta.parentNode.insertBefore(s, cta); s.appendChild(cta); var q = document.createElement('p'); q.textContent = 'Let’s begin at your nearest shop.'; s.appendChild(q); }
+    Array.prototype.forEach.call(wrap.querySelectorAll('a.cta'), function (c) { c.parentNode.removeChild(c); });
   })();
 
   document.head.appendChild(fcss);
