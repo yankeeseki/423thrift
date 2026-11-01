@@ -148,6 +148,7 @@ STILL TO DO / IDEAS
   - DONE in v10.93b: sub-page menu is now site/menu.js (built by work/build_menu.py from index.html's CSS, Disclaimer and Home Screen text): same items as the home menu; Get Involved, Newsletter, Send feedback, Disclaimer, Add to Home Screen and Printable Guide open as popups on the page the visitor is on.
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
+  - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -168,7 +169,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.95-20261101">
+<meta name="ctt-build" content="v10.96-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2050,17 +2051,20 @@ STILL TO DO / IDEAS
   .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { flex: 0 0 100%; height: 0; margin: 0; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
-  .ctt-news { max-width: 380px; margin: 22px auto 6px; text-align: center; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; }
-  .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 4px; }
-  .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0 0 10px; }
-  .ctt-news form { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .ctt-news { max-width: 70ch; margin: 22px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .ctt-news-text { flex: 1 1 220px; }
+  .ctt-news-act { flex: 1 1 280px; }
+  .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 2px; }
+  .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0; }
+  .ctt-news form { display: flex; flex-wrap: nowrap; gap: 8px; }
   .ctt-news-lab { position: absolute; left: -9999px; }
-  .ctt-news input { flex: 1 1 170px; min-width: 0; font-family: inherit; font-size: 15px; padding: 9px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); }
-  .ctt-news button { flex: 0 0 auto; font-family: inherit; font-size: 14px; font-weight: 700; padding: 9px 18px; border: 2px solid var(--rust); border-radius: 999px; background: var(--rust); color: #fff; cursor: pointer; }
+  .ctt-news input { flex: 1 1 auto; min-width: 0; font-family: inherit; font-size: 15px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); }
+  .ctt-news button { flex: 0 0 auto; font-family: inherit; font-size: 14px; font-weight: 700; padding: 8px 18px; border: 2px solid var(--rust); border-radius: 999px; background: var(--rust); color: #fff; cursor: pointer; }
   .ctt-news button:hover { background: #8f3e22; border-color: #8f3e22; }
   .ctt-news button:disabled { opacity: .6; cursor: wait; }
   .ctt-news input:focus-visible, .ctt-news button:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-news-msg { min-height: 1.2em; margin: 8px 0 0 !important; font-weight: 700; }
+  .ctt-news-msg:empty { display: none; }
+  .ctt-news-msg { margin: 6px 0 0 !important; font-weight: 700; }
   .ctt-seo-label { font-weight: 700; color: var(--ink); margin: 14px 0 6px !important; }
   .ctt-seo-hoods { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px !important; }
   .ctt-seo-hoods a { text-decoration: none; border: 1px solid var(--rust); border-radius: 16px; padding: 4px 12px; font-size: 13px; background: var(--paper); }
@@ -2511,12 +2515,12 @@ STILL TO DO / IDEAS
 </div>
 </section>
 <section class="ctt-news" id="ctt-news" aria-labelledby="ctt-news-h">
-<h2 id="ctt-news-h">Get the latest Shop &amp; Trail intel</h2>
-<p>We&rsquo;ll keep the emails infrequent and worth your time.</p>
-<form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
-<p class="ctt-news-msg" id="ctt-news-msg" role="status"></p>
+<div class="ctt-news-text"><h2 id="ctt-news-h">Get the latest Shop &amp; Trail intel</h2>
+<p>We&rsquo;ll keep the emails infrequent and worth your time.</p></div>
+<div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
+<p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v10.95 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.96 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
