@@ -149,6 +149,7 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v10.99 (Nov 1 2026): more space above the footer link row and above the version line.
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
@@ -171,7 +172,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.98-20261101">
+<meta name="ctt-build" content="v10.99-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1419,7 +1420,7 @@ STILL TO DO / IDEAS
   .ctt-cf-pin.picked { background:var(--rust); }
   .ctt-cf-pin.ctt-cf-prev { width:34px; }
   .ctt-cf-n { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:800; color:var(--rust); margin-left:1px; vertical-align:2px; }
-  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:6px; font-size:15px; row-gap:6px; }
+  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:18px; font-size:15px; row-gap:6px; }
   .ctt-footnav > * { padding:6px 12px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
   .ctt-footnav > *:first-child { border-left:none !important; }
   .ctt-footnav > *:last-child { padding-right:12px !important; }
@@ -2098,7 +2099,7 @@ STILL TO DO / IDEAS
   .ctt-disclaimer { margin-top: 6px; font-size: 10px; color: #6b6252; line-height: 1.5; width: 100%; text-align: center; }
   .ctt-footer + .ctt-footer { margin-top: 4px; }
   @media (max-width: 780px) { .ctt-footer:last-of-type, .ctt-footer + .ctt-footer { padding-bottom: 56px; } .ctt-footer:not(:last-of-type) { padding-bottom: 0; } }
-  .ctt-version { margin-top: 110px; font-size: 9.5px; color: #c9bb99; text-align: center; }
+  .ctt-version { margin-top: 220px; font-size: 9.5px; color: #c9bb99; text-align: center; }
   .ctt-tip-section {
     text-align: center; margin-top: 34px; padding: 12px; display: flex;
     align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
@@ -2523,7 +2524,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v10.98 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.99 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
