@@ -149,6 +149,7 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v10.100 (Nov 1 2026): Send feedback opens an X-able popup on every page; the list no longer scrolls inside its own box; "2. Exclusions" heading; home-screen button in the blue box; more space above the newsletter, footer credits and version line; tighter title/tagline spacing.
   - DONE in v10.99 (Nov 1 2026): more space above the footer link row and above the version line.
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
@@ -172,7 +173,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.99-20261101">
+<meta name="ctt-build" content="v10.100-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1283,7 +1284,7 @@ STILL TO DO / IDEAS
     }
     .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
   }
-  .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: 4px 0 8px; max-width: 640px; }
+  .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: 0 0 8px; max-width: 640px; }
   .ctt-title {
     font-family: 'Archivo Black', sans-serif;
     font-size: 48px;
@@ -1521,7 +1522,7 @@ STILL TO DO / IDEAS
   .ctt-offroute-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; }
   .ctt-offroute-note { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 400; color: #6b6252; text-align: right; }
-  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 4px; scrollbar-color: var(--olive) var(--paper); }
+  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: none; overflow: visible; padding-right: 0; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
     display: flex;
     align-items: center;
@@ -1614,11 +1615,11 @@ STILL TO DO / IDEAS
     align-items: start;
   }
   .ctt-layout #ctt-map { order: -1; position: relative; height: clamp(320px, 64vh, 540px) !important; }
-  .ctt-layout .ctt-list { overflow-y: auto; padding-right: 4px; }
+  .ctt-layout .ctt-list { overflow: visible; padding-right: 0; }
   @media (min-width: 781px) {
     .ctt-layout { grid-template-columns: minmax(0, 610px) 1fr; }
     .ctt-layout #ctt-map { order: 0; position: sticky; top: 12px; height: clamp(460px, 82vh, 780px) !important; }
-    .ctt-layout .ctt-list { max-height: none; overflow-y: auto; padding-right: 4px; }
+    .ctt-layout .ctt-list { max-height: none; overflow: visible; padding-right: 0; }
   }
   .ctt-backtomap {
     display: none; position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 900;
@@ -1637,9 +1638,8 @@ STILL TO DO / IDEAS
     display: flex;
     flex-direction: column;
     gap: 9px;
-    overflow-y: auto;
-    padding-right: 4px;
-    scrollbar-color: var(--olive) var(--paper);
+    overflow: visible;
+    padding-right: 0;
   }
   .ctt-list::-webkit-scrollbar, #ctt-offroute-list::-webkit-scrollbar { width: 8px; }
   .ctt-list::-webkit-scrollbar-track, #ctt-offroute-list::-webkit-scrollbar-track { background: var(--paper); }
@@ -2056,7 +2056,7 @@ STILL TO DO / IDEAS
   .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { flex: 0 0 100%; height: 0; margin: 0; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
-  .ctt-news { max-width: 70ch; margin: 22px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .ctt-news { max-width: 70ch; margin: 48px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
   .ctt-news-text { flex: 0 1 auto; max-width: 100%; }
   .ctt-news .ctt-news-text p { white-space: nowrap; font-size: clamp(10.5px, 3.3vw, 13.5px); }
   .ctt-news-act { flex: 1 1 240px; min-width: 0; max-width: 100%; }
@@ -2279,8 +2279,8 @@ STILL TO DO / IDEAS
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
   .ctt-homescreen-row { margin: 40px 0 22px 0; text-align: center; }
-  .ctt-pdf-section .ctt-homescreen-link { margin: 12px 0 0; font-size: 13.5px; color: #2c3e44; text-decoration: underline; }
-  .ctt-pdf-section .ctt-homescreen-link:hover { color: #1c2c31; }
+  .ctt-pdf-section .ctt-homescreen-link { margin: 10px 0 0; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px; line-height: normal; background: #2c3e44; color: #e8f1f4; border: none; border-radius: 20px; padding: 8px 18px; text-decoration: none; cursor: pointer; }
+  .ctt-pdf-section .ctt-homescreen-link:hover { background: #1c2c31; color: #e8f1f4; }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2356,6 +2356,23 @@ STILL TO DO / IDEAS
     </div>
   </div>
 
+  <div class="ctt-shops-overlay" id="ctt-fb-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-fb-title">
+    <div class="ctt-shops-dialog">
+      <div class="ctt-shops-top">
+        <h2 class="ctt-shops-title" id="ctt-fb-title">Send feedback</h2>
+        <p class="ctt-shops-sub">Spot something that has changed? Tell the moderators.</p>
+        <button type="button" class="ctt-shops-close" id="ctt-fb-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="ctt-shops-body">
+        <textarea class="ctt-feedback-textarea" id="ctt-feedback-text" rows="5" placeholder="Type your feedback here..."></textarea>
+        <div class="ctt-feedback-row" style="margin-top:10px">
+          <button class="ctt-feedback-btn" id="ctt-feedback-send">Send Feedback</button>
+          <span class="ctt-feedback-status" id="ctt-feedback-status"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
@@ -2413,7 +2430,7 @@ STILL TO DO / IDEAS
           <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
           </div>
         </div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">2. Exclude Experience</div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">2. Exclusions</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="thrift"> Thrift shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Curated shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique malls</label>
@@ -2503,13 +2520,6 @@ STILL TO DO / IDEAS
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
       <a class="ctt-tip-btn" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a>
     </div>
-      <div class="ctt-feedback-section" id="ctt-feedback-section" style="display:none;margin-top:10px">
-        <textarea class="ctt-feedback-textarea" id="ctt-feedback-text" rows="4" placeholder="Type your feedback here..."></textarea>
-        <div class="ctt-feedback-row">
-          <button class="ctt-feedback-btn" id="ctt-feedback-send">Send Feedback</button>
-          <span class="ctt-feedback-status" id="ctt-feedback-status"></span>
-        </div>
-      </div>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The Chattanooga Thrift Trail exists to make it easy to find good deals. It is a self-guided map of thrift shops, curated shops and antique malls around the Chattanooga area. It builds an efficient driving route around each shop&rsquo;s hours, so you can visit the most shops with the least driving, and it offers hand-picked loops, the Lookout Loop and the Scenic City Loop, for a nice drive.<br><br>The information provided on this page, including shop hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Shop hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify shop hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it. If you choose to add a name or email under Account, your name is kept only on your own device, and your email, if you add one, is sent to the site&rsquo;s moderators so they can contact you about the Trail. It is never shown publicly.</p>
 <!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
 <section class="ctt-seo" aria-label="Browse the Chattanooga Thrift Trail by neighborhood">
@@ -2524,7 +2534,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v10.99 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.100 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3388,6 +3398,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return total;
   }
   function equalizeListHeights() {
+    // The lists no longer scroll inside themselves; the page scrolls instead (no inner scrollbar).
+    document.getElementById('ctt-list').style.maxHeight = 'none'; offRouteListEl.style.maxHeight = 'none';
+    return;
     var listContainerEl = document.getElementById('ctt-list');
     var routeHeight = heightForFirstFive(routeListEl);
 
@@ -4781,12 +4794,18 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // ---- Feedback (EMAIL OBFUSCATION: built from char codes, not plain text) ----
   var emailCodes = [52,50,51,116,104,114,105,102,116,64,103,109,97,105,108,46,99,111,109];
   var feedbackEmail = String.fromCharCode.apply(null, emailCodes);
-  document.getElementById('ctt-feedback-toggle').addEventListener('click', function() {
-    var section = document.getElementById('ctt-feedback-section');
-    var isHidden = section.style.display === 'none';
-    section.style.display = isHidden ? 'block' : 'none';
-    this.textContent = isHidden ? 'Hide feedback form' : 'Send feedback';
-  });
+  (function() {
+    var ov = document.getElementById('ctt-fb-overlay'), last = null;
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+    document.getElementById('ctt-feedback-toggle').addEventListener('click', function() {
+      last = this; ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
+      document.getElementById('ctt-feedback-status').textContent = '';
+      setTimeout(function() { document.getElementById('ctt-feedback-text').focus(); }, 50);
+    });
+    document.getElementById('ctt-fb-close').addEventListener('click', close);
+    ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+  })();
   document.getElementById('ctt-feedback-send').addEventListener('click', function() {
     var textEl = document.getElementById('ctt-feedback-text');
     var statusEl = document.getElementById('ctt-feedback-status');

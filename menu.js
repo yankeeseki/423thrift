@@ -199,13 +199,13 @@
     '.smx-flabel{font-weight:700;color:var(--ink);margin:0 0 6px}' +
     '.smx-chips{display:flex;flex-wrap:wrap;gap:8px}.smx-chips a{text-decoration:none;border:1px solid var(--rust);border-radius:16px;padding:4px 12px;font-size:13px;background:var(--paper);color:var(--rust)}.smx-chips a:hover{background:var(--rust);color:#fff}' +
     '.smx-chips .smx-all{flex:0 1 auto;max-width:100%;text-align:center;font-weight:700;border:2px solid var(--rust);border-radius:22px;padding:8px 16px;margin-top:4px;background:var(--card)}.smx-chips .smx-br{flex:0 0 100%;height:0}' +
-    '.smx-fnews{max-width:70ch;margin:22px auto 6px;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;text-align:left}' +
+    '.smx-fnews{max-width:70ch;margin:48px auto 6px;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;text-align:left}' +
     '.smx-fnews h2{font-family:system-ui,sans-serif;font-size:16px;color:var(--ink);margin:0 0 2px;border:none;padding:0}.smx-fnews p{font-size:clamp(10.5px,3.3vw,13.5px);color:#5c5343;margin:0;white-space:nowrap}' +
     '.smx-fnews .smx-nt{flex:0 1 auto;max-width:100%}.smx-fnews .smx-na{flex:1 1 240px;min-width:0;max-width:100%}.smx-fnews form{display:flex;gap:8px}' +
     '.smx-fnews input{flex:1 1 auto;min-width:0;font-family:inherit;font-size:15px;padding:8px 12px;border:1.5px solid var(--line);border-radius:999px;background:#fff;color:var(--ink)}' +
     '.smx-fnews button{flex:0 0 auto;font-family:inherit;font-size:14px;font-weight:700;padding:8px 18px;border:2px solid var(--rust);border-radius:999px;background:var(--rust);color:#fff;cursor:pointer}.smx-fnews button:disabled{opacity:.6;cursor:wait}' +
     '.smx-fnews .smx-nm{margin:6px 0 0;font-weight:700;white-space:normal;font-size:13.5px}.smx-fnews .smx-nm:empty{display:none}' +
-    '.smx-fcred{text-align:center;font-size:11.5px;color:#6b6252;margin:60px 0 0;line-height:2}.smx-fcred a{color:inherit}' +
+    '.smx-fcred{text-align:center;font-size:11.5px;color:#6b6252;margin:160px 0 0;line-height:2}.smx-fcred a{color:inherit}' +
     '.smx-fabout{max-width:70ch;margin:56px 0 0;padding-top:24px;border-top:1.5px dashed var(--line);font-size:13.5px;line-height:1.6;color:#5c5343}.smx-fabout h2{font-family:system-ui,sans-serif;font-size:16px;color:var(--ink);margin:0 0 6px;border:none;padding:0}.smx-fabout p{margin:0 0 6px}';
   document.head.appendChild(fcss);
   var ft = document.createElement('footer'); ft.className = 'smx-foot'; ft.setAttribute('aria-label', 'Site footer');
