@@ -149,6 +149,8 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
+  - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -169,7 +171,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.96-20261101">
+<meta name="ctt-build" content="v10.98-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1663,11 +1665,12 @@ STILL TO DO / IDEAS
   .ctt-list-bar .ctt-filter-toggle:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
   .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0; text-align: right; }
   .ctt-list-bar { flex-wrap: wrap; justify-content: space-between; gap: 8px 8px; }
-  .ctt-list-outer .ctt-trail-header { margin-bottom: -3px; }
+  .ctt-list-outer .ctt-trail-header { margin-bottom: -3px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+  .ctt-list-outer .ctt-trail-header .ctt-title-col { flex: 0 0 auto; }
+  .ctt-trail-header .ctt-custom-order-banner { margin: 0; flex: 1 1 130px; text-align: right; line-height: 1.3; }
   .ctt-list-bar .ctt-day-picker, .ctt-list-bar .ctt-coffee-open { margin: 0; flex: 0 0 auto; }
   .ctt-list-bar .ctt-day-option, .ctt-list-bar .ctt-coffee-open, .ctt-list-bar .ctt-list-count { font-size: 13px; }
   .ctt-list-bar .ctt-list-count { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; white-space: nowrap; }
-  @media (max-width: 640px) { .ctt-list-bar .ctt-coffee-open { flex: 1 1 auto; } }
   .ctt-list-label {
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
@@ -2042,6 +2045,7 @@ STILL TO DO / IDEAS
   .ctt-seo > p:first-of-type { max-width: 70ch; }
   .ctt-seo a { color: var(--rust); text-decoration-thickness: 1px; text-underline-offset: 3px; }
   .ctt-seo a:hover { text-decoration-thickness: 2px; }
+  .ctt-seo.ctt-seo-about { margin: 64px 0 0; padding: 26px 0 64px; }
   .ctt-seo-cta { margin: 12px 0 !important; }
   .ctt-seo-cta a { display: inline-block; font-weight: 700; text-decoration: none; border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; background: var(--card); }
   .ctt-seo-cta a:hover { background: var(--rust); color: #fff; }
@@ -2052,8 +2056,9 @@ STILL TO DO / IDEAS
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
   .ctt-news { max-width: 70ch; margin: 22px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
-  .ctt-news-text { flex: 1 1 220px; }
-  .ctt-news-act { flex: 1 1 280px; }
+  .ctt-news-text { flex: 0 1 auto; max-width: 100%; }
+  .ctt-news .ctt-news-text p { white-space: nowrap; font-size: clamp(10.5px, 3.3vw, 13.5px); }
+  .ctt-news-act { flex: 1 1 240px; min-width: 0; max-width: 100%; }
   .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 2px; }
   .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0; }
   .ctt-news form { display: flex; flex-wrap: nowrap; gap: 8px; }
@@ -2273,6 +2278,8 @@ STILL TO DO / IDEAS
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
   .ctt-homescreen-row { margin: 40px 0 22px 0; text-align: center; }
+  .ctt-pdf-section .ctt-homescreen-link { margin: 12px 0 0; font-size: 13.5px; color: #2c3e44; text-decoration: underline; }
+  .ctt-pdf-section .ctt-homescreen-link:hover { color: #1c2c31; }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2375,6 +2382,10 @@ STILL TO DO / IDEAS
     <div class="ctt-list-outer">
       <div class="ctt-trail-header">
         <div class="ctt-title-col"><span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span></div>
+        <div class="ctt-custom-order-banner" id="ctt-saved-note" style="display:none;">
+        Your changes are saved on this device &middot; <button id="ctt-start-over-btn">Start over</button>
+        </div>
+
       </div>
       <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       <div class="ctt-day-plan-inputs" id="ctt-day-plan-inputs" style="display:none;">
@@ -2386,9 +2397,6 @@ STILL TO DO / IDEAS
         Custom order &middot; <button id="ctt-reset-order-btn">Reset</button>
       </div>
       <div class="ctt-storage-note" id="ctt-storage-note" style="display:none;">Heads up: this browser isn&rsquo;t letting the Trail save your progress (private or incognito mode can do this). Your visited and removed shops will reset if you refresh or leave the page.</div>
-      <div class="ctt-custom-order-banner" id="ctt-saved-note" style="display:none;">
-        Your changes are saved on this device &middot; <button id="ctt-start-over-btn">Start over</button>
-      </div>
       <div class="ctt-list" id="ctt-list">
         <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><div class="ctt-day-picker">  <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>  <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button></div><button type="button" class="ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
       <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
@@ -2433,7 +2441,8 @@ STILL TO DO / IDEAS
       <h3 class="ctt-pdf-title">Take It With You</h3>
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
       <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128196; Download Printable Trail Guide (PDF)</button>
-      <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops.</p>
+      <button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button>
+      <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
     <div class="ctt-share-section ctt-split-half" style="text-align:center;">
       <h3 class="ctt-share-title">Share The Trail</h3>
@@ -2448,10 +2457,6 @@ STILL TO DO / IDEAS
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
-  </div>
-
-  <div class="ctt-homescreen-row">
-    <button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button>
   </div>
 
   <div class="ctt-homescreen-panel" id="ctt-homescreen-panel" style="display:none;">
@@ -2506,9 +2511,7 @@ STILL TO DO / IDEAS
       </div>
       <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The Chattanooga Thrift Trail exists to make it easy to find good deals. It is a self-guided map of thrift shops, curated shops and antique malls around the Chattanooga area. It builds an efficient driving route around each shop&rsquo;s hours, so you can visit the most shops with the least driving, and it offers hand-picked loops, the Lookout Loop and the Scenic City Loop, for a nice drive.<br><br>The information provided on this page, including shop hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Shop hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify shop hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it. If you choose to add a name or email under Account, your name is kept only on your own device, and your email, if you add one, is sent to the site&rsquo;s moderators so they can contact you about the Trail. It is never shown publicly.</p>
 <!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
-<section class="ctt-seo" aria-label="About the Chattanooga Thrift Trail">
-<h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
-<p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
+<section class="ctt-seo" aria-label="Browse the Chattanooga Thrift Trail by neighborhood">
 <div class="ctt-hoodbox">
 <p class="ctt-seo-label">Browse by neighborhood</p>
 <p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort O</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><span class="ctt-seo-br"></span><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
@@ -2520,9 +2523,13 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v10.96 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.98 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
+<section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
+<h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
+<p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
+</section>
     </div>
   </div>
 </div>
@@ -3295,10 +3302,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var lastRouteMiles = 0, lastRouteCount = 0;
   function updateListCount() {
     var el = document.getElementById('ctt-list-count'); if (!el) return;
-    var n = activeRoute.length; window.cttRouteN = n;
-    var ft = document.getElementById('ctt-filter-toggle'); if (ft) ft.textContent = n ? 'Filter (' + n + ')' : 'Filter';
-    if (!n) { el.textContent = ''; return; }
+    var n = activeRoute.length;
     var v = activeRoute.filter(function(s) { return visitedStores[s.name]; }).length;
+    window.cttRouteN = n - v; // the Filter button counts only shops not yet visited
+    var ft = document.getElementById('ctt-filter-toggle'); if (ft) ft.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
+    if (!n) { el.textContent = ''; return; }
     el.textContent = n + ' shop' + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
   }
   function updateRouteStat(count, miles) {
