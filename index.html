@@ -138,6 +138,12 @@ STILL TO DO / IDEAS
   - DONE in v10.84 (Nov 1 2026): sub-page cohesion: .cta buttons now fully rounded like the main page, 'Site sponsored by Thrifty Flea' footer line on sub-pages (work/submenu.py adds menu + footer + rounded buttons; run it after areas.py).
   - DONE in v10.85 (Nov 1 2026): shop name in the orange status line ('Starting from <shop> (nearest open shop)') is bold white with a soft shadow for contrast on the orange.
   - DONE in v10.86 (Nov 1 2026): when nothing is checked in Filter the panel opens by itself (once) instead of the 'Nothing is checked' message; if they close it the message shows again.
+  - DONE in v10.87 (Nov 1 2026): Browse by neighborhood box is the same width as the paragraph above it (70ch), left-aligned.
+  - DONE in v10.88 (Nov 1 2026): Filter section titles numbered 1-5.
+  - DONE in v10.89 (Nov 1 2026): Filter / Today-Later / coffee / shop count line is spread edge to edge (space-between), ending at the shop count.
+  - DONE in v10.90 (Nov 1 2026): space between the 'Your Route' title and the Filter button matches the space above the title (12px).
+  - DONE in v10.91 (Nov 1 2026): dashed line under the Filter row removed.
+  - DONE in v10.92 (Nov 1 2026): small subtle 'closed, removed, etc.' note beside the More Shops / All Other Shops heading.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -158,7 +164,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.86-20261101">
+<meta name="ctt-build" content="v10.92-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1504,6 +1510,9 @@ STILL TO DO / IDEAS
     padding: 0;
   }
   .ctt-offroute-toggle:hover { color: var(--rust); }
+  .ctt-offroute-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; }
+  .ctt-offroute-note { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 400; color: #6b6252; text-align: right; }
   #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 4px; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
     display: flex;
@@ -1643,12 +1652,13 @@ STILL TO DO / IDEAS
     font-size: 19px;
     color: var(--ink);
   }
-  .ctt-list-bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--paper); border-bottom: 1.5px dashed var(--line); padding: 6px 4px 6px 2px; margin-right: -4px; }
+  .ctt-list-bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--paper); border-bottom: none; padding: 6px 4px 6px 2px; margin-right: -4px; }
   .ctt-list-bar .ctt-filter-toggle, .ctt-list-bar .ctt-filter-toggle.on { font-size: 14px; font-weight: 700; padding: 5px 34px; min-height: 32px; background: #a9c1cb; color: #2c3e44; border: none; border-radius: 999px; text-decoration: none; }
   .ctt-list-bar .ctt-filter-toggle:hover, .ctt-list-bar .ctt-filter-toggle.on:hover { background: #98b3bf; color: #2c3e44; }
   .ctt-list-bar .ctt-filter-toggle:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0 0 0 auto; text-align: right; }
-  .ctt-list-bar { flex-wrap: wrap; justify-content: flex-start; gap: 6px 8px; }
+  .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0; text-align: right; }
+  .ctt-list-bar { flex-wrap: wrap; justify-content: space-between; gap: 8px 8px; }
+  .ctt-list-outer .ctt-trail-header { margin-bottom: -3px; }
   .ctt-list-bar .ctt-day-picker, .ctt-list-bar .ctt-coffee-open { margin: 0; flex: 0 0 auto; }
   .ctt-list-label {
     display: inline-block;
@@ -2027,12 +2037,12 @@ STILL TO DO / IDEAS
   .ctt-seo-cta { margin: 12px 0 !important; }
   .ctt-seo-cta a { display: inline-block; font-weight: 700; text-decoration: none; border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; background: var(--card); }
   .ctt-seo-cta a:hover { background: var(--rust); color: #fff; }
-  .ctt-hoodbox { max-width: 380px; margin: 14px auto 6px; }
+  .ctt-hoodbox { max-width: 70ch; margin: 14px 0 6px; }
   .ctt-hoodbox .ctt-seo-label { margin-top: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods { margin-bottom: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 1 1 100%; text-align: center; font-weight: 700; font-size: 13.5px; color: #fff; background: var(--rust); border: 2px solid #fff; border-radius: 22px; padding: 9px 14px; margin-top: 6px; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: #8f3e22; color: #fff; }
-  .ctt-news { max-width: 380px; margin: 22px auto 6px; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; }
+  .ctt-news { max-width: 70ch; margin: 22px 0 6px; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; }
   .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 4px; }
   .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0 0 10px; }
   .ctt-news form { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -2381,7 +2391,7 @@ STILL TO DO / IDEAS
       <div class="ctt-list" id="ctt-list">
         <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><div class="ctt-day-picker">  <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>  <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button></div><button type="button" class="ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
       <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
-        <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">The experience you want</div>
+        <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">1. The experience you want</div>
           <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated shops</label>
@@ -2393,14 +2403,14 @@ STILL TO DO / IDEAS
           <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
           </div>
         </div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Experience</div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">2. Exclude Experience</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="thrift"> Thrift shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Curated shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique malls</label>
         </div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Add Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Exclude Area</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">Also show only</div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">3. Add Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Exclude Area</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">5. Also show only</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="charity"> Supports a charity &#128155;</label>
@@ -2410,7 +2420,7 @@ STILL TO DO / IDEAS
         <div id="ctt-route-list"></div>
       </div>
       <div class="ctt-offroute-container">
-        <button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button>
+        <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, etc.</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
@@ -2509,7 +2519,7 @@ STILL TO DO / IDEAS
 <form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p>
 </section>
-      <p class="ctt-version">v10.86 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.92 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
