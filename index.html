@@ -149,6 +149,8 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v11.5 (Nov 1 2026): tagline hidden on sub-pages (spacing kept).
+  - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
   - DONE in v11.1 (Nov 1 2026): sub-pages match the home page (width, font, big title, two-column shop cards on neighborhood pages); Add to Home Screen, Disclaimer and Send feedback open popups (no page jump); printer emoji on the PDF button; neighborhood box wider; route stats styled like the status below the button; more spacing in footer; tighter title/tagline.
@@ -177,7 +179,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v11.3-20261101">
+<meta name="ctt-build" content="v11.5-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1256,11 +1258,11 @@ STILL TO DO / IDEAS
   .ctt-fp-done { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff; background: var(--olive); border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; }
   .ctt-header { margin-bottom: 10px; position: relative; }
   .ctt-header .ctt-title { padding-right: 56px; }
-  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
   .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: none; color: var(--ink); }
   .ctt-menu-btn:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-menu-btn svg { width: 30px; height: 30px; }
-  .ctt-menu { position: absolute; top: 52px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
+  .ctt-menu-btn svg { width: 36px; height: 36px; }
+  .ctt-menu { position: absolute; top: 60px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu button { font-family: 'Libre Franklin', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); background: none; border: none; text-align: left; padding: 14px 12px; border-radius: 8px; cursor: pointer; }
   .ctt-menu button:hover, .ctt-menu button:focus-visible { background: var(--paper); color: var(--rust); outline: none; }
@@ -2059,14 +2061,14 @@ STILL TO DO / IDEAS
   .ctt-hoodbox .ctt-seo-label { margin-top: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods { margin-bottom: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { display: none; }
-  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
+  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 1px solid var(--rust); border-radius: 16px; padding: 4px 12px; margin-top: 0; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
-  .ctt-news { max-width: 70ch; margin: 48px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .ctt-news { max-width: 70ch; margin: 48px auto 6px; padding: 12px 16px; background: #add19e; border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
   .ctt-news-text { flex: 0 1 auto; max-width: 100%; }
   .ctt-news .ctt-news-text p { white-space: nowrap; font-size: clamp(10.5px, 3.3vw, 13.5px); }
   .ctt-news-act { flex: 1 1 240px; min-width: 0; max-width: 100%; }
   .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 2px; }
-  .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0; }
+  .ctt-news p { font-size: 13.5px; color: var(--ink); margin: 0; }
   .ctt-news form { display: flex; flex-wrap: nowrap; gap: 8px; }
   .ctt-news-lab { position: absolute; left: -9999px; }
   .ctt-news input { flex: 1 1 auto; min-width: 0; font-family: inherit; font-size: 15px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); }
@@ -2512,6 +2514,13 @@ STILL TO DO / IDEAS
           <li><strong>Chrome:</strong> click the <strong>three dots</strong>, then <strong>Save and share</strong> (older versions: <strong>Cast, save, and share</strong>), then <strong>Install page as app</strong>.</li>
         </ol>
       </div>
+      <div>
+        <h4>Windows PC</h4>
+        <ol>
+          <li><strong>Chrome:</strong> click the <strong>three dots</strong>, then <strong>Save and share</strong> (older versions: <strong>Cast, save, and share</strong>), then <strong>Install page as app</strong>.</li>
+          <li><strong>Edge:</strong> click the <strong>three dots</strong>, then <strong>Apps</strong>, then <strong>Install this site as an app</strong>.</li>
+        </ol>
+      </div>
     </div>
     <p class="ctt-homescreen-note">On an iPhone, the home-screen shortcut can keep its own saved progress, separate from what you did in Safari.</p>
   </div>
@@ -2539,7 +2548,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v11.3 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v11.5 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5087,6 +5096,28 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
   })();
 
+  // ---- Newsletter popup (opened from the hamburger): the same signup box, shown in a window ----
+  (function() {
+    var news = document.getElementById('ctt-news'), anchor = document.getElementById('ctt-gi-overlay');
+    if (!news || !anchor) return;
+    var home = document.createComment('ctt-news-home'); news.parentNode.insertBefore(home, news);
+    var ov = document.createElement('div');
+    ov.className = 'ctt-shops-overlay'; ov.id = 'ctt-news-overlay'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Newsletter signup');
+    ov.innerHTML = '<div class="ctt-shops-dialog"><div class="ctt-shops-top"><h2 class="ctt-shops-title">Newsletter</h2><button type="button" class="ctt-shops-close" id="ctt-news-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body" id="ctt-news-slot"></div></div>';
+    anchor.parentNode.insertBefore(ov, anchor);
+    var slot = document.getElementById('ctt-news-slot'), last = null;
+    var opener = document.createElement('button'); opener.type = 'button'; opener.id = 'ctt-news-open'; opener.hidden = true; document.body.appendChild(opener);
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; home.parentNode.insertBefore(news, home.nextSibling); if (last && last.focus) last.focus(); }
+    opener.addEventListener('click', function() {
+      last = document.getElementById('ctt-menu-btn'); slot.appendChild(news); news.style.margin = '0';
+      ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
+      var i = document.getElementById('ctt-news-email'); if (i) setTimeout(function() { i.focus(); }, 50);
+    });
+    document.getElementById('ctt-news-close').addEventListener('click', function() { news.style.margin = ''; close(); });
+    ov.addEventListener('click', function(e) { if (e.target === ov) { news.style.margin = ''; close(); } });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) { news.style.margin = ''; close(); } });
+  })();
+
   // ---- Hamburger menu: Add to Home Screen + the footer links, in one place ----
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
@@ -5099,7 +5130,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var el = document.getElementById(id);
         if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
       });
-      var newsEl = document.getElementById('ctt-news'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: true });
+      var newsEl = document.getElementById('ctt-news-open'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: false });
       list.push({ label: '\uD83D\uDDA8\uFE0F Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
       list.push({ label: '\uD83D\uDCF2 Add Trail to Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       list.push({ heading: 'Share The Trail' });
