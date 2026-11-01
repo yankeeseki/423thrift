@@ -24,7 +24,7 @@ a{color:var(--olive)}
 .chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--olive);border:1px solid var(--olive);border-radius:10px;padding:0 8px;margin-right:6px}
 .callout{background:#f3ecd2;border-left:4px solid #c98a2b;padding:10px 14px;border-radius:3px;font-size:17px}
 ul{padding-left:22px}li{margin:6px 0}ul.src{font-family:system-ui,sans-serif;font-size:14px}
-.cta{display:inline-block;margin:10px 0;padding:13px 20px;background:var(--rust);color:#fff;border-radius:6px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
+.cta{display:inline-block;margin:10px 0;padding:13px 20px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
 .box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:28px 0;font-family:system-ui,sans-serif}
 .more a{display:block;margin:6px 0;font-size:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:0 0 12px}
@@ -39,12 +39,24 @@ nav.chips button.on,nav.chips button:hover{background:var(--olive);color:#fff}
 .soon{font-family:system-ui,sans-serif;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:24px}
 footer{margin-top:20px;font-family:system-ui,sans-serif;font-size:12.5px;color:var(--taupe)}
 @media(max-width:480px){h1{font-size:29px}body{font-size:17px}}
+
+.sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
+.sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
+.sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+.sm-btn svg{width:28px;height:28px}
+.sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
+.sm-menu[hidden]{display:none!important}
+.sm-menu:not([hidden]){display:block!important}
+.sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
+.sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
+.sm-menu a[aria-current=page]{color:var(--rust)!important}
+.sm-foot{text-align:center;font:12px/1.4 system-ui,sans-serif;color:#6b6252;margin:0;padding:8px 16px 36px}.sm-foot a{color:inherit}
 </style>
 <link rel="canonical" href="https://423thrift.com/blog/">
 <meta property="og:title" content="Chattanooga Thrift Store Blog | Chattanooga Thrift Trail"><meta property="og:description" content="Chattanooga thrift store guides, vintage shop spotlights, charity stories and tips from the Chattanooga Thrift Trail. A new post the 1st and 3rd Monday.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://423thrift.com/blog/"><meta property="og:image" content="https://423thrift.com/og-image.png"><meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "Chattanooga Thrift Trail Blog", "url": "https://423thrift.com/blog/", "description": "Chattanooga thrift store guides, vintage shop spotlights, charity stories and tips from the Chattanooga Thrift Trail. A new post the 1st and 3rd Monday.", "publisher": {"@type": "Organization", "name": "Chattanooga Thrift Trail", "url": "https://423thrift.com/"}}</script>
-</head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><a class="logo" href="/blog/">Blog</a></div><div class="wrap">
+</head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><a class="logo" href="/blog/">Blog</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>The Thrift Trail Blog</h1>
 <p>Guides, shop spotlights, charity stories and seasonal ideas for thrifting in Chattanooga. A new post arrives the first and third Monday of every month.</p>
 <p id="next" class="meta"></p>
@@ -65,4 +77,4 @@ show();
 })();</script><script>/* Every post card ends with a "Read more" style link. Cards that do not already have one (for example a brand-new post added to the list) get one automatically, so nothing needs to be added by hand. */
 (function(){var V=['Read more','Learn more','Keep reading','Continue reading','See the full story','Get the details','Find out more','Dive in'];
 [].forEach.call(document.querySelectorAll('#list .card'),function(c,i){if(c.querySelector('.readmore'))return;var a=c.querySelector('h2 a');if(!a)return;var p=document.createElement('p');p.className='readmore';var l=document.createElement('a');l.href=a.getAttribute('href');l.innerHTML=V[i%V.length]+' &rarr;';p.appendChild(l);c.appendChild(p);});})();</script>
-</body></html>
+<p class="sm-foot">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener">Thrifty Flea</a></p><script src="/menu.js" defer></script></body></html>

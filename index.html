@@ -144,6 +144,8 @@ STILL TO DO / IDEAS
   - DONE in v10.90 (Nov 1 2026): space between the 'Your Route' title and the Filter button matches the space above the title (12px).
   - DONE in v10.91 (Nov 1 2026): dashed line under the Filter row removed.
   - DONE in v10.92 (Nov 1 2026): small subtle 'closed, removed, etc.' note beside the More Shops / All Other Shops heading.
+  - DONE in v10.93 (Nov 1 2026): Community Calendar is now its own page (/calendar/, same shell/menu as the other sub-pages, script copied from the old popup; the overlay and its module script are gone from index.html; #calendar on the home page redirects); full-list button back to the original look and only as wide as its text; newsletter box centered; Share The Trail buttons are pills like the other buttons; note beside More Shops reads 'closed, removed, and bonus stops'; Filter/Today-Later/coffee/count all 13px; shops page heading 'Chattanooga Thrift Shops and Charities'. calendar/index.html was built by work/build_calendar.py (re-run it if the calendar CSS/script changes).
+  - DONE in v10.93b: sub-page menu is now site/menu.js (built by work/build_menu.py from index.html's CSS, Disclaimer and Home Screen text): same items as the home menu; Get Involved, Newsletter, Send feedback, Disclaimer, Add to Home Screen and Printable Guide open as popups on the page the visitor is on.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -164,7 +166,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.92-20261101">
+<meta name="ctt-build" content="v10.93-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1653,13 +1655,14 @@ STILL TO DO / IDEAS
     color: var(--ink);
   }
   .ctt-list-bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--paper); border-bottom: none; padding: 6px 4px 6px 2px; margin-right: -4px; }
-  .ctt-list-bar .ctt-filter-toggle, .ctt-list-bar .ctt-filter-toggle.on { font-size: 14px; font-weight: 700; padding: 5px 34px; min-height: 32px; background: #a9c1cb; color: #2c3e44; border: none; border-radius: 999px; text-decoration: none; }
+  .ctt-list-bar .ctt-filter-toggle, .ctt-list-bar .ctt-filter-toggle.on { font-size: 13px; font-weight: 700; padding: 5px 34px; min-height: 32px; background: #a9c1cb; color: #2c3e44; border: none; border-radius: 999px; text-decoration: none; }
   .ctt-list-bar .ctt-filter-toggle:hover, .ctt-list-bar .ctt-filter-toggle.on:hover { background: #98b3bf; color: #2c3e44; }
   .ctt-list-bar .ctt-filter-toggle:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
   .ctt-list-count { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); margin: 0; text-align: right; }
   .ctt-list-bar { flex-wrap: wrap; justify-content: space-between; gap: 8px 8px; }
   .ctt-list-outer .ctt-trail-header { margin-bottom: -3px; }
   .ctt-list-bar .ctt-day-picker, .ctt-list-bar .ctt-coffee-open { margin: 0; flex: 0 0 auto; }
+  .ctt-list-bar .ctt-day-option, .ctt-list-bar .ctt-coffee-open, .ctt-list-bar .ctt-list-count { font-size: 13px; }
   .ctt-list-label {
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
@@ -2040,12 +2043,13 @@ STILL TO DO / IDEAS
   .ctt-hoodbox { max-width: 70ch; margin: 14px 0 6px; }
   .ctt-hoodbox .ctt-seo-label { margin-top: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods { margin-bottom: 0 !important; }
-  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 1 1 100%; text-align: center; font-weight: 700; font-size: 13.5px; color: #fff; background: var(--rust); border: 2px solid #fff; border-radius: 22px; padding: 9px 14px; margin-top: 6px; }
-  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: #8f3e22; color: #fff; }
-  .ctt-news { max-width: 70ch; margin: 22px 0 6px; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; }
+  .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { flex: 0 0 100%; height: 0; margin: 0; }
+  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
+  .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
+  .ctt-news { max-width: 380px; margin: 22px auto 6px; text-align: center; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; }
   .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 4px; }
   .ctt-news p { font-size: 13.5px; color: #5c5343; margin: 0 0 10px; }
-  .ctt-news form { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ctt-news form { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .ctt-news-lab { position: absolute; left: -9999px; }
   .ctt-news input { flex: 1 1 170px; min-width: 0; font-family: inherit; font-size: 15px; padding: 9px 12px; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); }
   .ctt-news button { flex: 0 0 auto; font-family: inherit; font-size: 14px; font-weight: 700; padding: 9px 18px; border: 2px solid var(--rust); border-radius: 999px; background: var(--rust); color: #fff; cursor: pointer; }
@@ -2137,9 +2141,9 @@ STILL TO DO / IDEAS
   .ctt-pdf-section .ctt-pdf-btn { background: #2c3e44; color: #e8f1f4; border: none; }
   .ctt-pdf-section .ctt-pdf-btn:hover { background: #1c2c31; color: #e8f1f4; }
   .ctt-share-btn {
-    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px;
-    background: var(--paper); color: var(--rust); border: none; border-radius: 3px;
-    padding: 10px 18px; cursor: pointer; transition: all 0.15s ease;
+    font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px;
+    background: var(--paper); color: var(--rust); border: 1.5px solid var(--paper); border-radius: 20px;
+    padding: 8px 18px; cursor: pointer; transition: all 0.15s ease;
   }
   .ctt-share-btn:hover { background: var(--ink); color: var(--paper); }
   .ctt-share-status { font-size: 12px; color: var(--paper); font-weight: 600; }
@@ -2336,17 +2340,6 @@ STILL TO DO / IDEAS
     </div>
   </div>
 
-  <div class="ctt-shops-overlay" id="ctt-cal-overlay" role="dialog" aria-modal="true" aria-labelledby="ctt-cal-title">
-    <div class="ctt-shops-dialog">
-      <div class="ctt-shops-top">
-        <h2 class="ctt-shops-title" id="ctt-cal-title">Community Calendar</h2>
-        <p class="ctt-shops-sub">Yard sales, church sales, shop events and special thrift days around Chattanooga.</p>
-        <button type="button" class="ctt-shops-close" id="ctt-cal-close" aria-label="Close calendar">&times;</button>
-      </div>
-      <div class="ctt-shops-body" id="ctt-cal-body"></div>
-    </div>
-  </div>
-
   <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
@@ -2420,7 +2413,7 @@ STILL TO DO / IDEAS
         <div id="ctt-route-list"></div>
       </div>
       <div class="ctt-offroute-container">
-        <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, etc.</span></div>
+        <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and bonus stops</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
@@ -2490,7 +2483,7 @@ STILL TO DO / IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="#calendar" style="display:none">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -2510,7 +2503,7 @@ STILL TO DO / IDEAS
 <p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 <div class="ctt-hoodbox">
 <p class="ctt-seo-label">Browse by neighborhood</p>
-<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort O</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
+<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort O</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><span class="ctt-seo-br"></span><a class="ctt-seo-all" href="shops/">See the full list of shops, with addresses and hours &rarr;</a></p>
 </div>
 </section>
 <section class="ctt-news" id="ctt-news" aria-labelledby="ctt-news-h">
@@ -2519,7 +2512,7 @@ STILL TO DO / IDEAS
 <form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p>
 </section>
-      <p class="ctt-version">v10.92 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.93 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
@@ -5125,7 +5118,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
             return;
           }
           close();
-          if (it.el.tagName === 'A' && /^(shops|blog)\//.test(it.el.getAttribute('href') || '')) { window.location.href = it.el.getAttribute('href'); return; }
+          if (it.el.tagName === 'A' && /^(shops|blog|calendar)\//.test(it.el.getAttribute('href') || '')) { window.location.href = it.el.getAttribute('href'); return; }
           it.el.click();
           if (it.scroll) setTimeout(function() { it.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
         });
@@ -5651,190 +5644,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   loadAllReviews();
 </script>
 
-<script type="module">
-  // ---- Community calendar (Firestore collection "sales"; auto-publishes; 3 reports removes a listing). Link stays hidden until the database accepts reads. ----
-  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, increment, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  var cfg = { apiKey: "AIzaSyDSJYyUkpUQuwyZ6E7gNwutNb819BS_sTU", authDomain: "chattanooga-thrift-trail.firebaseapp.com", projectId: "chattanooga-thrift-trail", messagingSenderId: "553643358865", appId: "1:553643358865:web:66cbf21479e7ab67c71d30" };
-  var openEl = document.getElementById('ctt-cal-open'), ov = document.getElementById('ctt-cal-overlay'), body = document.getElementById('ctt-cal-body');
-  var db, sales = [], lastFocus = null;
-  var BAD = ["fuck","shit","bitch","asshole","bastard","cunt","dick","piss","cock","whore","slut","fag","nigger","nigga","retard","douchebag","twat"];
-  function bad(t) { t = t.toLowerCase(); return BAD.some(function(w) { return new RegExp('\\b' + w + '\\b').test(t); }); }
-  function hasLink(t) { return /(https?:|www\.|\.com|\.net|\.org|\.co\b|@\w+\.)/i.test(t); }
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function today() { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); }
-  function pretty(d) { var p = d.split('-'); var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return m[+p[1] - 1] + ' ' + (+p[2]); }
-  function reported() { try { return JSON.parse(localStorage.getItem('ctt_reported_sales') || '{}'); } catch (e) { return {}; } }
-  function load(cb) {
-    getDocs(collection(db, 'sales')).then(function(snap) {
-      var t = today(); sales = [];
-      snap.forEach(function(d) { var x = d.data(); x._id = d.id; if ((x.reports || 0) < 3 && (x.endDate || x.date) >= t) sales.push(x); });
-      sales.sort(function(a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
-      cb && cb(true);
-    }).catch(function() { cb && cb(false); });
-  }
-  // ---- Month calendar: pre-filled special days + community events ----
-  var calView = null, calSel = null;
-  var CAL_THRIFT = [[1,27,'National Retro Day'],[2,2,'Old Stuff Day'],[2,18,'Global Recycling Day'],[2,29,'Mom and Pop Business Owners Day'],[4,22,'Buy a Musical Instrument Day'],[4,24,'Scavenger Hunt Day'],[7,12,'National Vinyl Record Day'],[7,17,'National Thrift Store Day'],[7,25,'National Secondhand Wardrobe Day'],[9,7,'National Consignment Day'],[10,15,'America Recycles Day']];
-  var CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var HOURS_NOTE = 'Many shops are closed or on holiday hours. Check each shop’s Google listing for updated hours.';
-  function p2(n) { return (n < 10 ? '0' : '') + n; }
-  function ymd(y, m, d) { return y + '-' + p2(m + 1) + '-' + p2(d); }
-  function nthDow(y, m, wd, n) { var f = new Date(y, m, 1).getDay(); return 1 + ((wd - f + 7) % 7) + (n - 1) * 7; }
-  function lastDow(y, m, wd) { var l = new Date(y, m + 1, 0); return l.getDate() - ((l.getDay() - wd + 7) % 7); }
-  function easter(y) {
-    var a = y % 19, b = Math.floor(y / 100), c = y % 100, dd = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3),
-        h = (19 * a + b - dd - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-    return { m: Math.floor((h + l - 7 * m + 114) / 31) - 1, d: ((h + l - 7 * m + 114) % 31) + 1 };
-  }
-  var specCache = {};
-  function specials(y) {
-    if (specCache[y]) return specCache[y];
-    var L = [], th = nthDow(y, 10, 4, 4), ea = easter(y), ys = nthDow(y, 7, 4, 1);
-    CAL_THRIFT.forEach(function(x) { L.push({ date: ymd(y, x[0], x[1]), title: x[2], kind: 'thrift', tag: 'Thrift day' }); });
-    L.push({ date: ymd(y, 10, th + 2), title: 'Small Business Saturday', kind: 'thrift', tag: 'Thrift day', note: 'Shop small, shop local, and thrift with your neighbors!' });
-    L.push({ date: ymd(y, 7, ys), end: ymd(y, 7, ys + 3), title: 'World’s Longest Yard Sale', kind: 'yard', tag: 'Yard sale', note: 'About 690 miles of yard sales along Highway 127, including right here around Chattanooga. Thursday through Sunday. Dates are set by the sale, so confirm them at <a href="https://127yardsale.com" target="_blank" rel="noopener">127yardsale.com</a>.' });
-    [[0,1,'New Year’s Day'],[ea.m,ea.d,'Easter'],[4,lastDow(y,4,1),'Memorial Day'],[6,4,'Independence Day'],[8,nthDow(y,8,1,1),'Labor Day'],[10,th,'Thanksgiving'],[11,24,'Christmas Eve'],[11,25,'Christmas Day'],[11,31,'New Year’s Eve']].forEach(function(x) {
-      L.push({ date: ymd(y, x[0], x[1]), title: x[2], kind: 'holiday', tag: 'Holiday hours', note: HOURS_NOTE });
-    });
-    [[1,14,'Valentine’s Day'],[4,nthDow(y,4,0,2),'Mother’s Day'],[5,nthDow(y,5,0,3),'Father’s Day'],[9,31,'Halloween'],[10,11,'Veterans Day']].forEach(function(x) {
-      L.push({ date: ymd(y, x[0], x[1]), title: x[2], kind: 'holiday', tag: 'Holiday' });
-    });
-    specCache[y] = L; return L;
-  }
-  function itemsForMonth(y, m) {
-    var first = ymd(y, m, 1), last = ymd(y, m, new Date(y, m + 1, 0).getDate()), out = [];
-    specials(y).forEach(function(x) { var e = x.end || x.date; if (x.date <= last && e >= first) out.push(x); });
-    sales.forEach(function(x) { var e = x.endDate || x.date; if (x.date <= last && e >= first) out.push({ sale: x, date: x.date, end: x.endDate || null, kind: 'sale' }); });
-    out.sort(function(a, b) { var da = a.date < first ? first : a.date, db2 = b.date < first ? first : b.date; return da < db2 ? -1 : da > db2 ? 1 : (a.kind === 'sale' ? 1 : 0) - (b.kind === 'sale' ? 1 : 0); });
-    return out;
-  }
-  function covers(x, d) { return x.date <= d && (x.end || x.date) >= d; }
-  function itemHtml(x, rep) {
-    var when = pretty(x.date) + (x.end && x.end !== x.date ? ' to ' + pretty(x.end) : '');
-    if (x.kind === 'sale') {
-      var s2 = x.sale;
-      return '<div class="ctt-cal-card"><span class="ctt-cal-tag">Community event</span><h4>' + esc(s2.title) + '</h4><p class="ctt-cal-date">' + when + (s2.time ? ' &middot; ' + esc(s2.time) : '') + '</p><p>' + esc(s2.place) + ', ' + esc(s2.city) + ' &middot; <a class="ctt-gi-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(s2.place + ', ' + s2.city) + '">Directions</a></p>' +
-        (s2.details ? '<p>' + esc(s2.details) + '</p>' : '') +
-        (rep[s2._id] ? '<p style="font-size:12px;color:#6b6252">Thanks, reported.</p>' : '<button type="button" class="ctt-cal-rep" data-rep="' + s2._id + '">Report</button>') + '</div>';
-    }
-    return '<div class="ctt-cal-card special"><span class="ctt-cal-tag">' + esc(x.tag) + '</span><h4>' + esc(x.title) + '</h4><p class="ctt-cal-date">' + when + '</p>' + (x.note ? '<p>' + x.note + '</p>' : '') + '</div>';
-  }
-  function renderView() {
-    var el = document.getElementById('ctt-cal-view'); if (!el) return;
-    var t = today(), ty = +t.slice(0, 4), tm = +t.slice(5, 7) - 1;
-    if (!calView) calView = { y: ty, m: tm };
-    var y = calView.y, m = calView.m, rep = reported();
-    var idx = (y - ty) * 12 + (m - tm), items = itemsForMonth(y, m);
-    var dim = new Date(y, m + 1, 0).getDate(), lead = new Date(y, m, 1).getDay();
-    var h = '<div class="ctt-cal-nav"><button type="button" class="ctt-cal-arrow" data-cal-nav="-1" aria-label="Previous month"' + (idx <= 0 ? ' disabled' : '') + '>&larr;</button><div class="ctt-cal-month" aria-live="polite">' + CAL_MONTHS[m] + ' ' + y + '</div><button type="button" class="ctt-cal-arrow" data-cal-nav="1" aria-label="Next month"' + (idx >= 14 ? ' disabled' : '') + '>&rarr;</button></div>';
-    if (idx !== 0) h += '<div style="text-align:center;margin:-2px 0 6px"><button type="button" class="ctt-cal-today" data-cal-today="1">Back to this month</button></div>';
-    h += '<div class="ctt-cal-grid" id="ctt-cal-grid" role="group" aria-label="' + CAL_MONTHS[m] + ' ' + y + '">';
-    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d) { h += '<div class="ctt-cal-dow">' + d + '</div>'; });
-    for (var i = 0; i < lead; i++) h += '<div class="ctt-cal-cell blank"></div>';
-    for (var d = 1; d <= dim; d++) {
-      var ds = ymd(y, m, d), has = items.filter(function(x) { return covers(x, ds); });
-      var ev = has.some(function(x) { return x.kind === 'sale'; }), sp = has.some(function(x) { return x.kind !== 'sale'; });
-      h += '<button type="button" class="ctt-cal-cell' + (ds === t ? ' today' : '') + (ds === calSel ? ' sel' : '') + '" data-day="' + ds + '" aria-label="' + CAL_MONTHS[m] + ' ' + d + (ds === t ? ', today' : '') + (has.length ? ', ' + has.length + (has.length === 1 ? ' listing' : ' listings') : '') + '"' + (ds === calSel ? ' aria-pressed="true"' : '') + '><span>' + d + '</span><span class="ctt-cal-marks" aria-hidden="true">' + (ev ? '●' : '') + (sp ? '◆' : '') + '</span></button>';
-    }
-    h += '</div><div class="ctt-cal-legend"><span>● Community event</span><span>◆ Special day</span></div>';
-    var shown = calSel ? items.filter(function(x) { return covers(x, calSel); }) : items;
-    h += '<div class="ctt-cal-listhead"><span>' + (calSel ? pretty(calSel) : CAL_MONTHS[m]) + '</span>' + (calSel ? '<button type="button" class="ctt-cal-all" data-cal-all="1">Show all of ' + CAL_MONTHS[m] + '</button>' : '') + '</div>';
-    if (!shown.length) h += '<p class="ctt-cal-empty">' + (calSel ? 'Nothing listed for this day.' : 'Nothing listed this month yet. Know of an event? Submit it above.') + '</p>';
-    shown.forEach(function(x) { h += itemHtml(x, rep); });
-    el.innerHTML = h;
-    [].forEach.call(el.querySelectorAll('[data-rep]'), function(b) { b.onclick = function() { report(b.getAttribute('data-rep')); }; });
-    var g = document.getElementById('ctt-cal-grid'), x0 = null;
-    g.addEventListener('touchstart', function(e) { x0 = e.touches[0].clientX; }, { passive: true });
-    g.addEventListener('touchend', function(e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1); }, { passive: true });
-  }
-  function go(n) {
-    var t = today(), ty = +t.slice(0, 4), tm = +t.slice(5, 7) - 1;
-    var idx = (calView.y - ty) * 12 + (calView.m - tm) + n;
-    if (idx < 0 || idx > 14) return;
-    var abs = tm + idx; calView = { y: ty + Math.floor(abs / 12), m: ((abs % 12) + 12) % 12 }; calSel = null; renderView();
-  }
-  body.addEventListener('click', function(e) {
-    var b = e.target.closest('button'); if (!b || !body.contains(b)) return;
-    if (b.hasAttribute('data-cal-nav')) go(+b.getAttribute('data-cal-nav'));
-    else if (b.hasAttribute('data-day')) { var d = b.getAttribute('data-day'); calSel = calSel === d ? null : d; renderView(); var nb = body.querySelector('[data-day="' + d + '"]'); if (nb) nb.focus(); }
-    else if (b.hasAttribute('data-cal-all')) { calSel = null; renderView(); }
-    else if (b.hasAttribute('data-cal-today')) { calView = null; calSel = null; renderView(); }
-  });
-  function render() {
-    var h = '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p><button type="button" class="ctt-cal-add" id="ctt-cal-add">Submit your event</button><div id="ctt-cal-formwrap"></div><div id="ctt-cal-view"></div>';
-    h += '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div><button type="button" class="ctt-shops-back" id="ctt-cal-back">&larr; Back to the map</button>';
-    body.innerHTML = h;
-    document.getElementById('ctt-cal-add').onclick = showForm;
-    document.getElementById('ctt-cal-back').onclick = close;
-    renderView();
-  }
-  function report(id) {
-    var rep = reported(); if (rep[id]) return; rep[id] = 1;
-    try { localStorage.setItem('ctt_reported_sales', JSON.stringify(rep)); } catch (e) {}
-    var cur = sales.filter(function(x) { return x._id === id; })[0], n = ((cur && cur.reports) || 0) + 1;
-    updateDoc(doc(db, 'sales', id), { reports: increment(1) }).then(function() { if (n >= 3) return deleteDoc(doc(db, 'sales', id)).catch(function() {}); }).catch(function() {});
-    if (cur) { cur.reports = n; if (n >= 3) sales = sales.filter(function(x) { return x._id !== id; }); }
-    window.cttTrack && cttTrack('report_sale'); renderView();
-  }
-  function showForm() {
-    var w = document.getElementById('ctt-cal-formwrap'), t = today();
-    w.innerHTML = '<form class="ctt-gi-form" id="ctt-cal-form" novalidate>' +
-      '<label for="cs-title">What is it? (example: Church rummage sale or Grand opening)</label><input type="text" id="cs-title" maxlength="80">' +
-      '<label for="cs-place">Street address</label><input type="text" id="cs-place" maxlength="120" placeholder="123 Main St">' +
-      '<label for="cs-city">City</label><input type="text" id="cs-city" maxlength="60" value="Chattanooga">' +
-      '<label for="cs-date">Date</label><input type="date" id="cs-date" min="' + t + '">' +
-      '<label for="cs-end">Last day (only if it runs more than one day)</label><input type="date" id="cs-end" min="' + t + '">' +
-      '<label for="cs-time">Hours (example: 8am to 2pm)</label><input type="text" id="cs-time" maxlength="40">' +
-      '<label for="cs-details">Anything shoppers should know (optional)</label><textarea id="cs-details" maxlength="300"></textarea>' +
-      '<label class="ctt-cal-check"><input type="checkbox" id="cs-ok"> <span>This event happens in person at the address above. It is not online.</span></label>' +
-      '<div class="ctt-gi-hp" aria-hidden="true"><label>Leave blank<input type="text" id="cs-hp" tabindex="-1" autocomplete="off"></label></div>' +
-      '<div class="ctt-gi-status" id="cs-status" role="status"></div><button type="submit" class="ctt-shops-back" id="cs-send">Post my event</button></form>';
-    document.getElementById('ctt-cal-form').onsubmit = submit;
-    document.getElementById('cs-title').focus();
-  }
-  function submit(e) {
-    e.preventDefault();
-    var st = document.getElementById('cs-status'), btn = document.getElementById('cs-send');
-    function v(id) { return document.getElementById(id).value.trim(); }
-    if (v('cs-hp')) return;
-    var o = { title: v('cs-title'), place: v('cs-place'), city: v('cs-city'), date: v('cs-date'), endDate: v('cs-end') || null, time: v('cs-time'), details: v('cs-details'), reports: 0 };
-    var all = [o.title, o.place, o.city, o.time, o.details].join(' ');
-    var t = today(), max = new Date(Date.now() + 366 * 86400000).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-    var err = '';
-    if (o.title.length < 3 || o.place.length < 5 || o.city.length < 2 || !o.date) err = 'Please fill in what it is, a street address, the city and the date.';
-    else if (!/\d/.test(o.place)) err = 'Please include a street number in the address. We only list in-person events.';
-    else if (o.date < t || o.date > max) err = 'Please pick a date from today to a year from now.';
-    else if (o.endDate && (o.endDate < o.date || o.endDate > max)) err = 'The last day needs to be on or after the first day.';
-    else if (!document.getElementById('cs-ok').checked) err = 'Please confirm the event is in person.';
-    else if (bad(all)) err = 'Please keep it family friendly.';
-    else if (hasLink(all)) err = 'Please leave out web links and email addresses.';
-    else { try { var last = +localStorage.getItem('ctt_sale_last') || 0; if (Date.now() - last < 60000) err = 'Please wait a minute before posting another.'; } catch (x) {} }
-    if (err) { st.textContent = err; return; }
-    btn.disabled = true; st.textContent = 'Posting...';
-    o.createdAt = serverTimestamp();
-    addDoc(collection(db, 'sales'), o).then(function() {
-      try { localStorage.setItem('ctt_sale_last', String(Date.now())); } catch (x) {}
-      window.cttTrack && cttTrack('submit_sale');
-      load(function() { renderView(); var w = document.getElementById('ctt-cal-formwrap'); if (w) w.innerHTML = '<p class="ctt-gi-status" style="color:var(--olive)">Posted! Thank you. Your event is on the calendar.</p>'; });
-    }).catch(function() { btn.disabled = false; st.textContent = 'Sorry, that did not post. Please try again in a moment.'; });
-  }
-  function open() { lastFocus = document.activeElement; calView = null; calSel = null; render(); ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden'; window.cttTrack && cttTrack('open_calendar'); document.getElementById('ctt-cal-close').focus(); load(function(ok) { if (ok) render(); }); }
-  function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
-  try {
-    var app = getApps()[0] || initializeApp(cfg); db = getFirestore(app);
-    load(function(ok) {
-      if (!ok || !openEl) return;
-      openEl.style.display = '';
-      openEl.addEventListener('click', function(e) { e.preventDefault(); open(); });
-      document.getElementById('ctt-cal-close').addEventListener('click', close);
-      ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
-      window.cttOpenCalendar = open;
-      if (location.hash === '#calendar') open();
-    });
-  } catch (e) {}
-</script>
+<script>if (location.hash === '#calendar') location.replace('/calendar/');</script>
 
 
 </body>

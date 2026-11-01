@@ -24,7 +24,7 @@ a{color:var(--olive)}
 .chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--olive);border:1px solid var(--olive);border-radius:10px;padding:0 8px;margin-right:6px}
 .callout{background:#f3ecd2;border-left:4px solid #c98a2b;padding:10px 14px;border-radius:3px;font-size:17px}
 ul{padding-left:22px}li{margin:6px 0}ul.src{font-family:system-ui,sans-serif;font-size:14px}
-.cta{display:inline-block;margin:10px 0;padding:13px 20px;background:var(--rust);color:#fff;border-radius:6px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
+.cta{display:inline-block;margin:10px 0;padding:13px 20px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
 .box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:28px 0;font-family:system-ui,sans-serif}
 .more a{display:block;margin:6px 0;font-size:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:0 0 12px}
@@ -39,6 +39,18 @@ nav.chips button.on,nav.chips button:hover{background:var(--olive);color:#fff}
 .soon{font-family:system-ui,sans-serif;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:24px}
 footer{margin-top:20px;font-family:system-ui,sans-serif;font-size:12.5px;color:var(--taupe)}
 @media(max-width:480px){h1{font-size:29px}body{font-size:17px}}
+
+.sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
+.sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
+.sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+.sm-btn svg{width:28px;height:28px}
+.sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
+.sm-menu[hidden]{display:none!important}
+.sm-menu:not([hidden]){display:block!important}
+.sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
+.sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
+.sm-menu a[aria-current=page]{color:var(--rust)!important}
+.sm-foot{text-align:center;font:12px/1.4 system-ui,sans-serif;color:#6b6252;margin:0;padding:8px 16px 36px}.sm-foot a{color:inherit}
 </style><style>
 .toc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:16px 0;font-family:system-ui,sans-serif;font-size:14.5px}
 .toc ol{margin:6px 0 0;padding-left:20px;columns:2;column-gap:24px}@media(max-width:560px){.toc ol{columns:1}}
@@ -51,7 +63,7 @@ kbd{font-family:system-ui,sans-serif;font-size:13px;background:#fff;border:1px s
 <meta property="og:title" content="How the Chattanooga Thrift Trail Works: Full How-To Guide"><meta property="og:description" content="The complete guide to the Chattanooga Thrift Trail: build a thrift store route, filter by shop type and area, customize shops and plan ahead."><meta property="og:type" content="article"><meta property="og:url" content="https://423thrift.com/how-to/"><meta property="og:image" content="https://423thrift.com/og-image.png"><meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How the Chattanooga Thrift Trail Works: Full How-To Guide", "description": "The complete guide to the Chattanooga Thrift Trail: build a thrift store route, filter by shop type and area, customize shops and plan ahead.", "mainEntityOfPage": "https://423thrift.com/how-to/", "image": "https://423thrift.com/og-image.png", "author": {"@type": "Organization", "name": "Chattanooga Thrift Trail"}, "publisher": {"@type": "Organization", "name": "Chattanooga Thrift Trail", "logo": {"@type": "ImageObject", "url": "https://423thrift.com/icon-512.png"}}, "datePublished": "2026-10-29", "dateModified": "2026-10-29"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Chattanooga Thrift Trail", "item": "https://423thrift.com/"}, {"@type": "ListItem", "position": 2, "name": "How-to guide", "item": "https://423thrift.com/how-to/"}]}</script>
-</head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><a class="logo" href="/how-to/">How-To Guide</a></div><div class="wrap">
+</head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><a class="logo" href="/how-to/">How-To Guide</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <p class="crumbs"><a href="/">Thrift Trail</a> &rsaquo; How-to guide</p>
 <h1>How the Thrift Trail Works</h1>
 <p class="meta">The full guide: build a route, choose your experience and tailor every shop.</p>
@@ -67,18 +79,18 @@ kbd{font-family:system-ui,sans-serif;font-size:13px;background:#fff;border:1px s
 <p>The route recalculates live. When a shop closes for the day, it drops out; when you add, remove or reorder shops, the order and the total miles update on the spot.</p>
 <p>Hours come from each shop&rsquo;s listing and can change, especially around holidays, so confirm before you drive.</p>
 <h2 id="experience">3. Choose your experience (Filter)</h2>
-<p>The small <strong>Filter</strong> link right under &ldquo;Your Route&rdquo; opens the filter panel, just below the orange Let&rsquo;s Go Thrifting box. By default the Gold Loop is checked. Uncheck it to choose your own mix; with nothing checked, the map is blank until you pick again or tap Reset. Change it to fit your mood:</p>
+<p>The small <strong>Filter</strong> link right under &ldquo;Your Route&rdquo; opens the filter panel, just below the orange Let&rsquo;s Go Thrifting box. By default the Lookout Loop is checked. Uncheck it to choose your own mix; with nothing checked, the map is blank until you pick again or tap Reset. Change it to fit your mood:</p>
 <ul><li><strong>Thrift shops</strong>: charity and donation-based thrift shops. This is the original Trail.</li>
 <li><strong>Curated shops</strong>: owner-curated vintage clothing, record shops, gift shops and vendor markets.</li>
 <li><strong>Antique malls</strong>: multi-booth antique and collectibles malls.</li>
-<li><strong>Gold Loop</strong>: the moderators&rsquo; hand-picked favorites, across thrift, vintage and antique.</li><li><strong>Silver Loop</strong>: the Tennessee shops from those favorites.</li></ul>
+<li><strong>Lookout Loop</strong>: the moderators&rsquo; hand-picked favorites, across thrift, vintage and antique.</li><li><strong>Scenic City Loop</strong>: the Tennessee shops from those favorites.</li></ul>
 <p>Mix and match. Every box you check adds its shops to your route, and no shop is ever listed twice. Tap <strong>Everything</strong> to check the three shop types at once. If you uncheck every box, the map and lists go empty on purpose; check one again or tap Reset.</p>
 <h3>Where the other shops go</h3>
 <p>Whatever you check becomes your route. Every other shop drops into the second list under the route. With the classic view it is called <strong>More Shops</strong>; with any other mix it is called <strong>All Other Shops</strong>. Pick Antique malls only, for example, and the thrift stores and vintage shops wait in that list, one tap on a plus button away from joining your route. The map re-frames to fit exactly what is on your route.</p>
-<h3>Gold Loop and Silver Loop</h3>
-<p>Check <strong>Gold Loop</strong> or <strong>Silver Loop</strong> along with the other boxes to add the moderators&rsquo; hand-picked favorites to your route. Check it alone and you see only those shops, and you can still narrow them by area, open today and the other options.</p>
+<h3>Lookout Loop and Scenic City Loop</h3>
+<p>Check <strong>Lookout Loop</strong> or <strong>Scenic City Loop</strong> along with the other boxes to add the moderators&rsquo; hand-picked favorites to your route. Check it alone and you see only those shops, and you can still narrow them by area, open today and the other options.</p>
 <h3>Narrow it down</h3>
-<ul><li><strong>Exclude Experience</strong>: check Thrift shops, Curated shops or Antique malls here to hide that kind of shop from your route and map, even when it is part of Gold Loop or Silver Loop.</li><li><strong>Add Area</strong>: tap one or more neighborhoods, such as Hixson, Highland Park, East Ridge, Hwy 58 or Brainerd &amp; Hamilton Place, to keep the route in that part of town.</li><li><strong>Exclude Area</strong>: tap a neighborhood here to hide its shops from your route and map.</li>
+<ul><li><strong>Exclude Experience</strong>: check Thrift shops, Curated shops or Antique malls here to hide that kind of shop from your route and map, even when it is part of Lookout Loop or Scenic City Loop.</li><li><strong>Add Area</strong>: tap one or more neighborhoods, such as Hixson, Highland Park, East Ridge, Hwy 58 or Brainerd &amp; Hamilton Place, to keep the route in that part of town.</li><li><strong>Exclude Area</strong>: tap a neighborhood here to hide its shops from your route and map.</li>
 <li><strong>Open today</strong>: hides shops that are closed for the rest of the day.</li>
 <li><strong>Open late</strong>: only shops that close at 6 PM or later.</li>
 <li><strong>Supports a charity</strong> 💛: only shops whose proceeds benefit a cause. See <a href="/shops/">Shops &amp; Charities</a> for who benefits.</li>
@@ -133,4 +145,4 @@ kbd{font-family:system-ui,sans-serif;font-size:13px;background:#fff;border:1px s
 <h3>Can I see every shop at once?</h3><p>Yes. Open <a href="/shops/">Shops &amp; Charities</a> for the full list by neighborhood with addresses, hours and the cause each charity shop supports.</p>
 <div class="box"><strong>Ready?</strong><br><a class="cta" href="/">Plan my thrift route &rarr;</a><br><a href="/shops/">Shops &amp; Charities</a> &middot; <a href="/blog/">Thrift Trail blog</a></div>
 <div class="tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>
-</div></body></html>
+</div><p class="sm-foot">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener">Thrifty Flea</a></p><script src="/menu.js" defer></script></body></html>

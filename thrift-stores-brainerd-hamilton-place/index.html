@@ -32,7 +32,7 @@ h2{font-size:24px;margin:30px 0 10px;border-bottom:1.5px dashed var(--line);padd
 h3{margin:0 0 2px;font-size:19px}
 .count{font-size:14px;color:var(--taupe);font-weight:400}
 .soon{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);border:1.5px dashed var(--line);border-radius:6px;padding:8px 12px;margin:14px 0 4px}
-.cta{display:inline-block;margin:12px 0 14px;padding:12px 18px;background:var(--rust);color:#fff;border-radius:6px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
+.cta{display:inline-block;margin:12px 0 14px;padding:12px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
 nav{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 16px;font-family:system-ui,sans-serif}
 nav a{font-size:13px;font-weight:600;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:4px 11px;text-decoration:none;background:var(--card)}
 nav a:hover{background:var(--olive);color:#fff}
@@ -52,11 +52,23 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .charities p{font-family:system-ui,sans-serif;font-size:14.5px;color:#5c5240;margin:0 0 10px}.charities strong{color:var(--ink)}
 .gi{font-family:system-ui,sans-serif;font-size:15px;text-align:center;margin:22px 0 0}.det{font-family:system-ui,sans-serif;font-size:13px;color:var(--taupe);margin:4px 0}.benefit{background:#f3ecd2;border-left:3px solid #c98a2b;padding:6px 10px;border-radius:3px}
 
-.sitehead{margin:0 0 6px}.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(22px,6.4vw,32px);line-height:1.05;color:var(--rust);text-decoration:none}.sitetitle:hover{text-decoration:underline}.shopname{font-size:19px;border:0;margin:0 0 2px;padding:0}
+.sitehead{margin:0 0 6px;display:flex;align-items:center;gap:8px}.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(22px,6.4vw,32px);line-height:1.05;color:var(--rust);text-decoration:none}.sitetitle:hover{text-decoration:underline}.shopname{font-size:19px;border:0;margin:0 0 2px;padding:0}
 .cof{font-family:system-ui,sans-serif;font-size:14.5px;color:#5c5240;padding-left:20px}.cof li{margin:3px 0}.more{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 16px;font-family:system-ui,sans-serif}.more a{font-size:13px;font-weight:600;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:4px 11px;text-decoration:none;background:var(--card)}
+
+.sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
+.sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
+.sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+.sm-btn svg{width:28px;height:28px}
+.sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
+.sm-menu[hidden]{display:none!important}
+.sm-menu:not([hidden]){display:block!important}
+.sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
+.sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
+.sm-menu a[aria-current=page]{color:var(--rust)!important}
+.sm-foot{text-align:center;font:12px/1.4 system-ui,sans-serif;color:#6b6252;margin:0;padding:8px 16px 36px}.sm-foot a{color:inherit}
 </style></head>
 <body><div class="wrap">
-<header class="sitehead"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a></header>
+<header class="sitehead"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></header>
 <h1>Thrift Stores &amp; Vintage Shops in Brainerd &amp; Hamilton Place</h1>
 <p class="lead">Here are the 10 thrift, vintage and secondhand shops on the Chattanooga Thrift Trail in Brainerd, East Brainerd and the Hamilton Place area: 10 thrift stores. Each has its address, hours and what reviewers say.</p>
 <a class="cta" href="/">Plan your thrift route &rarr;</a>
@@ -101,7 +113,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="hours"><strong>Hours:</strong> Mon-Sat 9-9 · Sun 10-7</p>
 <p class="det">Price: $$$ &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay</p>
 <p>National for-profit thrift chain with a large, well-organized selection. Shopping does not fund a charity, but donations dropped off there benefit the Purple Heart Foundation. It's self-checkout, no bags are provided and carts can't leave the store, so bring your own bags if you're buying a lot.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=2020+Gunbarrel+Rd+Ste+198,+Chattanooga,+TN+37421">Get directions</a> &middot; <a href="https://stores.savers.com" rel="noopener">Website</a></p></article>
-<h2>Coffee nearby</h2><p class="det" style="font-size:14.5px">Coffee shops close to the shops above, handy for a break between stops:</p><ul class="cof"><li><strong>Mad Priest Coffee Roasters - Wilcox</strong> &middot; 3399 Wilcox Blvd</li><li><strong>Mean Mug Coffeehouse Hamilton Place</strong> &middot; 2090 Hamilton Pl Blvd #106</li><li><strong>7 Brew Coffee</strong> &middot; 5771 Brainerd Rd</li><li><strong>Red Owl Coffee Company</strong> &middot; 7737 E Brainerd Rd</li><li><strong>Scooter&#x27;s Coffee</strong> &middot; 4631 TN-58</li><li><strong>Grindhead Coffee Chattanooga</strong> &middot; 7955 E Brainerd Rd Ste 105</li></ul>
+<h2>Coffee nearby</h2><p class="det" style="font-size:14.5px">Coffee shops close to the shops above, handy for a break between stops:</p><ul class="cof"><li><strong>Mean Mug Coffeehouse Hamilton Place</strong> &middot; 2090 Hamilton Pl Blvd #106</li><li><strong>7 Brew Coffee</strong> &middot; 5771 Brainerd Rd</li><li><strong>Red Owl Coffee Company</strong> &middot; 7737 E Brainerd Rd</li><li><strong>Scooter&#x27;s Coffee</strong> &middot; 4631 TN-58</li><li><strong>Grindhead Coffee Chattanooga</strong> &middot; 7955 E Brainerd Rd Ste 105</li></ul>
 <p><a href="/">See all shops on the map</a> &mdash; the Trail builds the best driving order from where you are, around each shop&rsquo;s hours. Or browse the <a href="/shops/">full list of shops</a>.</p>
 <p>Want more local tips? Read our <a href="/blog/thrifting-in-brainerd-and-east-brainerd/">neighborhood guide</a>.</p>
 <h2>Other neighborhoods</h2><div class="more"><a href="/thrift-stores-downtown/">Downtown</a><a href="/thrift-stores-north-shore/">North Shore</a><a href="/thrift-stores-southside/">Southside</a><a href="/thrift-stores-highland-park/">Highland Park &amp; McCallie Ave</a><a href="/thrift-stores-east-ridge/">East Ridge</a><a href="/thrift-stores-hixson/">Hixson</a><a href="/thrift-stores-red-bank/">Red Bank</a><a href="/thrift-stores-fort-oglethorpe/">Fort O</a><a href="/thrift-stores-signal-mountain/">Signal Mountain</a><a href="/thrift-stores-ooltewah/">Ooltewah</a></div>
@@ -111,4 +123,4 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 (function(){var t=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 [].forEach.call(document.querySelectorAll('.shop'),function(s){var c=s.getAttribute('data-closes-after');if(c&&t>c)s.style.display='none';});})();
 </script>
-</div></body></html>
+</div><p class="sm-foot">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener">Thrifty Flea</a></p><script src="/menu.js" defer></script></body></html>
