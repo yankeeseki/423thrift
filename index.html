@@ -147,6 +147,7 @@ STILL TO DO / IDEAS
   - DONE in v10.93 (Nov 1 2026): Community Calendar is now its own page (/calendar/, same shell/menu as the other sub-pages, script copied from the old popup; the overlay and its module script are gone from index.html; #calendar on the home page redirects); full-list button back to the original look and only as wide as its text; newsletter box centered; Share The Trail buttons are pills like the other buttons; note beside More Shops reads 'closed, removed, and bonus stops'; Filter/Today-Later/coffee/count all 13px; shops page heading 'Chattanooga Thrift Shops and Charities'. calendar/index.html was built by work/build_calendar.py (re-run it if the calendar CSS/script changes).
   - DONE in v10.93b: sub-page menu is now site/menu.js (built by work/build_menu.py from index.html's CSS, Disclaimer and Home Screen text): same items as the home menu; Get Involved, Newsletter, Send feedback, Disclaimer, Add to Home Screen and Printable Guide open as popups on the page the visitor is on.
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
+  - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
@@ -167,7 +168,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v10.94-20261101">
+<meta name="ctt-build" content="v10.95-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1664,7 +1665,8 @@ STILL TO DO / IDEAS
   .ctt-list-outer .ctt-trail-header { margin-bottom: -3px; }
   .ctt-list-bar .ctt-day-picker, .ctt-list-bar .ctt-coffee-open { margin: 0; flex: 0 0 auto; }
   .ctt-list-bar .ctt-day-option, .ctt-list-bar .ctt-coffee-open, .ctt-list-bar .ctt-list-count { font-size: 13px; }
-  .ctt-list-bar .ctt-list-count { color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 5px 14px; line-height: 1.2; }
+  .ctt-list-bar .ctt-list-count { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; white-space: nowrap; }
+  @media (max-width: 640px) { .ctt-list-bar .ctt-coffee-open { flex: 1 1 auto; } }
   .ctt-list-label {
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
@@ -2514,7 +2516,7 @@ STILL TO DO / IDEAS
 <form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p>
 </section>
-      <p class="ctt-version">v10.94 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v10.95 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
     </div>
@@ -3289,7 +3291,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var lastRouteMiles = 0, lastRouteCount = 0;
   function updateListCount() {
     var el = document.getElementById('ctt-list-count'); if (!el) return;
-    var n = activeRoute.length;
+    var n = activeRoute.length; window.cttRouteN = n;
+    var ft = document.getElementById('ctt-filter-toggle'); if (ft) ft.textContent = n ? 'Filter (' + n + ')' : 'Filter';
     if (!n) { el.textContent = ''; return; }
     var v = activeRoute.filter(function(s) { return visitedStores[s.name]; }).length;
     el.textContent = n + ' shop' + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
@@ -3936,7 +3939,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       [].forEach.call(xEl.querySelectorAll('button'), function(b) { b.className = filters.xareas.indexOf(b.getAttribute('data-area')) !== -1 ? 'x' : ''; b.setAttribute('aria-pressed', b.className === 'x' ? 'true' : 'false'); });
       var n = filtersActiveCount();
-      toggle.textContent = n ? 'Filter (' + n + ')' : 'Filter';
+      toggle.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
       toggle.className = 'ctt-filter-toggle' + (n ? ' on' : '');
       document.getElementById('ctt-fp-count').textContent = 'Showing ' + countVisible() + ' shops';
     }
