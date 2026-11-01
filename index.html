@@ -149,6 +149,7 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v11.1 (Nov 1 2026): sub-pages match the home page (width, font, big title, two-column shop cards on neighborhood pages); Add to Home Screen, Disclaimer and Send feedback open popups (no page jump); printer emoji on the PDF button; neighborhood box wider; route stats styled like the status below the button; more spacing in footer; tighter title/tagline.
   - DONE in v11.0 (Nov 1 2026): Send feedback opens an X-able popup on every page; the list no longer scrolls inside its own box; "2. Exclusions" heading; home-screen button in the blue box; more space above the newsletter, footer credits and version line; tighter title/tagline spacing.
   - DONE in v10.99 (Nov 1 2026): more space above the footer link row and above the version line.
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
@@ -174,7 +175,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v11.0-20261101">
+<meta name="ctt-build" content="v11.1-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1285,7 +1286,7 @@ STILL TO DO / IDEAS
     }
     .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
   }
-  .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: 0 0 8px; max-width: 640px; }
+  .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: -3px 0 8px; max-width: 640px; }
   .ctt-title {
     font-family: 'Archivo Black', sans-serif;
     font-size: 48px;
@@ -1310,7 +1311,7 @@ STILL TO DO / IDEAS
     opacity: 0.85;
     margin: 0 0 10px 0;
   }
-  .ctt-route-stat strong { color: var(--ink); opacity: 1; }
+  .ctt-route-stat strong { color: #fff; opacity: 1; font-weight: 800; text-shadow: 0 1px 2px rgba(44,36,23,.55); }
 
   .ctt-shoplist-link { display: inline; }
   .ctt-howworks-toggle {
@@ -1422,7 +1423,7 @@ STILL TO DO / IDEAS
   .ctt-cf-pin.picked { background:var(--rust); }
   .ctt-cf-pin.ctt-cf-prev { width:34px; }
   .ctt-cf-n { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:800; color:var(--rust); margin-left:1px; vertical-align:2px; }
-  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:18px; font-size:15px; row-gap:6px; }
+  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:36px; font-size:15px; row-gap:6px; }
   .ctt-footnav > * { padding:6px 12px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
   .ctt-footnav > *:first-child { border-left:none !important; }
   .ctt-footnav > *:last-child { padding-right:12px !important; }
@@ -2051,10 +2052,10 @@ STILL TO DO / IDEAS
   .ctt-seo-cta { margin: 12px 0 !important; }
   .ctt-seo-cta a { display: inline-block; font-weight: 700; text-decoration: none; border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; background: var(--card); }
   .ctt-seo-cta a:hover { background: var(--rust); color: #fff; }
-  .ctt-hoodbox { max-width: 70ch; margin: 14px 0 6px; }
+  .ctt-hoodbox { max-width: 120ch; margin: 14px 0 6px; }
   .ctt-hoodbox .ctt-seo-label { margin-top: 0 !important; }
   .ctt-hoodbox .ctt-seo-hoods { margin-bottom: 0 !important; }
-  .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { flex: 0 0 100%; height: 0; margin: 0; }
+  .ctt-hoodbox .ctt-seo-hoods .ctt-seo-br { display: none; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all { flex: 0 1 auto; max-width: 100%; text-align: center; font-weight: 700; font-size: 13px; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 22px; padding: 8px 16px; margin-top: 4px; }
   .ctt-hoodbox .ctt-seo-hoods a.ctt-seo-all:hover { background: var(--rust); color: #fff; }
   .ctt-news { max-width: 70ch; margin: 48px auto 6px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-family: 'Libre Franklin', sans-serif; text-align: left; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
@@ -2073,7 +2074,7 @@ STILL TO DO / IDEAS
   .ctt-news-msg:empty { display: none; }
   .ctt-news-msg { margin: 6px 0 0 !important; font-weight: 700; }
   .ctt-seo-label { font-weight: 700; color: var(--ink); margin: 14px 0 6px !important; }
-  .ctt-seo-hoods { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px !important; }
+  .ctt-seo-hoods { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px !important; }
   .ctt-seo-hoods a { text-decoration: none; border: 1px solid var(--rust); border-radius: 16px; padding: 4px 12px; font-size: 13px; background: var(--paper); }
   .ctt-seo-hoods a:hover { background: var(--rust); color: #fff; }
   .ctt-seo ul { margin: 0; padding-left: 0; list-style: none; columns: 2 260px; column-gap: 28px; }
@@ -2384,7 +2385,7 @@ STILL TO DO / IDEAS
 
   <div class="ctt-cta-row">
     <div class="ctt-status-panel">
-      <p class="ctt-route-stat" id="ctt-route-stat">Route recalculates live &nbsp;&middot;&nbsp; ~38.9 miles today</p>
+      <p class="ctt-route-stat" id="ctt-route-stat">Route recalculates live &nbsp;&middot;&nbsp; ~<strong>38.9 miles</strong> remaining &nbsp;&middot;&nbsp; <strong>10 shops</strong> to go</p>
       <button class="ctt-cta-btn" id="ctt-cta-btn">
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
@@ -2459,7 +2460,7 @@ STILL TO DO / IDEAS
     <div class="ctt-pdf-section ctt-split-half">
       <h3 class="ctt-pdf-title">Take It With You</h3>
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
-      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128196; Download Printable Trail Guide (PDF)</button>
+      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Download Printable Trail Guide (PDF)</button>
       <button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button>
       <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
@@ -2535,7 +2536,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v11.0 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v11.1 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4529,7 +4530,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       doc.text('Nothing is open today \u2014 check back another day!', pageWidth / 2, 60, { align: 'center' });
       doc.save('chattanooga-thrift-trail.pdf');
       btn.disabled = false;
-      btn.innerHTML = '&#128196; Download Printable Trail Guide (PDF)';
+      btn.innerHTML = '&#128424;&#65039; Download Printable Trail Guide (PDF)';
       return;
     }
 
@@ -4579,7 +4580,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
     doc.save('chattanooga-thrift-trail.pdf');
     btn.disabled = false;
-    btn.innerHTML = '&#128196; Download Printable Trail Guide (PDF)';
+    btn.innerHTML = '&#128424;&#65039; Download Printable Trail Guide (PDF)';
   });
 
   document.getElementById('ctt-howworks-toggle').addEventListener('click', function() {
@@ -5099,7 +5100,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
       });
       var newsEl = document.getElementById('ctt-news'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: true });
-      list.push({ label: '\uD83D\uDCC4 Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
+      list.push({ label: '\uD83D\uDDA8\uFE0F Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
       list.push({ label: '\uD83D\uDCF2 Add Trail to Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       list.push({ heading: 'Share The Trail' });
       [['ctt-share-poster', '\uD83D\uDCF7 Instagram'], ['ctt-share-fb', '\uD83D\uDCD8 Facebook'], ['ctt-share-x', '\uD83D\uDCE3 X'], ['ctt-share-text', '\uD83D\uDCF1 Text It'], ['ctt-share-copy', '\uD83D\uDD17 Copy Link']].forEach(function(p) {
@@ -5110,7 +5111,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
       ['ctt-feedback-toggle', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
         var el = document.getElementById(id);
-        if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: true, divider: n === 0 });
+        if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false, divider: n === 0 });
       });
       var shopsEl = document.getElementById('ctt-shops-open');
       if (shopsEl) list.splice(1, 0, { label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
@@ -5170,17 +5171,25 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   })();
 
   // ---- Add-to-home-screen help ----
-  Array.prototype.forEach.call(document.querySelectorAll('.ctt-homescreen-link'), function(btn) {
-    btn.addEventListener('click', function() {
-      var panel = document.getElementById('ctt-homescreen-panel');
-      var show = panel.style.display === 'none';
-      panel.style.display = show ? 'block' : 'none';
-      if (show) {
+  (function() {
+    var panel = document.getElementById('ctt-homescreen-panel');
+    var ov = document.createElement('div');
+    ov.className = 'ctt-shops-overlay'; ov.id = 'ctt-hs-overlay'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-hs-title');
+    var inner = panel.innerHTML.replace(/<h3>.*?<\/h3>/, '');
+    ov.innerHTML = '<div class="ctt-shops-dialog"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-hs-title">Add the Trail to Your Home Screen</h2><button type="button" class="ctt-shops-close" id="ctt-hs-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body"><div class="ctt-homescreen-panel" style="margin:0;border:none;padding:0;background:none">' + inner + '</div></div></div>';
+    panel.parentNode.insertBefore(ov, panel);
+    var last = null;
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+    Array.prototype.forEach.call(document.querySelectorAll('.ctt-homescreen-link'), function(btn) {
+      btn.addEventListener('click', function() {
+        last = btn; ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
         cttTrack('open_homescreen_help');
-        setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
-      }
+      });
     });
-  });
+    document.getElementById('ctt-hs-close').addEventListener('click', close);
+    ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+  })();
 
   // ---- Start over (clears today's saved visited/removed/added shops) ----
   document.getElementById('ctt-start-over-btn').addEventListener('click', function() {
@@ -5209,10 +5218,21 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (t.closest('.ctt-poster-btn')) cttTrack('download_poster');
   });
 
-  document.getElementById('ctt-disclaimer-toggle').addEventListener('click', function() {
-    var el = document.getElementById('ctt-disclaimer-text');
-    el.style.display = el.style.display === 'none' ? 'block' : 'none';
-  });
+  (function() {
+    var src = document.getElementById('ctt-disclaimer-text'), anchor = document.getElementById('ctt-gi-overlay');
+    var ov = document.createElement('div');
+    ov.className = 'ctt-shops-overlay'; ov.id = 'ctt-dis-overlay'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-dis-title');
+    ov.innerHTML = '<div class="ctt-shops-dialog"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-dis-title">Disclaimer</h2><button type="button" class="ctt-shops-close" id="ctt-dis-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body"><p style="margin:0;font-size:14.5px;line-height:1.6">' + src.innerHTML + '</p></div></div>';
+    anchor.parentNode.insertBefore(ov, anchor);
+    var last = null;
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+    document.getElementById('ctt-disclaimer-toggle').addEventListener('click', function() {
+      last = this; ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('ctt-dis-close').addEventListener('click', close);
+    ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+  })();
 })();
 </script>
 

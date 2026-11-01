@@ -165,7 +165,7 @@
     link('/blog/', '📝 Blog');
     link('/how-to/', '📖 How it works');
     act('📬 Newsletter', newsletter);
-    act('📄 Printable Trail Guide', guide);
+    act('🖨️ Printable Trail Guide', guide);
     act('📲 Add Trail to Home Screen', homescreen);
     head('Share The Trail');
     act('📷 Instagram', function () { share('ig'); }, { stay: true });
@@ -190,15 +190,15 @@
   var HOODS = [["/thrift-stores-downtown/", "Downtown"], ["/thrift-stores-north-shore/", "North Shore"], ["/thrift-stores-southside/", "Southside"], ["/thrift-stores-highland-park/", "Highland Park &amp; McCallie"], ["/thrift-stores-east-ridge/", "East Ridge"], ["/thrift-stores-brainerd-hamilton-place/", "Brainerd &amp; Hamilton Place"], ["/thrift-stores-hixson/", "Hixson"], ["/thrift-stores-red-bank/", "Red Bank"], ["/thrift-stores-fort-oglethorpe/", "Fort O"], ["/thrift-stores-signal-mountain/", "Signal Mountain"], ["/thrift-stores-ooltewah/", "Ooltewah"]], ABOUT = "<h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>\n<p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>\n";
   var fcss = document.createElement('style');
   fcss.textContent = '.tip,.sm-foot,#ctt-cal-body .ctt-shops-tip{display:none!important}' +
-    '.smx-foot{margin:132px 0 0;padding:0 16px 40px;font-family:system-ui,sans-serif;color:#5c5343}.smx-foot-in{max-width:760px;margin:0 auto}' +
+    '.smx-foot{margin:264px 0 0;padding:0 16px 40px;font-family:Libre Franklin,system-ui,sans-serif;color:#5c5343}.smx-foot-in{max-width:1140px;margin:0 auto}' +
     '.smx-fnav{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;row-gap:6px;font-size:15px}' +
     '.smx-fnav>*{padding:6px 12px;border:none;border-left:1px solid #6b6252;background:none;color:#6b6252;font:inherit;line-height:1.2;text-decoration:underline;cursor:pointer}.smx-fnav>*:first-child{border-left:none}.smx-fnav>*:hover{color:var(--rust)}' +
     '.smx-ftips{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:26px 0 0;font-size:12.5px;color:#6b6252}' +
     '.smx-ftips a{font-weight:700;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:5px 13px;text-decoration:none;font-size:13px}' +
-    '.smx-fhood{max-width:70ch;margin:30px 0 0;padding-top:22px;border-top:1.5px dashed var(--line);font-size:13.5px}' +
+    '.smx-fhood{max-width:120ch;margin:30px 0 0;padding-top:22px;border-top:1.5px dashed var(--line);font-size:13.5px}' +
     '.smx-flabel{font-weight:700;color:var(--ink);margin:0 0 6px}' +
-    '.smx-chips{display:flex;flex-wrap:wrap;gap:8px}.smx-chips a{text-decoration:none;border:1px solid var(--rust);border-radius:16px;padding:4px 12px;font-size:13px;background:var(--paper);color:var(--rust)}.smx-chips a:hover{background:var(--rust);color:#fff}' +
-    '.smx-chips .smx-all{flex:0 1 auto;max-width:100%;text-align:center;font-weight:700;border:2px solid var(--rust);border-radius:22px;padding:8px 16px;margin-top:4px;background:var(--card)}.smx-chips .smx-br{flex:0 0 100%;height:0}' +
+    '.smx-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.smx-chips a{text-decoration:none;border:1px solid var(--rust);border-radius:16px;padding:4px 12px;font-size:13px;background:var(--paper);color:var(--rust)}.smx-chips a:hover{background:var(--rust);color:#fff}' +
+    '.smx-chips .smx-all{flex:0 1 auto;max-width:100%;text-align:center;font-weight:700;border:2px solid var(--rust);border-radius:22px;padding:8px 16px;margin-top:4px;background:var(--card)}.smx-chips .smx-br{display:none}' +
     '.smx-fnews{max-width:70ch;margin:48px auto 6px;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;text-align:left}' +
     '.smx-fnews h2{font-family:system-ui,sans-serif;font-size:16px;color:var(--ink);margin:0 0 2px;border:none;padding:0}.smx-fnews p{font-size:clamp(10.5px,3.3vw,13.5px);color:#5c5343;margin:0;white-space:nowrap}' +
     '.smx-fnews .smx-nt{flex:0 1 auto;max-width:100%}.smx-fnews .smx-na{flex:1 1 240px;min-width:0;max-width:100%}.smx-fnews form{display:flex;gap:8px}' +
@@ -207,10 +207,23 @@
     '.smx-fnews .smx-nm{margin:6px 0 0;font-weight:700;white-space:normal;font-size:13.5px}.smx-fnews .smx-nm:empty{display:none}' +
     '.smx-fcred{text-align:center;font-size:11.5px;color:#6b6252;margin:160px 0 0;line-height:2}.smx-fcred a{color:inherit}' +
     '.smx-fabout{max-width:70ch;margin:56px 0 0;padding-top:24px;border-top:1.5px dashed var(--line);font-size:13.5px;line-height:1.6;color:#5c5343}.smx-fabout h2{font-family:system-ui,sans-serif;font-size:16px;color:var(--ink);margin:0 0 6px;border:none;padding:0}.smx-fabout p{margin:0 0 6px}';
+
+  // ---- match the home page: sans-serif text, 1140px width, big bold title (all sub-pages) ----
+  var hcss = document.createElement('style');
+  hcss.textContent = "body{font-family:'Libre Franklin',system-ui,sans-serif}" +
+    ".wrap{max-width:1172px;padding-left:16px;padding-right:16px}" +
+    ".wrap p,.wrap li,.wrap blockquote{max-width:78ch}" +
+    ".topbar{position:static;max-width:1172px;margin:0 auto;padding:22px 16px 6px;background:none;border-bottom:none}" +
+    ".topbar a.sitetitle,.sitehead .sitetitle{font-size:clamp(30px,7vw,48px);line-height:1.05}" +
+    ".sitehead{max-width:1172px;margin:0 auto 6px;justify-content:space-between}" +
+    ".wrap>header.sitehead{max-width:none;margin:0 0 6px}" +
+    "h1{margin-top:18px}" +
+    "@media(min-width:900px){.wrap:has(>article.shop){display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap:has(>article.shop)>*{grid-column:1/-1}.wrap:has(>article.shop)>article.shop{grid-column:auto}.wrap:has(>article.shop)>.cta{justify-self:start}#shop-list,.wrap>section{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap>section>h2,.wrap>section>p,.wrap>section>div{grid-column:1/-1}}";
+  document.head.appendChild(hcss);
   document.head.appendChild(fcss);
   var ft = document.createElement('footer'); ft.className = 'smx-foot'; ft.setAttribute('aria-label', 'Site footer');
   var hoodHtml = HOODS.map(function (h) { return '<a href="' + h[0] + '">' + h[1] + '</a>'; }).join('');
-  ft.innerHTML = '<div class="smx-foot-in"><nav class="smx-fnav" aria-label="Site links"><button type="button" data-f="fb">Send feedback</button><a href="/shops/">Shops &amp; Charities</a><a href="/calendar/">Community Calendar</a><button type="button" data-f="gi">Get Involved</button><button type="button" data-f="dis">Disclaimer</button><a href="/blog/">Blog</a></nav>' +
+  ft.innerHTML = '<div class="smx-foot-in"><div class="smx-fnav" role="navigation" aria-label="Site links"><button type="button" data-f="fb">Send feedback</button><a href="/shops/">Shops &amp; Charities</a><a href="/calendar/">Community Calendar</a><button type="button" data-f="gi">Get Involved</button><button type="button" data-f="dis">Disclaimer</button><a href="/blog/">Blog</a></div>' +
     '<div class="smx-ftips"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>' +
     '<div class="smx-fhood"><p class="smx-flabel">Browse by neighborhood</p><div class="smx-chips">' + hoodHtml + '<span class="smx-br"></span><a class="smx-all" href="/shops/">See the full list of shops, with addresses and hours &rarr;</a></div></div>' +
     '<section class="smx-fnews" aria-labelledby="smx-nh"><div class="smx-nt"><h2 id="smx-nh">Get the latest Shop &amp; Trail intel</h2><p>We&rsquo;ll keep the emails infrequent and worth your time.</p></div><div class="smx-na"><form id="smx-nf" novalidate><label for="smx-ne" style="position:absolute;left:-9999px">Email</label><input type="email" id="smx-ne" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="smx-nb">Sign up</button></form><p class="smx-nm" id="smx-nmsg" role="status"></p></div></section>' +
