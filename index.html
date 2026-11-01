@@ -149,6 +149,7 @@ STILL TO DO / IDEAS
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
+  - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
   - DONE in v11.1 (Nov 1 2026): sub-pages match the home page (width, font, big title, two-column shop cards on neighborhood pages); Add to Home Screen, Disclaimer and Send feedback open popups (no page jump); printer emoji on the PDF button; neighborhood box wider; route stats styled like the status below the button; more spacing in footer; tighter title/tagline.
   - DONE in v11.0 (Nov 1 2026): Send feedback opens an X-able popup on every page; the list no longer scrolls inside its own box; "2. Exclusions" heading; home-screen button in the blue box; more space above the newsletter, footer credits and version line; tighter title/tagline spacing.
   - DONE in v10.99 (Nov 1 2026): more space above the footer link row and above the version line.
@@ -175,7 +176,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v11.1-20261101">
+<meta name="ctt-build" content="v11.2-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1423,7 +1424,7 @@ STILL TO DO / IDEAS
   .ctt-cf-pin.picked { background:var(--rust); }
   .ctt-cf-pin.ctt-cf-prev { width:34px; }
   .ctt-cf-n { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:800; color:var(--rust); margin-left:1px; vertical-align:2px; }
-  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:36px; font-size:15px; row-gap:6px; }
+  .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:72px; font-size:15px; row-gap:6px; }
   .ctt-footnav > * { padding:6px 12px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
   .ctt-footnav > *:first-child { border-left:none !important; }
   .ctt-footnav > *:last-child { padding-right:12px !important; }
@@ -1524,7 +1525,7 @@ STILL TO DO / IDEAS
   .ctt-offroute-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; }
   .ctt-offroute-note { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 400; color: #6b6252; text-align: right; }
-  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: none; overflow: visible; padding-right: 0; scrollbar-color: var(--olive) var(--paper); }
+  #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 0; scrollbar-width: none; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
     display: flex;
     align-items: center;
@@ -1617,11 +1618,11 @@ STILL TO DO / IDEAS
     align-items: start;
   }
   .ctt-layout #ctt-map { order: -1; position: relative; height: clamp(320px, 64vh, 540px) !important; }
-  .ctt-layout .ctt-list { overflow: visible; padding-right: 0; }
+  .ctt-layout .ctt-list { overflow-y: auto; padding-right: 0; }
   @media (min-width: 781px) {
     .ctt-layout { grid-template-columns: minmax(0, 610px) 1fr; }
     .ctt-layout #ctt-map { order: 0; position: sticky; top: 12px; height: clamp(460px, 82vh, 780px) !important; }
-    .ctt-layout .ctt-list { max-height: none; overflow: visible; padding-right: 0; }
+    .ctt-layout .ctt-list { max-height: none; overflow-y: auto; padding-right: 0; }
   }
   .ctt-backtomap {
     display: none; position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 900;
@@ -1640,10 +1641,11 @@ STILL TO DO / IDEAS
     display: flex;
     flex-direction: column;
     gap: 9px;
-    overflow: visible;
+    overflow-y: auto;
     padding-right: 0;
+    scrollbar-width: none;
   }
-  .ctt-list::-webkit-scrollbar, #ctt-offroute-list::-webkit-scrollbar { width: 8px; }
+  .ctt-list::-webkit-scrollbar, #ctt-offroute-list::-webkit-scrollbar { display: none; width: 0; }
   .ctt-list::-webkit-scrollbar-track, #ctt-offroute-list::-webkit-scrollbar-track { background: var(--paper); }
   .ctt-list::-webkit-scrollbar-thumb, #ctt-offroute-list::-webkit-scrollbar-thumb { background: var(--olive); border-radius: 4px; }
   .ctt-list::-webkit-scrollbar-thumb:hover, #ctt-offroute-list::-webkit-scrollbar-thumb:hover { background: var(--rust); }
@@ -2281,8 +2283,8 @@ STILL TO DO / IDEAS
   }
   .ctt-homescreen-link:hover { color: var(--ink); }
   .ctt-homescreen-row { margin: 40px 0 22px 0; text-align: center; }
-  .ctt-pdf-section .ctt-homescreen-link { margin: 10px 0 0; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px; line-height: normal; background: #2c3e44; color: #e8f1f4; border: none; border-radius: 20px; padding: 8px 18px; text-decoration: none; cursor: pointer; }
-  .ctt-pdf-section .ctt-homescreen-link:hover { background: #1c2c31; color: #e8f1f4; }
+  .ctt-pdf-section .ctt-homescreen-link { margin: 10px 0 0; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px; line-height: normal; background: #f0cdbf; color: #7a2f14; border: none; border-radius: 20px; padding: 8px 18px; text-decoration: none; cursor: pointer; }
+  .ctt-pdf-section .ctt-homescreen-link:hover { background: #e8bba9; color: #5e2210; }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2536,7 +2538,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v11.1 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v11.2 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3400,9 +3402,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return total;
   }
   function equalizeListHeights() {
-    // The lists no longer scroll inside themselves; the page scrolls instead (no inner scrollbar).
-    document.getElementById('ctt-list').style.maxHeight = 'none'; offRouteListEl.style.maxHeight = 'none';
-    return;
     var listContainerEl = document.getElementById('ctt-list');
     var routeHeight = heightForFirstFive(routeListEl);
 

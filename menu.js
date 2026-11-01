@@ -211,7 +211,7 @@
   // ---- match the home page: sans-serif text, 1140px width, big bold title (all sub-pages) ----
   var hcss = document.createElement('style');
   hcss.textContent = "body{font-family:'Libre Franklin',system-ui,sans-serif}" +
-    ".wrap{max-width:1172px;padding-left:16px;padding-right:16px}" +
+    ".wrap{max-width:1172px;padding-left:16px;padding-right:16px;padding-top:0}" +
     ".wrap p,.wrap li,.wrap blockquote{max-width:78ch}" +
     ".topbar{position:static;max-width:1172px;margin:0 auto;padding:22px 16px 6px;background:none;border-bottom:none}" +
     ".topbar a.sitetitle,.sitehead .sitetitle{font-size:clamp(30px,7vw,48px);line-height:1.05}" +
@@ -220,6 +220,27 @@
     "h1{margin-top:18px}" +
     "@media(min-width:900px){.wrap:has(>article.shop){display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap:has(>article.shop)>*{grid-column:1/-1}.wrap:has(>article.shop)>article.shop{grid-column:auto}.wrap:has(>article.shop)>.cta{justify-self:start}#shop-list,.wrap>section{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:0 14px;align-items:start}.wrap>section>h2,.wrap>section>p,.wrap>section>div{grid-column:1/-1}}";
   document.head.appendChild(hcss);
+  // ---- home-page look for shop cards, tagline and the gold "Plan your route" strip ----
+  var scss = document.createElement('style');
+  scss.textContent = ".smx-tagline{font-size:14px;line-height:1.4;color:var(--ink);margin:2px 0 4px;max-width:640px}" +
+    ".shop{border:1px dashed var(--line)!important;border-radius:3px!important}" +
+    ".shop h2.shopname,.shop h3{font-family:'Libre Franklin',system-ui,sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.01em;color:var(--rust);margin:0 0 4px}" +
+    ".shop .tag{background:var(--olive);color:#fff;border:none;border-radius:2px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px}" +
+    ".shop .meta{color:var(--ink)!important;font-weight:600}" +
+    ".smx-strip{background:#c98a2b;border-radius:5px;padding:20px 16px 16px;text-align:center;margin:14px 0 18px;grid-column:1/-1}" +
+    ".smx-strip a.cta{display:inline-block;margin:0;background:var(--ink);color:var(--paper);border-radius:48px;padding:16px 38px;font-family:'Archivo Black',system-ui,sans-serif;font-weight:400;font-size:clamp(18px,4.6vw,26px);text-decoration:none}" +
+    ".smx-strip p{max-width:none!important;margin:8px 0 0;font-size:12.5px;font-weight:700;color:var(--ink)}";
+  document.head.appendChild(scss);
+  (function () {
+    var wrap = document.querySelector('.wrap'); if (!wrap) return;
+    var tg = document.createElement('p'); tg.className = 'smx-tagline';
+    tg.innerHTML = '<strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.';
+    var hd = wrap.querySelector(':scope > header.sitehead');
+    if (hd) hd.insertAdjacentElement('afterend', tg); else wrap.insertBefore(tg, wrap.firstChild);
+    var cta = wrap.querySelector('a.cta');
+    if (cta) { var s = document.createElement('div'); s.className = 'smx-strip'; cta.parentNode.insertBefore(s, cta); s.appendChild(cta); var q = document.createElement('p'); q.textContent = 'Let’s begin at your nearest shop.'; s.appendChild(q); }
+  })();
+
   document.head.appendChild(fcss);
   var ft = document.createElement('footer'); ft.className = 'smx-foot'; ft.setAttribute('aria-label', 'Site footer');
   var hoodHtml = HOODS.map(function (h) { return '<a href="' + h[0] + '">' + h[1] + '</a>'; }).join('');
