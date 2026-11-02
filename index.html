@@ -173,6 +173,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v14.2 (Nov 2 2026): big button fixes: double-tap now goes back one step from where you were (first tap moves on, then two steps are undone); Undo remembers up to 30 steps; hold fill is a separate overlay (was hidden by the hover colour on phones) and on phones directions open as soon as the half second is up; on phones directions open in the same tab (no blank white tab) via goMaps(); button has touch-action: manipulation.
+  - DONE in v14.1 (Nov 2 2026): 'For shop managers' link (footer row + hamburger, just above Disclaimer; sub-page footer/menu via menu.js); shop update form: price-feel question removed, poster request below the submit button; how-to + 4 blog posts describe the big-button gestures (tap/double-tap/hold).
   - DONE in v14.0 (Nov 2 2026): mobile home hamburger raised 3px; pop-culture date fixes (Adventure Time, Pirates, Mortal Kombat, Goodfellas); big button gestures: tap = next, double-tap = undo (first tap goes ahead, second takes it back), hold 0.5s = directions to the shop on the button (fill sweep + buzz); small row under it 'Undo double-tap | Directions hold | Next tap' does the same by plain tap.
   - DONE in v13.9 (Nov 2 2026): removed 5 non-frontman band members from POP_FUN (Iha, Chamberlin, Munky, Head, Fieldy; Travis Barker kept), plus Lars Ulrich; lead singers and key members stay; Jun 10 refilled (745 lines).
   - DONE in v13.8 (Nov 2 2026): the pop-culture facts under the special day sit side by side in one wrapping row (centered) instead of stacked lines.
@@ -206,7 +208,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.0-20261102">
+<meta name="ctt-build" content="v14.2-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2377,10 +2379,11 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:11px;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
 .ctt-nav-sep{color:var(--ink);opacity:.45;font:400 13px 'Libre Franklin',sans-serif}
-.ctt-cta-btn{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-.ctt-cta-btn.holding{background-image:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.3));background-repeat:no-repeat;background-size:0 100%;animation:cttHold .5s linear forwards}
-@keyframes cttHold{to{background-size:100% 100%}}
-@media (prefers-reduced-motion:reduce){.ctt-cta-btn.holding{animation:none;background-size:100% 100%}}
+.ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.ctt-cta-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.38);transform:scaleX(0);transform-origin:left center;pointer-events:none}
+.ctt-cta-btn.holding::after{animation:cttHoldFill .5s linear forwards}
+@keyframes cttHoldFill{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.ctt-cta-btn.holding::after{animation:none;transform:scaleX(1)}}
 .ctt-cta-undo:hover{color:var(--rust)}
 .ctt-cta-undo:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
 @media (max-width:600px){.ctt-cta-btnwrap .ctt-cta-btn{min-width:0;padding-left:20px;padding-right:20px}}
@@ -2630,7 +2633,7 @@ STILL TO DO / IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">For shop managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -2650,7 +2653,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.0 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v14.2 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -2910,10 +2913,13 @@ STILL TO DO / IDEAS
     ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
     var first = ov.querySelector('.ctt-maps-opt'); if (first) first.focus();
   }
+  // On phones, hand the link to the maps app from this same tab (a new tab left a blank white screen to close). Desktops open a new tab.
+  function isPhone() { try { return window.matchMedia('(pointer: coarse)').matches; } catch (e) { return false; } }
+  function goMaps(url) { if (isPhone()) { window.location.href = url; } else { window.open(url, '_blank'); } }
   function openDirections(gUrl, cancelled) {
     var app = mapsPref();
-    if (app) { window.open(mapsUrl(app, gUrl), '_blank'); return; }
-    chooseMaps(function(a) { window.open(mapsUrl(a, gUrl), '_blank'); }, cancelled);
+    if (app) { goMaps(mapsUrl(app, gUrl)); return; }
+    chooseMaps(function(a) { goMaps(mapsUrl(a, gUrl)); }, cancelled);
   }
   // Capture phase so it also works for links inside map popups (Leaflet stops those clicks from bubbling).
   document.addEventListener('click', function(e) {
@@ -4439,7 +4445,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     updateCtaPrompt();
   }
   // One big button that alternates: "Continue to X" (opens directions) -> after you come back "Move to Y" (ticks X Visited) -> "Continue to Y"...
-  var lastCtaAction = null;
+  var lastCtaAction = null, ctaStack = [];
   function stopLineText() {
     var ns = [];
     for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
@@ -4800,14 +4806,19 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return null;
   }
   function updateCtaPrompt() { renderNavRow(); }
-  function setUndo(a) { lastCtaAction = a; renderNavRow(); }
+  function setUndo(a) { if (a) { ctaStack.push(a); if (ctaStack.length > 30) ctaStack.shift(); } else { ctaStack = []; } lastCtaAction = ctaStack.length ? ctaStack[ctaStack.length - 1] : null; renderNavRow(); }
   // Gestures on the big button: tap = next, double-tap = undo (the first tap goes ahead, the second takes it back), hold = directions.
   var lastNextAt = 0, holdTimer = null, holdFired = false, swallowUntil = 0;
-  function doUndo() {
-    var a = lastCtaAction; if (!a) return;
-    var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox');
-    if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); }
-    cttTrack('cta_undo'); setUndo(null); refreshCtaLabel();
+  // Undo walks back one step at a time (up to 30), each press un-ticking the most recent shop.
+  function undoOne() {
+    var a = ctaStack.pop();
+    if (a) { var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox'); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } }
+    lastCtaAction = ctaStack.length ? ctaStack[ctaStack.length - 1] : null;
+    return !!a;
+  }
+  function doUndo(n) {
+    var did = false; for (var k = 0; k < (n || 1); k++) { if (undoOne()) did = true; }
+    if (did) cttTrack('cta_undo'); renderNavRow(); refreshCtaLabel();
   }
   function holdDirections() {
     var t = dirTarget(); if (!t) return;
@@ -4818,21 +4829,25 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   ctaBtn.addEventListener('pointerdown', function(e) {
     if (e.button > 0 || ctaBtn.disabled || !hasClickedLocateBefore || !dirTarget()) return;
     holdFired = false; ctaBtn.classList.add('holding');
-    holdTimer = setTimeout(function() { holdFired = true; holdTimer = null; try { if (navigator.vibrate) navigator.vibrate(25); } catch (x) {} }, 500);
+    holdTimer = setTimeout(function() {
+      holdFired = true; holdTimer = null; try { if (navigator.vibrate) navigator.vibrate(25); } catch (x) {}
+      if (isPhone()) { swallowUntil = Date.now() + 900; cancelHold(); holdDirections(); }
+    }, 500);
   });
   ['pointerleave', 'pointercancel'].forEach(function(n) { ctaBtn.addEventListener(n, function() { cancelHold(); holdFired = false; }); });
   ctaBtn.addEventListener('pointerup', function() {
     var fired = holdFired; cancelHold(); holdFired = false;
-    if (fired) { swallowUntil = Date.now() + 600; holdDirections(); }
+    if (fired && !isPhone()) { swallowUntil = Date.now() + 600; holdDirections(); }
   });
   ctaBtn.addEventListener('click', function(e) {
     if (Date.now() < swallowUntil) { e.stopImmediatePropagation(); e.preventDefault(); }
   }, true);
   document.getElementById('ctt-nav-dir').addEventListener('click', holdDirections);
-  document.getElementById('ctt-nav-nextbtn').addEventListener('click', function() { ctaBtn.click(); });
+  document.getElementById('ctt-nav-nextbtn').addEventListener('click', function() { lastNextAt = 0; ctaBtn.click(); });
   ctaBtn.addEventListener('click', function() {
     var now = Date.now();
-    if (lastCtaAction && lastNextAt && now - lastNextAt < 450) { lastNextAt = 0; doUndo(); return; }
+    // Double-tap: the first tap already moved on, so take that back AND the step before it = one step back from where you were.
+    if (ctaStack.length && lastNextAt && now - lastNextAt < 650) { lastNextAt = 0; doUndo(2); return; }
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
     if (nx) {
       var c = cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
@@ -4845,7 +4860,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
   });
-  if (ctaUndo) ctaUndo.addEventListener('click', doUndo);
+  if (ctaUndo) ctaUndo.addEventListener('click', function() { doUndo(1); });
 
 
   // If this browser has used the button before (permission decision
@@ -5503,7 +5518,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
     if (!btn || !menu) return;
-    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
+    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
       var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
@@ -5522,7 +5537,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
       var tips = document.querySelectorAll('.ctt-tip-btn');
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
-      ['ctt-feedback-toggle', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
+      ['ctt-feedback-toggle', 'ctt-mgr-open', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
         var el = document.getElementById(id);
         if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false, divider: n === 0 });
       });
