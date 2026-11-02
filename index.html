@@ -157,6 +157,7 @@ STILL TO DO / IDEAS
   - DONE in v12.0 (Nov 1 2026): Shops & Charities: neighborhood buttons centered, search bar same width; calendar: Submit button between grid and month list, in-person note moved inside the form, event titles shown in day boxes (tablet/desktop), roomier layout.
   - DONE in v12.1 (Nov 1 2026): Maps app choice (Apple Maps / Google Maps / Waze asked once on first Directions tap, remembered, changeable in the menu); 'Stopped at X?' prompt under the big button with 'Done, next stop' / 'Skip it' always shown while the trail runs (replaces the per-card 'Done here, next shop' button).
   - DONE in v12.2 (Nov 1 2026): big buttons: one 'Let's Go Thrifting!' before starting; after that two matching buttons, 'Continue to <shop>' (directions) and 'Done here, next stop' (ticks Visited, shows 'Then: <next>'); the card Visited checkbox still works by hand and keeps both buttons in sync; 'Stopped at X?' prompt removed.
+  - DONE in v12.3 (Nov 1 2026): the two big buttons sit side by side: 'Continue to <shop>' and 'Done here, move to <next shop>' (last stop: 'Done here, last stop').
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -186,7 +187,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v12.2-20261101">
+<meta name="ctt-build" content="v12.3-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2335,6 +2336,11 @@ STILL TO DO / IDEAS
 /* big-button: tap to go, then confirm */
 .ctt-cta-btnwrap{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;max-width:100%}
 .ctt-cta-btnwrap .ctt-cta-btn{width:100%;max-width:460px;box-sizing:border-box}
+.ctt-cta-btnwrap.two{flex-direction:row;align-items:stretch;gap:10px;width:100%}
+.ctt-cta-btnwrap.two .ctt-cta-btn{flex:1 1 0;min-width:0;width:auto;max-width:none;padding:16px 16px;display:flex;align-items:center;justify-content:center}
+.ctt-cta-btnwrap.two .ctt-cta-btn-line1.is-next{font-size:22px;line-height:1.15}
+.ctt-cta-btnwrap.two .ctt-cta-btn-sub{display:none}
+@media (max-width:600px){.ctt-cta-btnwrap.two{gap:8px}.ctt-cta-btnwrap.two .ctt-cta-btn{padding:12px 8px;border-radius:24px}.ctt-cta-btnwrap.two .ctt-cta-btn-line1.is-next{font-size:15px}}
 @media (max-width:600px){.ctt-cta-btnwrap .ctt-cta-btn{min-width:0;padding-left:20px;padding-right:20px}}
 .ctt-maps-opts{display:flex;flex-direction:column;gap:10px}
 .ctt-maps-opt{font:700 16px 'Libre Franklin',sans-serif;padding:14px;border-radius:8px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;min-height:48px}
@@ -2599,7 +2605,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v12.2 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v12.3 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4592,9 +4598,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function updateCtaPrompt() {
     if (!ctaDone) return;
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), ns = l1 && l1.classList.contains('is-next') ? nextStops() : [];
-    if (!ns.length) { ctaDone.style.display = 'none'; return; }
-    document.getElementById('ctt-cta-done-l2').textContent = ns[1] ? 'Then: ' + dn(ns[1].name) : 'That\u2019s the last stop.';
+    if (!ns.length) { ctaDone.style.display = 'none'; ctaDone.parentNode.classList.remove('two'); return; }
+    document.getElementById('ctt-cta-done-l1').innerHTML = '&#10003; Done here, ' + (ns[1] ? 'move to ' + dn(ns[1].name).replace(/&/g, '&amp;').replace(/</g, '&lt;') : 'last stop');
     ctaDone.style.display = '';
+    ctaDone.parentNode.classList.add('two');
   }
   ctaBtn.addEventListener('click', function() {
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
