@@ -158,6 +158,8 @@ STILL TO DO / IDEAS
   - DONE in v12.1 (Nov 1 2026): Maps app choice (Apple Maps / Google Maps / Waze asked once on first Directions tap, remembered, changeable in the menu); 'Stopped at X?' prompt under the big button with 'Done, next stop' / 'Skip it' always shown while the trail runs (replaces the per-card 'Done here, next shop' button).
   - DONE in v12.2 (Nov 1 2026): big buttons: one 'Let's Go Thrifting!' before starting; after that two matching buttons, 'Continue to <shop>' (directions) and 'Done here, next stop' (ticks Visited, shows 'Then: <next>'); the card Visited checkbox still works by hand and keeps both buttons in sync; 'Stopped at X?' prompt removed.
   - DONE in v12.3 (Nov 1 2026): the two big buttons sit side by side: 'Continue to <shop>' and 'Done here, move to <next shop>' (last stop: 'Done here, last stop').
+  - DONE in v12.4 (Nov 1 2026): second big button reads 'Move to <next shop>' with a fast-forward icon (last stop: flag icon, 'Last stop done'); 'Done here' wording removed.
+  - DONE in v12.5 (Nov 1 2026): back to ONE big button that alternates: 'Continue to X' (opens directions) -> after returning to the page (or 2 min) 'Move to Y' (ticks X Visited) -> 'Continue to Y'; small Undo link under it (undoes the flip or the tick); 'Let's Go Thrifting!' back on one line on desktop; side-by-side pair removed.
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -187,7 +189,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v12.3-20261101">
+<meta name="ctt-build" content="v12.5-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2334,13 +2336,11 @@ STILL TO DO / IDEAS
   .leaflet-popup-content a.ctt-popup-title:hover { text-decoration: underline; }
   .leaflet-popup-tip { background: var(--card); }
 /* big-button: tap to go, then confirm */
-.ctt-cta-btnwrap{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;max-width:100%}
-.ctt-cta-btnwrap .ctt-cta-btn{width:100%;max-width:460px;box-sizing:border-box}
-.ctt-cta-btnwrap.two{flex-direction:row;align-items:stretch;gap:10px;width:100%}
-.ctt-cta-btnwrap.two .ctt-cta-btn{flex:1 1 0;min-width:0;width:auto;max-width:none;padding:16px 16px;display:flex;align-items:center;justify-content:center}
-.ctt-cta-btnwrap.two .ctt-cta-btn-line1.is-next{font-size:22px;line-height:1.15}
-.ctt-cta-btnwrap.two .ctt-cta-btn-sub{display:none}
-@media (max-width:600px){.ctt-cta-btnwrap.two{gap:8px}.ctt-cta-btnwrap.two .ctt-cta-btn{padding:12px 8px;border-radius:24px}.ctt-cta-btnwrap.two .ctt-cta-btn-line1.is-next{font-size:15px}}
+.ctt-cta-btnwrap{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;max-width:100%}
+.ctt-cta-btnwrap .ctt-cta-btn{max-width:100%;box-sizing:border-box}
+.ctt-cta-undo{background:none;border:none;padding:6px 10px;font:600 13px 'Libre Franklin',sans-serif;color:var(--ink);text-decoration:underline;cursor:pointer;min-height:32px}
+.ctt-cta-undo:hover{color:var(--rust)}
+.ctt-cta-undo:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
 @media (max-width:600px){.ctt-cta-btnwrap .ctt-cta-btn{min-width:0;padding-left:20px;padding-right:20px}}
 .ctt-maps-opts{display:flex;flex-direction:column;gap:10px}
 .ctt-maps-opt{font:700 16px 'Libre Franklin',sans-serif;padding:14px;border-radius:8px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;min-height:48px}
@@ -2451,7 +2451,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button>
-        <button type="button" class="ctt-cta-btn ctt-cta-done" id="ctt-cta-done" style="display:none;"><span class="ctt-cta-btn-line1 is-next" id="ctt-cta-done-l1">&#10003; Done here, next stop</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-done-l2"></span></span></button></div>
+        <button type="button" class="ctt-cta-undo" id="ctt-cta-undo" style="display:none;">Undo</button></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2605,7 +2605,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v12.3 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v12.5 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4262,16 +4262,21 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   var hasClickedLocateBefore = false;
   function setCtaBtnText(line1, line2) {
-    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (String(line1).indexOf('Continue to') > -1 ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
+    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (/Continue to|Move to|Last stop done/.test(String(line1)) ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
     updateCtaPrompt();
   }
+  // One big button that alternates: "Continue to X" (opens directions) -> after you come back "Move to Y" (ticks X Visited) -> "Continue to Y"...
+  var ctaState = 'go', arriveFor = null, lastCtaAction = null, arriveTimer = null;
   function nextBtnLabel() {
-    // After the route is built, the big button names where it will take you: "Continue to <next shop>".
-    var nx = null;
-    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) { nx = activeRoute[i]; break; } }
-    if (!nx) return '&#128717; Next shop';
-    var nm = nx.name.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-    return '&#128717; Continue to ' + nm;
+    var ns = [];
+    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
+    if (!ns.length) return '&#128717; Next shop';
+    function esc2(n) { return dn(n).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    if (ctaState === 'arrive' && arriveFor === ns[0].name) {
+      return ns[1] ? '&#9193; Move to ' + esc2(ns[1].name) : '&#127937; Last stop done';
+    }
+    ctaState = 'go'; arriveFor = null;
+    return '&#128717; Continue to ' + esc2(ns[0].name);
   }
   var updatedText = '';
   function stampUpdated() {
@@ -4539,11 +4544,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     drop.querySelector('summary').innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
     if (!body.children.length) drop.remove();
   }
+  function isNextLabel(t) { return /Continue to|Move to|Last stop done|Next shop/.test(t); }
   function refreshCtaLabel() {
     var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1');
-    if (!l1 || !/Continue to|Next shop/.test(l1.textContent)) return;
+    if (!l1 || !isNextLabel(l1.textContent)) return;
     var lab = nextBtnLabel();
-    l1.innerHTML = lab; l1.classList.toggle('is-next', lab.indexOf('Continue to') > -1);
+    l1.innerHTML = lab; l1.classList.toggle('is-next', /Continue to|Move to|Last stop done/.test(lab));
     updateCtaPrompt();
   }
   function refreshNextButton() {
@@ -4582,41 +4588,57 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   // Once the trail is running, the big button opens directions to the next shop. When you come back to the page,
   // a small prompt asks whether you stopped there; Yes ticks Visited, Skip removes it from today's route.
-  var ctaDone = document.getElementById('ctt-cta-done');
+  var ctaUndo = document.getElementById('ctt-cta-undo');
   function cardByName(n) {
     var cs = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
     for (var i = 0; i < cs.length; i++) { if (decodeURIComponent(cs[i].dataset.storeName) === n) return cs[i]; }
     return null;
   }
-  function nextStops() {
-    var out = [];
-    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) out.push(activeRoute[i]); }
-    return out;
+  function nextStop() {
+    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) return activeRoute[i]; }
+    return null;
   }
-  function nextStop() { return nextStops()[0] || null; }
-  // Once the trail is running there are two matching buttons: "Continue to X" (directions) and "Done here, next stop".
-  function updateCtaPrompt() {
-    if (!ctaDone) return;
-    var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), ns = l1 && l1.classList.contains('is-next') ? nextStops() : [];
-    if (!ns.length) { ctaDone.style.display = 'none'; ctaDone.parentNode.classList.remove('two'); return; }
-    document.getElementById('ctt-cta-done-l1').innerHTML = '&#10003; Done here, ' + (ns[1] ? 'move to ' + dn(ns[1].name).replace(/&/g, '&amp;').replace(/</g, '&lt;') : 'last stop');
-    ctaDone.style.display = '';
-    ctaDone.parentNode.classList.add('two');
+  function updateCtaPrompt() { if (ctaUndo && !lastCtaAction) ctaUndo.style.display = 'none'; }
+  function setUndo(a) { lastCtaAction = a; if (ctaUndo) ctaUndo.style.display = a ? '' : 'none'; }
+  function flipToArrive() {
+    if (arriveTimer) { clearTimeout(arriveTimer); arriveTimer = null; }
+    var nx = nextStop(); if (!nx || ctaState !== 'go' || arriveFor !== nx.name) return;
+    ctaState = 'arrive'; setUndo({ type: 'flip', name: nx.name }); refreshCtaLabel();
   }
+  // Coming back to the page after opening directions flips the button; so does waiting two minutes.
+  document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') flipToArrive(); });
+  window.addEventListener('pageshow', flipToArrive);
   ctaBtn.addEventListener('click', function() {
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
-    if (nx) {
-      cttTrack('cta_directions', { shop: nx.name });
-      openDirections(directionsLink(nx.address));
+    if (nx && ctaState === 'arrive') {
+      var c = cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
+      cttTrack('done_next_stop');
+      ctaState = 'go'; arriveFor = null;
+      if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
+      setUndo({ type: 'visited', name: nx.name }); refreshCtaLabel();
       return;
     }
+    if (nx) {
+      cttTrack('cta_directions', { shop: nx.name });
+      arriveFor = nx.name; setUndo(null);
+      if (arriveTimer) clearTimeout(arriveTimer);
+      arriveTimer = setTimeout(flipToArrive, 120000);
+      openDirections(directionsLink(nx.address), function() { arriveFor = null; if (arriveTimer) { clearTimeout(arriveTimer); arriveTimer = null; } });
+      return;
+    }
+    ctaState = 'go'; arriveFor = null; setUndo(null);
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
   });
-  if (ctaDone) ctaDone.addEventListener('click', function() {
-    var nx = nextStop(), c = nx && cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
-    cttTrack('done_next_stop');
-    if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
+  if (ctaUndo) ctaUndo.addEventListener('click', function() {
+    var a = lastCtaAction; if (!a) return;
+    if (a.type === 'flip') { ctaState = 'go'; arriveFor = null; }
+    else if (a.type === 'visited') {
+      var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox');
+      if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); }
+      ctaState = 'go'; arriveFor = null;
+    }
+    cttTrack('cta_undo'); setUndo(null); refreshCtaLabel();
   });
 
   // If this browser has used the button before (permission decision
