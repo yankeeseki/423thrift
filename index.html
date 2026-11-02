@@ -173,6 +173,7 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v14.4 (Nov 2 2026): small daily banner: special day + fun facts on one line (wraps only when narrow); 'For shop managers' renamed 'Shop managers' (footer, menu, sub-pages, how-to); shop update form has an optional 'tell us more about the charity or charities you support' box (sent as charities_supported).
   - DONE in v14.3 (Nov 2 2026): row under the big button reordered and renamed: Directions long press | Next quick press | Undo double-tap (gesture words stack under each label on phones); how-to + 2 blog posts reviewed and updated (gestures, removed a non-existent 'not visited' filter claim, shop-manager FAQ, 'shop' wording).
   - DONE in v14.2 (Nov 2 2026): big button fixes: double-tap now goes back one step from where you were (first tap moves on, then two steps are undone); Undo remembers up to 30 steps; hold fill is a separate overlay (was hidden by the hover colour on phones) and on phones directions open as soon as the half second is up; on phones directions open in the same tab (no blank white tab) via goMaps(); button has touch-action: manipulation.
   - DONE in v14.1 (Nov 2 2026): 'For shop managers' link (footer row + hamburger, just above Disclaimer; sub-page footer/menu via menu.js); shop update form: price-feel question removed, poster request below the submit button; how-to + 4 blog posts describe the big-button gestures (tap/double-tap/hold).
@@ -209,7 +210,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.3-20261102">
+<meta name="ctt-build" content="v14.4-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2635,7 +2636,7 @@ STILL TO DO / IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">For shop managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -2655,7 +2656,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.3 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v14.4 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3185,8 +3186,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (b.kind === 'small') {
       el.className = 'ctt-holiday-small';
       el.textContent = '';
-      if (b.head) { var l1 = document.createElement('div'); l1.textContent = b.e + ' ' + cttGreet(b.head).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"); el.appendChild(l1); }
-      if (popLines.length) { var row = document.createElement('div'); row.className = 'ctt-pop-row'; popLines.forEach(function(t) { var l2 = document.createElement('span'); l2.textContent = t; row.appendChild(l2); }); el.appendChild(row); }
+      var smallParts = [];
+      if (b.head) smallParts.push(b.e + ' ' + cttGreet(b.head).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+      popLines.forEach(function(t) { smallParts.push(t); });
+      // The special day and the fun facts share one line; they wrap onto the next line only when the screen is too narrow.
+      if (smallParts.length) { var row = document.createElement('div'); row.className = 'ctt-pop-row'; smallParts.forEach(function(t) { var l2 = document.createElement('span'); l2.textContent = t; row.appendChild(l2); }); el.appendChild(row); }
       el.style.display = 'block';
       return;
     }

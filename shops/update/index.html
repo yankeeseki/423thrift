@@ -105,6 +105,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-wifi">Free Wi-Fi for customers</label><select id="mf-wifi"><option value="">Not sure / skip</option><option>Yes</option><option>No</option></select>
 </fieldset>
 <fieldset><legend>Anything else?</legend>
+<label for="mf-charity">If your shop supports a charity or cause, tell us more about the charity or charities you support</label><textarea id="mf-charity" placeholder="Who benefits, how the money is used, and a website if you have one..."></textarea>
 <label for="mf-note">What should shoppers know about your shop?</label><textarea id="mf-note" placeholder="Parking, donation hours, what you&rsquo;re known for..."></textarea>
 <p class="hint">Storefront shops only. The Trail is for shops with a physical location.</p>
 </fieldset>
@@ -127,7 +128,7 @@ f.addEventListener('submit',function(e){
   var min=v('mf-min'); if(min&&v('mf-minamt'))min+=' ('+v('mf-minamt')+')';
   var data={access_key:KEY,subject:'Thrift Trail: Shop listing update ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,
     shop:shop,role:v('mf-role'),hours:v('mf-hours'),sale_days:v('mf-sales'),best_days_for_new_items:v('mf-restock'),rewards:v('mf-rewards'),
-    restrooms:v('mf-rest'),card_minimum:min,payment_types:pay,wheelchair:v('mf-wc'),free_wifi:v('mf-wifi'),notes:v('mf-note')};
+    restrooms:v('mf-rest'),card_minimum:min,payment_types:pay,wheelchair:v('mf-wc'),free_wifi:v('mf-wifi'),charities_supported:v('mf-charity'),notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
    .then(function(r){return r.json();})
