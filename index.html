@@ -160,6 +160,8 @@ STILL TO DO / IDEAS
   - DONE in v12.3 (Nov 1 2026): the two big buttons sit side by side: 'Continue to <shop>' and 'Done here, move to <next shop>' (last stop: 'Done here, last stop').
   - DONE in v12.4 (Nov 1 2026): second big button reads 'Move to <next shop>' with a fast-forward icon (last stop: flag icon, 'Last stop done'); 'Done here' wording removed.
   - DONE in v12.5 (Nov 1 2026): back to ONE big button that alternates: 'Continue to X' (opens directions) -> after returning to the page (or 2 min) 'Move to Y' (ticks X Visited) -> 'Continue to Y'; small Undo link under it (undoes the flip or the tick); 'Let's Go Thrifting!' back on one line on desktop; side-by-side pair removed.
+  - DONE in v12.6 (Nov 1 2026): big button simplified: no more 'Continue to <current shop>' directions state; after starting, one button 'Continue to <next shop>' ticks the current shop Visited and moves on (last stop: 'Last stop done'); Undo link kept; directions stay on each card.
+  - DONE in v12.7 (Nov 1 2026): small line under the big button: 'First stop: X' (then 'Current stop: X') so the shop you are at is always named.
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -189,7 +191,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v12.5-20261101">
+<meta name="ctt-build" content="v12.7-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2605,7 +2607,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v12.5 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v12.7 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4262,21 +4264,31 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   var hasClickedLocateBefore = false;
   function setCtaBtnText(line1, line2) {
-    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (/Continue to|Move to|Last stop done/.test(String(line1)) ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
+    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (/Continue to|Last stop done/.test(String(line1)) ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
+    setStopLine();
     updateCtaPrompt();
   }
   // One big button that alternates: "Continue to X" (opens directions) -> after you come back "Move to Y" (ticks X Visited) -> "Continue to Y"...
-  var ctaState = 'go', arriveFor = null, lastCtaAction = null, arriveTimer = null;
+  var lastCtaAction = null;
+  function stopLineText() {
+    var ns = [];
+    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
+    if (!ns.length) return null;
+    var any = Object.keys(visitedStores).some(function(n) { return visitedStores[n]; });
+    return (any ? 'Current stop: ' : 'First stop: ') + dn(ns[0].name);
+  }
+  function setStopLine() {
+    var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1'), l2 = document.getElementById('ctt-cta-btn-line2');
+    if (!l1 || !l2 || !l1.classList.contains('is-next')) return;
+    var t = stopLineText(); if (t) l2.textContent = t;
+  }
   function nextBtnLabel() {
     var ns = [];
     for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
     if (!ns.length) return '&#128717; Next shop';
     function esc2(n) { return dn(n).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
-    if (ctaState === 'arrive' && arriveFor === ns[0].name) {
-      return ns[1] ? '&#9193; Move to ' + esc2(ns[1].name) : '&#127937; Last stop done';
-    }
-    ctaState = 'go'; arriveFor = null;
-    return '&#128717; Continue to ' + esc2(ns[0].name);
+    // One button: tapping it ticks the current shop Visited and the label moves on to the shop after it.
+    return ns[1] ? '&#9193; Continue to ' + esc2(ns[1].name) : '&#127937; Last stop done';
   }
   var updatedText = '';
   function stampUpdated() {
@@ -4544,13 +4556,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     drop.querySelector('summary').innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
     if (!body.children.length) drop.remove();
   }
-  function isNextLabel(t) { return /Continue to|Move to|Last stop done|Next shop/.test(t); }
+  function isNextLabel(t) { return /Continue to|Last stop done|Next shop/.test(t); }
   function refreshCtaLabel() {
     var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1');
     if (!l1 || !isNextLabel(l1.textContent)) return;
     var lab = nextBtnLabel();
-    l1.innerHTML = lab; l1.classList.toggle('is-next', /Continue to|Move to|Last stop done/.test(lab));
-    updateCtaPrompt();
+    l1.innerHTML = lab; l1.classList.toggle('is-next', /Continue to|Last stop done/.test(lab));
+    updateCtaPrompt(); setStopLine();
   }
   function refreshNextButton() {
     refreshCtaLabel();
@@ -4600,44 +4612,23 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   function updateCtaPrompt() { if (ctaUndo && !lastCtaAction) ctaUndo.style.display = 'none'; }
   function setUndo(a) { lastCtaAction = a; if (ctaUndo) ctaUndo.style.display = a ? '' : 'none'; }
-  function flipToArrive() {
-    if (arriveTimer) { clearTimeout(arriveTimer); arriveTimer = null; }
-    var nx = nextStop(); if (!nx || ctaState !== 'go' || arriveFor !== nx.name) return;
-    ctaState = 'arrive'; setUndo({ type: 'flip', name: nx.name }); refreshCtaLabel();
-  }
-  // Coming back to the page after opening directions flips the button; so does waiting two minutes.
-  document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') flipToArrive(); });
-  window.addEventListener('pageshow', flipToArrive);
   ctaBtn.addEventListener('click', function() {
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
-    if (nx && ctaState === 'arrive') {
+    if (nx) {
       var c = cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
       cttTrack('done_next_stop');
-      ctaState = 'go'; arriveFor = null;
       if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
-      setUndo({ type: 'visited', name: nx.name }); refreshCtaLabel();
+      setUndo({ name: nx.name }); refreshCtaLabel();
       return;
     }
-    if (nx) {
-      cttTrack('cta_directions', { shop: nx.name });
-      arriveFor = nx.name; setUndo(null);
-      if (arriveTimer) clearTimeout(arriveTimer);
-      arriveTimer = setTimeout(flipToArrive, 120000);
-      openDirections(directionsLink(nx.address), function() { arriveFor = null; if (arriveTimer) { clearTimeout(arriveTimer); arriveTimer = null; } });
-      return;
-    }
-    ctaState = 'go'; arriveFor = null; setUndo(null);
+    setUndo(null);
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
   });
   if (ctaUndo) ctaUndo.addEventListener('click', function() {
     var a = lastCtaAction; if (!a) return;
-    if (a.type === 'flip') { ctaState = 'go'; arriveFor = null; }
-    else if (a.type === 'visited') {
-      var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox');
-      if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); }
-      ctaState = 'go'; arriveFor = null;
-    }
+    var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox');
+    if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); }
     cttTrack('cta_undo'); setUndo(null); refreshCtaLabel();
   });
 
