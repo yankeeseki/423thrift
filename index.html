@@ -155,6 +155,7 @@ STILL TO DO / IDEAS
   - DONE in v11.8 (Nov 1 2026): mobile home hamburger dropped to sit beside 'Thrift Trail' (no overlap with 'Chattanooga').
   - DONE in v11.9 (Nov 1 2026): mobile list cards: number + shop name above the thumbnail; big button 'Continue to X' now opens directions to the next shop, and on return asks 'Stopped at X?' (Yes, done = Visited / Skip it = remove from route).
   - DONE in v12.0 (Nov 1 2026): Shops & Charities: neighborhood buttons centered, search bar same width; calendar: Submit button between grid and month list, in-person note moved inside the form, event titles shown in day boxes (tablet/desktop), roomier layout.
+  - DONE in v12.1 (Nov 1 2026): Maps app choice (Apple Maps / Google Maps / Waze asked once on first Directions tap, remembered, changeable in the menu); 'Stopped at X?' prompt under the big button with 'Done, next stop' / 'Skip it' always shown while the trail runs (replaces the per-card 'Done here, next shop' button).
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -184,7 +185,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v12.0-20261101">
+<meta name="ctt-build" content="v12.1-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2339,6 +2340,11 @@ STILL TO DO / IDEAS
 .ctt-cta-prompt-skip{background:none;color:var(--ink);border:2px solid var(--ink)}
 .ctt-cta-prompt button:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
 @media (max-width:600px){.ctt-cta-btnwrap .ctt-cta-btn{min-width:0;padding-left:20px;padding-right:20px}}
+.ctt-maps-opts{display:flex;flex-direction:column;gap:10px}
+.ctt-maps-opt{font:700 16px 'Libre Franklin',sans-serif;padding:14px;border-radius:8px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;min-height:48px}
+.ctt-maps-opt:hover{background:var(--ink);color:var(--paper)}
+.ctt-maps-opt[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.ctt-maps-opt:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
 /* v11.6 mobile + footer tweaks */
 .ctt-seo-sa-short{display:none}
 @media (max-width:600px){
@@ -2443,7 +2449,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button></div>
-      <div class="ctt-cta-prompt" id="ctt-cta-prompt" role="group" aria-live="polite" style="display:none;"><span class="ctt-cta-prompt-q" id="ctt-cta-prompt-q"></span><span class="ctt-cta-prompt-btns"><button type="button" class="ctt-cta-prompt-yes" id="ctt-cta-prompt-yes">Yes, done</button><button type="button" class="ctt-cta-prompt-skip" id="ctt-cta-prompt-skip">Skip it</button></span></div>
+      <div class="ctt-cta-prompt" id="ctt-cta-prompt" role="group" aria-live="polite" style="display:none;"><span class="ctt-cta-prompt-q" id="ctt-cta-prompt-q"></span><span class="ctt-cta-prompt-btns"><button type="button" class="ctt-cta-prompt-yes" id="ctt-cta-prompt-yes">Done, next stop</button><button type="button" class="ctt-cta-prompt-skip" id="ctt-cta-prompt-skip">Skip it</button></span></div>
       <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2597,7 +2603,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v12.0 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v12.1 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -2824,6 +2830,51 @@ STILL TO DO / IDEAS
   }
 
   function mapsLink(address) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address); }
+  // ---- Maps app choice: first Directions tap asks once (Apple Maps / Google Maps / Waze) and remembers it ----
+  function mapsPref() { try { var v = localStorage.getItem('ctt-maps'); return (v === 'apple' || v === 'google' || v === 'waze') ? v : null; } catch (e) { return null; } }
+  function mapsUrl(app, gUrl) {
+    var m = gUrl.match(/destination=([^&]*)/), dest = m ? m[1] : '';
+    if (app === 'apple') return 'https://maps.apple.com/?daddr=' + dest + '&dirflg=d';
+    if (app === 'waze') return 'https://waze.com/ul?q=' + dest + '&navigate=yes';
+    return gUrl;
+  }
+  function chooseMaps(done, cancelled) {
+    var ov = document.getElementById('ctt-maps-overlay'), cur = mapsPref();
+    if (!ov) {
+      ov = document.createElement('div'); ov.className = 'ctt-shops-overlay'; ov.id = 'ctt-maps-overlay';
+      ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-maps-title');
+      ov.innerHTML = '<div class="ctt-shops-dialog" style="max-width:420px"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-maps-title">Which maps app?</h2><button type="button" class="ctt-shops-close" id="ctt-maps-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body"><p style="margin:0 0 12px;font-size:14px">Pick one and the Trail remembers it. You can change it any time in the menu.</p><div class="ctt-maps-opts"><button type="button" class="ctt-maps-opt" data-app="apple">Apple Maps</button><button type="button" class="ctt-maps-opt" data-app="google">Google Maps</button><button type="button" class="ctt-maps-opt" data-app="waze">Waze</button></div></div></div>';
+      var anchor = document.getElementById('ctt-gi-overlay'); anchor.parentNode.insertBefore(ov, anchor);
+    }
+    var cb = { done: done, cancelled: cancelled };
+    function close() { ov.classList.remove('open'); document.body.style.overflow = ''; }
+    Array.prototype.forEach.call(ov.querySelectorAll('.ctt-maps-opt'), function(b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-app') === cur ? 'true' : 'false');
+      b.textContent = b.textContent.replace(/ ✓$/, '') + (b.getAttribute('data-app') === cur ? ' ✓' : '');
+      b.onclick = function() {
+        var app = b.getAttribute('data-app');
+        try { localStorage.setItem('ctt-maps', app); } catch (e) {}
+        cttTrack('maps_choice', { app: app }); close(); cb.done && cb.done(app);
+      };
+    });
+    document.getElementById('ctt-maps-close').onclick = function() { close(); cb.cancelled && cb.cancelled(); };
+    ov.onclick = function(e) { if (e.target === ov) { close(); cb.cancelled && cb.cancelled(); } };
+    ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
+    var first = ov.querySelector('.ctt-maps-opt'); if (first) first.focus();
+  }
+  function openDirections(gUrl, cancelled) {
+    var app = mapsPref();
+    if (app) { window.open(mapsUrl(app, gUrl), '_blank'); return; }
+    chooseMaps(function(a) { window.open(mapsUrl(a, gUrl), '_blank'); }, cancelled);
+  }
+  // Capture phase so it also works for links inside map popups (Leaflet stops those clicks from bubbling).
+  document.addEventListener('click', function(e) {
+    var a = e.target && e.target.closest && e.target.closest('a[href*="google.com/maps/dir/"]');
+    if (!a) return;
+    e.preventDefault(); e.stopPropagation();
+    cttTrack('get_directions_click');
+    openDirections(a.href);
+  }, true);
   function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving'; }
   function popupTitleHtml(store, prefix) {
     var titleText = (prefix !== undefined && prefix !== null ? prefix + '. ' : '') + dn(store.name);
@@ -4210,6 +4261,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var hasClickedLocateBefore = false;
   function setCtaBtnText(line1, line2) {
     ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (String(line1).indexOf('Continue to') > -1 ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
+    updateCtaPrompt();
   }
   function nextBtnLabel() {
     // After the route is built, the big button names where it will take you: "Continue to <next shop>".
@@ -4490,6 +4542,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!l1 || !/Continue to|Next shop/.test(l1.textContent)) return;
     var lab = nextBtnLabel();
     l1.innerHTML = lab; l1.classList.toggle('is-next', lab.indexOf('Continue to') > -1);
+    updateCtaPrompt();
   }
   function refreshNextButton() {
     refreshCtaLabel();
@@ -4500,7 +4553,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var c = cards[i];
       if (c.classList.contains('visited') || !c.querySelector('.ctt-visited-checkbox')) continue;
       var bot = c.querySelector('.ctt-tag-bottom-row');
-      if (bot) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-done-btn'; b.innerHTML = '&#10003; Done here, next shop'; bot.parentNode.insertBefore(b, bot.nextSibling); }
       return c;
     }
     return null;
@@ -4528,7 +4580,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   // Once the trail is running, the big button opens directions to the next shop. When you come back to the page,
   // a small prompt asks whether you stopped there; Yes ticks Visited, Skip removes it from today's route.
-  var ctaPrompt = document.getElementById('ctt-cta-prompt'), pendingStop = null;
+  var ctaPrompt = document.getElementById('ctt-cta-prompt');
   function cardByName(n) {
     var cs = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
     for (var i = 0; i < cs.length; i++) { if (decodeURIComponent(cs[i].dataset.storeName) === n) return cs[i]; }
@@ -4538,36 +4590,31 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) return activeRoute[i]; }
     return null;
   }
-  function hideCtaPrompt() { if (ctaPrompt) ctaPrompt.style.display = 'none'; pendingStop = null; }
-  function showCtaPrompt() {
-    if (!pendingStop || !ctaPrompt) return;
-    document.getElementById('ctt-cta-prompt-q').textContent = 'Stopped at ' + dn(pendingStop) + '?';
+  // The prompt sits under the big button for as long as the trail is running: one place to say "done, next stop" or skip.
+  function updateCtaPrompt() {
+    if (!ctaPrompt) return;
+    var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
+    if (!nx) { ctaPrompt.style.display = 'none'; return; }
+    document.getElementById('ctt-cta-prompt-q').textContent = 'Stopped at ' + dn(nx.name) + '?';
     ctaPrompt.style.display = 'flex';
   }
-  document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') showCtaPrompt(); });
-  window.addEventListener('pageshow', showCtaPrompt);
   ctaBtn.addEventListener('click', function() {
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
     if (nx) {
-      pendingStop = nx.name;
       cttTrack('cta_directions', { shop: nx.name });
-      var w = window.open(directionsLink(nx.address), '_blank'); try { if (w) w.opener = null; } catch (e) {}
-      // If the browser blocked the new tab, ask right away instead of waiting for a return that will not happen.
-      if (!w) showCtaPrompt();
+      openDirections(directionsLink(nx.address));
       return;
     }
-    hideCtaPrompt();
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
   });
   document.getElementById('ctt-cta-prompt-yes').addEventListener('click', function() {
-    var c = pendingStop && cardByName(pendingStop), cb = c && c.querySelector('.ctt-visited-checkbox');
-    hideCtaPrompt();
+    var nx = nextStop(), c = nx && cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
+    cttTrack('done_next_stop');
     if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
   });
   document.getElementById('ctt-cta-prompt-skip').addEventListener('click', function() {
-    var c = pendingStop && cardByName(pendingStop), tb = c && c.querySelector('.ctt-toggle-btn');
-    hideCtaPrompt();
+    var nx = nextStop(), c = nx && cardByName(nx.name), tb = c && c.querySelector('.ctt-toggle-btn');
     if (tb) { tb.click(); refreshCtaLabel(); }
   });
 
@@ -5235,6 +5282,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
       });
       var newsEl = document.getElementById('ctt-news-open'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: false });
+      var mapsEl = document.getElementById('ctt-maps-open'); if (mapsEl) list.push({ label: '\uD83E\uDDED Maps app', el: mapsEl, scroll: false });
       list.push({ label: '\uD83D\uDDA8\uFE0F Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
       list.push({ label: '\uD83D\uDCF2 Add Trail to Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       list.push({ heading: 'Share The Trail' });
@@ -5324,6 +5372,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     document.getElementById('ctt-hs-close').addEventListener('click', close);
     ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && ov.classList.contains('open')) close(); });
+  })();
+
+  (function() {
+    var b = document.createElement('button'); b.type = 'button'; b.id = 'ctt-maps-open'; b.hidden = true;
+    b.addEventListener('click', function() { chooseMaps(); });
+    document.getElementById('ctt-gi-overlay').parentNode.appendChild(b);
   })();
 
   // ---- Start over (clears today's saved visited/removed/added shops) ----
