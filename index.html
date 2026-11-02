@@ -173,6 +173,7 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v14.3 (Nov 2 2026): row under the big button reordered and renamed: Directions long press | Next quick press | Undo double-tap (gesture words stack under each label on phones); how-to + 2 blog posts reviewed and updated (gestures, removed a non-existent 'not visited' filter claim, shop-manager FAQ, 'shop' wording).
   - DONE in v14.2 (Nov 2 2026): big button fixes: double-tap now goes back one step from where you were (first tap moves on, then two steps are undone); Undo remembers up to 30 steps; hold fill is a separate overlay (was hidden by the hover colour on phones) and on phones directions open as soon as the half second is up; on phones directions open in the same tab (no blank white tab) via goMaps(); button has touch-action: manipulation.
   - DONE in v14.1 (Nov 2 2026): 'For shop managers' link (footer row + hamburger, just above Disclaimer; sub-page footer/menu via menu.js); shop update form: price-feel question removed, poster request below the submit button; how-to + 4 blog posts describe the big-button gestures (tap/double-tap/hold).
   - DONE in v14.0 (Nov 2 2026): mobile home hamburger raised 3px; pop-culture date fixes (Adventure Time, Pirates, Mortal Kombat, Goodfellas); big button gestures: tap = next, double-tap = undo (first tap goes ahead, second takes it back), hold 0.5s = directions to the shop on the button (fill sweep + buzz); small row under it 'Undo double-tap | Directions hold | Next tap' does the same by plain tap.
@@ -208,7 +209,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.2-20261102">
+<meta name="ctt-build" content="v14.3-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2376,9 +2377,10 @@ STILL TO DO / IDEAS
 .ctt-cta-undo{background:none;border:none;padding:6px 10px;font:600 13px 'Libre Franklin',sans-serif;color:var(--ink);text-decoration:underline;cursor:pointer;min-height:32px}
 .ctt-cta-navrow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:2px;max-width:100%}
 .ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12.5px;white-space:nowrap}
-.ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:11px;opacity:.8;text-decoration:none;display:inline-block}
+.ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
 .ctt-nav-sep{color:var(--ink);opacity:.45;font:400 13px 'Libre Franklin',sans-serif}
+@media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
 .ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .ctt-cta-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.38);transform:scaleX(0);transform-origin:left center;pointer-events:none}
 .ctt-cta-btn.holding::after{animation:cttHoldFill .5s linear forwards}
@@ -2499,7 +2501,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button>
-        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>hold</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>tap</span></button></div></div>
+        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2653,7 +2655,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.2 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v14.3 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
