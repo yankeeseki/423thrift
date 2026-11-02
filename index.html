@@ -173,7 +173,6 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
-  - DONE in v14.1 (Nov 2 2026): 'For shop managers' link (footer row + hamburger, just above Disclaimer; sub-page footer/menu via menu.js); shop update form: price-feel question removed, poster request below the submit button; how-to + 4 blog posts describe the big-button gestures (tap/double-tap/hold).
   - DONE in v14.0 (Nov 2 2026): mobile home hamburger raised 3px; pop-culture date fixes (Adventure Time, Pirates, Mortal Kombat, Goodfellas); big button gestures: tap = next, double-tap = undo (first tap goes ahead, second takes it back), hold 0.5s = directions to the shop on the button (fill sweep + buzz); small row under it 'Undo double-tap | Directions hold | Next tap' does the same by plain tap.
   - DONE in v13.9 (Nov 2 2026): removed 5 non-frontman band members from POP_FUN (Iha, Chamberlin, Munky, Head, Fieldy; Travis Barker kept), plus Lars Ulrich; lead singers and key members stay; Jun 10 refilled (745 lines).
   - DONE in v13.8 (Nov 2 2026): the pop-culture facts under the special day sit side by side in one wrapping row (centered) instead of stacked lines.
@@ -207,7 +206,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.1-20261102">
+<meta name="ctt-build" content="v14.0-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2631,7 +2630,7 @@ STILL TO DO / IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">For shop managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send feedback</button><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -2651,7 +2650,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.1 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v14.0 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5504,7 +5503,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
     if (!btn || !menu) return;
-    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
+    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
       var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
@@ -5523,7 +5522,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
       var tips = document.querySelectorAll('.ctt-tip-btn');
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
-      ['ctt-feedback-toggle', 'ctt-mgr-open', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
+      ['ctt-feedback-toggle', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
         var el = document.getElementById(id);
         if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false, divider: n === 0 });
       });
