@@ -153,6 +153,7 @@ STILL TO DO / IDEAS
   - DONE in v11.6 (Nov 1 2026): big button reads 'Continue to <next shop>'; footer order (Shops & Charities, Calendar, Get Involved, Blog, Feedback, Disclaimer) with no line starting with a divider; mobile: one-line filter row, info icon in legend row, 'Additional shop info', +10% side padding, smaller title; shop names shortened (aliases keep saved progress); sub-page titles Shops & Charities / Blog / How It Works, title gap -20%; calendar: submit below list, two-column holidays; footer generated from home.
   - DONE in v11.7 (Nov 1 2026): big button label updates when a shop is ticked Visited; KARM Thrift added to the Hixson 'Coming in 2027' note; leftover shop-name shortenings fixed on Shops/Hixson/Brainerd pages; full site audit (no errors on any page at phone and desktop width, no duplicate ids, no broken internal links, footer identical everywhere).
   - DONE in v11.8 (Nov 1 2026): mobile home hamburger dropped to sit beside 'Thrift Trail' (no overlap with 'Chattanooga').
+  - DONE in v11.9 (Nov 1 2026): mobile list cards: number + shop name above the thumbnail; big button 'Continue to X' now opens directions to the next shop, and on return asks 'Stopped at X?' (Yes, done = Visited / Skip it = remove from route).
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -182,7 +183,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v11.8-20261101">
+<meta name="ctt-build" content="v11.9-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2328,12 +2329,29 @@ STILL TO DO / IDEAS
   .leaflet-popup-content .ctt-popup-title { font-weight: 700; font-size: 14.5px; color: var(--rust); text-decoration: none; }
   .leaflet-popup-content a.ctt-popup-title:hover { text-decoration: underline; }
   .leaflet-popup-tip { background: var(--card); }
+/* big-button: tap to go, then confirm */
+.ctt-cta-btnwrap{display:flex;justify-content:center;align-items:center;max-width:100%}
+.ctt-cta-prompt{display:flex;flex-direction:column;align-items:center;gap:6px;margin:4px 0 2px;padding:10px 14px;background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;font:700 14px 'Libre Franklin',sans-serif;color:var(--ink);text-align:center}
+.ctt-cta-prompt-btns{display:flex;gap:10px}
+.ctt-cta-prompt button{font:700 13px 'Libre Franklin',sans-serif;padding:8px 16px;border-radius:20px;cursor:pointer;min-height:36px}
+.ctt-cta-prompt-yes{background:var(--ink);color:var(--paper);border:2px solid var(--ink)}
+.ctt-cta-prompt-skip{background:none;color:var(--ink);border:2px solid var(--ink)}
+.ctt-cta-prompt button:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+@media (max-width:600px){.ctt-cta-btnwrap .ctt-cta-btn{min-width:0;padding-left:20px;padding-right:20px}}
 /* v11.6 mobile + footer tweaks */
 .ctt-seo-sa-short{display:none}
 @media (max-width:600px){
   #ctt-thrift-wrap{padding-left:22px;padding-right:22px}
   .ctt-header .ctt-title{font-size:min(48px,11vw)}
   .ctt-menu-btn{top:calc(min(48px,11vw)*1.05)}
+  .ctt-tag-row{display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:0;align-items:start}
+  .ctt-tag-info{display:contents}
+  .ctt-tag-top{grid-column:1 / -1;grid-row:1}
+  .ctt-tag-photo-col{grid-column:1;grid-row:2 / span 30;align-self:center}
+  .ctt-tag-info > *:not(.ctt-tag-top){grid-column:2}
+  .ctt-tag-row{grid-template-columns:auto 1fr auto}
+  .ctt-tag-top{grid-column:1 / 3}
+  .ctt-tag-controls-col{grid-column:3;grid-row:1 / span 30;align-self:start}
   .ctt-seo-sa-long{display:none}.ctt-seo-sa-short{display:inline}
   .ctt-route-stat-row{flex-wrap:nowrap;justify-content:center;align-items:center;gap:10px;margin-top:6px}
   .ctt-legend-group{flex-wrap:nowrap;gap:10px;font-size:14px;font-family:'Libre Franklin',sans-serif}
@@ -2420,10 +2438,11 @@ STILL TO DO / IDEAS
   <div class="ctt-cta-row">
     <div class="ctt-status-panel">
       <p class="ctt-route-stat" id="ctt-route-stat">Route recalculates live &nbsp;&middot;&nbsp; ~<strong>38.9 miles</strong> remaining &nbsp;&middot;&nbsp; <strong>10 shops</strong> to go</p>
-      <button class="ctt-cta-btn" id="ctt-cta-btn">
+      <div class="ctt-cta-btnwrap">      <button class="ctt-cta-btn" id="ctt-cta-btn">
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
-      </button>
+      </button></div>
+      <div class="ctt-cta-prompt" id="ctt-cta-prompt" role="group" aria-live="polite" style="display:none;"><span class="ctt-cta-prompt-q" id="ctt-cta-prompt-q"></span><span class="ctt-cta-prompt-btns"><button type="button" class="ctt-cta-prompt-yes" id="ctt-cta-prompt-yes">Yes, done</button><button type="button" class="ctt-cta-prompt-skip" id="ctt-cta-prompt-skip">Skip it</button></span></div>
       <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2577,7 +2596,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v11.8 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v11.9 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4506,9 +4525,49 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   recalibrate = function(i) { cfBase(i); refreshNextButton(); cfRenderRow(); if (cfPanel.classList.contains('open')) cfRenderPanel(); };
   document.addEventListener('change', function(e) { if (e.target && e.target.classList && e.target.classList.contains('ctt-visited-checkbox')) { cfRenderRow(); if (cfPanel.classList.contains('open')) cfRenderPanel(); } });
 
+  // Once the trail is running, the big button opens directions to the next shop. When you come back to the page,
+  // a small prompt asks whether you stopped there; Yes ticks Visited, Skip removes it from today's route.
+  var ctaPrompt = document.getElementById('ctt-cta-prompt'), pendingStop = null;
+  function cardByName(n) {
+    var cs = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
+    for (var i = 0; i < cs.length; i++) { if (decodeURIComponent(cs[i].dataset.storeName) === n) return cs[i]; }
+    return null;
+  }
+  function nextStop() {
+    for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) return activeRoute[i]; }
+    return null;
+  }
+  function hideCtaPrompt() { if (ctaPrompt) ctaPrompt.style.display = 'none'; pendingStop = null; }
+  function showCtaPrompt() {
+    if (!pendingStop || !ctaPrompt) return;
+    document.getElementById('ctt-cta-prompt-q').textContent = 'Stopped at ' + dn(pendingStop) + '?';
+    ctaPrompt.style.display = 'flex';
+  }
+  document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'visible') showCtaPrompt(); });
+  window.addEventListener('pageshow', showCtaPrompt);
   ctaBtn.addEventListener('click', function() {
+    var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
+    if (nx) {
+      pendingStop = nx.name;
+      cttTrack('cta_directions', { shop: nx.name });
+      var w = window.open(directionsLink(nx.address), '_blank'); try { if (w) w.opener = null; } catch (e) {}
+      // If the browser blocked the new tab, ask right away instead of waiting for a return that will not happen.
+      if (!w) showCtaPrompt();
+      return;
+    }
+    hideCtaPrompt();
     cttTrack(hasClickedLocateBefore ? 'refresh_trail' : 'start_trail');
     locateAndStart();
+  });
+  document.getElementById('ctt-cta-prompt-yes').addEventListener('click', function() {
+    var c = pendingStop && cardByName(pendingStop), cb = c && c.querySelector('.ctt-visited-checkbox');
+    hideCtaPrompt();
+    if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
+  });
+  document.getElementById('ctt-cta-prompt-skip').addEventListener('click', function() {
+    var c = pendingStop && cardByName(pendingStop), tb = c && c.querySelector('.ctt-toggle-btn');
+    hideCtaPrompt();
+    if (tb) { tb.click(); refreshCtaLabel(); }
   });
 
   // If this browser has used the button before (permission decision
