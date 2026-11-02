@@ -151,6 +151,8 @@ STILL TO DO / IDEAS
   - DONE in v10.96 (Nov 1 2026): newsletter box is wider and shorter: heading and line on the left, email field and Sign up on the right (stacks on phones).
   - DONE in v11.5 (Nov 1 2026): tagline hidden on sub-pages (spacing kept).
   - DONE in v11.6 (Nov 1 2026): big button reads 'Continue to <next shop>'; footer order (Shops & Charities, Calendar, Get Involved, Blog, Feedback, Disclaimer) with no line starting with a divider; mobile: one-line filter row, info icon in legend row, 'Additional shop info', +10% side padding, smaller title; shop names shortened (aliases keep saved progress); sub-page titles Shops & Charities / Blog / How It Works, title gap -20%; calendar: submit below list, two-column holidays; footer generated from home.
+  - DONE in v11.7 (Nov 1 2026): big button label updates when a shop is ticked Visited; KARM Thrift added to the Hixson 'Coming in 2027' note; leftover shop-name shortenings fixed on Shops/Hixson/Brainerd pages; full site audit (no errors on any page at phone and desktop width, no duplicate ids, no broken internal links, footer identical everywhere).
+  - DONE in v11.8 (Nov 1 2026): mobile home hamburger dropped to sit beside 'Thrift Trail' (no overlap with 'Chattanooga').
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -180,7 +182,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v11.6-20261101">
+<meta name="ctt-build" content="v11.8-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2331,6 +2333,7 @@ STILL TO DO / IDEAS
 @media (max-width:600px){
   #ctt-thrift-wrap{padding-left:22px;padding-right:22px}
   .ctt-header .ctt-title{font-size:min(48px,11vw)}
+  .ctt-menu-btn{top:calc(min(48px,11vw)*1.05)}
   .ctt-seo-sa-long{display:none}.ctt-seo-sa-short{display:inline}
   .ctt-route-stat-row{flex-wrap:nowrap;justify-content:center;align-items:center;gap:10px;margin-top:6px}
   .ctt-legend-group{flex-wrap:nowrap;gap:10px;font-size:14px;font-family:'Libre Franklin',sans-serif}
@@ -2574,7 +2577,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v11.6 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v11.8 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4462,7 +4465,14 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     drop.querySelector('summary').innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
     if (!body.children.length) drop.remove();
   }
+  function refreshCtaLabel() {
+    var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1');
+    if (!l1 || !/Continue to|Next shop/.test(l1.textContent)) return;
+    var lab = nextBtnLabel();
+    l1.innerHTML = lab; l1.classList.toggle('is-next', lab.indexOf('Continue to') > -1);
+  }
   function refreshNextButton() {
+    refreshCtaLabel();
     organizeVisited();
     routeListEl.querySelectorAll('.ctt-done-btn').forEach(function(b) { b.remove(); });
     var cards = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
