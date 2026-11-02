@@ -162,6 +162,8 @@ STILL TO DO / IDEAS
   - DONE in v12.5 (Nov 1 2026): back to ONE big button that alternates: 'Continue to X' (opens directions) -> after returning to the page (or 2 min) 'Move to Y' (ticks X Visited) -> 'Continue to Y'; small Undo link under it (undoes the flip or the tick); 'Let's Go Thrifting!' back on one line on desktop; side-by-side pair removed.
   - DONE in v12.6 (Nov 1 2026): big button simplified: no more 'Continue to <current shop>' directions state; after starting, one button 'Continue to <next shop>' ticks the current shop Visited and moves on (last stop: 'Last stop done'); Undo link kept; directions stay on each card.
   - DONE in v12.7 (Nov 1 2026): small line under the big button: 'First stop: X' (then 'Current stop: X') so the shop you are at is always named.
+  - DONE in v12.8 (Nov 1 2026): full review (all pages, phone + desktop, links, ids, footer, regression: clean); big button labels now also refresh after any re-plan (remove/add a shop, filter change, start over); How-to guide + 5 blog posts updated for the new button flow, Undo, maps-app choice, calendar, 'Shops & Charities'.
+  - DONE in v12.9 (Nov 1 2026): website links for all 44 shops (11 added: Ladies of Charity, Providence (Fort O), Nifty Thrifty, SACs, Friends & Family, Vinterest (Hixson), East Ridge Antique District, Pop's & Granny's, both Electric Crocodiles, Archive); restroom answers and 'No card minimum' added to shop details (Trail, Shops page, neighborhood pages); Downtown/North Shore/Southside pages restored with the menu.
   - DONE in v11.4 (Nov 1 2026): Newsletter opens as a popup from the menu; Windows PC added to the Add-to-Home-Screen instructions; hamburger 20% larger; sub-page titles in brand blue; "Blog" label removed beside the title; newsletter box in map-tree green; full-list button the same size as the neighborhood chips.
   - DONE in v11.3 (Nov 1 2026): sub-page titles in blue; "Plan your route" strip and the how-to breadcrumb/label removed from sub-pages; list shows 6 shops before it scrolls; home title/tagline spacing matches sub-pages; home-screen button in regular rust; more space above footer links and credits.
   - DONE in v11.2 (Nov 1 2026): route list scrolls inside its box again with no visible scrollbar; sub-pages restyled like the home page (tagline, gold route strip, rust capital shop names, olive badges); home-screen button in light rust; more space above the footer links.
@@ -191,7 +193,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v12.7-20261101">
+<meta name="ctt-build" content="v12.9-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -241,6 +243,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Ladies of Charity Thrift",
+     "url": "https://sites.google.com/view/ladiesofcharitychatt",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "2821 Rossville Blvd",
@@ -262,6 +265,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Providence Thrift (Fort Oglethorpe)",
+     "url": "https://www.providencethriftstore.com/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "491 Battlefield Pkwy",
@@ -283,6 +287,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Nifty Thrifty",
+     "url": "https://www.facebook.com/p/Nifty-Thrifty-61553743095267/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "2749 Lafayette Rd",
@@ -304,6 +309,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "SACs Thrift Avenue",
+     "url": "https://www.savacenterga.org/sacs-thrift-avenue",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "1040 Battlefield Pkwy",
@@ -535,6 +541,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Friends & Family Thrift",
+     "url": "https://www.facebook.com/profile.php?id=61571733710244",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "4707 Dayton Blvd Ste A",
@@ -750,6 +757,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "East Ridge Antique District",
+     "url": "https://www.facebook.com/theeastridgeantiquedistrict/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "6511 Slater Rd",
@@ -813,6 +821,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Vinterest (Hixson)",
+     "url": "https://vinterestantiques.com/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "2105 Northpoint Blvd",
@@ -920,6 +929,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Pop's & Granny's Thrift Store",
+     "url": "https://www.facebook.com/PopsandGrannies/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "3238 Wilcox Blvd",
@@ -962,6 +972,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Electric Crocodile (N. Shore)",
+     "url": "https://linktr.ee/electriccrocodile",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "607 Cherokee Blvd Ste 1",
@@ -983,6 +994,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Electric Crocodile (Southside)",
+     "url": "https://linktr.ee/electriccrocodile",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "1791 Reggie White Blvd",
@@ -1004,6 +1016,7 @@ STILL TO DO / IDEAS
     "item": {
      "@type": "Store",
      "name": "Archive Thrift",
+     "url": "https://www.facebook.com/p/Archive-Thrift-Store-61590858634708/",
      "address": {
       "@type": "PostalAddress",
       "streetAddress": "6215 Lee Hwy",
@@ -2607,7 +2620,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v12.7 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v12.9 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -2627,10 +2640,10 @@ STILL TO DO / IDEAS
 
   var routeDefaults = [
     { name: "Lookout Thrift", area: "Southside", category: "Thrift Store", lat: 35.0289413, lng: -85.316386, address: "2441 Broad St, Chattanooga, TN 37408", hours: "Mon Closed &middot; Tue-Sat 10-4 &middot; Sun Closed", myRating: 4, note: "Beloved owner-run shop with real designer finds at thrift prices; reviewers rave about the friendly service.", myNote: "", url: "http://www.lookoutthrift.com/" },
-    { name: "Ladies of Charity Thrift", area: "Rossville Blvd", category: "Thrift Store", lat: 35.0135015, lng: -85.294813, address: "2821 Rossville Blvd, Chattanooga, TN 37407", hours: "Mon/Tue/Thu/Fri 10-4 &middot; Wed/Sat 10-2 &middot; Sun Closed", myRating: 4, note: "Volunteer-run shop supporting local charity work, with reviewers praising the daily rotating deals.", myNote: "", url: null },
-    { name: "Providence Thrift (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.955506, lng: -85.257814, address: "491 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 4, note: "Big selection including furniture and mattresses, though some reviewers find pricing inconsistent for a thrift shop.", myNote: "", url: null },
-    { name: "Nifty Thrifty", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9492325, lng: -85.2586457, address: "2749 Lafayette Rd, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Fri 11-6 &middot; Sat/Sun Closed", myRating: 3, note: "Consistently five-star reviews for unbeatable prices and an owner reviewers describe as exceptionally kind.", myNote: "", url: null },
-    { name: "SACs Thrift Avenue", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.952501, lng: -85.247213, address: "1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.", myNote: "", url: null },
+    { name: "Ladies of Charity Thrift", area: "Rossville Blvd", category: "Thrift Store", lat: 35.0135015, lng: -85.294813, address: "2821 Rossville Blvd, Chattanooga, TN 37407", hours: "Mon/Tue/Thu/Fri 10-4 &middot; Wed/Sat 10-2 &middot; Sun Closed", myRating: 4, note: "Volunteer-run shop supporting local charity work, with reviewers praising the daily rotating deals.", myNote: "", url: "https://sites.google.com/view/ladiesofcharitychatt" },
+    { name: "Providence Thrift (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.955506, lng: -85.257814, address: "491 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 4, note: "Big selection including furniture and mattresses, though some reviewers find pricing inconsistent for a thrift shop.", myNote: "", url: "https://www.providencethriftstore.com/" },
+    { name: "Nifty Thrifty", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9492325, lng: -85.2586457, address: "2749 Lafayette Rd, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Fri 11-6 &middot; Sat/Sun Closed", myRating: 3, note: "Consistently five-star reviews for unbeatable prices and an owner reviewers describe as exceptionally kind.", myNote: "", url: "https://www.facebook.com/p/Nifty-Thrifty-61553743095267/" },
+    { name: "SACs Thrift Avenue", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.952501, lng: -85.247213, address: "1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.", myNote: "", url: "https://www.savacenterga.org/sacs-thrift-avenue" },
     { name: "Goodwill (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.953313, lng: -85.257687, address: "516 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers are split on this location, with several feeling prices run high for a thrift shop.", myNote: "", url: "https://goodwillchatt.org" },
     { name: "Chambliss Thrift (Brainerd)", area: "Brainerd", category: "Thrift Store", lat: 35.023061, lng: -85.242554, address: "3723 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Rotating inventory with a good plus-size and kids selection, though reviews are mixed on furniture and electronics.", myNote: "", url: "https://chamblisscenter.org" },
     { name: "America's Thrift (Brainerd)", area: "Brainerd", category: "Thrift Store", lat: 35.0114178, lng: -85.2106934, address: "5844 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Clean and well organized, but a common theme in reviews is that prices run higher than expected for a thrift shop.", myNote: "", url: "https://americasthrift.com" },
@@ -2641,32 +2654,32 @@ STILL TO DO / IDEAS
     { name: "Goodwill (Hwy 58)", area: "Near Hamilton Place", category: "Thrift Store", lat: 35.09156, lng: -85.182231, address: "4850 TN-58, Chattanooga, TN 37416", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Often praised as clean and well run, though a few reviews mention disorganization and spotty customer service.", myNote: "", url: "https://goodwillchatt.org" },
     { name: "America's Thrift (Northgate)", area: "Hixson", category: "Thrift Store", lat: 35.1329116, lng: -85.238594, address: "248 Northgate Mall Dr #122, Chattanooga, TN 37415", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Large shop with plenty of finds, though several reviewers have run into trouble with the store-credit-only return policy.", myNote: "", url: "https://americasthrift.com" },
     { name: "Bethel Thrift", area: "Hixson", category: "Thrift Store", lat: 35.136941, lng: -85.238042, address: "5135 Hixson Pike, Hixson, TN 37343", hours: "Mon-Sat 10-6 &middot; Sun Closed", myRating: 4, note: "Known for a strong book and lamp selection, with reviewers appreciating fair pricing and respectful staff.", myNote: "", url: "https://bethelbiblevillage.org" },
-    { name: "Friends & Family Thrift", area: "Red Bank/Hixson", category: "Thrift Store", lat: 35.1360179, lng: -85.2818216, address: "4707 Dayton Blvd Ste A, Chattanooga, TN 37415", hours: "Mon-Fri 10-6 &middot; Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Small and clean with a notably good tools and cookware section, per reviewers.", myNote: "", url: null },
+    { name: "Friends & Family Thrift", area: "Red Bank/Hixson", category: "Thrift Store", lat: 35.1360179, lng: -85.2818216, address: "4707 Dayton Blvd Ste A, Chattanooga, TN 37415", hours: "Mon-Fri 10-6 &middot; Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Small and clean with a notably good tools and cookware section, per reviewers.", myNote: "", url: "https://www.facebook.com/profile.php?id=61571733710244" },
     { name: "NNH Thrift (Red Bank)", area: "Red Bank", category: "Thrift Store", lat: 35.1148, lng: -85.2933246, address: "3605 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Sat 10-6 &middot; Sun Closed", myRating: 3, note: "Known for solid furniture donations at reasonable prices, supporting the nonprofit's community programs.", myNote: "", url: "https://www.nnhouse.org/thrifts" },
     { name: "Chambliss Thrift (Red Bank)", area: "Red Bank", category: "Thrift Store", lat: 35.0878177, lng: -85.313093, address: "1936 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Well organized with furniture in unusually good condition, plus handmade items from local makers.", myNote: "", url: "https://chamblisscenter.org" },
     { name: "NNH Thrift (N. Shore)", area: "North Shore", category: "Thrift Store", lat: 35.065188, lng: -85.311813, address: "209 Minor St, Chattanooga, TN 37405", hours: "Mon-Sat 10-6 &middot; Sun Closed", myRating: 4, note: "Smaller shop known for higher-end donated brands at surprisingly reasonable prices.", myNote: "", url: "https://www.nnhouse.org/thrifts" },
     { name: "Goodwill (Hixson)", area: "Hixson", category: "Thrift Store", lat: 35.136341, lng: -85.242232, address: "1966 Northpoint Blvd Ste A, Hixson, TN 37343", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 3, note: "Reviews are mixed \u2014 some find great quality pieces and call staff friendly, others describe the selection as smaller and more picked-over than other locations.", myNote: "", url: "https://goodwillchatt.org" },
     { name: "Goodwill (East Ridge)", area: "East Ridge", category: "Thrift Store", lat: 35.001289, lng: -85.2574236, address: "3715 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "A newer, huge location with well-organized racks and friendly staff on a good day, though reviewers note prices running higher than expected and inconsistent organization at busier times.", myNote: "", url: "https://goodwillchatt.org" },
     { name: "Vinterest (Southside)", area: "Southside", category: "Curated Shop", lat: 35.033225, lng: -85.3165969, address: "2121 Chestnut St, Chattanooga, TN 37408", hours: "Mon-Fri 10-7 &middot; Sat 9-6 &middot; Sun 11-5", myRating: 5, note: "A local favorite for its variety and welcoming atmosphere, from vintage clothing to home decor.", myNote: "", url: "https://vinterestantiques.com", featured: true, closesAfter: "2026-12-27" },
-    { name: "Vinterest (Hixson)", area: "Hixson", category: "Curated Shop", lat: 35.1350822, lng: -85.2379302, address: "2105 Northpoint Blvd, Hixson, TN 37343", hours: "Mon-Fri 10-7 &middot; Sat 9-6 &middot; Sun 11-5", myRating: null, note: "Vintage and handmade goods with a pet-friendly policy reviewers frequently mention.", myNote: "", url: null, featuredFrom: "2026-12-28" }
+    { name: "Vinterest (Hixson)", area: "Hixson", category: "Curated Shop", lat: 35.1350822, lng: -85.2379302, address: "2105 Northpoint Blvd, Hixson, TN 37343", hours: "Mon-Fri 10-7 &middot; Sat 9-6 &middot; Sun 11-5", myRating: null, note: "Vintage and handmade goods with a pet-friendly policy reviewers frequently mention.", myNote: "", url: "https://vinterestantiques.com/", featuredFrom: "2026-12-28" }
   ];
 
   var bonusDefaults = [
     { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Sun-Thu 11-6 &middot; Fri/Sat 11-7", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
-    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Large multi-booth antique district with a wide variety and reviewers calling prices reasonable for what's found. Each shop sets its own hours, and visitors have suggested some may close at 5pm, so go earlier in the day.", myNote: "", url: null },
+    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Large multi-booth antique district with a wide variety and reviewers calling prices reasonable for what's found. Each shop sets its own hours, and visitors have suggested some may close at 5pm, so go earlier in the day.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
     { name: "Mercantile at the Ridge", area: "East Ridge", category: "Curated Shop", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: "https://mercantileattheridgetn.com" },
     { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: "https://dirtyjanesantiques.com" },
     { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: "https://thesamaritancenter.net" },
     { name: "Local Dive Retail", area: "North Shore", category: "Curated Shop", lat: 35.0699765, lng: -85.3175202, address: "607 Cherokee Blvd D, Chattanooga, TN 37405", hours: "Mon-Fri 10-6 &middot; Sat/Sun 10-5", myRating: null, note: "Packed with vintage clothing, vinyl, and oddities; reviewers especially like the friendly, low-pressure staff.", myNote: "", url: "https://www.instagram.com/localdiveretail" },
     { name: "THE REFINDERY on McCallie", area: "McCallie Ave", category: "Curated Shop", lat: 35.0386314, lng: -85.2826385, address: "1300 McCallie Ave, Chattanooga, TN 37404", hours: "Daily 11-6", myRating: null, note: "Cavernous antique mall reviewers describe as a fun treasure hunt, with friendly staff and good music.", myNote: "", url: "https://www.therefinderyonmccallie.com/" },
     { name: "Vintage & More On The Blvd", area: "Red Bank", category: "Antique Mall", lat: 35.1196155, lng: -85.2892799, address: "3920 Dayton Blvd, Red Bank, TN 37415", hours: "Mon-Sat 10-5 &middot; Sun 12-5", myRating: null, note: "Weekly-refreshed vintage finds in a well-organized space reviewers call unusually welcoming.", myNote: "", url: "https://vintageandmoreontheblvd.com" },
-    { name: "Pop's & Granny's Thrift Store", area: "Brainerd", category: "Thrift Store", lat: 35.0476192, lng: -85.2410565, address: "3238 Wilcox Blvd, Chattanooga, TN 37411", hours: "Mon Closed &middot; Tue-Sat 9-6 &middot; Sun Closed", myRating: null, note: "Beloved neighborhood shop where reviewers consistently highlight the warmth of the owners as much as the prices.", myNote: "", url: null },
+    { name: "Pop's & Granny's Thrift Store", area: "Brainerd", category: "Thrift Store", lat: 35.0476192, lng: -85.2410565, address: "3238 Wilcox Blvd, Chattanooga, TN 37411", hours: "Mon Closed &middot; Tue-Sat 9-6 &middot; Sun Closed", myRating: null, note: "Beloved neighborhood shop where reviewers consistently highlight the warmth of the owners as much as the prices.", myNote: "", url: "https://www.facebook.com/PopsandGrannies/" },
     { name: "Habitat For Humanity", area: "Highland Park", category: "Thrift Store", lat: 35.0301447, lng: -85.2892004, address: "1150 E 14th St, Chattanooga, TN 37408", hours: "Mon Closed &middot; Tue-Sat 9-5 &middot; Sun Closed", myRating: null, note: "Furniture and building materials with proceeds funding local home builds; reviews are mixed on pricing for the condition of some pieces.", myNote: "", url: "https://habichatt.org" },
-    { name: "Electric Crocodile (N. Shore)", area: "North Shore", category: "Curated Shop", lat: 35.06956, lng: -85.317639, address: "607 Cherokee Blvd Ste 1, Chattanooga, TN 37405", hours: "Daily 10-7", myRating: null, note: "Huge multi-room vendor market for vintage clothing, toys, and media — reviewers often mention losing track of time.", myNote: "", url: null },
-    { name: "Electric Crocodile (Southside)", area: "Southside", category: "Curated Shop", lat: 35.0374797, lng: -85.316995, address: "1791 Reggie White Blvd, Chattanooga, TN 37408", hours: "Daily 10-7", myRating: null, note: "Newer second location with two levels of vendors and food trucks on-site, per reviewers.", myNote: "", url: null },
-    { name: "Archive Thrift", area: "Hamilton Place area", category: "Thrift Store", lat: 35.031297, lng: -85.1852429, address: "6215 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Wed 12-5 &middot; Thu-Sat 11-7 &middot; Sun Closed", myRating: null, note: "Thrift shop on Lee Hwy in the Hamilton Place area.", myNote: "", url: null },
+    { name: "Electric Crocodile (N. Shore)", area: "North Shore", category: "Curated Shop", lat: 35.06956, lng: -85.317639, address: "607 Cherokee Blvd Ste 1, Chattanooga, TN 37405", hours: "Daily 10-7", myRating: null, note: "Huge multi-room vendor market for vintage clothing, toys, and media — reviewers often mention losing track of time.", myNote: "", url: "https://linktr.ee/electriccrocodile" },
+    { name: "Electric Crocodile (Southside)", area: "Southside", category: "Curated Shop", lat: 35.0374797, lng: -85.316995, address: "1791 Reggie White Blvd, Chattanooga, TN 37408", hours: "Daily 10-7", myRating: null, note: "Newer second location with two levels of vendors and food trucks on-site, per reviewers.", myNote: "", url: "https://linktr.ee/electriccrocodile" },
+    { name: "Archive Thrift", area: "Hamilton Place area", category: "Thrift Store", lat: 35.031297, lng: -85.1852429, address: "6215 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Wed 12-5 &middot; Thu-Sat 11-7 &middot; Sun Closed", myRating: null, note: "Thrift shop on Lee Hwy in the Hamilton Place area.", myNote: "", url: "https://www.facebook.com/p/Archive-Thrift-Store-61590858634708/" },
     { name: "Crafter's Emporium & Book Exchange", area: "Hixson", category: "Curated Shop", lat: 35.1145258, lng: -85.2633603, address: "3901 Hixson Pike #149, Chattanooga, TN 37415", hours: "Mon-Sat 10-7 &middot; Sun 11-6", myRating: null, note: "Craft and book marketplace on Hixson Pike.", myNote: "", url: "https://craftersempo.com" },
     { name: "Chattanooga Room in the Inn Thrift Store", area: "East Ridge", category: "Thrift Store", lat: 34.9998857, lng: -85.2565554, address: "3807 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: null, note: "Opened in September 2025 next to the East Ridge Goodwill; every dollar supports shelter and stability for women and children experiencing homelessness.", myNote: "", url: "https://www.chattanoogaroomintheinn.com/thriftstore" },
     { name: "Savers", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0306996, lng: -85.1512583, address: "2020 Gunbarrel Rd Ste 198, Chattanooga, TN 37421", hours: "Mon-Sat 9-9 &middot; Sun 10-7", myRating: null, note: "National for-profit thrift chain with a large, well-organized selection. Shopping does not fund a charity, but donations dropped off there benefit the Purple Heart Foundation. It's self-checkout, no bags are provided and carts can't leave the shop, so bring your own bags if you're buying a lot.", myNote: "", url: "https://stores.savers.com" },
@@ -2700,7 +2713,7 @@ STILL TO DO / IDEAS
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
-  var SHOP_DETAILS = {"Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}};
+  var SHOP_DETAILS = {"Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
     var b = [];
@@ -2708,6 +2721,7 @@ STILL TO DO / IDEAS
     if (d.r) b.push('Restrooms: ' + d.r);
     if (d.w) b.push('&#9855; Wheelchair: Yes');
     if (d.p) b.push('Pay: ' + d.p);
+    if (d.m === 'No') b.push('No card minimum'); else if (d.m === 'Yes') b.push('Card minimum: Yes');
     if (d.f) b.push('Free Wi-Fi');
     if (d.s) b.push('Sales: ' + d.s);
     if (!b.length) return '';
@@ -4564,6 +4578,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     l1.innerHTML = lab; l1.classList.toggle('is-next', /Continue to|Last stop done/.test(lab));
     updateCtaPrompt(); setStopLine();
   }
+  // Any re-plan (remove/add a shop, filter change, start over) keeps the big button's labels honest.
+  var recalibrateCore = recalibrate;
+  recalibrate = function(startIdx) { var r = recalibrateCore(startIdx); refreshCtaLabel(); return r; };
   function refreshNextButton() {
     refreshCtaLabel();
     organizeVisited();
