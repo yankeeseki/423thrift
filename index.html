@@ -173,6 +173,7 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v13.8 (Nov 2 2026): the pop-culture facts under the special day sit side by side in one wrapping row (centered) instead of stacked lines.
   - DONE in v13.7 (Nov 2 2026): added "Video Killed the Radio Star" (Sep 7) to POP_FUN (749 lines).
   - DONE in v13.6 (Nov 2 2026): daily pop-culture facts (POP_FUN, all 366 days, 749 lines from the owner's picks) under the national-day line: the special day always leads, then 2-4 facts (up to 4 on the small banner, up to 3 inside big-holiday cards; extras rotate by year)
   - DONE in v13.6 (Nov 1 2026): review reminder shortened to 'Don't forget to leave a kind Google review as well!' (Why it matters link kept).
@@ -203,7 +204,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v13.7-20261102">
+<meta name="ctt-build" content="v13.8-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2271,6 +2272,7 @@ STILL TO DO / IDEAS
   .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
   .ctt-shop-card a { color: var(--olive); font-weight: 700; }
   .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
+  .ctt-pop-row { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 16px; row-gap: 2px; }
   .ctt-det { font-size: 12.5px; line-height: 1.5; color: #5c5240; margin: 6px 0 0; }
   .ctt-shop-card .ctt-shop-benefit { background: #f3ecd2; border-left: 3px solid var(--gold, #c98a2b); padding: 6px 9px; border-radius: 3px; font-size: 13px; color: #5c5240; }
   .ctt-shops-none { display: none; font-family: 'Libre Franklin', sans-serif; color: #6b6252; margin-top: 16px; }
@@ -2637,7 +2639,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v13.7 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v13.8 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3165,7 +3167,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       el.className = 'ctt-holiday-small';
       el.textContent = '';
       if (b.head) { var l1 = document.createElement('div'); l1.textContent = b.e + ' ' + cttGreet(b.head).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"); el.appendChild(l1); }
-      popLines.forEach(function(t) { var l2 = document.createElement('div'); l2.textContent = t; el.appendChild(l2); });
+      if (popLines.length) { var row = document.createElement('div'); row.className = 'ctt-pop-row'; popLines.forEach(function(t) { var l2 = document.createElement('span'); l2.textContent = t; row.appendChild(l2); }); el.appendChild(row); }
       el.style.display = 'block';
       return;
     }
@@ -3178,7 +3180,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-holiday-head">' + cttGreet(b.head) + '</div>' +
       (b.body ? '<div class="ctt-holiday-body">' + b.body + '</div>' : '') +
       (b.btw ? '<div class="ctt-holiday-btw">' + b.btw + '</div>' : '') +
-      popLines.map(function(t) { return '<div class="ctt-holiday-btw">' + cttEsc(t) + '</div>'; }).join('') + '</div>' +
+      (popLines.length ? '<div class="ctt-holiday-btw ctt-pop-row">' + popLines.map(function(t) { return '<span>' + cttEsc(t) + '</span>'; }).join('') + '</div>' : '') + '</div>' +
       '<button type="button" class="ctt-holiday-x" aria-label="Dismiss">&times;</button>';
     el.style.display = 'flex';
     el.querySelector('.ctt-holiday-x').addEventListener('click', function() {
