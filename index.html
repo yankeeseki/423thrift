@@ -173,6 +173,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v13.2 (Nov 1 2026): shop names on route cards no longer link out to websites; shop details lines on the Shops and neighborhood pages match the Trail exactly.
+  - DONE in v13.1 (Nov 1 2026): +/- zoom buttons back on the map; ticking a shop out of order re-plans the rest of the route from it (nothing skipped); footnote reworded ('See something that has changed?'); older blog posts say 'small business'.
   - DONE in v13.0 (Nov 1 2026): footer lines reordered (version, sponsor, map data); Start Here button on every route shop; Get Involved buttons 33% narrower and pill-shaped; calendar Submit/Post buttons half-width and rounded.
 - EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
@@ -194,7 +196,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v13.0-20261101">
+<meta name="ctt-build" content="v13.2-20261101">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2622,7 +2624,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v13.0 &mdash; November 1, 2026</p>
+      <p class="ctt-version">v13.2 &mdash; November 1, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3431,8 +3433,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return true;
   }
 
-  var map = L.map('ctt-map', { scrollWheelZoom: false, zoomSnap: 0.25, zoomControl: false, attributionControl: false }).setView([35.045, -85.24], 10.5);
-  // Map credit (OpenStreetMap) now lives in the page footer; no zoom buttons or on-map credit.
+  var map = L.map('ctt-map', { scrollWheelZoom: false, zoomSnap: 0.25, zoomControl: true, attributionControl: false }).setView([35.045, -85.24], 10.5);
+  // Map credit (OpenStreetMap) lives in the page footer. The +/- zoom buttons are back (v13.1).
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors' }).addTo(map);
 
   // The map's height now stretches to match the location list (no more
@@ -3733,7 +3735,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
-          (store.url ? '<a class="ctt-tag-name-link" href="' + store.url + '" target="_blank" rel="noopener">' + dn(store.name) + '</a>' : dn(store.name)) +
+          dn(store.name) +
         '</div>' + visitedHtml +
       '</div>' +
       reasonHtml +
@@ -3805,6 +3807,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var visitedLabel = card.querySelector('.ctt-visited-check');
       visitedLabel.addEventListener('click', function(e) { e.stopPropagation(); });
       visitedCheckbox.addEventListener('change', function() {
+        var wasNext = this.checked ? nextStop() : null;
+        var jumpedAhead = !!(wasNext && wasNext.name !== store.name && !manualOrderNames);
         visitedStores[store.name] = this.checked;
         if (this.checked) { lastVisited = { name: store.name, lat: store.lat, lng: store.lng, t: Date.now() }; nudgeNextStop(); }
         card.classList.toggle('visited', this.checked);
@@ -3815,6 +3819,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         saveProgress();
         updateSavedNote();
         cttTrack('mark_visited', { shop: store.name, visited: this.checked ? 1 : 0 });
+        // Started somewhere other than the next shop? Nothing is skipped: re-plan the rest of the route from here.
+        if (jumpedAhead) {
+          var vi = allLocations.findIndex(function(x) { return x.name === store.name; });
+          if (vi !== -1) { recalibrate(vi); saveProgress(); }
+        }
       });
     }
     return card;
