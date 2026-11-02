@@ -93,6 +93,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
   .ctt-cal-all { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust); background: none; border: none; text-decoration: underline; cursor: pointer; }
   .ctt-cal-tag { display: inline-block; font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; border: 1.5px solid var(--ink); border-radius: 10px; padding: 1px 8px; margin-bottom: 4px; }
   .ctt-cal-card.special { background: var(--paper); border-style: dashed; }
+  @media (min-width: 700px) { .ctt-cal-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; align-items: start; } }
   .ctt-cal-card a { color: var(--rust); }
   .ctt-cal-rep { background: none; border: none; padding: 0; margin-top: 4px; font-family: 'Libre Franklin', sans-serif; font-size: 12px; color: #6b6252; text-decoration: underline; cursor: pointer; }
   .ctt-cal-empty { text-align: center; font-family: 'Libre Franklin', sans-serif; color: #6b6252; margin: 20px 0; }
@@ -194,7 +195,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     var shown = calSel ? items.filter(function(x) { return covers(x, calSel); }) : items;
     h += '<div class="ctt-cal-listhead"><span>' + (calSel ? pretty(calSel) : CAL_MONTHS[m]) + '</span>' + (calSel ? '<button type="button" class="ctt-cal-all" data-cal-all="1">Show all of ' + CAL_MONTHS[m] + '</button>' : '') + '</div>';
     if (!shown.length) h += '<p class="ctt-cal-empty">' + (calSel ? 'Nothing listed for this day.' : 'Nothing listed this month yet. Know of an event? Submit it above.') + '</p>';
-    shown.forEach(function(x) { h += itemHtml(x, rep); });
+    var cards = ''; shown.forEach(function(x) { cards += itemHtml(x, rep); }); if (cards) h += '<div class="ctt-cal-cards">' + cards + '</div>';
     el.innerHTML = h;
     [].forEach.call(el.querySelectorAll('[data-rep]'), function(b) { b.onclick = function() { report(b.getAttribute('data-rep')); }; });
     var g = document.getElementById('ctt-cal-grid'), x0 = null;
@@ -215,7 +216,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     else if (b.hasAttribute('data-cal-today')) { calView = null; calSel = null; renderView(); }
   });
   function render() {
-    var h = '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p><button type="button" class="ctt-cal-add" id="ctt-cal-add">Submit your event</button><div id="ctt-cal-formwrap"></div><div id="ctt-cal-view"></div>';
+    var h = '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p><div id="ctt-cal-view"></div><button type="button" class="ctt-cal-add" id="ctt-cal-add" style="margin-top:22px">Submit your event</button><div id="ctt-cal-formwrap"></div>';
     h += '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>';
     body.innerHTML = h;
     document.getElementById('ctt-cal-add').onclick = showForm;
