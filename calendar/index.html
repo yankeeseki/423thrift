@@ -75,21 +75,25 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
   .ctt-cal-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 17px; margin: 0 0 3px; }
   .ctt-cal-card p { margin: 3px 0; }
   .ctt-cal-date { font-weight: 700; color: var(--rust); }
-  .ctt-cal-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0 8px; font-family: 'Libre Franklin', sans-serif; }
+  .ctt-cal-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 14px 0 14px; font-family: 'Libre Franklin', sans-serif; }
   .ctt-cal-month { font-family: 'Archivo Black', sans-serif; font-size: 19px; text-align: center; flex: 1; }
   .ctt-cal-arrow { min-width: 44px; min-height: 44px; font-size: 20px; font-weight: 700; color: var(--ink); background: var(--card); border: 1.5px solid var(--ink); border-radius: 8px; cursor: pointer; }
   .ctt-cal-arrow:disabled { opacity: .3; cursor: default; }
   .ctt-cal-today { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust); background: none; border: none; text-decoration: underline; cursor: pointer; padding: 4px 6px; }
-  .ctt-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; touch-action: pan-y; }
-  .ctt-cal-dow { text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; color: #6b6252; padding: 2px 0; }
-  .ctt-cal-cell { min-height: 52px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 3px 2px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ctt-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; touch-action: pan-y; }
+  .ctt-cal-dow { text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; color: #6b6252; padding: 4px 0 2px; }
+  .ctt-cal-cell { min-height: 62px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 3px 2px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .ctt-cal-titles { display: none; width: 100%; font-size: 10.5px; line-height: 1.2; font-weight: 600; text-align: center; margin-top: 2px; }
+  .ctt-cal-titles span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+  .ctt-cal-titles .ctt-cal-more { font-weight: 700; text-decoration: underline; }
+  @media (min-width: 700px) { .ctt-cal-titles { display: block; } .ctt-cal-cell { min-height: 92px; justify-content: flex-start; } }
   .ctt-cal-cell.blank { background: none; border: none; cursor: default; }
   .ctt-cal-cell.today { border: 2.5px solid var(--rust); font-weight: 700; }
   .ctt-cal-cell.sel { background: var(--ink); color: #fff; }
   .ctt-cal-cell:focus-visible, .ctt-cal-arrow:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
   .ctt-cal-marks { font-size: 11px; line-height: 1; letter-spacing: 1px; }
-  .ctt-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: center; font-family: 'Libre Franklin', sans-serif; font-size: 12.5px; color: #4d4436; margin: 8px 0 12px; }
-  .ctt-cal-listhead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-family: 'Archivo Black', sans-serif; font-size: 16px; margin: 6px 0; }
+  .ctt-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: center; font-family: 'Libre Franklin', sans-serif; font-size: 12.5px; color: #4d4436; margin: 14px 0 6px; }
+  .ctt-cal-listhead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-family: 'Archivo Black', sans-serif; font-size: 16px; margin: 22px 0 10px; }
   .ctt-cal-all { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust); background: none; border: none; text-decoration: underline; cursor: pointer; }
   .ctt-cal-tag { display: inline-block; font-family: 'Libre Franklin', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; border: 1.5px solid var(--ink); border-radius: 10px; padding: 1px 8px; margin-bottom: 4px; }
   .ctt-cal-card.special { background: var(--paper); border-style: dashed; }
@@ -174,6 +178,13 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     }
     return '<div class="ctt-cal-card special"><span class="ctt-cal-tag">' + esc(x.tag) + '</span><h4>' + esc(x.title) + '</h4><p class="ctt-cal-date">' + when + '</p>' + (x.note ? '<p>' + x.note + '</p>' : '') + '</div>';
   }
+  function cellTitles(has) {
+    if (!has.length) return '';
+    var o = '<span class="ctt-cal-titles" aria-hidden="true">';
+    has.slice(0, 2).forEach(function(x) { o += '<span>' + esc(x.kind === 'sale' ? x.sale.title : x.title) + '</span>'; });
+    if (has.length > 2) o += '<span class="ctt-cal-more">+' + (has.length - 2) + ' more</span>';
+    return o + '</span>';
+  }
   function renderView() {
     var el = document.getElementById('ctt-cal-view'); if (!el) return;
     var t = today(), ty = +t.slice(0, 4), tm = +t.slice(5, 7) - 1;
@@ -189,15 +200,16 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     for (var d = 1; d <= dim; d++) {
       var ds = ymd(y, m, d), has = items.filter(function(x) { return covers(x, ds); });
       var ev = has.some(function(x) { return x.kind === 'sale'; }), sp = has.some(function(x) { return x.kind !== 'sale'; });
-      h += '<button type="button" class="ctt-cal-cell' + (ds === t ? ' today' : '') + (ds === calSel ? ' sel' : '') + '" data-day="' + ds + '" aria-label="' + CAL_MONTHS[m] + ' ' + d + (ds === t ? ', today' : '') + (has.length ? ', ' + has.length + (has.length === 1 ? ' listing' : ' listings') : '') + '"' + (ds === calSel ? ' aria-pressed="true"' : '') + '><span>' + d + '</span><span class="ctt-cal-marks" aria-hidden="true">' + (ev ? '●' : '') + (sp ? '◆' : '') + '</span></button>';
+      h += '<button type="button" class="ctt-cal-cell' + (ds === t ? ' today' : '') + (ds === calSel ? ' sel' : '') + '" data-day="' + ds + '" aria-label="' + CAL_MONTHS[m] + ' ' + d + (ds === t ? ', today' : '') + (has.length ? ', ' + has.length + (has.length === 1 ? ' listing' : ' listings') : '') + '"' + (ds === calSel ? ' aria-pressed="true"' : '') + '><span>' + d + '</span><span class="ctt-cal-marks" aria-hidden="true">' + (ev ? '●' : '') + (sp ? '◆' : '') + '</span>' + cellTitles(has) + '</button>';
     }
     h += '</div><div class="ctt-cal-legend"><span>● Community event</span><span>◆ Special day</span></div>';
+    el.innerHTML = h; h = '';
     var shown = calSel ? items.filter(function(x) { return covers(x, calSel); }) : items;
     h += '<div class="ctt-cal-listhead"><span>' + (calSel ? pretty(calSel) : CAL_MONTHS[m]) + '</span>' + (calSel ? '<button type="button" class="ctt-cal-all" data-cal-all="1">Show all of ' + CAL_MONTHS[m] + '</button>' : '') + '</div>';
     if (!shown.length) h += '<p class="ctt-cal-empty">' + (calSel ? 'Nothing listed for this day.' : 'Nothing listed this month yet. Know of an event? Submit it above.') + '</p>';
     var cards = ''; shown.forEach(function(x) { cards += itemHtml(x, rep); }); if (cards) h += '<div class="ctt-cal-cards">' + cards + '</div>';
-    el.innerHTML = h;
-    [].forEach.call(el.querySelectorAll('[data-rep]'), function(b) { b.onclick = function() { report(b.getAttribute('data-rep')); }; });
+    document.getElementById('ctt-cal-list').innerHTML = h;
+    [].forEach.call(body.querySelectorAll('[data-rep]'), function(b) { b.onclick = function() { report(b.getAttribute('data-rep')); }; });
     var g = document.getElementById('ctt-cal-grid'), x0 = null;
     g.addEventListener('touchstart', function(e) { x0 = e.touches[0].clientX; }, { passive: true });
     g.addEventListener('touchend', function(e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1); }, { passive: true });
@@ -216,7 +228,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     else if (b.hasAttribute('data-cal-today')) { calView = null; calSel = null; renderView(); }
   });
   function render() {
-    var h = '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p><div id="ctt-cal-view"></div><button type="button" class="ctt-cal-add" id="ctt-cal-add" style="margin-top:22px">Submit your event</button><div id="ctt-cal-formwrap"></div>';
+    var h = '<div id="ctt-cal-view"></div><div style="text-align:center"><button type="button" class="ctt-cal-add" id="ctt-cal-add" style="margin-top:12px">Submit your event</button></div><div id="ctt-cal-formwrap"></div><div id="ctt-cal-list"></div>';
     h += '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>';
     body.innerHTML = h;
     document.getElementById('ctt-cal-add').onclick = showForm;
@@ -233,6 +245,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
   function showForm() {
     var w = document.getElementById('ctt-cal-formwrap'), t = today();
     w.innerHTML = '<form class="ctt-gi-form" id="ctt-cal-form" novalidate>' +
+      '<p class="ctt-cal-sub"><strong>In-person events only.</strong> Every listing needs a real street address. No online or shipped sales.</p>' +
       '<label for="cs-title">What is it? (example: Church rummage sale or Grand opening)</label><input type="text" id="cs-title" maxlength="80">' +
       '<label for="cs-place">Street address</label><input type="text" id="cs-place" maxlength="120" placeholder="123 Main St">' +
       '<label for="cs-city">City</label><input type="text" id="cs-city" maxlength="60" value="Chattanooga">' +
