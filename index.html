@@ -173,6 +173,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v15.6 (Nov 2 2026): Disclaimer removed from the hamburger menu (home and sub-pages); it stays in the page footer.
+  - DONE in v15.5 (Nov 2 2026): 'Back to top' only appears once you are more than halfway down the page and disappears as soon as you scroll back up past halfway (so it is never showing at the top).
   - DONE in v15.4 (Nov 2 2026): Hamburger: added an 'About' heading (Get Involved, Send feedback, Shop managers, Disclaimer) and put 'Enjoying the trail?' (Venmo, Cash App) back as the last group at the bottom. Sub-page menu (menu.js) now uses the same headings and order.
   - DONE in v15.3 (Nov 2 2026): 'Enjoying the trail?' group (Venmo and Cash App) removed from the hamburger menu, home and sub-pages. The tip buttons stay on the page and in the popups.
   - DONE in v15.2 (Nov 2 2026): Hamburger menu grouped under headings: Explore (Shops & Charities, Community Calendar, Blog), Use the Trail (Get the web app, Trail Poster, Maps app), Enjoying the trail? (tips), then About (Get Involved first, Feedback, Shop managers, Disclaimer) under the divider. Newsletter removed from the menu.
@@ -220,7 +222,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v15.4-20261102">
+<meta name="ctt-build" content="v15.6-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2685,7 +2687,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v15.4 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v15.6 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5493,7 +5495,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var vis = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
       return vis / Math.max(1, r.height);
     }
-    function updateBtn() { backBtn.classList.toggle('show', mq.matches && mapVisibleFrac() < 0.15); }
+    function updateBtn() {
+      // Only after you are more than halfway down the page; gone again as soon as you head back up past halfway (so always at the top).
+      var de = document.documentElement, max = Math.max(1, de.scrollHeight - window.innerHeight);
+      backBtn.classList.toggle('show', mq.matches && window.pageYOffset > max / 2);
+    }
     function topCard() {
       var cards = routeListEl.children;
       for (var i = 0; i < cards.length; i++) {
@@ -5584,7 +5590,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       list.push({ heading: 'About' });
       var giEl = document.getElementById('ctt-gi-open');
       if (giEl && giEl.style.display !== 'none') list.push({ label: MENU_EMOJI['ctt-gi-open'] + giEl.textContent.trim(), el: giEl, scroll: giEl.tagName === 'BUTTON' });
-      ['ctt-feedback-toggle', 'ctt-mgr-open', 'ctt-disclaimer-toggle'].forEach(function(id) {
+      ['ctt-feedback-toggle', 'ctt-mgr-open'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false });
       });
