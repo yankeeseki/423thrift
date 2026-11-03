@@ -173,6 +173,9 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v14.8 (Nov 2 2026): The floating 'Back to map' button is now 'Back to top' (up-arrow emoji) and scrolls to the very top of the page.
+  - DONE in v14.7 (Nov 2 2026): Trail Poster button removed from the home page Share The Trail row (hidden link kept so the menu and Instagram still use it); 'Add to Home Screen' is now 'Get the web app' (buttons, menu, popup title, intro; the step-by-step still says Add to Home Screen because that is the exact wording in Safari/Chrome); how-to + the home-screen blog post say 'web app' (blog title kept for search). Printable Trail Guide removed from the hamburger menu (the button on the page stays). Share The Trail group (Instagram, Facebook, X, Text It, Copy Link) removed from the hamburger menu (the share buttons on the page stay); Trail Poster stays in the menu. Big button 'Continue to' emoji changed from fast-forward to the car emoji.
+  - DONE in v14.6 (Nov 2 2026): how-to 'Location is not working' now has step-by-step instructions for iPhone, Android and computers (anchor #location-help); the location-denied message links to it. 'Last updated' time under the big button removed; confirmation note says 'Moving to X · Undo'. Status text no longer repeats 'Starting from X (nearest open shop)' (the button already says First stop).
   - DONE in v14.5 (Nov 2 2026): invisible bigger touch areas (card -, play, up/down, Get Directions, Reviews, Visited, Today/Later, coffee, info); 3-second note after each move 'X ticked ✓ · Undo'; location-denied message also says to tap the play button on any shop; contrast: rust #b5502f -> #ae4c2c (home + shop update page), gray #7a6f58 -> #6f6450; new blog post 'One button runs your thrift day' (live now); home-screen icon preview in the Add to Home Screen popup + blog post.
   - DONE in v14.4 (Nov 2 2026): small daily banner: special day + fun facts on one line (wraps only when narrow); 'For shop managers' renamed 'Shop managers' (footer, menu, sub-pages, how-to); shop update form has an optional 'tell us more about the charity or charities you support' box (sent as charities_supported).
   - DONE in v14.3 (Nov 2 2026): row under the big button reordered and renamed: Directions long press | Next quick press | Undo double-tap (gesture words stack under each label on phones); how-to + 2 blog posts reviewed and updated (gestures, removed a non-existent 'not visited' filter claim, shop-manager FAQ, 'shop' wording).
@@ -211,7 +214,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.5-20261102">
+<meta name="ctt-build" content="v14.8-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2504,7 +2507,7 @@ STILL TO DO / IDEAS
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
     <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
     <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
-    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button></div>
+    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button></div>
   </div>
 
   <div class="ctt-cta-row">
@@ -2587,7 +2590,7 @@ STILL TO DO / IDEAS
       <h3 class="ctt-pdf-title">Take It With You</h3>
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
       <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Download Printable Trail Guide (PDF)</button>
-      <button type="button" class="ctt-homescreen-link">&#128242; Add the Trail to Your Home Screen</button>
+      <button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button>
       <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
     <div class="ctt-share-section ctt-split-half" style="text-align:center;">
@@ -2599,15 +2602,15 @@ STILL TO DO / IDEAS
         <button class="ctt-share-btn" id="ctt-share-x">&#128227; X</button>
         <button class="ctt-share-btn" id="ctt-share-text">&#128241; Text It</button>
         <button class="ctt-share-btn" id="ctt-share-copy">&#128279; Copy Link</button>
-        <a class="ctt-share-btn ctt-poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
+        <a class="ctt-share-btn ctt-poster-btn" hidden style="display:none" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Trail Poster</a>
         <span class="ctt-share-status" id="ctt-share-status"></span>
       </div>
     </div>
   </div>
 
   <div class="ctt-homescreen-panel" id="ctt-homescreen-panel" style="display:none;">
-    <h3>Add the Trail to Your Home Screen</h3>
-    <p>Open the Thrift Trail with one tap, like an app, with no web address to type. And you never need to download an update. It&rsquo;ll be automatic!</p>
+    <h3>Get the Trail web app</h3>
+    <p>Add it to your home screen and it opens like an app, with one tap. Nothing to download, no account, and updates arrive on their own.</p>
     <div class="ctt-hs-preview"><img src="/apple-touch-icon.png" alt="The Thrift Trail icon: a covered wagon on a prairie" width="72" height="72"><span>This is the icon you&rsquo;ll see on your home screen, labeled <strong>Thrift Trail</strong>.</span></div>
     <div class="ctt-homescreen-cols">
       <div>
@@ -2670,7 +2673,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.5 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v14.8 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -2680,7 +2683,7 @@ STILL TO DO / IDEAS
     </div>
   </div>
 </div>
-<button type="button" class="ctt-backtomap" id="ctt-backtomap">&#128506;&#65039; Back to map</button>
+<button type="button" class="ctt-backtomap" id="ctt-backtomap">&#11014;&#65039; Back to top</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -4484,13 +4487,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!ns.length) return '&#128717; Next shop';
     function esc2(n) { return dn(n).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
     // One button: tapping it ticks the current shop Visited and the label moves on to the shop after it.
-    return ns[1] ? '&#9193; Continue to ' + esc2(ns[1].name) : '&#127937; Last stop done';
+    return ns[1] ? '&#128663; Continue to ' + esc2(ns[1].name) : '&#127937; Last stop done';
   }
   var updatedText = '';
   function stampUpdated() {
     if (pdfWaitingForLocation) { pdfWaitingForLocation = false; var pb = document.getElementById('ctt-pdf-btn'); if (pb) { pb.disabled = false; setTimeout(function() { pb.click(); }, 50); } }
     var t = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
-    updatedText = 'Last updated ' + t;
+    updatedText = ''; // the 'Last updated' time is no longer shown
     renderNavRow();
     var el = document.getElementById('ctt-cta-updated'); if (el) el.textContent = updatedText;
   }
@@ -4578,7 +4581,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (picked.reason === 'opens-soon') {
         prefix = 'Nothing nearby is open yet \u2014 starting with <strong>' + allLocations[bestIdx].name + '</strong>, which opens at ' + formatHour(picked.opensAt) + '. ';
       } else {
-        prefix = 'Starting from <strong>' + allLocations[bestIdx].name + '</strong> (nearest open shop). ';
+        prefix = ''; // the button's line already names the first stop
       }
       startCountdown(prefix);
       ctaBtn.disabled = false; setCtaBtnText(nextBtnLabel(), nearestLine);
@@ -4596,7 +4599,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       else if (err && err.code === 3) msg = 'Location request timed out';
       var prefix = msg + '' + fbTail();
       if (picked.reason === 'opens-soon') prefix = msg + '. Nothing\u2019s open yet \u2014 starting with <strong>' + allLocations[picked.idx].name + '</strong>, opening at ' + formatHour(picked.opensAt) + '. ';
-      if (err && err.code === 1) prefix += 'To get a fresh start, turn location back on for this site in your browser settings. ';
+      if (err && err.code === 1) prefix += 'To get a fresh start, turn location back on for this site in your browser settings (<a href="/how-to/#location-help" target="_blank" rel="noopener" style="color:inherit">see how</a>). ';
       prefix += 'Or start where you like: tap the \u25B6 button on any shop. ';
       startCountdown(prefix);
       ctaBtn.disabled = false; setCtaBtnText(nextBtnLabel(), nearestLine);
@@ -4884,7 +4887,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       cttTrack('done_next_stop');
       if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); }
       setUndo({ name: nx.name }); lastNextAt = now; refreshCtaLabel();
-      showToast(dn(nx.name).replace(/\s*\([^)]*\)\s*$/, '') + ' ticked \u2713', true);
+      var mv = nextStop();
+      showToast(mv ? 'Moving to ' + dn(mv.name).replace(/\s*\([^)]*\)\s*$/, '') : 'Last stop done \u2713', true);
       return;
     }
     setUndo(null);
@@ -5499,7 +5503,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     window.addEventListener('scroll', function() { updateBtn(); clearTimeout(timer); timer = setTimeout(follow, 350); }, { passive: true });
     window.addEventListener('resize', updateBtn);
-    backBtn.addEventListener('click', function() { mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    backBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     mapEl.addEventListener('click', function(e) { if (e.target === mapEl || e.target.classList.contains('leaflet-container')) { stickyHL = null; applyHL(); } });
     updateBtn();
   })();
@@ -5559,12 +5563,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       var newsEl = document.getElementById('ctt-news-open'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: false });
       var mapsEl = document.getElementById('ctt-maps-open'); if (mapsEl) list.push({ label: '\uD83E\uDDED Maps app', el: mapsEl, scroll: false });
-      list.push({ label: '\uD83D\uDDA8\uFE0F Printable Trail Guide', el: document.getElementById('ctt-pdf-btn'), scroll: false });
-      list.push({ label: '\uD83D\uDCF2 Add Trail to Home Screen', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
-      list.push({ heading: 'Share The Trail' });
-      [['ctt-share-poster', '\uD83D\uDCF7 Instagram'], ['ctt-share-fb', '\uD83D\uDCD8 Facebook'], ['ctt-share-x', '\uD83D\uDCE3 X'], ['ctt-share-text', '\uD83D\uDCF1 Text It'], ['ctt-share-copy', '\uD83D\uDD17 Copy Link']].forEach(function(p) {
-        var el = document.getElementById(p[0]); if (el) list.push({ label: p[1], el: el, scroll: false, stay: true });
-      });
+      list.push({ label: '\uD83D\uDCF2 Get the web app', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
       var tips = document.querySelectorAll('.ctt-tip-btn');
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
@@ -5635,7 +5634,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var ov = document.createElement('div');
     ov.className = 'ctt-shops-overlay'; ov.id = 'ctt-hs-overlay'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-hs-title');
     var inner = panel.innerHTML.replace(/<h3>.*?<\/h3>/, '');
-    ov.innerHTML = '<div class="ctt-shops-dialog"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-hs-title">Add the Trail to Your Home Screen</h2><button type="button" class="ctt-shops-close" id="ctt-hs-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body"><div class="ctt-homescreen-panel" style="margin:0;border:none;padding:0;background:none">' + inner + '</div></div></div>';
+    ov.innerHTML = '<div class="ctt-shops-dialog"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-hs-title">Get the Trail web app</h2><button type="button" class="ctt-shops-close" id="ctt-hs-close" aria-label="Close">&times;</button></div><div class="ctt-shops-body"><div class="ctt-homescreen-panel" style="margin:0;border:none;padding:0;background:none">' + inner + '</div></div></div>';
     panel.parentNode.insertBefore(ov, panel);
     var last = null;
     function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
