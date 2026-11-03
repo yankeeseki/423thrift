@@ -173,6 +173,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v15.0 (Nov 2 2026): Fixed the dark 'M' blob that appeared on the card arrow buttons on phones (the hover tooltip collided with the bigger invisible touch area). The tooltip now shows only with a mouse, and is positioned correctly there too.
+  - DONE in v14.9 (Nov 2 2026): The home page PDF button is now 'Print the Trail' (was 'Download Printable Trail Guide (PDF)').
   - DONE in v14.8 (Nov 2 2026): The floating 'Back to map' button is now 'Back to top' (up-arrow emoji) and scrolls to the very top of the page.
   - DONE in v14.7 (Nov 2 2026): Trail Poster button removed from the home page Share The Trail row (hidden link kept so the menu and Instagram still use it); 'Add to Home Screen' is now 'Get the web app' (buttons, menu, popup title, intro; the step-by-step still says Add to Home Screen because that is the exact wording in Safari/Chrome); how-to + the home-screen blog post say 'web app' (blog title kept for search). Printable Trail Guide removed from the hamburger menu (the button on the page stays). Share The Trail group (Instagram, Facebook, X, Text It, Copy Link) removed from the hamburger menu (the share buttons on the page stay); Trail Poster stays in the menu. Big button 'Continue to' emoji changed from fast-forward to the car emoji.
   - DONE in v14.6 (Nov 2 2026): how-to 'Location is not working' now has step-by-step instructions for iPhone, Android and computers (anchor #location-help); the location-denied message links to it. 'Last updated' time under the big button removed; confirmation note says 'Moving to X · Undo'. Status text no longer repeats 'Starting from X (nearest open shop)' (the button already says First stop).
@@ -214,7 +216,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v14.8-20261102">
+<meta name="ctt-build" content="v15.0-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1830,12 +1832,14 @@ STILL TO DO / IDEAS
   }
   .ctt-ctrl-btn:hover:not(:disabled) { color: var(--rust); border-color: var(--rust); }
   .ctt-ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+  @media (hover: hover) and (pointer: fine) {
   .ctt-ctrl-btn:hover:not(:disabled)::after {
     content: attr(title);
-    position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%);
+    position: absolute; inset: auto; left: auto; bottom: auto; right: calc(100% + 6px); top: 50%; transform: translateY(-50%);
     background: var(--ink); color: var(--paper); font-family: 'Libre Franklin', sans-serif;
     font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;
     white-space: nowrap; z-index: 20; pointer-events: none;
+  }
   }
 
   .ctt-feat-more { font: inherit; color: inherit; background: none; border: none; padding: 0; text-decoration: underline; text-transform: none; letter-spacing: 0; margin-left: 6px; cursor: pointer; }
@@ -2589,7 +2593,7 @@ STILL TO DO / IDEAS
     <div class="ctt-pdf-section ctt-split-half">
       <h3 class="ctt-pdf-title">Take It With You</h3>
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
-      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Download Printable Trail Guide (PDF)</button>
+      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Print the Trail</button>
       <button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button>
       <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
@@ -2673,7 +2677,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v14.8 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v15.0 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4970,7 +4974,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       doc.text('Nothing is open today \u2014 check back another day!', pageWidth / 2, 60, { align: 'center' });
       doc.save('chattanooga-thrift-trail.pdf');
       btn.disabled = false;
-      btn.innerHTML = '&#128424;&#65039; Download Printable Trail Guide (PDF)';
+      btn.innerHTML = '&#128424;&#65039; Print the Trail';
       return;
     }
 
@@ -5020,7 +5024,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
     doc.save('chattanooga-thrift-trail.pdf');
     btn.disabled = false;
-    btn.innerHTML = '&#128424;&#65039; Download Printable Trail Guide (PDF)';
+    btn.innerHTML = '&#128424;&#65039; Print the Trail';
   });
 
   document.getElementById('ctt-howworks-toggle').addEventListener('click', function() {
