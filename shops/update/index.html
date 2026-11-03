@@ -81,7 +81,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .poster-ask{margin:26px 0 8px;padding:16px 18px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;text-align:center}.poster-ask h2{font-size:20px;margin:0 0 6px;border:0;color:var(--ink)}.poster-ask p{font-family:system-ui,sans-serif;font-size:15px;margin:0 0 12px}.poster-btn{display:inline-block;padding:11px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}.poster-btn:hover{background:#8f3e22}.poster-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 </style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>Update Your Shop Listing</h1>
-<p class="mgrsub">Shop managers and staff: tell the moderators what&rsquo;s true at your shop and we&rsquo;ll update your listing on the Trail. We review every submission before changing anything. Skip any question you&rsquo;re not sure about.</p>
+<p class="mgrsub">Shop managers and staff: tell the moderators what&rsquo;s true at your shop and we&rsquo;ll update your listing on the Trail. We review every submission before changing anything. Leave blank any question you&rsquo;re not sure about.</p>
 <form class="mf" id="mf" novalidate>
 <div class="hp"><label>Leave this empty <input type="text" id="mf-hp" tabindex="-1" autocomplete="off"></label></div>
 <fieldset><legend>About you</legend>
@@ -97,12 +97,12 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-rewards">Punch cards, loyalty points or text alerts</label><input type="text" id="mf-rewards" maxlength="160">
 </fieldset>
 <fieldset><legend>Good to know before visiting</legend>
-<label for="mf-rest">Public restrooms for customers</label><select id="mf-rest"><option value="">Skip</option><option>Yes</option><option>No</option></select>
-<label for="mf-min">Card minimum purchase</label><select id="mf-min"><option value="">Skip</option><option>No minimum</option><option>Yes, there is a minimum</option></select>
+<label for="mf-rest">Public restrooms for customers</label><select id="mf-rest"><option value=""></option><option>Yes</option><option>No</option></select>
+<label for="mf-min">Card minimum purchase</label><select id="mf-min"><option value=""></option><option>No minimum</option><option>Yes, there is a minimum</option></select>
 <label for="mf-minamt">If yes, how much?</label><input type="text" id="mf-minamt" maxlength="40" placeholder="Example: $5">
 <label>Payment types accepted</label><div class="chk"><label><input type="checkbox" name="pay" value="Cash"> Cash</label><label><input type="checkbox" name="pay" value="Credit and debit cards"> Credit &amp; debit cards</label><label><input type="checkbox" name="pay" value="Tap to pay"> Tap to pay</label><label><input type="checkbox" name="pay" value="Checks"> Checks</label><label><input type="checkbox" name="pay" value="Venmo"> Venmo</label></div>
-<label for="mf-wc">Wheelchair accessible</label><select id="mf-wc"><option value="">Skip</option><option>Yes</option><option>No</option></select>
-<label for="mf-wifi">Free Wi-Fi for customers</label><select id="mf-wifi"><option value="">Skip</option><option>Yes</option><option>No</option></select>
+<label for="mf-wc">Wheelchair accessible</label><select id="mf-wc"><option value=""></option><option>Yes</option><option>No</option></select>
+<label for="mf-wifi">Free Wi-Fi for customers</label><select id="mf-wifi"><option value=""></option><option>Yes</option><option>No</option></select>
 </fieldset>
 <fieldset><legend>Anything else?</legend>
 <label for="mf-charity">If your shop supports a charity or cause, tell us more about the charity or charities you support</label><textarea id="mf-charity" placeholder="Who benefits, how the money is used, and a website if you have one..."></textarea>
@@ -110,7 +110,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="hint">Storefront shops only. The Trail is for shops with a physical location.</p>
 </fieldset>
 <div class="st" id="mf-st" role="status"></div>
-<button type="submit" id="mf-send">Send to the moderators</button>
+<button type="submit" id="mf-send">Submit</button>
 </form>
 <div class="poster-ask"><h2>Help your customers find the Trail</h2><p>Download our poster and display it where shoppers can see it, like your window or checkout counter. It points people to 423thrift.com and sends more of them through your door.</p><a class="poster-btn" href="https://drive.google.com/file/d/1iPSBSsrxgnbQx0cD6XsQbsGKOPrdvz2w/view" target="_blank" rel="noopener">&#128424; Download the Trail Poster</a></div>
 </div>
