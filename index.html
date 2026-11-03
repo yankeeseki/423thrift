@@ -173,6 +173,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v15.2 (Nov 2 2026): Hamburger menu grouped under headings: Explore (Shops & Charities, Community Calendar, Blog), Use the Trail (Get the web app, Trail Poster, Maps app), Enjoying the trail? (tips), then About (Get Involved first, Feedback, Shop managers, Disclaimer) under the divider. Newsletter removed from the menu.
+  - DONE in v15.1 (Nov 2 2026): 'Print the Trail' and 'Get the web app' now sit side by side under Take It With You (they wrap to two lines on narrow phones).
   - DONE in v15.0 (Nov 2 2026): Fixed the dark 'M' blob that appeared on the card arrow buttons on phones (the hover tooltip collided with the bigger invisible touch area). The tooltip now shows only with a mouse, and is positioned correctly there too.
   - DONE in v14.9 (Nov 2 2026): The home page PDF button is now 'Print the Trail' (was 'Download Printable Trail Guide (PDF)').
   - DONE in v14.8 (Nov 2 2026): The floating 'Back to map' button is now 'Back to top' (up-arrow emoji) and scrolls to the very top of the page.
@@ -216,7 +218,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v15.0-20261102">
+<meta name="ctt-build" content="v15.2-20261102">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2361,6 +2363,8 @@ STILL TO DO / IDEAS
   .ctt-homescreen-row { margin: 40px 0 22px 0; text-align: center; }
   .ctt-pdf-section .ctt-homescreen-link { margin: 10px 0 0; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px; line-height: normal; background: var(--rust); color: #fff; border: none; border-radius: 20px; padding: 8px 18px; text-decoration: none; cursor: pointer; }
   .ctt-pdf-section .ctt-homescreen-link:hover { background: #9a4226; color: #fff; }
+  .ctt-pdf-btnrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ctt-pdf-btnrow .ctt-homescreen-link { margin: 0; }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2593,8 +2597,10 @@ STILL TO DO / IDEAS
     <div class="ctt-pdf-section ctt-split-half">
       <h3 class="ctt-pdf-title">Take It With You</h3>
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
-      <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Print the Trail</button>
-      <button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button>
+      <div class="ctt-pdf-btnrow">
+        <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Print the Trail</button>
+        <button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button>
+      </div>
       <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
     <div class="ctt-share-section ctt-split-half" style="text-align:center;">
@@ -2677,7 +2683,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v15.0 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v15.2 &mdash; November 2, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5561,22 +5567,26 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     function items() {
       var acct = cttAcct();
       var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
-      ['ctt-cal-open', 'ctt-gi-open', 'ctt-blog-open'].forEach(function(id) {
+      function addLink(id) {
         var el = document.getElementById(id);
         if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
-      });
-      var newsEl = document.getElementById('ctt-news-open'); if (newsEl) list.push({ label: '\uD83D\uDCEC Newsletter', el: newsEl, scroll: false });
-      var mapsEl = document.getElementById('ctt-maps-open'); if (mapsEl) list.push({ label: '\uD83E\uDDED Maps app', el: mapsEl, scroll: false });
-      list.push({ label: '\uD83D\uDCF2 Get the web app', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
-      var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '\uD83D\uDDA8 Trail Poster', el: poster, scroll: false });
+      }
+      list.push({ heading: 'Explore' });
+      var shopsEl = document.getElementById('ctt-shops-open');
+      if (shopsEl) list.push({ label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
+      addLink('ctt-cal-open'); addLink('ctt-blog-open');
+      list.push({ heading: 'Use the Trail' });
+      list.push({ label: '📲 Get the web app', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
+      var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '🖨️ Trail Poster', el: poster, scroll: false });
+      var mapsEl = document.getElementById('ctt-maps-open'); if (mapsEl) list.push({ label: '🧭 Maps app', el: mapsEl, scroll: false });
       var tips = document.querySelectorAll('.ctt-tip-btn');
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '\uD83D\uDCB8 ' : '\uD83D\uDCB5 ') + t.textContent.trim(), el: t, scroll: false }); }); }
+      var giEl = document.getElementById('ctt-gi-open'), aboutFirst = true;
+      if (giEl && giEl.style.display !== 'none') { list.push({ label: MENU_EMOJI['ctt-gi-open'] + giEl.textContent.trim(), el: giEl, scroll: giEl.tagName === 'BUTTON', divider: true }); aboutFirst = false; }
       ['ctt-feedback-toggle', 'ctt-mgr-open', 'ctt-disclaimer-toggle'].forEach(function(id, n) {
         var el = document.getElementById(id);
-        if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false, divider: n === 0 });
+        if (el) { list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false, divider: aboutFirst }); aboutFirst = false; }
       });
-      var shopsEl = document.getElementById('ctt-shops-open');
-      if (shopsEl) list.splice(1, 0, { label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
       return list;
     }
     function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
