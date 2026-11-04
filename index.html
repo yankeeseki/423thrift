@@ -176,6 +176,9 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v18.3 (Nov 4 2026): the hamburger menu now has a CLOSE X on phones (780px wide and under): a big rust '×' button (class ctt-menu-x, aria-label 'Close menu') pinned to the top right of the menu and kept in view when the menu scrolls (position:sticky). It is added at the top of open(). Hidden on computers. The other ways to close still work (tap the menu button again, tap outside, Escape). After closing it returns focus to the menu button.
+  - DONE in v18.2 (Nov 4 2026): map-icon picker REORDERED, most to least sensible for travel (owner asked me to judge): car, SUV, pickup, scooter, rocket, flying saucer, eagle, snowboarder, fire, T-Rex, alien, cat, money, treasure chest, eight ball, pizza, donut, peach, eggplant, heart, USA flag. Same 21 icons, only the order in CTT_ICONS changed. The default is still the car (CTT_ICON_DEFAULT).
+  - DONE in v18.1 (Nov 4 2026): the Account panel's email label now reads just 'Email' (the '(optional)' was removed at the owner's request). The email is still not required: the form saves fine with it blank, and the intro line above still says the account is optional.
   - DONE in v18.0 (Nov 4 2026): added the pickup truck emoji to the map-icon list (CTT_ICONS, right after the car), at the owner's request. The list is now 21 icons.
   - DONE in v17.9 (Nov 4 2026): MAP ICON LIST REPLACED with the owner's own list (CTT_ICONS, in the owner's order): scooter, alien, cat, T-Rex, eagle, fire, peach, eggplant, pizza, donut, eight ball, snowboarder, SUV, car, rocket, flying saucer, money, treasure chest, heart, USA flag. The default is still the car, now held in CTT_ICON_DEFAULT (it is no longer the first button). The vehicle-only list from v17.8 is gone. KNOWN RISK: the treasure chest emoji (U+1FA8E, Unicode 16) showed as an empty box in my test browser and can show as a box on older phones; if the owner sees that, swap it in CTT_ICONS for another emoji. The USA flag shows as the letters 'US' on Windows computers (normal for flags there). Tested: pick + Save stores the icon, no errors.
   - DONE in v17.8 (Nov 4 2026): CHOOSE YOUR MAP ICON. The optional Account panel in the hamburger menu (name + email) now also asks 'Your icon on the map' with 10 emoji buttons: car (default), SUV, pickup, van, taxi, bus, motorcycle, scooter, bicycle, on foot. Interpretation: the owner said 'in the name and email, ask what icon they would like to use', right after the pulsing-car work, so I took it to mean the pin that shows where the person is on the map. Stored as .icon in the same device-only localStorage 'ctt-account' (never sent anywhere). Code: CTT_ICONS + cttIconGlyph() beside cttAcct(); the picker is in the Account panel builder (class ctt-icon-opt, role=radio, aria-checked); placeStartMarker() uses cttIconGlyph(); window.cttRefreshMapIcon() swaps the glyph on the live pin right after Save or Clear. Only icons in CTT_ICONS are accepted (anything else falls back to the car). Saving with just an icon works (name and email stay optional); 'Clear from this device' resets to the car. The pulse, trail and popup are unchanged. Tested: pick + Save stores {name, icon}, no errors; the picker renders as two rows of buttons at phone width. Not yet seen on a real phone. If the owner meant a different icon (for example next to names on reviews), tell the next assistant: only the picker and storage would be reused.
@@ -247,7 +250,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v18.0-20261104">
+<meta name="ctt-build" content="v18.3-20261104">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1403,6 +1406,10 @@ STILL TO DO / IDEAS
   .ctt-menu-btn svg { width: 36px; height: 36px; }
   .ctt-menu { position: absolute; top: 60px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
+  .ctt-menu .ctt-menu-x { display: none; }
+  @media (max-width: 780px) {
+    .ctt-menu .ctt-menu-x { display: flex; align-items: center; justify-content: center; position: sticky; top: 0; align-self: flex-end; flex: 0 0 auto; width: 44px; height: 44px; margin: -2px -2px -6px 0; padding: 0 !important; z-index: 2; font-size: 32px; line-height: 1; font-weight: 400; color: var(--rust) !important; background: var(--card) !important; border: none !important; border-radius: 10px !important; cursor: pointer; }
+  }
   .ctt-menu button { font-family: 'Libre Franklin', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); background: none; border: none; text-align: left; padding: 14px 12px; border-radius: 8px; cursor: pointer; }
   .ctt-menu button:hover, .ctt-menu button:focus-visible { background: var(--paper); color: var(--rust); outline: none; }
   .ctt-menu-acct { padding: 4px 12px 10px; font-family: 'Libre Franklin', sans-serif; border-bottom: 1px solid var(--line); }
@@ -2814,7 +2821,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v18.0 &mdash; November 4, 2026</p>
+      <p class="ctt-version">v18.3 &mdash; November 4, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3221,7 +3228,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function cttAcct() { try { return JSON.parse(localStorage.getItem('ctt-account') || 'null') || {}; } catch (e) { return {}; } }
   // Map icon the person picks in Account (stored as .icon in 'ctt-account'). Only these options are accepted; default is the car.
   var CTT_ICON_DEFAULT = '\uD83D\uDE97'; // the car
-  var CTT_ICONS = [['🛵', 'Scooter'], ['👽', 'Alien'], ['😺', 'Cat'], ['🦖', 'T-Rex'], ['🦅', 'Eagle'], ['🔥', 'Fire'], ['🍑', 'Peach'], ['🍆', 'Eggplant'], ['🍕', 'Pizza'], ['🍩', 'Donut'], ['🎱', 'Eight ball'], ['🏂', 'Snowboarder'], ['🚙', 'SUV'], ['🚗', 'Car'], ['🛻', 'Pickup'], ['🚀', 'Rocket'], ['🛸', 'Flying saucer'], ['💸', 'Money'], ['🪎', 'Treasure chest'], ['💖', 'Heart'], ['🇺🇸', 'USA']];
+  var CTT_ICONS = [['🚗', 'Car'], ['🚙', 'SUV'], ['🛻', 'Pickup'], ['🛵', 'Scooter'], ['🚀', 'Rocket'], ['🛸', 'Flying saucer'], ['🦅', 'Eagle'], ['🏂', 'Snowboarder'], ['🔥', 'Fire'], ['🦖', 'T-Rex'], ['👽', 'Alien'], ['😺', 'Cat'], ['💸', 'Money'], ['🪎', 'Treasure chest'], ['🎱', 'Eight ball'], ['🍕', 'Pizza'], ['🍩', 'Donut'], ['🍑', 'Peach'], ['🍆', 'Eggplant'], ['💖', 'Heart'], ['🇺🇸', 'USA']];
   function cttIconGlyph() { var i = cttAcct().icon; for (var k = 0; k < CTT_ICONS.length; k++) { if (CTT_ICONS[k][0] === i) return i; } return CTT_ICON_DEFAULT; }
   function cttEsc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   // Adds a row to the moderators' Google Sheet (one-way; the answer can't be read from here).
@@ -6118,6 +6125,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
     function open() {
       menu.innerHTML = '';
+      var xb = document.createElement('button'); xb.type = 'button'; xb.className = 'ctt-menu-x'; xb.setAttribute('aria-label', 'Close menu'); xb.innerHTML = '&times;';
+      xb.addEventListener('click', function(e) { e.stopPropagation(); close(); btn.focus(); });
+      menu.appendChild(xb);
       items().forEach(function(it) {
         if (it.account) {
           var ab = document.createElement('button'); ab.type = 'button'; ab.textContent = it.label; ab.setAttribute('aria-expanded', 'false');
@@ -6125,7 +6135,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           var a0 = cttAcct();
           ap.innerHTML = '<p class="ctt-acct-note">Optional. Saved on this device only, so the Trail can say hello and fill in your name on reviews. No password needed.</p>'
             + '<label>What should we call you?<input type="text" id="ctt-acct-name" maxlength="40" autocomplete="nickname" value="' + cttEsc(a0.name || '') + '"></label>'
-            + '<label>Email (optional)<input type="email" id="ctt-acct-email" maxlength="80" autocomplete="email" value="' + cttEsc(a0.email || '') + '"></label>'
+            + '<label>Email<input type="email" id="ctt-acct-email" maxlength="80" autocomplete="email" value="' + cttEsc(a0.email || '') + '"></label>'
             + '<div class="ctt-icon-label">Your icon on the map</div><div class="ctt-icon-pick" id="ctt-acct-icons" role="radiogroup" aria-label="Your icon on the map">' + CTT_ICONS.map(function(o) { return '<button type="button" role="radio" class="ctt-icon-opt" data-icon="' + o[0] + '" aria-label="' + o[1] + '" aria-checked="' + (o[0] === cttIconGlyph() ? 'true' : 'false') + '" title="' + o[1] + '">' + o[0] + '</button>'; }).join('') + '</div>'
             + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email || a0.icon ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear from this device</button>' : '') + '</div>'
             + '<div class="ctt-menu-status" id="ctt-acct-msg" role="status"></div>';
