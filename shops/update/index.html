@@ -73,6 +73,8 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .mf button{display:block;width:67%;margin:22px auto 0;padding:13px;font:700 15px 'Libre Franklin',sans-serif;background:var(--olive);color:var(--paper);border:none;border-radius:999px;cursor:pointer}
 .mf button:disabled{opacity:.6}
 .mf .st{text-align:center;font:14px system-ui,sans-serif;margin-top:10px;min-height:20px}
+.mf .optin{display:flex;align-items:flex-start;gap:10px;margin:18px 0 0;font:600 14px/1.4 system-ui,sans-serif;color:var(--ink);cursor:pointer}.mf .optin input{flex:0 0 auto;width:22px;height:22px;margin:0;accent-color:var(--olive)}
+.mf .confirm{display:flex;align-items:flex-start;gap:10px;margin:22px 0 0;padding:12px 14px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px;font:700 14px/1.4 system-ui,sans-serif;color:var(--ink);cursor:pointer}.mf .confirm input{flex:0 0 auto;width:22px;height:22px;margin:0;accent-color:var(--olive)}
 .mf .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
 .scope-note{margin:0 0 14px;padding:10px 14px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px;font:14px/1.45 system-ui,sans-serif;color:var(--ink)}.scope-note p{margin:0}.scope-note p+p{margin-top:4px}
 .mgrsub{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);margin:0 0 10px}
@@ -109,8 +111,9 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <fieldset><legend>Anything else?</legend>
 <label for="mf-charity">If your shop supports a charity or cause, tell us more about the charity or charities you support</label><textarea id="mf-charity" placeholder="Who benefits, how the money is used, and a website if you have one..."></textarea>
 <label for="mf-note">What should shoppers know about your shop?</label><textarea id="mf-note" placeholder="Parking, donation hours, what you&rsquo;re known for..."></textarea>
-<p class="hint">Storefront shops only. The Trail is for shops with a physical location.</p>
 </fieldset>
+<label class="optin" for="mf-card"><input type="checkbox" id="mf-card"> <span>I&rsquo;d be interested in participating in a special future &ldquo;Chattanooga Thrift Trail&rdquo; discount card.</span></label>
+<label class="confirm" for="mf-confirm"><input type="checkbox" id="mf-confirm"> <span>I confirm that my shop has a storefront and is within approx. 20 miles of downtown Chattanooga.</span></label>
 <div class="st" id="mf-st" role="status"></div>
 <button type="submit" id="mf-send">Submit</button>
 </form>
@@ -126,10 +129,11 @@ f.addEventListener('submit',function(e){
   if(v('mf-hp'))return;
   var shop=v('mf-shop'),name=v('mf-name'),email=v('mf-email');
   if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop name, your name and a valid email.';return;}
+  if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles of downtown Chattanooga.';return;}
   var pay=[].map.call(f.querySelectorAll('input[name=pay]:checked'),function(c){return c.value;}).join(', ');
   var min=v('mf-min'); if(min&&v('mf-minamt'))min+=' ('+v('mf-minamt')+')';
   var data={access_key:KEY,subject:'Thrift Trail: Shop listing update ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,
-    shop:shop,role:v('mf-role'),hours:v('mf-hours'),sale_days:v('mf-sales'),best_days_for_new_items:v('mf-restock'),rewards:v('mf-rewards'),
+    shop:shop,confirmed_storefront_within_20_miles:'Yes',discount_card_interest:(document.getElementById('mf-card').checked?'Yes':'No'),role:v('mf-role'),hours:v('mf-hours'),sale_days:v('mf-sales'),best_days_for_new_items:v('mf-restock'),rewards:v('mf-rewards'),
     restrooms:v('mf-rest'),card_minimum:min,payment_types:pay,wheelchair:v('mf-wc'),free_wifi:v('mf-wifi'),charities_supported:v('mf-charity'),notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
