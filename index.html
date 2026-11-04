@@ -176,6 +176,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v16.5 (Nov 3 2026): the row under the big button is back to v16.3 (tappable DIRECTIONS | NEXT | UNDO, bold caps with bold '|' dividers, gesture words under each). ONLY ADDITION: a small low-profile line above that row, 'Control the route with just one button' (element #ctt-cta-hint, class .ctt-cta-hint: 11px, regular weight, muted var(--taupe), centered). It shows and hides together with the row (renderNavRow() toggles both; hidden until the first locate and while there is no next stop). Owner's words were 'just add the text that I mentioned' (the one-button sentence); to change the wording edit the text inside #ctt-cta-hint. Checked in a test render at phone width; not yet seen on a real phone. ALSO IN v16.5: the faded gold map diamonds are less transparent (opacity .5 -> .75, rule '.ctt-bg-hit .ctt-bonus-icon'); change that one number to adjust.
+  - DONE in v16.4 (Nov 3 2026): MISUNDERSTOOD AND REVERTED IN v16.5: the nav row under the big button was made quiet, untappable hint text. The owner did not want that. Do not redo it.
   - DONE in v16.3 (Nov 3 2026): grammar fix on the two one-shop neighborhood pages (thrift-stores-downtown and thrift-stores-ooltewah): 'Here is the 1 thrift, vintage or secondhand shop ... It has its address, hours and what reviewers say.' (was 'Here are the 1 ... shops. Each has ...'). The generator pattern for pages with 2 or more shops is unchanged. STILL OPEN (owner has not given the facts yet; do not guess): restrooms for Crazy Daisy, The Green Gardinia, and the three open Antique District shops; The Thrift Stop card minimum. Rusted Rooster Saturday 10-4 is kept as the owner stated (he said to use it as fact). Owner's iPhone home-screen location problem was a personal phone setting and is resolved; not a site bug. NEXT IDEAS: Add Your Own Stop (hidden, built), coffee shops tied into it, a 'Make this next' button on popups of shops that are on the loop, how-to and blog pages need updating (owner must send current copies; they likely still say 44 shops and old button names).
   - DONE in v16.2 (Nov 3 2026): POP-CULTURE DAILY LINES (the small banner under the special day; the POP_FUN object, about 674 lines, one array per MM-DD) NO LONGER INCLUDE FICTION. Owner's rule: 'they either know or they don't', so nothing that only makes sense if you know the franchise. REMOVED (69 lines): every Harry Potter line (character birthdays like 'Happy birthday, Sirius Black!', in-universe events, the book and movie release dates, J.K. Rowling, Lily Evans Potter, Ralph Fiennes (Voldemort)); every other fictional-character birthday (Sherlock Holmes, Buffy, Elmo, Dana Scully, Bart Simpson, Ash Ketchum, Peter Parker, Walter White, Fox Mulder); every in-universe event (Middle-earth and Frodo/Gandalf/Aragorn dates, Amity Island, Marty McFly dates, Will Byers, Samantha Mulder, Skynet, Bender, Fry, Independence Day aliens, Rocky vs Drago, Die Hard on Christmas Eve); fandom holidays (Cinco de Cuatro, Revenge of the Fifth, Mean Girls Day, Grouch Day, TARDIS Day). KEPT: real people's birthdays (even with a role note), real release and premiere dates, real historical events. 16 dates now have no pop-culture line (the code treats a missing date as an empty list). NOT TOUCHED: HOLIDAY_FUN (the owner's list of silly national days; a few are fandom-based, e.g. Mario Day, Star Wars Day, Batman Day, Spider-Man Day, Star Trek Day, Hobbit Day, Towel Day; ask the owner before changing those). RULE FOR ANY FUTURE ADDITIONS: no fictional characters, no in-universe events, no franchise fan holidays. Versioning rule restated: every build gets a new version number, even a one-line fix.
   - DONE in v16.1 (Nov 3 2026; everything since the first v16.0 zip; it SUPERSEDES details in the v16.0 line below): ADD YOUR OWN STOP IS HIDDEN (fully built; to show it, remove style="display:none" hidden from the .ctt-addstop-row element; planned for v16.2 with coffee shops tied in, a 'Make this next' button on on-loop popups, and fitting shops around a timed appointment). NEW SHOPS: Crazy Daisy Antiques (402 Direct Connection Dr, Rossville GA 30741; pin 34.9841299,-85.2026405) and The Green Gardinia (400 Direct Connection Dr Ste TGG; pin 34.9838754,-85.2026859), both bonus shops in the I-75 Flea Market complex, area 'East Ridge' (they moved from Slater Rd); added in bonusDefaults, SHOP_DETAILS (Pay: cards with 3% fee), /shops/ East Ridge section, East Ridge page, JSON-LD and the update-form list; shop count is now 47 everywhere. The Thrift Stop pin is exact (34.9984046,-85.2539136) and links to its Facebook page; Green Gardinia links to its Facebook page. EAST RIDGE ANTIQUE DISTRICT: East Town is out (old sign only); three shops open; listed hours are the overlap per day (Mon 10:30-5:30, Tue-Fri 10:30-5, Sat 10:30-4, Sun 12-5); the note lists each shop's own hours and links each name (Sugar Plum = Facebook profile 61588683545518, Rusted Rooster = rustedrooster.net, Artisan Village = facebook.com/artisanvillage/); 3% card fee. WORDING: 'curated' is dropped; labels are Thrift / Vintage / Antique (filters, card tags, neighborhood pages, headings; internal category names unchanged: 'Curated Shop', 'Antique Mall'); neighborhood pages with vintage or antique shops carry the line 'Our vintage and antique shops are well curated, each vendor with a style of their own. Just don't expect thrift prices.' All shop links are labeled 'Website', even Facebook pages. MAP: EVERY shop that is not on the loop is one faded gold diamond (addBackgroundBonus loops allLocations; the old lettered off-route icons now use the same diamond; works in the plan-ahead preview too); More Shops lists every shop not on the loop (diamond cards marked with a diamond; route + More Shops always equals all shops); tapping ANY icon opens a popup (name, address, hours, restrooms/pay, Get directions, Website; no description); shops not on the loop get 'Add to route' (addState(): allowed if open now OR opens later today; 'Closed today' otherwise; toast with Undo). Car pin is twice the size with no circle. 'NNH Thrift (...)' DISPLAYS as 'Northside Neighborhood House (...)' via dn() (stored name unchanged for saved data; map tag stays NNH). The '|' dividers in the DIRECTIONS | NEXT | UNDO row are bold. COMMUNITY CALENDAR: Sugar Plum Holiday Open House, Sat Nov 7 (hard-coded in calendar/index.html specials(), 2026 only). TESTING LESSON: always check the live view AND the plan-ahead preview, at a time when shops are open, and confirm route + More Shops adds up to all shops.
@@ -232,7 +234,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v16.3-20261103">
+<meta name="ctt-build" content="v16.5-20261103">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2368,7 +2370,7 @@ STILL TO DO / IDEAS
   .ctt-addstop-row .ctt-offroute-toggle { width: auto; flex: 0 1 auto; color: var(--rust); font-size: 14px; position: relative; }
   .ctt-addstop-row .ctt-offroute-toggle::after { content: ""; position: absolute; inset: -9px -6px; }
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .ctt-bg-hit .ctt-bonus-icon { opacity: .5; }
+  .ctt-bg-hit .ctt-bonus-icon { opacity: .75; }
   .ctt-bonus-popup { font-family: 'Libre Franklin', sans-serif; font-size: 13px; line-height: 1.4; text-align: center; }
   .ctt-bp-status { color: #6b6252; }
   .ctt-pop-links { margin-top: 6px; font-size: 13px; font-weight: 700; }
@@ -2506,6 +2508,7 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;letter-spacing:0;text-transform:none;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
 .ctt-nav-sep{color:var(--ink);opacity:1;font:700 15px 'Libre Franklin',sans-serif}
+.ctt-cta-hint{text-align:center;font:400 11px 'Libre Franklin',sans-serif;letter-spacing:.03em;color:var(--taupe);margin:6px 0 0}
 @media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
 .ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .ctt-cta-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.38);transform:scaleX(0);transform-origin:left center;pointer-events:none}
@@ -2628,6 +2631,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button>
         <div class="ctt-cta-toast" id="ctt-cta-toast" role="status" aria-live="polite" hidden></div>
+        <div class="ctt-cta-hint" id="ctt-cta-hint" style="display:none;">Control the route with just one button</div>
         <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
@@ -2786,7 +2790,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v16.3 &mdash; November 3, 2026</p>
+      <p class="ctt-version">v16.5 &mdash; November 3, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5171,11 +5175,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function renderNavRow() {
     var row = document.getElementById('ctt-cta-navrow'); if (!row) return;
     var t = dirTarget();
-    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; return; }
+    var hint = document.getElementById('ctt-cta-hint');
+    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; if (hint) hint.style.display = 'none'; return; }
     var u = document.getElementById('ctt-cta-undo');
     if (u) u.setAttribute('aria-disabled', lastCtaAction ? 'false' : 'true');
     document.getElementById('ctt-nav-dir').setAttribute('aria-label', 'Directions to ' + dn(t.name));
     row.style.display = '';
+    if (hint) hint.style.display = '';
   }
   function refreshCtaLabel() {
     renderNavRow();
