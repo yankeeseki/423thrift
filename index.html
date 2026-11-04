@@ -177,6 +177,9 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v19.5 (Nov 4 2026): 'FEATURED SHOP OF THE DAY' LINE. A centered, bold line (#ctt-featured-day, class .ctt-featured-day, drawn in renderHolidayBanner) sits ABOVE the daily banner: '★ Featured Shop of the Day: Vinterest on the Southside.' followed by the special day and fun facts. Text comes from featuredDayLabel(), right above isFeaturedToday(): Saturday Poor Taste, Sunday Chattanooga Room in the Inn, other days Vinterest on the Southside, Vinterest in Hixson from 2026-12-28. KEEP IN SYNC with isFeaturedToday() and the Shops page schedule.
+  - DONE in v19.5 (Nov 4 2026): UNLISTED SPONSORSHIP PAGE at /sponsorship/ (sponsorship/index.html). noindex,nofollow, NOT in the menu, footer or any sitemap; share the link directly. Offer: Weekday $300/quarter (Mon-Fri, one day of the week), Weekend $500/quarter (Sat or Sun); pay cash or with a gift card to the shop for the same value. Includes: Featured Shop of the Day line + fun facts, gold star and ribbon on the stop, the shop's own page on 423thrift.com, a spot in the Shops page schedule. Order form (web3forms, same key as the manager form) is a REQUEST, nothing is charged; it emails package, preferred day, quarter, payment, and the storefront/20 miles & 20 minutes confirmation. NOT BUILT YET: the per-shop page and the 'of the Day' notice beyond the line above; the page lists the shop page as included, so build it before selling the first slot. Open: whether featured shops today (Poor Taste, Room in the Inn, Vinterest) are free founding partners; tax treatment of gift-card trades is for the owner's accountant. IDEA, not built: a 'bring cash' tip (shop and cause keep more than card fees).
+  - DONE in v19.5 (Nov 4 2026): manager form (shops/update/index.html) is now ONE box (scope line + welcome text, class .scope-note) and the scope line reads '...within approx. 20 miles & 20 minutes of downtown Chattanooga' (was 'or'; also changed in the tick box and its error message). The scope line stays on one line at 820px and wider (nowrap, 13px); on phones it wraps. Also under consideration, not built: a 'bring cash' tip (shop and cause keep more than card fees) on the Shops page or under Plan your route.
   - DONE in v19.4 (Nov 4 2026) (FINAL wording for the form notice; the area-list idea was tried and dropped as too wordy): 'Storefront shops only, near the existing Trail and within approx. 20 miles or 20 minutes of downtown Chattanooga.' The tick box keeps 'I confirm that my shop has a storefront and is within approx. 20 miles or 20 minutes of downtown Chattanooga.' Ooltewah is not mentioned anywhere on the form.
   - DONE in v19.4 (Nov 4 2026) (LATEST on the form notice): the notice now LISTS SERVICE AREAS: 'Storefront shops only, in the Chattanooga area: Downtown, North Shore, Southside, Highland Park, East Ridge, Brainerd, Hixson, Red Bank, Fort Oglethorpe and Signal Mountain.' Ooltewah is deliberately NOT listed (owner: too far for new shops). NOTE: the Trail still has an Ooltewah neighborhood page and one existing shop there (Samaritan Center, the farthest listed shop at 14.4 straight-line miles); only new requests are affected. The tick box keeps the 'within approx. 20 miles or 20 minutes of downtown Chattanooga' rule.
   - DONE in v19.4 (Nov 4 2026) (LATEST on the tick box): 'and is close to the Trail's loops' was CUT from the confirmation tick box and its error message, at the owner's request. They now read 'I confirm that my shop has a storefront and is within approx. 20 miles or 20 minutes of downtown Chattanooga.' The 'close to our Chattanooga loops' wording stays ONLY in the notice at the top of the form.
@@ -275,7 +278,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.4-20261104">
+<meta name="ctt-build" content="v19.5-20261104">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2081,6 +2084,7 @@ STILL TO DO / IDEAS
   .ctt-hl .ctt-bonus-icon { transform: rotate(45deg) scale(1.5); }
   .ctt-hl > div:first-child { transform-origin: center; }
   /* ---- Holiday banners: big and thrift days are prominent, goofy days are one small line ---- */
+  .ctt-featured-day { margin: 0 0 4px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: var(--ink); }
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
   .ctt-holiday-card {
     display: flex; align-items: flex-start; gap: 12px; margin: 0 0 12px 0; padding: 12px 14px;
@@ -2854,7 +2858,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.4 &mdash; November 4, 2026</p>
+      <p class="ctt-version">v19.5 &mdash; November 4, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3233,6 +3237,13 @@ STILL TO DO / IDEAS
   // Featured shop rotates by day: Poor Taste on Saturdays, otherwise Vinterest
   // Southside (it closes Dec 27, 2026) and then Vinterest (Hixson) from Dec 28, 2026.
   // DAY_ORDER[6] is Saturday.
+  // Text for the "Featured Shop of the Day" line above the daily banner. KEEP IN SYNC with isFeaturedToday() above.
+  function featuredDayLabel() {
+    var now = effectiveNow();
+    if (now.dayIdx === 6) return 'Poor Taste';
+    if (now.dayIdx === 0) return 'Chattanooga Room in the Inn';
+    return now.dateStr >= '2026-12-28' ? 'Vinterest in Hixson' : 'Vinterest on the Southside';
+  }
   function isFeaturedToday(store) {
     var now = effectiveNow();
     if (now.dayIdx === 6) return store.name === 'Poor Taste';
@@ -3396,6 +3407,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function renderHolidayBanner() {
     var el = document.getElementById('ctt-holiday');
     if (!el) return;
+    var fd = document.getElementById('ctt-featured-day');
+    if (!fd) { fd = document.createElement('div'); fd.id = 'ctt-featured-day'; fd.className = 'ctt-featured-day'; el.parentNode.insertBefore(fd, el); }
+    var fdl = featuredDayLabel(); fd.textContent = fdl ? '\u2605 Featured Shop of the Day: ' + fdl + '.' : ''; fd.style.display = fdl ? 'block' : 'none';
     var ds = getEasternNow().dateStr, b = holidayFor(ds);
     var popAll = POP_FUN[ds.slice(5)] || [];
     // Up to 4 facts under the special day on the small banner, up to 3 inside the big holiday cards. More than that rotates by year.
