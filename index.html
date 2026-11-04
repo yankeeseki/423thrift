@@ -144,7 +144,7 @@ STILL TO DO / IDEAS
   - DONE in v10.90 (Nov 1 2026): space between the 'Your Route' title and the Filter button matches the space above the title (12px).
   - DONE in v10.91 (Nov 1 2026): dashed line under the Filter row removed.
   - DONE in v10.92 (Nov 1 2026): small subtle 'closed, removed, etc.' note beside the More Shops / All Other Shops heading.
-  - DONE in v10.93 (Nov 1 2026): Community Calendar is now its own page (/calendar/, same shell/menu as the other sub-pages, script copied from the old popup; the overlay and its module script are gone from index.html; #calendar on the home page redirects); full-list button back to the original look and only as wide as its text; newsletter box centered; Share The Trail buttons are pills like the other buttons; note beside More Shops reads 'closed, removed, and bonus stops'; Filter/Today-Later/coffee/count all 13px; shops page heading 'Chattanooga Thrift Shops and Charities'. calendar/index.html was built by work/build_calendar.py (re-run it if the calendar CSS/script changes).
+  - DONE in v10.93 (Nov 1 2026): Community Calendar is now its own page (/calendar/, same shell/menu as the other sub-pages, script copied from the old popup; the overlay and its module script are gone from index.html; #calendar on the home page redirects); full-list button back to the original look and only as wide as its text; newsletter box centered; Share The Trail buttons are pills like the other buttons; note beside More Shops reads 'closed, removed, and other shops'; Filter/Today-Later/coffee/count all 13px; shops page heading 'Chattanooga Thrift Shops and Charities'. calendar/index.html was built by work/build_calendar.py (re-run it if the calendar CSS/script changes).
   - DONE in v10.93b: sub-page menu is now site/menu.js (built by work/build_menu.py from index.html's CSS, Disclaimer and Home Screen text): same items as the home menu; Get Involved, Newsletter, Send feedback, Disclaimer, Add to Home Screen and Printable Guide open as popups on the page the visitor is on.
   - DONE in v10.94 (Nov 1 2026): the 'N shops' count in the filter row is a small outlined pill so it reads as part of the row.
   - DONE in v10.95 (Nov 1 2026): the Filter button shows the number of shops on the route, 'Filter (13)', instead of the number of active filters; the separate '13 shops' pill is now screen-reader-only (updateListCount sets both).
@@ -2365,6 +2365,8 @@ STILL TO DO / IDEAS
   .ctt-bg-hit .ctt-bonus-icon { opacity: .5; }
   .ctt-bonus-popup { font-family: 'Libre Franklin', sans-serif; font-size: 13px; line-height: 1.4; text-align: center; }
   .ctt-bp-status { color: #6b6252; }
+  .ctt-pop-links { margin-top: 6px; font-size: 13px; font-weight: 700; }
+  .ctt-pop-links a { color: var(--rust); }
   .ctt-bp-add { margin-top: 8px; width: 100%; font: 700 14px 'Libre Franklin', sans-serif; color: #fff; background: var(--rust); border: none; border-radius: 18px; padding: 9px 12px; cursor: pointer; }
   .ctt-bp-add:disabled { background: #b8ad93; cursor: default; }
   .ctt-you-pin { width: 30px; height: 30px; border-radius: 50%; background: #f2ead9; border: 2px solid #2c2417; display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.45); }
@@ -2497,7 +2499,7 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;letter-spacing:0;text-transform:none;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
-.ctt-nav-sep{color:var(--ink);opacity:.45;font:400 13px 'Libre Franklin',sans-serif}
+.ctt-nav-sep{color:var(--ink);opacity:1;font:700 15px 'Libre Franklin',sans-serif}
 @media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
 .ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .ctt-cta-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.38);transform:scaleX(0);transform-origin:left center;pointer-events:none}
@@ -2680,7 +2682,7 @@ STILL TO DO / IDEAS
         <div id="ctt-route-list"></div>
       </div>
       <div class="ctt-offroute-container">
-        <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and bonus stops</span></div>
+        <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
         <div class="ctt-addstop-row" style="display:none" hidden><button type="button" class="ctt-offroute-toggle" id="ctt-addstop-open">&#43; Add Your Own Stop</button><span class="ctt-offroute-note">errands, lunch, appointments</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
@@ -2826,7 +2828,7 @@ STILL TO DO / IDEAS
     { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Sun-Thu 11-6 &middot; Fri/Sat 11-7", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
-    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10:30-5 &middot; Sun 12-5", myRating: null, note: "Most of the antique district has closed. Three shops are still open: Sugar Plum Antiques & Treasures, Rusted Rooster Antiques & Decor and Chattanooga Olive Oil Company & Artisan Village. Each sets its own hours and some close around 5, so go earlier in the day.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
+    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon 10:30-5:30 &middot; Tue-Fri 10:30-5 &middot; Sat 10:30-4 &middot; Sun 12-5", myRating: null, note: "Most of the antique district has closed. Three shops are still open: Sugar Plum Antiques & Treasures (Mon-Sat 10-6, Sun 12-6), Rusted Rooster Antiques & Decor (Mon closed, Tue-Fri 10-5, Sat 10-4, Sun 11-5) and Chattanooga Olive Oil Company & Artisan Village (Mon-Sat 10:30-5:30, Sun 12-5:30). The hours listed are when every open shop is available, so check each shop's hours, and some close as early as 4.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
     { name: "Mercantile at the Ridge", area: "East Ridge", category: "Curated Shop", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: "https://mercantileattheridgetn.com" },
     { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: "https://dirtyjanesantiques.com" },
     { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: "https://thesamaritancenter.net" },
@@ -3061,6 +3063,15 @@ STILL TO DO / IDEAS
     openDirections(a.href);
   }, true);
   function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ownSpot(address)) + '&travelmode=driving'; }
+  function popupLinksHtml(store) {
+    var h = '<div class="ctt-pop-links"><a href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get directions</a>';
+    if (store.url) h += ' &middot; <a href="' + store.url + '" target="_blank" rel="noopener">Website</a>';
+    return h + '</div>';
+  }
+  function shopPopupHtml(store, prefix) {
+    var titleText = (prefix !== undefined && prefix !== null ? prefix + '. ' : '') + dn(store.name);
+    return '<span class="ctt-popup-title">' + cttEsc(titleText) + '</span><br>' + store.address + '<br>' + store.hours + shopDetailsHtml(store.name, 'div') + popupLinksHtml(store);
+  }
   function popupTitleHtml(store, prefix) {
     var titleText = (prefix !== undefined && prefix !== null ? prefix + '. ' : '') + dn(store.name);
     return store.url
@@ -3190,7 +3201,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     try { fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ access_key: GI_KEY, subject: 'Thrift Trail: new account contact', from_name: 'Chattanooga Thrift Trail', name: name || '(no name)', email: email, message: 'Saved an optional Trail account.' }) }).then(function(r) { return r.json(); }).then(function(j) { if (j && j.success) ok(); }).catch(function() {}); } catch (e) {}
     try { if (window.cttSaveContact) window.cttSaveContact({ name: name, email: email }).then(ok).catch(function() {}); } catch (e) {}
   }
-  function dn(n) { return String(n).replace(/Fort Oglethorpe/g, 'Fort O'); } // on-screen name: 'Fort O'. The full name stays the key for saved data.
+  function dn(n) { return String(n).replace(/Fort Oglethorpe/g, 'Fort O').replace(/^NNH Thrift/, 'Northside Neighborhood House'); } // on-screen name: 'Fort O'. The full name stays the key for saved data.
   function cttGreet(head) { var n = cttAcct().name; return (n && /^Happy [^!]*!$/.test(head)) ? head.slice(0, -1) + ', ' + cttEsc(n) + '!' : head; }
 
   // Returns { kind: 'major'|'week'|'star'|'holiday'|'small', e, head, body, tag } or null.
@@ -4263,7 +4274,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return card;
   }
 
-  // ---- Bonus shops in the background of the map: faded gold diamonds; tap one to add it to the route ----
+  // ---- Every shop that is not on the loop shows in the background of the map as a faded gold diamond; tap one to add it to the route ----
   function bgBonusIcon() {
     return L.divIcon({ html: '<div class="ctt-bg-hit"><div class="ctt-bonus-icon"><span></span></div></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -12] });
   }
@@ -4278,7 +4289,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function bonusPopupNode(shop) {
     var st = getOpenStatus(shop.hours), open = (st.state === 'open' || st.state === 'soon');
     var d = document.createElement('div'); d.className = 'ctt-bonus-popup';
-    d.innerHTML = '<strong>' + cttEsc(dn(shop.name)) + '</strong><br><span class="ctt-bp-status">' + cttEsc(open ? st.text : 'Closed now') + '</span>';
+    d.innerHTML = '<strong>' + cttEsc(dn(shop.name)) + '</strong><br><span class="ctt-bp-status">' + cttEsc(open ? st.text : 'Closed now') + '</span>' + popupLinksHtml(shop);
     var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-bp-add'; b.textContent = open ? 'Add to route' : 'Closed now'; b.disabled = !open;
     b.addEventListener('click', function() { addBonusFromMap(shop); });
     d.appendChild(b);
@@ -4286,7 +4297,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   function offRoutePopupNode(store) {
     var d = document.createElement('div');
-    d.innerHTML = popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div');
+    d.innerHTML = shopPopupHtml(store, null);
     var st = getOpenStatus(store.hours), open = (st.state === 'open' || st.state === 'soon');
     var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-bp-add'; b.textContent = open ? 'Add to route' : 'Closed now'; b.disabled = !open;
     b.addEventListener('click', function() { addBonusFromMap(store); });
@@ -4294,23 +4305,24 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return d;
   }
   function addBackgroundBonus(showing) {
-    if (typeMode() === 'none') return;
     var now = effectiveNow();
     allLocations.forEach(function(s) {
-      if (!s.defaultBonus || showing[s.name]) return;
+      if (showing[s.name]) return;   // already a numbered or lettered icon
       if (s.closesAfter && now.dateStr > s.closesAfter) return;
-      if (filters.xtypes[typeKey(s.category)]) return;
-      if (filters.areas.length && filters.areas.indexOf(areaGroupOf(s)) === -1) return;
-      if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(s)) !== -1) return;
-      if (filters.charity && !SHOP_BENEFIT[s.name]) return;
-      if (filters.open || filters.late) {
-        var td = parseHoursString(s.hours)[now.dayIdx];
-        if (!td || now.decHour >= td[1]) return;
-        if (filters.late && td[1] < 18) return;
-      }
       var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(), zIndexOffset: -2000 }).addTo(map);
       m.bindPopup(bonusPopupNode(s), { maxWidth: 220 });
       bgBonusMarkers.push(m);
+      // The same shop also gets a card in More Shops, so the list matches what the map shows.
+      m._cttBaseZ = -2000; markerByName[s.name] = m;
+      var dcard = buildCard(s, '\u25C6', CATEGORY_COLORS[s.category] || '#4a5a3a', false);
+      (function(s, dcard) {
+        dcard.addEventListener('click', function() {
+          document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
+          dcard.classList.add('active');
+          stickyHL = s.name; applyHL();
+        });
+      })(s, dcard);
+      offRouteListEl.appendChild(dcard);
     });
   }
 
@@ -4393,7 +4405,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(i + 1, store.name) : numberedIcon(i + 1, color, store.name), zIndexOffset: 1000 }).addTo(map);
       marker._cttR = featuredNow ? 15 : 11;
       marker._cttAnchor = featuredNow ? [15, 17] : [11, 11];
-      marker.bindPopup(popupTitleHtml(store, i + 1) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div'), { maxWidth: 320, minWidth: 200 });
+      marker.bindPopup(shopPopupHtml(store, i + 1), { maxWidth: 320, minWidth: 200 });
       routeMarkers.push(marker);
       marker._cttBaseZ = 1000; markerByName[store.name] = marker;
       var card = buildCard(store, i + 1, color, true, i, optimized.length);
@@ -4442,7 +4454,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         offRouteListEl.appendChild(card);
       });
     }
-    if (!displayContext) { var showing = {}; included.forEach(function(x) { showing[x.name] = 1; }); excluded.forEach(function(x) { showing[x.name] = 1; }); addBackgroundBonus(showing); }
+    { var showing = {}; included.forEach(function(x) { showing[x.name] = 1; }); excluded.forEach(function(x) { showing[x.name] = 1; }); addBackgroundBonus(showing); }
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     refreshOffRouteLabel();

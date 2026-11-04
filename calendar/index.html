@@ -159,7 +159,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     [[1,14,'Valentine’s Day'],[4,nthDow(y,4,0,2),'Mother’s Day'],[5,nthDow(y,5,0,3),'Father’s Day'],[9,31,'Halloween'],[10,11,'Veterans Day']].forEach(function(x) {
       L.push({ date: ymd(y, x[0], x[1]), title: x[2], kind: 'holiday', tag: 'Holiday' });
     });
-    if (y === 2026) L.push({ date: '2026-11-07', title: 'Sugar Plum Holiday Open House', kind: 'thrift', tag: 'Shop event', note: 'Saturday, 10 AM to 6 PM at Sugar Plum Antiques &amp; Treasures in the East Ridge Antique District, 6511 Slater Rd.' });
+    if (y === 2026) L.push({ date: '2026-11-07', title: 'Sugar Plum Holiday Open House', kind: 'thrift', tag: 'Shop event', note: 'Saturday, 10 AM to 6 PM at Sugar Plum Antiques &amp; Treasures in the East Ridge Antique District, with Santa photos, door prizes and food.' });
     specCache[y] = L; return L;
   }
   function itemsForMonth(y, m) {
