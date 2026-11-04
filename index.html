@@ -173,6 +173,7 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - HELD for v16.1 (built in v16.0 but its button is hidden; remove style="display:none" hidden on .ctt-addstop-row to show it). DONE in v16.0 (Nov 3 2026): NEW 'Add Your Own Stop' (button under More Shops): errands, lunch, a coffee or an appointment. Name, address (looked up with OpenStreetMap search), icon picker (auto-guessed from the name), optional time (card shows 'leave by about' from straight-line distance, no traffic), and where in the trail. Shows as a dashed 'Your stop' card and a rounded-square emoji pin with its stop number; joins the big button, Visited, arrows, directions and counts ('stops' when you have any). Kept on this device and cleared the next day. Nav row labels DIRECTIONS / NEXT / UNDO now caps and bold. 'Route recalculates live' removed (now 'About X miles remaining'). ALSO NEW: The Thrift Stop (3909 Ringgold Rd Ste B, East Ridge) added as a Curated bonus shop (not on a loop), restrooms Yes, no card minimum info; map point is an ESTIMATE (verify); Bonus shops now sit faded in the background of the map even when not on the route (gold diamonds, no labels); tap one for a small popup with its open status and an 'Add to route' button (toast says 'Added as stop N' with Undo; closed shops show a disabled 'Closed now'); shops you add yourself stay visible whatever the filter. your-location marker on the map is now a car pin (was a small dark dot) with a popup 'You were here at 2:41 PM'; East Ridge Antique District updated: most of it has closed, three shops remain (Sugar Plum Antiques & Treasures, Rusted Rooster Antiques & Decor, Chattanooga Olive Oil Company & Artisan Village); hours now Mon-Sat 10:30-5, Sun 12-5 (conservative overlap) on the map data, /shops/ and the East Ridge page; shop count 44 -> 45 (meta, intro, footer), plus /shops/, East Ridge page, JSON-LD lists and the update-form shop list.
   - DONE in v15.9 (Nov 2 2026): Shop managers form: the send button now just says 'Submit'.
   - DONE in v15.8 (Nov 2 2026): Shop managers form: the 'Skip' option is gone; those four dropdowns now start totally blank (and the intro says to leave blank any question you are not sure about).
   - DONE in v15.7 (Nov 2 2026): Shop managers form: 'Not sure / skip' is now just 'Skip' (still the blank default) on the restrooms, card minimum, wheelchair and Wi-Fi questions.
@@ -225,11 +226,11 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v15.9-20261102">
+<meta name="ctt-build" content="v16.0-20261103">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
-<meta name="description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
+<meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
-<meta property="og:description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
+<meta property="og:description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://423thrift.com/">
 <link rel="canonical" href="https://423thrift.com/">
@@ -1189,6 +1190,66 @@ STILL TO DO / IDEAS
       "longitude": -85.322437
      }
     }
+   },
+   {
+    "@type": "ListItem",
+    "position": 45,
+    "item": {
+     "@type": "Store",
+     "name": "The Thrift Stop",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "3909 Ringgold Rd Ste B",
+      "addressLocality": "East Ridge",
+      "addressRegion": "TN",
+      "postalCode": "37412"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 34.9984046,
+      "longitude": -85.2539136
+     }
+    }
+   },
+   {
+    "@type": "ListItem",
+    "position": 46,
+    "item": {
+     "@type": "Store",
+     "name": "Crazy Daisy Antiques",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "402 Direct Connection Dr",
+      "addressLocality": "Rossville",
+      "addressRegion": "GA",
+      "postalCode": "30741"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 34.9841299,
+      "longitude": -85.2026405
+     }
+    }
+   },
+   {
+    "@type": "ListItem",
+    "position": 47,
+    "item": {
+     "@type": "Store",
+     "name": "The Green Gardinia",
+     "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "400 Direct Connection Dr Ste TGG",
+      "addressLocality": "Rossville",
+      "addressRegion": "GA",
+      "postalCode": "30741"
+     },
+     "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 34.9838754,
+      "longitude": -85.2026859
+     }
+    }
    }
   ]
  }
@@ -1202,7 +1263,7 @@ STILL TO DO / IDEAS
 <meta property="og:image:alt" content="Join the Chattanooga Thrift Trail poster: a covered wagon, a QR code, and 423thrift.com">
 <meta name="twitter:image" content="https://423thrift.com/og-image.png">
 <meta name="twitter:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
-<meta name="twitter:description" content="Chattanooga thrift store map and route planner. Find 44 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
+<meta name="twitter:description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
 <!-- Home-screen icon + install info. Upload apple-touch-icon.png, icon-192.png, icon-512.png,
      icon-maskable-512.png, favicon.ico and manifest.webmanifest into the SAME folder as this page. -->
@@ -2295,6 +2356,32 @@ STILL TO DO / IDEAS
   .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
   .ctt-shop-card a { color: var(--olive); font-weight: 700; }
   .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
+
+  /* Your own stops (errands, lunch, appointments) */
+  .ctt-addstop-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 8px; }
+  .ctt-addstop-row .ctt-offroute-toggle { width: auto; flex: 0 1 auto; color: var(--rust); font-size: 14px; position: relative; }
+  .ctt-addstop-row .ctt-offroute-toggle::after { content: ""; position: absolute; inset: -9px -6px; }
+  .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .ctt-bg-hit .ctt-bonus-icon { opacity: .5; }
+  .ctt-bonus-popup { font-family: 'Libre Franklin', sans-serif; font-size: 13px; line-height: 1.4; text-align: center; }
+  .ctt-bp-status { color: #6b6252; }
+  .ctt-bp-add { margin-top: 8px; width: 100%; font: 700 14px 'Libre Franklin', sans-serif; color: #fff; background: var(--rust); border: none; border-radius: 18px; padding: 9px 12px; cursor: pointer; }
+  .ctt-bp-add:disabled { background: #b8ad93; cursor: default; }
+  .ctt-you-pin { width: 30px; height: 30px; border-radius: 50%; background: #f2ead9; border: 2px solid #2c2417; display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.45); }
+  .ctt-errand-icon { position: relative; width: 30px; height: 30px; border-radius: 8px; background: #fbf1d4; border: 2px solid #6f6450; display: flex; align-items: center; justify-content: center; font-size: 16px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.35); }
+  .ctt-errand-icon b { position: absolute; top: -9px; right: -9px; min-width: 17px; height: 17px; padding: 0 3px; box-sizing: border-box; border-radius: 9px; background: #2c2417; color: #f2ead9; font: 700 10px/17px 'Libre Franklin', sans-serif; text-align: center; }
+  .ctt-tag.ctt-errand { border-style: dashed; }
+  .ctt-tag.ctt-errand .ctt-tag-photo-fallback { background: #fbf1d4 !important; color: inherit; font-size: 26px; border-radius: 8px; border: 2px solid #6f6450; }
+  .ctt-errand-when { font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; color: var(--ink); }
+  .ctt-as-form label { display: block; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; margin: 12px 0 4px; color: var(--ink); }
+  .ctt-as-form input[type=text], .ctt-as-form input[type=time], .ctt-as-form select { width: 100%; box-sizing: border-box; font: 400 16px 'Libre Franklin', sans-serif; padding: 10px 11px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
+  .ctt-as-icons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+  .ctt-as-icons button { width: 46px; height: 46px; font-size: 22px; line-height: 1; border: 2px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; padding: 0; }
+  .ctt-as-icons button[aria-pressed="true"] { border-color: var(--rust); background: #fbf1d4; box-shadow: 0 0 0 2px var(--rust); }
+  .ctt-as-help { font: 400 12.5px 'Libre Franklin', sans-serif; color: #6b6252; margin: 4px 0 0; line-height: 1.4; }
+  .ctt-as-msg { min-height: 1.3em; margin: 10px 0 0; font: 700 13px 'Libre Franklin', sans-serif; color: #a8402a; }
+  .ctt-as-go { margin-top: 12px; width: 100%; font: 700 16px 'Libre Franklin', sans-serif; color: #fff; background: var(--rust); border: none; border-radius: 22px; padding: 12px; cursor: pointer; }
+  .ctt-as-go:disabled { opacity: .6; cursor: wait; }
   /* Bigger touch areas (invisible): the look and the card sizes stay the same. */
   .ctt-toggle-btn.remove::after,.ctt-ctrl-btn::after{content:"";position:absolute;inset:-9px -4px}
   .ctt-directions-link,.ctt-review-toggle-btn,.ctt-howworks-toggle,.ctt-offroute-toggle,.ctt-visited-check,.ctt-day-option,.ctt-coffee-open{position:relative}
@@ -2407,8 +2494,8 @@ STILL TO DO / IDEAS
 .ctt-cta-btnwrap .ctt-cta-btn{max-width:100%;box-sizing:border-box}
 .ctt-cta-undo{background:none;border:none;padding:6px 10px;font:600 13px 'Libre Franklin',sans-serif;color:var(--ink);text-decoration:underline;cursor:pointer;min-height:32px}
 .ctt-cta-navrow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:2px;max-width:100%}
-.ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12.5px;white-space:nowrap}
-.ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;opacity:.8;text-decoration:none;display:inline-block}
+.ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;letter-spacing:0;text-transform:none;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
 .ctt-nav-sep{color:var(--ink);opacity:.45;font:400 13px 'Libre Franklin',sans-serif}
 @media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
@@ -2527,7 +2614,7 @@ STILL TO DO / IDEAS
 
   <div class="ctt-cta-row">
     <div class="ctt-status-panel">
-      <p class="ctt-route-stat" id="ctt-route-stat">Route recalculates live &nbsp;&middot;&nbsp; ~<strong>38.9 miles</strong> remaining &nbsp;&middot;&nbsp; <strong>10 shops</strong> to go</p>
+      <p class="ctt-route-stat" id="ctt-route-stat">About <strong>38.9 miles</strong> remaining &nbsp;&middot;&nbsp; <strong>10 shops</strong> to go</p>
       <div class="ctt-cta-btnwrap">      <button class="ctt-cta-btn" id="ctt-cta-btn">
         <span class="ctt-cta-btn-line1">&#128717; Let's Go Thrifting!</span>
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
@@ -2567,8 +2654,8 @@ STILL TO DO / IDEAS
         <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">1. The experience you want</div>
           <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="thrift"> Thrift shops</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Curated shops</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique malls</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="curated"> Vintage shops</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="antique"> Antique shops</label>
           </div>
           <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> Lookout Loop</label>
@@ -2578,8 +2665,8 @@ STILL TO DO / IDEAS
         </div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">2. Exclusions</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="thrift"> Thrift shops</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Curated shops</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique malls</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Vintage shops</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique shops</label>
         </div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">3. Add Area</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Exclude Area</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
@@ -2594,6 +2681,7 @@ STILL TO DO / IDEAS
       </div>
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and bonus stops</span></div>
+        <div class="ctt-addstop-row" style="display:none" hidden><button type="button" class="ctt-offroute-toggle" id="ctt-addstop-open">&#43; Add Your Own Stop</button><span class="ctt-offroute-note">errands, lunch, appointments</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
@@ -2676,7 +2764,7 @@ STILL TO DO / IDEAS
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
       <a class="ctt-tip-btn" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a>
     </div>
-      <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The Chattanooga Thrift Trail exists to make it easy to find good deals. It is a self-guided map of thrift shops, curated shops and antique malls around the Chattanooga area. It builds an efficient driving route around each shop&rsquo;s hours, so you can visit the most shops with the least driving, and it offers hand-picked loops, the Lookout Loop and the Scenic City Loop, for a nice drive.<br><br>The information provided on this page, including shop hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Shop hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify shop hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it. If you choose to add a name or email under Account, your name is kept only on your own device, and your email, if you add one, is sent to the site&rsquo;s moderators so they can contact you about the Trail. It is never shown publicly.</p>
+      <p class="ctt-disclaimer" id="ctt-disclaimer-text" style="display:none;">The Chattanooga Thrift Trail exists to make it easy to find good deals. It is a self-guided map of thrift shops, vintage shops and antique shops around the Chattanooga area. It builds an efficient driving route around each shop&rsquo;s hours, so you can visit the most shops with the least driving, and it offers hand-picked loops, the Lookout Loop and the Scenic City Loop, for a nice drive.<br><br>The information provided on this page, including shop hours, addresses, and location data, is provided for general informational purposes only and is not guaranteed to be accurate, complete, or current. Shop hours, inventory, and availability are subject to change without notice. Route optimization, estimated travel times, and distances are approximations only and should not be relied upon for time-sensitive planning. Users are advised to independently verify shop hours and availability before visiting. This site assumes no liability for any inaccuracies, changes, or inconvenience resulting from reliance on the information provided herein. This site may use Google Analytics to count visits and see which features are used; no names or contact details are collected through it. If you choose to add a name or email under Account, your name is kept only on your own device, and your email, if you add one, is sent to the site&rsquo;s moderators so they can contact you about the Trail. It is never shown publicly.</p>
 <!-- SEO text below is generated from the shop list. If you add or remove shops, update it too. -->
 <section class="ctt-seo" aria-label="Browse the Chattanooga Thrift Trail by neighborhood">
 <div class="ctt-hoodbox">
@@ -2690,12 +2778,12 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v15.9 &mdash; November 2, 2026</p>
+      <p class="ctt-version">v16.0 &mdash; November 3, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
-<h2>Chattanooga thrift stores, vintage shops &amp; antique malls</h2>
-<p>Chattanooga Thrift Trail is a self-guided map of 44 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
+<h2>Chattanooga thrift stores, vintage shops &amp; antique shops</h2>
+<p>Chattanooga Thrift Trail is a self-guided map of 47 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 </section>
     </div>
   </div>
@@ -2705,7 +2793,7 @@ STILL TO DO / IDEAS
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (function() {
-  var CAT_LABEL = { 'Thrift Store': 'Thrift Shop', 'Antique Mall': 'Antique Mall', 'Curated Shop': 'Curated Shop' };
+  var CAT_LABEL = { 'errand': 'Your stop', 'Thrift Store': 'Thrift Shop', 'Antique Mall': 'Antique Shop', 'Curated Shop': 'Vintage Shop' };
   var CATEGORY_COLORS = { "Thrift Store": "#4a5a3a", "Antique Mall": "#c98a2b", "Curated Shop": "#ae4c2c" };
 
   var routeDefaults = [
@@ -2738,7 +2826,7 @@ STILL TO DO / IDEAS
     { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Sun-Thu 11-6 &middot; Fri/Sat 11-7", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
-    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Large multi-booth antique district with a wide variety and reviewers calling prices reasonable for what's found. Each shop sets its own hours, and visitors have suggested some may close at 5pm, so go earlier in the day.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
+    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10:30-5 &middot; Sun 12-5", myRating: null, note: "Most of the antique district has closed. Three shops are still open: Sugar Plum Antiques & Treasures, Rusted Rooster Antiques & Decor and Chattanooga Olive Oil Company & Artisan Village. Each sets its own hours and some close around 5, so go earlier in the day.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
     { name: "Mercantile at the Ridge", area: "East Ridge", category: "Curated Shop", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: "https://mercantileattheridgetn.com" },
     { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: "https://dirtyjanesantiques.com" },
     { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: "https://thesamaritancenter.net" },
@@ -2752,6 +2840,9 @@ STILL TO DO / IDEAS
     { name: "Archive Thrift", area: "Hamilton Place area", category: "Thrift Store", lat: 35.031297, lng: -85.1852429, address: "6215 Lee Hwy, Chattanooga, TN 37421", hours: "Mon-Wed 12-5 &middot; Thu-Sat 11-7 &middot; Sun Closed", myRating: null, note: "Thrift shop on Lee Hwy in the Hamilton Place area.", myNote: "", url: "https://www.facebook.com/p/Archive-Thrift-Store-61590858634708/" },
     { name: "Crafter's Emporium & Book Exchange", area: "Hixson", category: "Curated Shop", lat: 35.1145258, lng: -85.2633603, address: "3901 Hixson Pike #149, Chattanooga, TN 37415", hours: "Mon-Sat 10-7 &middot; Sun 11-6", myRating: null, note: "Craft and book marketplace on Hixson Pike.", myNote: "", url: "https://craftersempo.com" },
     { name: "Chattanooga Room in the Inn Thrift Store", area: "East Ridge", category: "Thrift Store", lat: 34.9998857, lng: -85.2565554, address: "3807 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: null, note: "Opened in September 2025 next to the East Ridge Goodwill; every dollar supports shelter and stability for women and children experiencing homelessness.", myNote: "", url: "https://www.chattanoogaroomintheinn.com/thriftstore" },
+    { name: "The Thrift Stop", area: "East Ridge", category: "Curated Shop", lat: 34.9984046, lng: -85.2539136, address: "3909 Ringgold Rd Ste B, East Ridge, TN 37412", hours: "Mon-Fri 10-9 &middot; Sat/Sun 10-8", myRating: null, note: "Curated vintage and boutique-style shop on Ringgold Rd, with reviewers noting a friendly owner, reasonable prices and a clean, organized feel.", myNote: "" },
+    { name: "Crazy Daisy Antiques", area: "East Ridge", category: "Antique Mall", lat: 34.9841299, lng: -85.2026405, address: "402 Direct Connection Dr, Rossville, GA 30741", hours: "Mon-Fri 10-5 &middot; Sat 10-6 &middot; Sun 12-5", myRating: null, note: "Big antique mall with over 100 booths in the I-75 Flea Market complex. Reviewers like the staff, who wrap fragile purchases carefully.", myNote: "", url: "https://crazydaisyantiques.com" },
+    { name: "The Green Gardinia", area: "East Ridge", category: "Curated Shop", lat: 34.9838754, lng: -85.2026859, address: "400 Direct Connection Dr Ste TGG, Rossville, GA 30741", hours: "Mon 10-7 &middot; Tue-Fri 10-6 &middot; Sat/Sun 9-5", myRating: null, note: "Antiques and decor in the I-75 Flea Market complex, with reviewers saying you can always find something unique.", myNote: "" },
     { name: "Savers", area: "Hamilton Place area", category: "Thrift Store", lat: 35.0306996, lng: -85.1512583, address: "2020 Gunbarrel Rd Ste 198, Chattanooga, TN 37421", hours: "Mon-Sat 9-9 &middot; Sun 10-7", myRating: null, note: "National for-profit thrift chain with a large, well-organized selection. Shopping does not fund a charity, but donations dropped off there benefit the Purple Heart Foundation. It's self-checkout, no bags are provided and carts can't leave the shop, so bring your own bags if you're buying a lot.", myNote: "", url: "https://stores.savers.com" },
     { name: "St. Timothy's Thrift Shop", area: "Signal Mountain", category: "Thrift Store", lat: 35.122188, lng: -85.349312, address: "627 Mississippi Ave, Signal Mountain, TN 37377", hours: "Mon Closed &middot; Tue Closed &middot; Wed 9:30-12 &middot; Thu 3-5 &middot; Fri/Sat 10-1 &middot; Sun Closed", myRating: null, note: "Church-run thrift shop on Signal Mountain with clothing, household items and toys; sales fund local outreach.", myNote: "", url: "https://sttimothysignal.org/how-we-serve/thrift-shop/" },
     { name: "The Clothes House on Signal Mountain", area: "Signal Mountain", category: "Thrift Store", lat: 35.122563, lng: -85.347938, address: "710 Signal Mountain Blvd, Signal Mountain, TN 37377", hours: "Sun-Tue Closed &middot; Wed-Sat 9-1", myRating: null, note: "Community thrift shop on Signal Mountain with clothing and used goods, a quick, easy stop.", myNote: "", url: "https://signalmountainsocialservices.org" },
@@ -2765,6 +2856,7 @@ STILL TO DO / IDEAS
   bonusDefaults.forEach(function(s) { s.defaultBonus = true; });
   var allLocations = routeDefaults.concat(bonusDefaults);
   var locationsByName = {};
+  var errands = []; // your own stops for today (see 'Your own stops' below)
   allLocations.forEach(function(s) { locationsByName[s.name] = s; });
 
   var SHOP_GROUPS = [
@@ -2783,7 +2875,7 @@ STILL TO DO / IDEAS
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
-  var SHOP_DETAILS = {"Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}};
+  var SHOP_DETAILS = {"Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
     var b = [];
@@ -2897,6 +2989,7 @@ STILL TO DO / IDEAS
   function isVisible(loc, now) {
     var mode = typeMode();
     if (mode === 'none') return false;
+    if (manualOverrides[loc.name] === 'include') return true; // you added it yourself
     if (mode === 'top25' && !inPickedLists(loc.name)) return false;
     if (filters.xtypes[typeKey(loc.category)]) return false;
     if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
@@ -2917,7 +3010,8 @@ STILL TO DO / IDEAS
     return !!filters.types[typeKey(loc.category)] || inPickedLists(loc.name);
   }
 
-  function mapsLink(address) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address); }
+  function ownSpot(address) { for (var i = 0; i < errands.length; i++) { if (errands[i].address === address) return errands[i].lat + ',' + errands[i].lng; } return address; }
+  function mapsLink(address) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(ownSpot(address)); }
   // ---- Maps app choice: first Directions tap asks once (Apple Maps / Google Maps / Waze) and remembers it ----
   function mapsPref() { try { var v = localStorage.getItem('ctt-maps'); return (v === 'apple' || v === 'google' || v === 'waze') ? v : null; } catch (e) { return null; } }
   function mapsUrl(app, gUrl) {
@@ -2966,7 +3060,7 @@ STILL TO DO / IDEAS
     cttTrack('get_directions_click');
     openDirections(a.href);
   }, true);
-  function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving'; }
+  function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ownSpot(address)) + '&travelmode=driving'; }
   function popupTitleHtml(store, prefix) {
     var titleText = (prefix !== undefined && prefix !== null ? prefix + '. ' : '') + dn(store.name);
     return store.url
@@ -3536,7 +3630,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     window.cttRouteN = n - v; // the Filter button counts only shops not yet visited
     var ft = document.getElementById('ctt-filter-toggle'); if (ft) ft.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
     if (!n) { el.textContent = ''; return; }
-    el.textContent = n + ' shop' + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
+    var noun = errands.length ? 'stop' : 'shop';
+    el.textContent = n + ' ' + noun + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
   }
   function updateRouteStat(count, miles) {
     updateListCount();
@@ -3553,7 +3648,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     for (var i = 0; i < remaining.length - 1; i++) {
       milesRemaining += haversineMiles(remaining[i].lat, remaining[i].lng, remaining[i + 1].lat, remaining[i + 1].lng);
     }
-    el.innerHTML = 'Route recalculates live &nbsp;&middot;&nbsp; ~<strong>' + milesRemaining.toFixed(1) + ' miles</strong> remaining &nbsp;&middot;&nbsp; <strong>' + remaining.length + ' shop' + (remaining.length === 1 ? '' : 's') + '</strong> to go';
+    el.innerHTML = 'About <strong>' + milesRemaining.toFixed(1) + ' miles</strong> remaining &nbsp;&middot;&nbsp; <strong>' + remaining.length + (errands.length ? ' stop' : ' shop') + (remaining.length === 1 ? '' : 's') + '</strong> to go';
   }
   function drawStraightFallback(points) {
     if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
@@ -3638,6 +3733,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   var routeMarkers = [];
   var offRouteMarkers = [];
+  var bgBonusMarkers = [];
   var markerByName = {}, hoverHL = null, stickyHL = null;
   // Hover (computer) or tap (phone) a card or marker: enlarge that marker and show its name. The map never zooms or pans.
   function applyHL() {
@@ -3893,6 +3989,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
 
   function buildCard(store, label, color, onRoute, routeIndex, routeTotal) {
+    var combinedIdx = routeIndex;
+    if (onRoute) { var shopsOnly = activeRoute.filter(function(x) { return !x.isErrand; }); routeIndex = shopsOnly.indexOf(store); routeTotal = shopsOnly.length; }
     var card = document.createElement('div');
     var isVisited = onRoute && !!visitedStores[store.name];
     card.className = 'ctt-tag' + (onRoute ? '' : ' offroute') + (isFeaturedToday(store) ? ' featured' : '') + (isVisited ? ' visited' : '');
@@ -3968,7 +4066,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       upBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         if (routeIndex <= 0) return;
-        var names = activeRoute.map(function(s) { return s.name; });
+        if (activeRoute[combinedIdx - 1] && activeRoute[combinedIdx - 1].isErrand) { moveInRoute(store, -1); return; }
+        var names = activeRoute.filter(function(x) { return !x.isErrand; }).map(function(s) { return s.name; });
         var tmp = names[routeIndex - 1];
         names[routeIndex - 1] = names[routeIndex];
         names[routeIndex] = tmp;
@@ -3982,7 +4081,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       downBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         if (routeIndex >= routeTotal - 1) return;
-        var names = activeRoute.map(function(s) { return s.name; });
+        if (activeRoute[combinedIdx + 1] && activeRoute[combinedIdx + 1].isErrand) { moveInRoute(store, 1); return; }
+        var names = activeRoute.filter(function(x) { return !x.isErrand; }).map(function(s) { return s.name; });
         var tmp = names[routeIndex + 1];
         names[routeIndex + 1] = names[routeIndex];
         names[routeIndex] = tmp;
@@ -4046,6 +4146,174 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return rest;
   }
 
+  // ---- Your own stops (errands, lunch, an appointment): kept on this device, for today only ----
+  var ERRAND_KEY = 'ctt-errands';
+  var ERRAND_ICONS = [['🛒', 'Shopping'], ['🔧', 'Car'], ['🩺', 'Doctor'], ['💊', 'Pharmacy'], ['🏦', 'Bank'], ['⛽', 'Gas'], ['📮', 'Post office'], ['✂️', 'Haircut'], ['🍽️', 'Food'], ['☕', 'Coffee'], ['📍', 'Other']];
+  var ERRAND_GUESS = [
+    [/\b(walmart|target|kroger|publix|aldi|costco|sam'?s|grocery|market|dollar|lowe'?s|home depot|store)\b/i, 0],
+    [/\b(oil|tire|tires|car wash|auto|mechanic|brake|jiffy|valvoline|garage)\b/i, 1],
+    [/\b(doctor|dr\.?|clinic|dentist|dental|hospital|urgent|medical|optometrist|eye)\b/i, 2],
+    [/\b(pharmacy|cvs|walgreens|rite aid)\b/i, 3],
+    [/\b(bank|credit union|atm)\b/i, 4],
+    [/\b(gas|fuel|shell|exxon|marathon|racetrac|circle k)\b/i, 5],
+    [/\b(post office|usps|ups|fedex|mail)\b/i, 6],
+    [/\b(hair|salon|barber|nails|haircut)\b/i, 7],
+    [/\b(coffee|starbucks|dunkin|latte|espresso)\b/i, 9],
+    [/\b(lunch|dinner|breakfast|restaurant|pizza|burger|taco|cafe|diner|food|grill|bbq)\b/i, 8]
+  ];
+  var errandObjs = {};
+  function errandStore(e) {
+    var o = errandObjs[e.id] || (errandObjs[e.id] = {});
+    o.name = e.name; o.address = e.address; o.lat = e.lat; o.lng = e.lng; o.hours = ''; o.note = ''; o.category = 'errand';
+    o.isErrand = true; o.id = e.id; o.icon = e.icon; o.time = e.time || '';
+    return o;
+  }
+  function registerErrand(e) { locationsByName[e.name] = errandStore(e); }
+  function saveErrands() {
+    try { localStorage.setItem(ERRAND_KEY, JSON.stringify(errands)); } catch (err) {}
+  }
+  function loadErrands() {
+    var a = [];
+    try { a = JSON.parse(localStorage.getItem(ERRAND_KEY) || '[]'); } catch (err) { a = []; }
+    var today = todayDateStr();
+    errands = (Array.isArray(a) ? a : []).filter(function(e) { return e && e.name && e.date === today && isFinite(e.lat) && isFinite(e.lng); });
+    errands.forEach(registerErrand);
+    saveErrands();
+  }
+  function withErrands(shops) {
+    if (displayContext || !errands.length || !shops.length) return shops;
+    var out = [], used = {};
+    function put(anchor) { errands.forEach(function(e) { if (!used[e.id] && (e.after || '') === anchor) { used[e.id] = 1; out.push(errandStore(e)); } }); }
+    put('');
+    shops.forEach(function(s) { out.push(s); put(s.name); });
+    errands.forEach(function(e) { if (!used[e.id]) { used[e.id] = 1; out.push(errandStore(e)); } });
+    return out;
+  }
+  // After a move, each own stop remembers which shop it follows ('' = first), in the new order.
+  function reanchor(names) {
+    var byName = {}, next = [], last = '';
+    errands.forEach(function(e) { byName[e.name] = e; });
+    names.forEach(function(n) { if (byName[n]) { byName[n].after = last; next.push(byName[n]); } else last = n; });
+    errands.forEach(function(e) { if (next.indexOf(e) === -1) next.push(e); });
+    errands = next; saveErrands();
+  }
+  function moveInRoute(store, dir) {
+    var names = activeRoute.map(function(s) { return s.name; }), i = names.indexOf(store.name), j = i + dir;
+    if (i < 0 || j < 0 || j >= names.length) return;
+    var t = names[i]; names[i] = names[j]; names[j] = t;
+    reanchor(names);
+    cttTrack('reorder_stop');
+    recalibrate(lastStartIdx);
+  }
+  function removeErrand(store) {
+    errands = errands.filter(function(e) { return e.id !== store.id; });
+    delete locationsByName[store.name]; delete errandObjs[store.id]; delete visitedStores[store.name];
+    saveErrands(); cttTrack('remove_own_stop');
+    recalibrate(lastStartIdx);
+  }
+  function clock12(hhmm) {
+    var m = /^(\d{1,2}):(\d{2})$/.exec(hhmm || ''); if (!m) return '';
+    var h = +m[1], mi = m[2], ap = h >= 12 ? 'PM' : 'AM'; h = h % 12; if (h === 0) h = 12;
+    return h + ':' + mi + ' ' + ap;
+  }
+  function whenLine(store, idx) {
+    if (!store.time) return '';
+    var m = /^(\d{1,2}):(\d{2})$/.exec(store.time); if (!m) return '';
+    var t = clock12(store.time), out = '⏰ ' + t;
+    var prev = idx > 0 ? activeRoute[idx - 1] : fallbackOrigin();
+    if (prev && isFinite(prev.lat)) {
+      var drive = Math.ceil(haversineMiles(prev.lat, prev.lng, store.lat, store.lng) * 1.35 / 28 * 60);
+      var mins = (+m[1]) * 60 + (+m[2]) - drive - 10; if (mins < 0) mins += 1440;
+      var hh = Math.floor(mins / 60) % 24, mm = ('0' + (mins % 60)).slice(-2);
+      out += ' &middot; leave by about ' + clock12(hh + ':' + mm);
+    }
+    return out;
+  }
+  function errandIcon(num, store) {
+    return L.divIcon({ html: '<div class="ctt-errand-icon" title="' + cttEsc(store.name) + '">' + store.icon + '<b>' + num + '</b></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+  }
+  function buildErrandCard(store, label, idx, total) {
+    var card = document.createElement('div');
+    var isVisited = !!visitedStores[store.name];
+    card.className = 'ctt-tag ctt-errand' + (isVisited ? ' visited' : '');
+    card.setAttribute('data-store-name', encodeURIComponent(store.name));
+    var when = whenLine(store, idx);
+    card.innerHTML =
+      '<div class="ctt-tag-row"><div class="ctt-tag-photo-col"><div class="ctt-tag-photo-fallback">' + store.icon + '</div></div><div class="ctt-tag-info">' +
+      '<div class="ctt-tag-top"><div class="ctt-tag-name"><span class="ctt-tag-num">' + label + '</span>' + cttEsc(dn(store.name)) + '</div>' +
+        '<span class="ctt-vbadge">&#10003; Visited</span><label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> <span class="ctt-vtext">Visited</span></label></div>' +
+      '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + cttEsc(store.address) + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
+      (when ? '<div class="ctt-tag-note ctt-errand-when">' + when + '</div>' : '') +
+      '<div class="ctt-tag-bottom-row"><div class="ctt-tag-meta"><span class="ctt-badge" style="background:#6f6450;">Your stop</span></div></div>' +
+      '</div><div class="ctt-tag-controls-col"><button class="ctt-toggle-btn remove" title="Remove this stop">&minus;</button>' +
+      '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (idx === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+      '<button type="button" class="ctt-ctrl-btn ctt-reorder-down" title="Move Down"' + (idx === total - 1 ? ' disabled' : '') + '>&#9660;</button></div></div>';
+    card.querySelector('.ctt-toggle-btn').addEventListener('click', function(e) { e.stopPropagation(); removeErrand(store); });
+    card.querySelector('.ctt-reorder-up').addEventListener('click', function(e) { e.stopPropagation(); moveInRoute(store, -1); });
+    card.querySelector('.ctt-reorder-down').addEventListener('click', function(e) { e.stopPropagation(); moveInRoute(store, 1); });
+    var chk = card.querySelector('.ctt-visited-checkbox');
+    card.querySelector('.ctt-visited-check').addEventListener('click', function(e) { e.stopPropagation(); });
+    chk.addEventListener('change', function() {
+      visitedStores[store.name] = this.checked;
+      if (this.checked) lastVisited = { name: store.name, lat: store.lat, lng: store.lng, t: Date.now() };
+      card.classList.toggle('visited', this.checked);
+      refreshNextButton(); equalizeListHeights(); refreshCountdown();
+      updateRouteStat(lastRouteCount, lastRouteMiles); saveProgress(); updateSavedNote();
+    });
+    return card;
+  }
+
+  // ---- Bonus shops in the background of the map: faded gold diamonds; tap one to add it to the route ----
+  function bgBonusIcon() {
+    return L.divIcon({ html: '<div class="ctt-bg-hit"><div class="ctt-bonus-icon"><span></span></div></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -12] });
+  }
+  function addBonusFromMap(shop) {
+    map.closePopup();
+    manualOverrides[shop.name] = 'include';
+    cttTrack('add_bonus_from_map', { shop: shop.name });
+    recalibrate(lastStartIdx);
+    var n = 0; for (var i = 0; i < activeRoute.length; i++) { if (activeRoute[i].name === shop.name) { n = i + 1; break; } }
+    showToast(n ? 'Added as stop ' + n : 'Added to your route', function() { delete manualOverrides[shop.name]; recalibrate(lastStartIdx); });
+  }
+  function bonusPopupNode(shop) {
+    var st = getOpenStatus(shop.hours), open = (st.state === 'open' || st.state === 'soon');
+    var d = document.createElement('div'); d.className = 'ctt-bonus-popup';
+    d.innerHTML = '<strong>' + cttEsc(dn(shop.name)) + '</strong><br><span class="ctt-bp-status">' + cttEsc(open ? st.text : 'Closed now') + '</span>';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-bp-add'; b.textContent = open ? 'Add to route' : 'Closed now'; b.disabled = !open;
+    b.addEventListener('click', function() { addBonusFromMap(shop); });
+    d.appendChild(b);
+    return d;
+  }
+  function offRoutePopupNode(store) {
+    var d = document.createElement('div');
+    d.innerHTML = popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div');
+    var st = getOpenStatus(store.hours), open = (st.state === 'open' || st.state === 'soon');
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-bp-add'; b.textContent = open ? 'Add to route' : 'Closed now'; b.disabled = !open;
+    b.addEventListener('click', function() { addBonusFromMap(store); });
+    d.appendChild(b);
+    return d;
+  }
+  function addBackgroundBonus(showing) {
+    if (typeMode() === 'none') return;
+    var now = effectiveNow();
+    allLocations.forEach(function(s) {
+      if (!s.defaultBonus || showing[s.name]) return;
+      if (s.closesAfter && now.dateStr > s.closesAfter) return;
+      if (filters.xtypes[typeKey(s.category)]) return;
+      if (filters.areas.length && filters.areas.indexOf(areaGroupOf(s)) === -1) return;
+      if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(s)) !== -1) return;
+      if (filters.charity && !SHOP_BENEFIT[s.name]) return;
+      if (filters.open || filters.late) {
+        var td = parseHoursString(s.hours)[now.dayIdx];
+        if (!td || now.decHour >= td[1]) return;
+        if (filters.late && td[1] < 18) return;
+      }
+      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(), zIndexOffset: -2000 }).addTo(map);
+      m.bindPopup(bonusPopupNode(s), { maxWidth: 220 });
+      bgBonusMarkers.push(m);
+    });
+  }
+
   function recalibrate(startIdx) {
     lastStartIdx = startIdx || 0;
     if (!displayContext) liveStartIdx = lastStartIdx;
@@ -4077,6 +4345,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     } else {
       optimized = applyFtOPreference(optimized, rotated.length ? rotated[0].lat : null);
     }
+    optimized = withErrands(optimized);
     activeRoute = optimized;
 
     routeMarkers.forEach(function(m) { map.removeLayer(m); });
@@ -4085,6 +4354,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     // The gold bonus diamonds used to pile up on every re-render; clear them like the numbered ones.
     offRouteMarkers.forEach(function(m) { map.removeLayer(m); });
     offRouteMarkers = [];
+    bgBonusMarkers.forEach(function(m) { map.removeLayer(m); });
+    bgBonusMarkers = [];
     routeListEl.innerHTML = '';
     offRouteListEl.innerHTML = '';
 
@@ -4099,6 +4370,24 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (typeMode() !== 'none') window.cttNoneAutoOpened = false;
 
     optimized.forEach(function(store, i) {
+      if (store.isErrand) {
+        var em = L.marker([store.lat, store.lng], { icon: errandIcon(i + 1, store), zIndexOffset: 1000 }).addTo(map);
+        em._cttR = 15; em._cttAnchor = [15, 15]; em._cttBaseZ = 1000;
+        em.bindPopup('<strong>' + cttEsc(store.icon + ' ' + dn(store.name)) + '</strong><br>' + cttEsc(store.address) + (store.time ? '<br>\u23F0 ' + clock12(store.time) : ''), { maxWidth: 300, minWidth: 180 });
+        routeMarkers.push(em); markerByName[store.name] = em;
+        var ecard = buildErrandCard(store, i + 1, i, optimized.length);
+        (function(store, em, ecard) {
+          function pick() { document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); }); ecard.classList.add('active'); stickyHL = store.name; applyHL(); }
+          ecard.addEventListener('click', pick);
+          ecard.addEventListener('mouseenter', function() { hoverHL = store.name; applyHL(); });
+          ecard.addEventListener('mouseleave', function() { hoverHL = null; applyHL(); });
+          em.on('click', pick);
+          em.on('mouseover', function() { hoverHL = store.name; applyHL(); });
+          em.on('mouseout', function() { hoverHL = null; applyHL(); });
+        })(store, em, ecard);
+        routeListEl.appendChild(ecard);
+        return;
+      }
       var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
       var featuredNow = isFeaturedToday(store);
       var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(i + 1, store.name) : numberedIcon(i + 1, color, store.name), zIndexOffset: 1000 }).addTo(map);
@@ -4134,7 +4423,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var marker = L.marker([store.lat, store.lng], { icon: offRouteIcon(letter), zIndexOffset: -1000 }).addTo(map);
         offRouteMarkers.push(marker);
         marker._cttBaseZ = -1000; markerByName[store.name] = marker;
-        marker.bindPopup(popupTitleHtml(store, null) + '<br>' + store.address + '<br>' + store.hours + '<br>' + store.note + shopDetailsHtml(store.name, 'div'), { maxWidth: 320, minWidth: 200 });
+        marker.bindPopup(offRoutePopupNode(store), { maxWidth: 320, minWidth: 200 });
         var card = buildCard(store, letter, color, false);
         card.addEventListener('click', function() {
           document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
@@ -4153,6 +4442,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         offRouteListEl.appendChild(card);
       });
     }
+    if (!displayContext) { var showing = {}; included.forEach(function(x) { showing[x.name] = 1; }); excluded.forEach(function(x) { showing[x.name] = 1; }); addBackgroundBonus(showing); }
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     refreshOffRouteLabel();
@@ -4171,9 +4461,78 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     applyHL();
   }
 
+  // ---- "Add Your Own Stop" popup ----
+  function geocodeStop(q, done) {
+    var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&viewbox=-86.4,35.5,-84.4,34.5&q=' + encodeURIComponent(q);
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function(r) { if (!r.ok) throw new Error('bad'); return r.json(); })
+      .then(function(a) { done(a && a[0] ? { lat: parseFloat(a[0].lat), lng: parseFloat(a[0].lon), label: String(a[0].display_name || '') } : null, false); })
+      .catch(function() { done(null, true); });
+  }
+  function openAddStop() {
+    var old = document.getElementById('ctt-as-overlay'); if (old) old.parentNode.removeChild(old);
+    var shopsNow = activeRoute.filter(function(x) { return !x.isErrand; });
+    var where = '<option value="__end">Last stop</option><option value="__first">First stop</option>' + shopsNow.map(function(s) { return '<option value="' + encodeURIComponent(s.name) + '">After ' + cttEsc(dn(s.name)) + '</option>'; }).join('');
+    var icons = ERRAND_ICONS.map(function(ic, i) { return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === ERRAND_ICONS.length - 1 ? 'true' : 'false') + '" aria-label="' + ic[1] + '" title="' + ic[1] + '">' + ic[0] + '</button>'; }).join('');
+    var ov = document.createElement('div'); ov.className = 'ctt-shops-overlay open'; ov.id = 'ctt-as-overlay';
+    ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-as-title');
+    ov.innerHTML = '<div class="ctt-shops-dialog" style="max-width:520px"><div class="ctt-shops-top"><h2 class="ctt-shops-title" id="ctt-as-title">Add Your Own Stop</h2>' +
+      '<p class="ctt-shops-sub">An errand, lunch, a coffee or an appointment. It joins today&rsquo;s trail and clears itself tomorrow. It stays on this device.</p>' +
+      '<button type="button" class="ctt-shops-close" id="ctt-as-x" aria-label="Close">&times;</button></div>' +
+      '<div class="ctt-shops-body"><form class="ctt-as-form" id="ctt-as-form" autocomplete="off">' +
+      '<label for="ctt-as-name">What is it?</label><input type="text" id="ctt-as-name" maxlength="60" placeholder="Walmart, oil change, Dr. Smith, lunch">' +
+      '<label for="ctt-as-addr">Address</label><input type="text" id="ctt-as-addr" maxlength="120" placeholder="Street address, or the business name and city">' +
+      '<label>Pick an icon</label><div class="ctt-as-icons" id="ctt-as-icons" role="group" aria-label="Icon">' + icons + '</div>' +
+      '<label for="ctt-as-time">Appointment time (optional)</label><input type="time" id="ctt-as-time">' +
+      '<p class="ctt-as-help">If you add a time, the card shows when to leave. It is an estimate, with no live traffic.</p>' +
+      '<label for="ctt-as-where">Where in your trail?</label><select id="ctt-as-where">' + where + '</select>' +
+      '<p class="ctt-as-help">To find it on the map, the address is looked up with OpenStreetMap&rsquo;s free search. We don&rsquo;t keep it.</p>' +
+      '<p class="ctt-as-msg" id="ctt-as-msg" role="status"></p>' +
+      '<button type="submit" class="ctt-as-go" id="ctt-as-go">Add to my trail</button></form>' +
+      '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div></div></div>';
+    var anchor = document.getElementById('ctt-gi-overlay'); anchor.parentNode.insertBefore(ov, anchor);
+    document.body.style.overflow = 'hidden';
+    var picked = ERRAND_ICONS.length - 1, touched = false;
+    var nameEl = document.getElementById('ctt-as-name'), addrEl = document.getElementById('ctt-as-addr'), msg = document.getElementById('ctt-as-msg'), go = document.getElementById('ctt-as-go');
+    function close() { if (ov.parentNode) ov.parentNode.removeChild(ov); document.body.style.overflow = ''; document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    document.addEventListener('keydown', onKey);
+    document.getElementById('ctt-as-x').addEventListener('click', close);
+    ov.addEventListener('click', function(e) { if (e.target === ov) close(); });
+    function showPick(i) { Array.prototype.forEach.call(document.querySelectorAll('#ctt-as-icons button'), function(b) { b.setAttribute('aria-pressed', +b.getAttribute('data-i') === i ? 'true' : 'false'); }); picked = i; }
+    document.getElementById('ctt-as-icons').addEventListener('click', function(e) { var b = e.target.closest('button'); if (!b) return; touched = true; showPick(+b.getAttribute('data-i')); });
+    nameEl.addEventListener('input', function() {
+      if (touched) return;
+      for (var g = 0; g < ERRAND_GUESS.length; g++) { if (ERRAND_GUESS[g][0].test(nameEl.value)) { showPick(ERRAND_GUESS[g][1]); return; } }
+      showPick(ERRAND_ICONS.length - 1);
+    });
+    document.getElementById('ctt-as-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var nm = nameEl.value.trim(), ad = addrEl.value.trim();
+      if (!nm && !ad) { msg.textContent = 'Add a name or an address first.'; return; }
+      msg.textContent = 'Looking it up…'; go.disabled = true;
+      geocodeStop(ad || nm, function(hit, failed) {
+        go.disabled = false;
+        if (!hit) { msg.textContent = failed ? 'Could not reach the address search. Check your connection and try again.' : 'We could not find that spot. Try the street address with the city, like 123 Main St, Chattanooga.'; return; }
+        if (haversineMiles(hit.lat, hit.lng, 35.0456, -85.3097) > 100) { msg.textContent = 'That looks far from Chattanooga. Check the address and try again.'; return; }
+        var label = nm || hit.label.split(',').slice(0, 2).join(',').trim() || 'My stop';
+        var taken = function(n) { return !!locationsByName[n]; };
+        var unique = label, k = 2; if (taken(unique)) unique = label + ' (my stop)'; while (taken(unique)) { unique = label + ' (my stop ' + (k++) + ')'; }
+        var w = document.getElementById('ctt-as-where').value, after = w === '__end' ? '__end' : (w === '__first' ? '' : decodeURIComponent(w));
+        var e2 = { id: 'e' + Date.now().toString(36), name: unique, address: ad || hit.label.split(',').slice(0, 3).join(',').trim(), lat: hit.lat, lng: hit.lng, icon: ERRAND_ICONS[picked][0], time: document.getElementById('ctt-as-time').value || '', date: todayDateStr(), after: after };
+        errands.push(e2); registerErrand(e2); saveErrands(); cttTrack('add_own_stop', { icon: ERRAND_ICONS[picked][1] });
+        close(); recalibrate(lastStartIdx);
+        setTimeout(function() { var c = routeListEl.querySelector('[data-store-name="' + encodeURIComponent(unique) + '"]'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);
+      });
+    });
+    setTimeout(function() { nameEl.focus(); }, 50);
+  }
+  (function() { var b = document.getElementById('ctt-addstop-open'); if (b) b.addEventListener('click', openAddStop); })();
+
   // ---- Restore today's saved state (or set aside an unfinished earlier day) ----
   storageOK = testStorage();
   updateStorageNote();
+  loadErrands();
   var savedProgress = loadSavedProgress();
   var initialStartIdx = 0;
   if (savedProgress && savedProgress.date === todayDateStr()) {
@@ -4375,7 +4734,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   function placeStartMarker(lat, lng) {
     if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div style="background:#2c2417;width:12px;height:12px;border-radius:50%;border:2px solid #f2ead9;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>', className: '', iconSize: [12, 12], iconAnchor: [6, 6] }), zIndexOffset: 2000 }).addTo(map);
+    var at = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
+    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">&#128663;</div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] }), zIndexOffset: 2000 }).addTo(map);
+    userMarker.bindPopup('<strong>You were here at ' + at + '</strong><br>It refreshes when the Trail checks your location.', { maxWidth: 220 });
   }
 
   function pickStartingLocation(uLat, uLng, excludeVisited) {
@@ -4411,6 +4772,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var remaining = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
     var latestClose = null, latestName = '', openTodayCount = 0;
     remaining.forEach(function(store) {
+      if (store.isErrand) return; // your own stops have no closing time
       var schedule = parseHoursString(store.hours);
       var today = schedule[now.dayIdx];
       if (today) { openTodayCount++; if (latestClose === null || today[1] > latestClose) { latestClose = today[1]; latestName = store.name; } }
@@ -4866,7 +5228,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!toastEl) return;
     toastEl.textContent = '';
     var sp = document.createElement('span'); sp.textContent = text; toastEl.appendChild(sp);
-    if (withUndo) { var ub = document.createElement('button'); ub.type = 'button'; ub.textContent = 'Undo'; ub.addEventListener('click', function() { hideToast(); doUndo(1); }); toastEl.appendChild(ub); }
+    if (withUndo) { var ub = document.createElement('button'); ub.type = 'button'; ub.textContent = 'Undo'; ub.addEventListener('click', function() { hideToast(); if (typeof withUndo === 'function') withUndo(); else doUndo(1); }); toastEl.appendChild(ub); }
     toastEl.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(hideToast, 3000);
   }
   function hideToast() { if (toastEl) toastEl.hidden = true; clearTimeout(toastTimer); }
@@ -5285,7 +5647,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   renderHolidayBanner();
 
   // ---- All shops popup (built from the same data as the map) ----
-  var SHOP_CAT = { 'Thrift Store': 'Thrift shop', 'Antique Mall': 'Antique mall', 'Curated Shop': 'Curated shop' };
+  var SHOP_CAT = { 'Thrift Store': 'Thrift shop', 'Antique Mall': 'Antique shop', 'Curated Shop': 'Vintage shop' };
   var shopsBuilt = false, shopsLastFocus = null;
   function buildShopsPopup() {
     var all = routeDefaults.concat(bonusDefaults);
