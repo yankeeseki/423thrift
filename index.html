@@ -176,6 +176,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v18.9 (Nov 4 2026): in the manager form's scope notice, 'about' changed to 'approx.' ('shops within approx. 20 minutes and 20 miles of downtown Chattanooga'), at the owner's request.
+  - DONE in v18.8 (Nov 4 2026): the shop manager form (shops/update/index.html) now opens with a boxed notice (.scope-note, rust border) at the TOP, right under the heading, with two lines: 'Storefront shops only. The Trail is for shops with a physical location.' and 'At this time the Trail covers Chattanooga and its suburbs only: shops within about 20 minutes and 20 miles of downtown Chattanooga.' The v18.6/v18.7 note that sat under the intro paragraph was moved into this box. Listing rules from the owner: physical storefronts only (no online-only or pop-up sellers), within about 20 min / 20 mi of downtown.
   - DONE in v18.7 (Nov 4 2026): the coverage note on the shop manager form now says 'shops within about 20 minutes and 20 miles of downtown Chattanooga' (was '15 to 20 minute drive'). Checked against the data: all 47 listed shops are within 14.4 straight-line miles of downtown (farthest: Samaritan Center in the Ooltewah area; next farthest 9 miles), so the 20 min / 20 mile rule matches what the Trail actually covers. Downtown reference point used for the check: 35.0456, -85.3097.
   - DONE in v18.6 (Nov 4 2026): the shop manager form (shops/update/index.html) now has a note under the intro paragraph: 'Please note: at this time the Trail covers Chattanooga and its suburbs only, roughly a 15 to 20 minute drive from downtown.' (second .mgrsub paragraph). Scope rule from the owner: the Trail is Chattanooga + suburbs within about 15-20 minutes of downtown for now. The same wording could go on the Get Involved form and the shop-suggestion form if the owner asks.
   - DONE in v18.5 (Nov 4 2026): on COMPUTERS (781px and wider) the map-icon picker is forced to TWO ROWS: a grid of 11 columns (11 + 10 icons), smaller buttons (36 px high). To make room the menu widens to 460 px while the Account panel is open (class ctt-menu-wide, toggled by the Account button, cleared whenever the menu reopens). Phones are unchanged (buttons wrap at 42 px). Owner wrote 'optimal map icons'; I took it to mean the map-icon picker. If the icon count changes from 21, change repeat(11, 1fr) (columns = ceil(count / 2)).
@@ -254,7 +256,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v18.7-20261104">
+<meta name="ctt-build" content="v18.9-20261104">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2833,7 +2835,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v18.7 &mdash; November 4, 2026</p>
+      <p class="ctt-version">v18.9 &mdash; November 4, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
