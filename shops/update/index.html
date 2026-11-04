@@ -76,16 +76,16 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .mf .optin{display:flex;align-items:flex-start;gap:10px;margin:18px 0 0;font:600 14px/1.4 system-ui,sans-serif;color:var(--ink);cursor:pointer}.mf .optin input{flex:0 0 auto;width:22px;height:22px;margin:0;accent-color:var(--olive)}
 .mf .confirm{display:flex;align-items:flex-start;gap:10px;margin:22px 0 0;padding:12px 14px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px;font:700 14px/1.4 system-ui,sans-serif;color:var(--ink);cursor:pointer}.mf .confirm input{flex:0 0 auto;width:22px;height:22px;margin:0;accent-color:var(--olive)}
 .mf .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
-.scope-note{margin:0 0 14px;padding:10px 14px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px;font:14px/1.45 system-ui,sans-serif;color:var(--ink)}.scope-note p{margin:0}.scope-note p+p{margin-top:4px}
-.mgrsub{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);margin:0 0 10px}
+.scope-note{margin:0 0 14px;padding:10px 14px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px;font:14px/1.45 system-ui,sans-serif;color:var(--ink)}.scope-note p{margin:0;max-width:none}
+.mgrsub{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);margin:0 0 10px;max-width:none}
 .thx{text-align:center;padding:20px 0}
 .tipbox{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;margin-top:24px;padding-top:14px;border-top:1.5px dashed var(--line);font:13px system-ui,sans-serif;color:var(--taupe)}
 .tipbox a{font-weight:700;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:5px 13px;text-decoration:none}
-.poster-ask{margin:26px 0 8px;padding:16px 18px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;text-align:center}.poster-ask h2{font-size:20px;margin:0 0 6px;border:0;color:var(--ink)}.poster-ask p{font-family:system-ui,sans-serif;font-size:15px;margin:0 0 12px}.poster-btn{display:inline-block;padding:11px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}.poster-btn:hover{background:#8f3e22}.poster-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.poster-ask{margin:26px 0 8px;padding:16px 18px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;text-align:center}.poster-ask h2{font-size:20px;margin:0 0 6px;border:0;color:var(--ink)}.poster-ask p{font-family:system-ui,sans-serif;font-size:15px;margin:0 auto 12px;max-width:62ch}.poster-btn{display:inline-block;padding:11px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}.poster-btn:hover{background:#8f3e22}.poster-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 </style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>Update Your Shop Listing</h1>
-<div class="scope-note"><p><strong>Storefront shops only.</strong> The Trail is for shops with a physical location.</p><p>At this time the Trail covers Chattanooga and its suburbs only: shops within approx. 20 minutes and 20 miles of downtown Chattanooga.</p></div>
-<p class="mgrsub">Shop managers and staff: tell the moderators what&rsquo;s true at your shop and we&rsquo;ll update your listing on the Trail. We review every submission before changing anything. Leave blank any question you&rsquo;re not sure about.</p>
+<div class="scope-note"><p><strong>Storefront shops only,</strong> near the existing Trail and within approx. 20 miles or 20 minutes of downtown Chattanooga.</p></div>
+<p class="mgrsub">Welcome, shop owners and staff! Share your shop&rsquo;s details below and we&rsquo;ll review them before updating your listing. Feel free to leave blank anything you&rsquo;re not sure about.</p>
 <form class="mf" id="mf" novalidate>
 <div class="hp"><label>Leave this empty <input type="text" id="mf-hp" tabindex="-1" autocomplete="off"></label></div>
 <fieldset><legend>About you</legend>
@@ -112,8 +112,9 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-charity">If your shop supports a charity or cause, tell us more about the charity or charities you support</label><textarea id="mf-charity" placeholder="Who benefits, how the money is used, and a website if you have one..."></textarea>
 <label for="mf-note">What should shoppers know about your shop?</label><textarea id="mf-note" placeholder="Parking, donation hours, what you&rsquo;re known for..."></textarea>
 </fieldset>
+<label class="optin" id="featured" for="mf-featured"><input type="checkbox" id="mf-featured"> <span>I&rsquo;d like to learn how my shop can become a featured shop.</span></label>
 <label class="optin" for="mf-card"><input type="checkbox" id="mf-card"> <span>I&rsquo;d be interested in participating in a special future &ldquo;Chattanooga Thrift Trail&rdquo; discount card.</span></label>
-<label class="confirm" for="mf-confirm"><input type="checkbox" id="mf-confirm"> <span>I confirm that my shop has a storefront and is within approx. 20 miles of downtown Chattanooga.</span></label>
+<label class="confirm" for="mf-confirm"><input type="checkbox" id="mf-confirm"> <span>I confirm that my shop has a storefront and is within approx. 20 miles or 20 minutes of downtown Chattanooga.</span></label>
 <div class="st" id="mf-st" role="status"></div>
 <button type="submit" id="mf-send">Submit</button>
 </form>
@@ -129,11 +130,11 @@ f.addEventListener('submit',function(e){
   if(v('mf-hp'))return;
   var shop=v('mf-shop'),name=v('mf-name'),email=v('mf-email');
   if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop name, your name and a valid email.';return;}
-  if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles of downtown Chattanooga.';return;}
+  if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles or 20 minutes of downtown Chattanooga.';return;}
   var pay=[].map.call(f.querySelectorAll('input[name=pay]:checked'),function(c){return c.value;}).join(', ');
   var min=v('mf-min'); if(min&&v('mf-minamt'))min+=' ('+v('mf-minamt')+')';
   var data={access_key:KEY,subject:'Thrift Trail: Shop listing update ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,
-    shop:shop,confirmed_storefront_within_20_miles:'Yes',discount_card_interest:(document.getElementById('mf-card').checked?'Yes':'No'),role:v('mf-role'),hours:v('mf-hours'),sale_days:v('mf-sales'),best_days_for_new_items:v('mf-restock'),rewards:v('mf-rewards'),
+    shop:shop,confirmed_storefront_within_20_miles:'Yes',featured_shop_interest:(document.getElementById('mf-featured').checked?'Yes':'No'),discount_card_interest:(document.getElementById('mf-card').checked?'Yes':'No'),role:v('mf-role'),hours:v('mf-hours'),sale_days:v('mf-sales'),best_days_for_new_items:v('mf-restock'),rewards:v('mf-rewards'),
     restrooms:v('mf-rest'),card_minimum:min,payment_types:pay,wheelchair:v('mf-wc'),free_wifi:v('mf-wifi'),charities_supported:v('mf-charity'),notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
