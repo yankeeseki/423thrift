@@ -176,6 +176,10 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v18.0 (Nov 4 2026): added the pickup truck emoji to the map-icon list (CTT_ICONS, right after the car), at the owner's request. The list is now 21 icons.
+  - DONE in v17.9 (Nov 4 2026): MAP ICON LIST REPLACED with the owner's own list (CTT_ICONS, in the owner's order): scooter, alien, cat, T-Rex, eagle, fire, peach, eggplant, pizza, donut, eight ball, snowboarder, SUV, car, rocket, flying saucer, money, treasure chest, heart, USA flag. The default is still the car, now held in CTT_ICON_DEFAULT (it is no longer the first button). The vehicle-only list from v17.8 is gone. KNOWN RISK: the treasure chest emoji (U+1FA8E, Unicode 16) showed as an empty box in my test browser and can show as a box on older phones; if the owner sees that, swap it in CTT_ICONS for another emoji. The USA flag shows as the letters 'US' on Windows computers (normal for flags there). Tested: pick + Save stores the icon, no errors.
+  - DONE in v17.8 (Nov 4 2026): CHOOSE YOUR MAP ICON. The optional Account panel in the hamburger menu (name + email) now also asks 'Your icon on the map' with 10 emoji buttons: car (default), SUV, pickup, van, taxi, bus, motorcycle, scooter, bicycle, on foot. Interpretation: the owner said 'in the name and email, ask what icon they would like to use', right after the pulsing-car work, so I took it to mean the pin that shows where the person is on the map. Stored as .icon in the same device-only localStorage 'ctt-account' (never sent anywhere). Code: CTT_ICONS + cttIconGlyph() beside cttAcct(); the picker is in the Account panel builder (class ctt-icon-opt, role=radio, aria-checked); placeStartMarker() uses cttIconGlyph(); window.cttRefreshMapIcon() swaps the glyph on the live pin right after Save or Clear. Only icons in CTT_ICONS are accepted (anything else falls back to the car). Saving with just an icon works (name and email stay optional); 'Clear from this device' resets to the car. The pulse, trail and popup are unchanged. Tested: pick + Save stores {name, icon}, no errors; the picker renders as two rows of buttons at phone width. Not yet seen on a real phone. If the owner meant a different icon (for example next to names on reviews), tell the next assistant: only the picker and storage would be reused.
+  - DONE in v17.7 (Nov 3 2026): the spreading ring behind the pulsing car was REMOVED at the owner's request (the ::before rule and ctt-car-ring keyframes are gone). The car alone still pulses (ctt-car-pulse, grows and shrinks, 1.8 s; still respects 'reduce motion'). No circle, just the car.
   - DONE in v17.6 (Nov 3 2026): the car pin (.ctt-you-pin) now pulses all the time: the car gently grows and shrinks (ctt-car-pulse, 1.8 s) and a soft rust ring spreads out from behind it and fades (ctt-car-ring, ::before). Pure CSS, so it keeps pulsing while the position updates; Leaflet moves the outer marker element, the animation is on the inner div, so they do not fight. Respects the phone's 'reduce motion' setting (no animation then). To change speed edit 1.8s; to calm it down lower scale 1.12 or the ring opacity. Not yet seen on a real map.
   - DONE in v17.5 (Nov 3 2026): the 'Keep screen on: Off/On' button added in v16.9 is REMOVED at the owner's request (button, CSS, wake-lock code, localStorage 'ctt-awake' all gone; nothing requests a wake lock any more). The 45-second car recheck still works but, as before, only while the page is on screen. Do not re-add without asking.
   - DONE in v17.4 (Nov 3 2026): CLOSING-SOON PASS MADE 'AT RISK' BASED (replaces the v17.3 rule, same block at the end of optimizeLoop's hours-aware section). v17.3 moved ANY shop closing within the window; the owner and I agreed that was too eager, so now a stop only moves if it is AT RISK: using arrivalAt() (start time + estimated drive at ASSUMED_MPH + VISIT_MIN per stop, waiting for opening times) you would reach it within RISK_BUFFER_H (0.5 h) of its closing time or after it, AND it closes within URGENT_WINDOW_H (2 h) of the route start. At-risk stops are pulled as early as possible, soonest-closing first, all moves together adding at most URGENT_MAX_MIN (6) minutes of estimated driving (+15% road cushion), never creating new after-closing arrivals, start never moves, later at-risk stops stay behind earlier ones (minPos). Stops not at risk stay where the shortest-loop logic put them. NOTE: the owner first asked about a 1-hour window; I proposed at-risk + a cap, and kept the cap at 2 h (not 1 h) because the at-risk test already filters, and a 1 h cap would ignore a shop closing in 90 minutes that sits late in the route. If they still want 1 h, change URGENT_WINDOW_H. Moved shops show 'Closes at X · going here first' on their route card (cttUrgent). Unit-tested on a stand-in 4-shop line: an at-risk far shop jumps ahead; a shop already early in the order is left alone; a shop closing later than you would arrive is left alone. Not yet seen on a real route.
@@ -243,7 +247,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v17.6-20261103">
+<meta name="ctt-build" content="v18.0-20261104">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1406,6 +1410,10 @@ STILL TO DO / IDEAS
   .ctt-menu-acct label { display: block; font-size: 14px; font-weight: 600; margin: 8px 0 0; }
   .ctt-menu-acct input { display: block; width: 100%; box-sizing: border-box; font-size: 16px; padding: 9px 10px; margin-top: 3px; border: 1.5px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font-family: inherit; }
   .ctt-acct-note { font-size: 12.5px; line-height: 1.4; color: #4d4436; margin: 6px 0 0; }
+  .ctt-icon-label { font-size: 14px; font-weight: 600; margin: 10px 0 4px; }
+  .ctt-icon-pick { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ctt-menu .ctt-icon-pick .ctt-icon-opt { width: 42px; height: 42px; padding: 0 !important; font-size: 22px; line-height: 1; border-radius: 10px !important; background: var(--card) !important; color: inherit !important; border: 2px solid var(--line) !important; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .ctt-menu .ctt-icon-pick .ctt-icon-opt[aria-checked="true"] { border-color: var(--rust) !important; background: #f3dccf !important; }
   .ctt-acct-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .ctt-acct-row button { font-size: 15px; font-weight: 700; padding: 9px 16px !important; border-radius: 8px !important; background: var(--rust); color: #fff !important; border: 2px solid var(--rust) !important; border-top: 2px solid var(--rust) !important; }
   .ctt-menu .ctt-acct-row button, .ctt-menu .ctt-acct-row button:hover, .ctt-menu .ctt-acct-row button:focus-visible { background: var(--rust) !important; color: #fff !important; }
@@ -2392,10 +2400,8 @@ STILL TO DO / IDEAS
   .ctt-bp-add:disabled { background: #b8ad93; cursor: default; }
   .ctt-you-pin { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 34px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.55)); }
   .ctt-you-pin { position: relative; animation: ctt-car-pulse 1.8s ease-in-out infinite; }
-  .ctt-you-pin::before { content: ""; position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: rgba(174,76,44,0.45); z-index: -1; animation: ctt-car-ring 1.8s ease-out infinite; }
   @keyframes ctt-car-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
-  @keyframes ctt-car-ring { 0% { transform: scale(0.6); opacity: 0.7; } 100% { transform: scale(1.9); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .ctt-you-pin, .ctt-you-pin::before { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .ctt-you-pin { animation: none; } }
   .ctt-errand-icon { position: relative; width: 30px; height: 30px; border-radius: 8px; background: #fbf1d4; border: 2px solid #6f6450; display: flex; align-items: center; justify-content: center; font-size: 16px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.35); }
   .ctt-errand-icon b { position: absolute; top: -9px; right: -9px; min-width: 17px; height: 17px; padding: 0 3px; box-sizing: border-box; border-radius: 9px; background: #2c2417; color: #f2ead9; font: 700 10px/17px 'Libre Franklin', sans-serif; text-align: center; }
   .ctt-tag.ctt-errand { border-style: dashed; }
@@ -2808,7 +2814,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v17.6 &mdash; November 3, 2026</p>
+      <p class="ctt-version">v18.0 &mdash; November 4, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -3213,6 +3219,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   // Optional account (device only): name + email saved in this browser's localStorage under 'ctt-account'.
   function cttAcct() { try { return JSON.parse(localStorage.getItem('ctt-account') || 'null') || {}; } catch (e) { return {}; } }
+  // Map icon the person picks in Account (stored as .icon in 'ctt-account'). Only these options are accepted; default is the car.
+  var CTT_ICON_DEFAULT = '\uD83D\uDE97'; // the car
+  var CTT_ICONS = [['🛵', 'Scooter'], ['👽', 'Alien'], ['😺', 'Cat'], ['🦖', 'T-Rex'], ['🦅', 'Eagle'], ['🔥', 'Fire'], ['🍑', 'Peach'], ['🍆', 'Eggplant'], ['🍕', 'Pizza'], ['🍩', 'Donut'], ['🎱', 'Eight ball'], ['🏂', 'Snowboarder'], ['🚙', 'SUV'], ['🚗', 'Car'], ['🛻', 'Pickup'], ['🚀', 'Rocket'], ['🛸', 'Flying saucer'], ['💸', 'Money'], ['🪎', 'Treasure chest'], ['💖', 'Heart'], ['🇺🇸', 'USA']];
+  function cttIconGlyph() { var i = cttAcct().icon; for (var k = 0; k < CTT_ICONS.length; k++) { if (CTT_ICONS[k][0] === i) return i; } return CTT_ICON_DEFAULT; }
   function cttEsc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   // Adds a row to the moderators' Google Sheet (one-way; the answer can't be read from here).
   function cttSheet(name, email, source) { try { fetch('https://script.google.com/macros/s/AKfycbxEQgGCzRxulLLKXTYmpYFH5Ivm5RX7WFiO576UPUOK3EjvIxy-r29tdX-w7-FCYgIb/exec', { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ name: name || '', email: email, source: source }) }).catch(function() {}); } catch (e) {} }
@@ -4859,9 +4869,10 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var at = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
     var popHtml = '<strong>You were here at ' + at + '</strong><br>It refreshes about every 45 seconds while the Trail is open, and when you come back to it.';
     if (userMarker) { userMarker.setLatLng([lat, lng]); if (userMarker.setPopupContent) userMarker.setPopupContent(popHtml); return; }
-    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">&#128663;</div>', className: '', iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -26] }), zIndexOffset: 2000 }).addTo(map);
+    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">' + cttIconGlyph() + '</div>', className: '', iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -26] }), zIndexOffset: 2000 }).addTo(map);
     userMarker.bindPopup(popHtml, { maxWidth: 220 });
   }
+  window.cttRefreshMapIcon = function() { try { var el = userMarker && userMarker.getElement && userMarker.getElement(); var d = el && el.querySelector('.ctt-you-pin'); if (d) d.textContent = cttIconGlyph(); } catch (e) {} };
   // Quiet location recheck: moves only the car. It never rebuilds the route (that still happens when you tap the big button).
   // Runs about every 45 seconds while the page is on screen, and once when the screen comes back. Only after you have located once.
   var carCheckBusy = false, carCheckLast = 0;
@@ -6115,23 +6126,32 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           ap.innerHTML = '<p class="ctt-acct-note">Optional. Saved on this device only, so the Trail can say hello and fill in your name on reviews. No password needed.</p>'
             + '<label>What should we call you?<input type="text" id="ctt-acct-name" maxlength="40" autocomplete="nickname" value="' + cttEsc(a0.name || '') + '"></label>'
             + '<label>Email (optional)<input type="email" id="ctt-acct-email" maxlength="80" autocomplete="email" value="' + cttEsc(a0.email || '') + '"></label>'
-            + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear from this device</button>' : '') + '</div>'
+            + '<div class="ctt-icon-label">Your icon on the map</div><div class="ctt-icon-pick" id="ctt-acct-icons" role="radiogroup" aria-label="Your icon on the map">' + CTT_ICONS.map(function(o) { return '<button type="button" role="radio" class="ctt-icon-opt" data-icon="' + o[0] + '" aria-label="' + o[1] + '" aria-checked="' + (o[0] === cttIconGlyph() ? 'true' : 'false') + '" title="' + o[1] + '">' + o[0] + '</button>'; }).join('') + '</div>'
+            + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email || a0.icon ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear from this device</button>' : '') + '</div>'
             + '<div class="ctt-menu-status" id="ctt-acct-msg" role="status"></div>';
           ab.addEventListener('click', function() { ap.hidden = !ap.hidden; ab.setAttribute('aria-expanded', ap.hidden ? 'false' : 'true'); if (!ap.hidden) { var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus(); } });
           menu.appendChild(ab); menu.appendChild(ap);
+          var pickedIcon = cttIconGlyph();
+          Array.prototype.forEach.call(ap.querySelectorAll('.ctt-icon-opt'), function(ob) {
+            ob.addEventListener('click', function() {
+              pickedIcon = ob.getAttribute('data-icon');
+              Array.prototype.forEach.call(ap.querySelectorAll('.ctt-icon-opt'), function(o2) { o2.setAttribute('aria-checked', o2 === ob ? 'true' : 'false'); });
+            });
+          });
           ap.querySelector('#ctt-acct-save').addEventListener('click', function() {
             var nm = ap.querySelector('#ctt-acct-name').value.trim(), em = ap.querySelector('#ctt-acct-email').value.trim(), msg = ap.querySelector('#ctt-acct-msg');
             if (em && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { msg.textContent = 'That email does not look right. You can leave it blank.'; return; }
             var prev = cttAcct();
-            try { if (nm || em) localStorage.setItem('ctt-account', JSON.stringify({ name: nm, email: em, sent: (em && em === prev.email) ? !!prev.sent : false })); else localStorage.removeItem('ctt-account'); } catch (e) { msg.textContent = 'This browser would not let us save. Check that cookies and site data are allowed.'; return; }
+            try { if (nm || em || pickedIcon !== CTT_ICON_DEFAULT) localStorage.setItem('ctt-account', JSON.stringify({ name: nm, email: em, icon: pickedIcon, sent: (em && em === prev.email) ? !!prev.sent : false })); else localStorage.removeItem('ctt-account'); } catch (e) { msg.textContent = 'This browser would not let us save. Check that cookies and site data are allowed.'; return; }
             if (em) { cttSendContact(nm, em, em !== prev.email || !prev.sent); }
+            if (window.cttRefreshMapIcon) window.cttRefreshMapIcon();
             cttTrack('account_save', { has_email: !!em });
             msg.textContent = nm ? 'Saved. Hi, ' + nm + '!' : 'Saved.';
             ab.textContent = nm ? '\uD83D\uDC64 Hi, ' + nm : '\uD83D\uDC64 Account';
             renderHolidayBanner();
           });
           var clr = ap.querySelector('#ctt-acct-clear');
-          if (clr) clr.addEventListener('click', function() { try { localStorage.removeItem('ctt-account'); } catch (e) {} ap.querySelector('#ctt-acct-name').value = ''; ap.querySelector('#ctt-acct-email').value = ''; ap.querySelector('#ctt-acct-msg').textContent = 'Cleared from this device.'; ab.textContent = '\uD83D\uDC64 Account'; renderHolidayBanner(); });
+          if (clr) clr.addEventListener('click', function() { try { localStorage.removeItem('ctt-account'); } catch (e) {} ap.querySelector('#ctt-acct-name').value = ''; ap.querySelector('#ctt-acct-email').value = ''; ap.querySelector('#ctt-acct-msg').textContent = 'Cleared from this device.'; ab.textContent = '\uD83D\uDC64 Account'; pickedIcon = CTT_ICON_DEFAULT; Array.prototype.forEach.call(ap.querySelectorAll('.ctt-icon-opt'), function(o2) { o2.setAttribute('aria-checked', o2.getAttribute('data-icon') === pickedIcon ? 'true' : 'false'); }); if (window.cttRefreshMapIcon) window.cttRefreshMapIcon(); renderHolidayBanner(); });
           return;
         }
         if (it.heading) { var h = document.createElement('div'); h.className = 'ctt-menu-head'; h.textContent = it.heading; menu.appendChild(h); return; }
