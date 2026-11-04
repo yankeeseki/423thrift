@@ -176,6 +176,9 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v18.6 (Nov 4 2026): the shop manager form (shops/update/index.html) now has a note under the intro paragraph: 'Please note: at this time the Trail covers Chattanooga and its suburbs only, roughly a 15 to 20 minute drive from downtown.' (second .mgrsub paragraph). Scope rule from the owner: the Trail is Chattanooga + suburbs within about 15-20 minutes of downtown for now. The same wording could go on the Get Involved form and the shop-suggestion form if the owner asks.
+  - DONE in v18.5 (Nov 4 2026): on COMPUTERS (781px and wider) the map-icon picker is forced to TWO ROWS: a grid of 11 columns (11 + 10 icons), smaller buttons (36 px high). To make room the menu widens to 460 px while the Account panel is open (class ctt-menu-wide, toggled by the Account button, cleared whenever the menu reopens). Phones are unchanged (buttons wrap at 42 px). Owner wrote 'optimal map icons'; I took it to mean the map-icon picker. If the icon count changes from 21, change repeat(11, 1fr) (columns = ceil(count / 2)).
+  - DONE in v18.4 (Nov 4 2026): the 'Control the route with just one button' hint (#ctt-cta-hint) PULSES for 3 seconds (3 pulses of 1 s: grows to 114%, goes bold and dark) the first time it appears after the page opens. NOTE: the hint lives in the row under the big button, which stays hidden until the person taps the big button once (first locate), so the pulse starts at that moment, not at page load. Flag hintPulsed (beside renderNavRow) makes it once per page open; CSS: ctt-hint-pulse keyframes + class .ctt-hint-pulse removed by a 3 s timer. Respects reduce-motion (just bold for 3 s). If the owner wants it to pulse at page load instead, the hint would have to be shown before the first locate, which changes the layout. Not yet seen on a real phone.
   - DONE in v18.3 (Nov 4 2026): the hamburger menu now has a CLOSE X on phones (780px wide and under): a big rust '×' button (class ctt-menu-x, aria-label 'Close menu') pinned to the top right of the menu and kept in view when the menu scrolls (position:sticky). It is added at the top of open(). Hidden on computers. The other ways to close still work (tap the menu button again, tap outside, Escape). After closing it returns focus to the menu button.
   - DONE in v18.2 (Nov 4 2026): map-icon picker REORDERED, most to least sensible for travel (owner asked me to judge): car, SUV, pickup, scooter, rocket, flying saucer, eagle, snowboarder, fire, T-Rex, alien, cat, money, treasure chest, eight ball, pizza, donut, peach, eggplant, heart, USA flag. Same 21 icons, only the order in CTT_ICONS changed. The default is still the car (CTT_ICON_DEFAULT).
   - DONE in v18.1 (Nov 4 2026): the Account panel's email label now reads just 'Email' (the '(optional)' was removed at the owner's request). The email is still not required: the form saves fine with it blank, and the intro line above still says the account is optional.
@@ -250,7 +253,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v18.3-20261104">
+<meta name="ctt-build" content="v18.6-20261104">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1407,6 +1410,11 @@ STILL TO DO / IDEAS
   .ctt-menu { position: absolute; top: 60px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu .ctt-menu-x { display: none; }
+  @media (min-width: 781px) {
+    .ctt-menu.ctt-menu-wide { min-width: 460px; }
+    .ctt-menu-acct .ctt-icon-pick { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; }
+    .ctt-menu .ctt-icon-pick .ctt-icon-opt { width: 100%; height: 36px; font-size: 19px; border-radius: 8px !important; }
+  }
   @media (max-width: 780px) {
     .ctt-menu .ctt-menu-x { display: flex; align-items: center; justify-content: center; position: sticky; top: 0; align-self: flex-end; flex: 0 0 auto; width: 44px; height: 44px; margin: -2px -2px -6px 0; padding: 0 !important; z-index: 2; font-size: 32px; line-height: 1; font-weight: 400; color: var(--rust) !important; background: var(--card) !important; border: none !important; border-radius: 10px !important; cursor: pointer; }
   }
@@ -2540,6 +2548,9 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
 .ctt-nav-sep{color:var(--ink);opacity:1;font:700 15px 'Libre Franklin',sans-serif}
 .ctt-cta-hint{flex:0 1 auto;text-align:right;font:400 10px/1.2 'Libre Franklin',sans-serif;color:var(--taupe);margin:0 6px 0 0;max-width:30%}
+@keyframes ctt-hint-pulse{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.14);opacity:1;color:var(--ink)}}
+.ctt-cta-hint.ctt-hint-pulse{animation:ctt-hint-pulse 1s ease-in-out 3;transform-origin:right center;font-weight:700}
+@media (prefers-reduced-motion:reduce){.ctt-cta-hint.ctt-hint-pulse{animation:none;font-weight:700}}
 @media (min-width:431px){.ctt-cta-hint{max-width:none;white-space:nowrap;margin-right:10px}}
 @media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
 .ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
@@ -2821,7 +2832,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v18.3 &mdash; November 4, 2026</p>
+      <p class="ctt-version">v18.6 &mdash; November 4, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -5299,6 +5310,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var ns = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
     return ns[1] || ns[0] || null;
   }
+  var hintPulsed = false; // the hint pulses for 3 seconds the first time it appears after the page opens
   function renderNavRow() {
     var row = document.getElementById('ctt-cta-navrow'); if (!row) return;
     var t = dirTarget();
@@ -5309,6 +5321,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     document.getElementById('ctt-nav-dir').setAttribute('aria-label', 'Directions to ' + dn(t.name));
     row.style.display = '';
     if (hint) hint.style.display = '';
+    if (hint && !hintPulsed) { hintPulsed = true; hint.classList.add('ctt-hint-pulse'); setTimeout(function() { hint.classList.remove('ctt-hint-pulse'); }, 3000); }
   }
   function refreshCtaLabel() {
     renderNavRow();
@@ -6124,7 +6137,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
     function open() {
-      menu.innerHTML = '';
+      menu.innerHTML = ''; menu.classList.remove('ctt-menu-wide');
       var xb = document.createElement('button'); xb.type = 'button'; xb.className = 'ctt-menu-x'; xb.setAttribute('aria-label', 'Close menu'); xb.innerHTML = '&times;';
       xb.addEventListener('click', function(e) { e.stopPropagation(); close(); btn.focus(); });
       menu.appendChild(xb);
@@ -6139,7 +6152,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
             + '<div class="ctt-icon-label">Your icon on the map</div><div class="ctt-icon-pick" id="ctt-acct-icons" role="radiogroup" aria-label="Your icon on the map">' + CTT_ICONS.map(function(o) { return '<button type="button" role="radio" class="ctt-icon-opt" data-icon="' + o[0] + '" aria-label="' + o[1] + '" aria-checked="' + (o[0] === cttIconGlyph() ? 'true' : 'false') + '" title="' + o[1] + '">' + o[0] + '</button>'; }).join('') + '</div>'
             + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email || a0.icon ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear from this device</button>' : '') + '</div>'
             + '<div class="ctt-menu-status" id="ctt-acct-msg" role="status"></div>';
-          ab.addEventListener('click', function() { ap.hidden = !ap.hidden; ab.setAttribute('aria-expanded', ap.hidden ? 'false' : 'true'); if (!ap.hidden) { var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus(); } });
+          ab.addEventListener('click', function() { ap.hidden = !ap.hidden; menu.classList.toggle('ctt-menu-wide', !ap.hidden); ab.setAttribute('aria-expanded', ap.hidden ? 'false' : 'true'); if (!ap.hidden) { var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus(); } });
           menu.appendChild(ab); menu.appendChild(ap);
           var pickedIcon = cttIconGlyph();
           Array.prototype.forEach.call(ap.querySelectorAll('.ctt-icon-opt'), function(ob) {
