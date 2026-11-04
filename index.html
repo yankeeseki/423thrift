@@ -176,6 +176,9 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v16.9 (Nov 3 2026): KEEP SCREEN ON toggle. A small underlined text button (#ctt-awake, class .ctt-awake, 10px) sits under the Directions | Next | Undo row, shown only after the first locate and only on phones/browsers that support the Screen Wake Lock API ('wakeLock' in navigator). Reads 'Keep screen on: Off' (default) / 'On'; tapping toggles, and the choice is remembered in localStorage 'ctt-awake'. Code: wakeLock / wantAwake / applyAwake() / paintAwake(), just above carCheckBusy. The phone drops the lock whenever the page is hidden, so applyAwake() re-requests it on visibilitychange. Purpose: lets the 45 s car trail keep updating on a mounted phone. Costs battery, so it is opt-in. Tested with a mocked wakeLock (on requests, off releases, no errors); not tried on a real phone. A saved 'On' re-requests the lock at page load even before the first locate; harmless, but change applyAwake() if that bothers anyone.
+  - DONE in v16.8 (Nov 3 2026): CAR TRAIL (replaces the v16.7 idea). v16.7 had two separate things (route hops darkening when a shop is visited, plus trail dots). The owner said they should be ONE thing, so the visited-based hop coloring was REMOVED (route line is back to the plain v16.6 look) and there is now a single trail: dropCarTrailDot() in index.html, just before placeStartMarker(). Every car update (locate tap, 45 s recheck, screen reopen) extends a dark line (#4a1f0e, weight 4, carTrailLine) through the car's recorded spots and leaves a small dark dot with a white edge at each earlier spot (carTrailDots). A new spot is ignored if the car moved under about 150 ft. Memory only; clears on reload. Straight lines between fixes (about 45 s apart) cut small corners; that is expected. Logic-checked, no page errors; the look on the real map is NOT yet seen (test map is stubbed). Ideas if wanted: snap the line to roads, keep the trail for the day in localStorage.
+  - DONE in v16.6 (Nov 3 2026): (1) LOCATION RECHECK. The car pin now refreshes itself about every 45 seconds while the Trail is open, and right when the screen comes back (visibilitychange, page not hidden). Code: recheckCar() + setInterval(recheckCar,45000) + a visibilitychange listener, placed right after placeStartMarker(). Rules inside recheckCar: only runs after the person has tapped the big button once (hasClickedLocateBefore), skips if the page is hidden, skips if a check is already running (carCheckBusy), and ignores calls closer than 10 seconds apart (carCheckLast). It uses getCurrentPosition (low accuracy, maximumAge 30s, timeout 10s) and only updates lastUserPos and moves the car (placeStartMarker now uses setLatLng on the existing marker). It NEVER rebuilds the route or changes the stops; the route only changes when the person taps the big button. The car popup says 'You were here at HH:MM' and mentions the 45-second refresh. LIMIT: a locked phone or a backgrounded browser cannot give location, so the car only updates when the page is on screen. Tested with a fake clock and mocked geolocation: calls fire on the interval and on screen reopen, no errors. Not yet tried on a real phone. (2) HINT MOVED. 'Control the route with just one button' is now a small muted span (#ctt-cta-hint) INSIDE the nav row, in front of DIRECTIONS on the same line (10px, right-aligned, wraps to 3 short lines, max-width 30%). It still shows and hides with the row. Edit the text inside that span to change it.
   - DONE in v16.5 (Nov 3 2026): the row under the big button is back to v16.3 (tappable DIRECTIONS | NEXT | UNDO, bold caps with bold '|' dividers, gesture words under each). ONLY ADDITION: a small low-profile line above that row, 'Control the route with just one button' (element #ctt-cta-hint, class .ctt-cta-hint: 11px, regular weight, muted var(--taupe), centered). It shows and hides together with the row (renderNavRow() toggles both; hidden until the first locate and while there is no next stop). Owner's words were 'just add the text that I mentioned' (the one-button sentence); to change the wording edit the text inside #ctt-cta-hint. Checked in a test render at phone width; not yet seen on a real phone. ALSO IN v16.5: the faded gold map diamonds are less transparent (opacity .5 -> .75, rule '.ctt-bg-hit .ctt-bonus-icon'); change that one number to adjust.
   - DONE in v16.4 (Nov 3 2026): MISUNDERSTOOD AND REVERTED IN v16.5: the nav row under the big button was made quiet, untappable hint text. The owner did not want that. Do not redo it.
   - DONE in v16.3 (Nov 3 2026): grammar fix on the two one-shop neighborhood pages (thrift-stores-downtown and thrift-stores-ooltewah): 'Here is the 1 thrift, vintage or secondhand shop ... It has its address, hours and what reviewers say.' (was 'Here are the 1 ... shops. Each has ...'). The generator pattern for pages with 2 or more shops is unchanged. STILL OPEN (owner has not given the facts yet; do not guess): restrooms for Crazy Daisy, The Green Gardinia, and the three open Antique District shops; The Thrift Stop card minimum. Rusted Rooster Saturday 10-4 is kept as the owner stated (he said to use it as fact). Owner's iPhone home-screen location problem was a personal phone setting and is resolved; not a site bug. NEXT IDEAS: Add Your Own Stop (hidden, built), coffee shops tied into it, a 'Make this next' button on popups of shops that are on the loop, how-to and blog pages need updating (owner must send current copies; they likely still say 44 shops and old button names).
@@ -234,7 +237,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v16.5-20261103">
+<meta name="ctt-build" content="v16.9-20261103">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2507,8 +2510,9 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;letter-spacing:0;text-transform:none;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
+.ctt-awake{display:block;margin:4px auto 0;background:none;border:0;padding:6px 8px;font:400 10px 'Libre Franklin',sans-serif;letter-spacing:.03em;color:var(--taupe);text-decoration:underline;cursor:pointer}.ctt-awake[aria-pressed="true"]{color:var(--ink);font-weight:700}
 .ctt-nav-sep{color:var(--ink);opacity:1;font:700 15px 'Libre Franklin',sans-serif}
-.ctt-cta-hint{text-align:center;font:400 11px 'Libre Franklin',sans-serif;letter-spacing:.03em;color:var(--taupe);margin:6px 0 0}
+.ctt-cta-hint{flex:0 1 auto;text-align:right;font:400 10px/1.2 'Libre Franklin',sans-serif;color:var(--taupe);margin:0 6px 0 0;max-width:30%}
 @media (max-width:430px){.ctt-cta-navrow{flex-wrap:nowrap}.ctt-cta-navrow .ctt-cta-undo{line-height:1.2;text-align:center}.ctt-cta-navrow .ctt-cta-undo span{display:block}}
 .ctt-cta-btn{position:relative;overflow:hidden;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .ctt-cta-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.38);transform:scaleX(0);transform-origin:left center;pointer-events:none}
@@ -2631,8 +2635,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button>
         <div class="ctt-cta-toast" id="ctt-cta-toast" role="status" aria-live="polite" hidden></div>
-        <div class="ctt-cta-hint" id="ctt-cta-hint" style="display:none;">Control the route with just one button</div>
-        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div></div>
+        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><span class="ctt-cta-hint" id="ctt-cta-hint">Control the route with just one button</span><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div><button type="button" class="ctt-awake" id="ctt-awake" style="display:none;" aria-pressed="false">Keep screen on: Off</button></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2790,7 +2793,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v16.5 &mdash; November 3, 2026</p>
+      <p class="ctt-version">v16.9 &mdash; November 3, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4762,12 +4765,58 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var ctaInterval = null;
   startCountdown('');
 
-  function placeStartMarker(lat, lng) {
-    if (userMarker) map.removeLayer(userMarker);
-    var at = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
-    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">&#128663;</div>', className: '', iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -26] }), zIndexOffset: 2000 }).addTo(map);
-    userMarker.bindPopup('<strong>You were here at ' + at + '</strong><br>It refreshes when the Trail checks your location.', { maxWidth: 220 });
+  var carTrailDots = [], carTrailLast = null, carTrailLine = null;
+  // ONE trail: a dark line through every recorded car spot, with a dot at each spot. Memory only; clears on reload.
+  function dropCarTrailDot(lat, lng) {
+    if (carTrailLast) {
+      var dy = (lat - carTrailLast[0]) * 69, dx = (lng - carTrailLast[1]) * 57; // miles, close enough here
+      if (Math.sqrt(dx * dx + dy * dy) < 0.03) return; // under ~150 ft: car has not really moved
+      carTrailDots.push(L.circleMarker(carTrailLast, { radius: 4, color: '#fff', weight: 1.5, fillColor: '#4a1f0e', fillOpacity: 0.95, interactive: false }).addTo(map));
+      if (!carTrailLine) carTrailLine = L.polyline([carTrailLast, [lat, lng]], { color: '#4a1f0e', weight: 4, opacity: 0.9, interactive: false }).addTo(map);
+      else carTrailLine.addLatLng([lat, lng]);
+    }
+    carTrailLast = [lat, lng];
   }
+  function placeStartMarker(lat, lng) {
+    dropCarTrailDot(lat, lng);
+    var at = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
+    var popHtml = '<strong>You were here at ' + at + '</strong><br>It refreshes about every 45 seconds while the Trail is open, and when you come back to it.';
+    if (userMarker) { userMarker.setLatLng([lat, lng]); if (userMarker.setPopupContent) userMarker.setPopupContent(popHtml); return; }
+    userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">&#128663;</div>', className: '', iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -26] }), zIndexOffset: 2000 }).addTo(map);
+    userMarker.bindPopup(popHtml, { maxWidth: 220 });
+  }
+  // Quiet location recheck: moves only the car. It never rebuilds the route (that still happens when you tap the big button).
+  // Runs about every 45 seconds while the page is on screen, and once when the screen comes back. Only after you have located once.
+  // KEEP SCREEN ON (owner-controlled, default Off, remembered in localStorage 'ctt-awake'). Uses the Screen Wake Lock API; the phone drops the lock whenever the page is hidden, so it is asked for again when the page comes back.
+  var wakeLock = null, wantAwake = false;
+  try { wantAwake = localStorage.getItem('ctt-awake') === '1'; } catch (e) {}
+  function paintAwake() { var b = document.getElementById('ctt-awake'); if (!b) return; b.textContent = 'Keep screen on: ' + (wantAwake ? 'On' : 'Off'); b.setAttribute('aria-pressed', wantAwake ? 'true' : 'false'); }
+  function applyAwake() {
+    if (!('wakeLock' in navigator)) return;
+    if (wantAwake && !wakeLock && !document.hidden) {
+      navigator.wakeLock.request('screen').then(function(l) { wakeLock = l; l.addEventListener('release', function() { wakeLock = null; }); }).catch(function() {});
+    } else if (!wantAwake && wakeLock) { wakeLock.release().catch(function() {}); wakeLock = null; }
+  }
+  (function() {
+    var b = document.getElementById('ctt-awake'); if (!b) return;
+    paintAwake();
+    b.addEventListener('click', function() { wantAwake = !wantAwake; try { localStorage.setItem('ctt-awake', wantAwake ? '1' : '0'); } catch (e) {} paintAwake(); applyAwake(); });
+    document.addEventListener('visibilitychange', applyAwake);
+    applyAwake();
+  })();
+  var carCheckBusy = false, carCheckLast = 0;
+  function recheckCar() {
+    if (!hasClickedLocateBefore || !navigator.geolocation || carCheckBusy || document.hidden) return;
+    if (Date.now() - carCheckLast < 10000) return;
+    carCheckBusy = true; carCheckLast = Date.now();
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      carCheckBusy = false;
+      lastUserPos = { lat: pos.coords.latitude, lng: pos.coords.longitude, t: Date.now() };
+      placeStartMarker(pos.coords.latitude, pos.coords.longitude);
+    }, function() { carCheckBusy = false; }, { enableHighAccuracy: false, maximumAge: 30000, timeout: 10000 });
+  }
+  setInterval(recheckCar, 45000);
+  document.addEventListener('visibilitychange', function() { if (!document.hidden) recheckCar(); });
 
   function pickStartingLocation(uLat, uLng, excludeVisited) {
     var now = effectiveNow();
@@ -5176,7 +5225,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var row = document.getElementById('ctt-cta-navrow'); if (!row) return;
     var t = dirTarget();
     var hint = document.getElementById('ctt-cta-hint');
-    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; if (hint) hint.style.display = 'none'; return; }
+    var awakeBtn = document.getElementById('ctt-awake');
+    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; if (hint) hint.style.display = 'none'; if (awakeBtn) awakeBtn.style.display = 'none'; return; }
+    if (awakeBtn && ('wakeLock' in navigator)) awakeBtn.style.display = '';
     var u = document.getElementById('ctt-cta-undo');
     if (u) u.setAttribute('aria-disabled', lastCtaAction ? 'false' : 'true');
     document.getElementById('ctt-nav-dir').setAttribute('aria-label', 'Directions to ' + dn(t.name));
