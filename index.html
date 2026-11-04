@@ -176,6 +176,8 @@ STILL TO DO / IDEAS
   - DONE in v10.98 (Nov 1 2026): site footer (feedback/links, tips, neighborhoods, newsletter, credits, About) now on every page; Filter count shows unvisited shops; saved-note on the Your Route line; newsletter sentence stays on one line; About moved to the very bottom; home-screen link in the blue box; PDF note; Fort Oglethorpe page title spelled out.
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
+  - DONE in v17.6 (Nov 3 2026): the car pin (.ctt-you-pin) now pulses all the time: the car gently grows and shrinks (ctt-car-pulse, 1.8 s) and a soft rust ring spreads out from behind it and fades (ctt-car-ring, ::before). Pure CSS, so it keeps pulsing while the position updates; Leaflet moves the outer marker element, the animation is on the inner div, so they do not fight. Respects the phone's 'reduce motion' setting (no animation then). To change speed edit 1.8s; to calm it down lower scale 1.12 or the ring opacity. Not yet seen on a real map.
+  - DONE in v17.5 (Nov 3 2026): the 'Keep screen on: Off/On' button added in v16.9 is REMOVED at the owner's request (button, CSS, wake-lock code, localStorage 'ctt-awake' all gone; nothing requests a wake lock any more). The 45-second car recheck still works but, as before, only while the page is on screen. Do not re-add without asking.
   - DONE in v17.4 (Nov 3 2026): CLOSING-SOON PASS MADE 'AT RISK' BASED (replaces the v17.3 rule, same block at the end of optimizeLoop's hours-aware section). v17.3 moved ANY shop closing within the window; the owner and I agreed that was too eager, so now a stop only moves if it is AT RISK: using arrivalAt() (start time + estimated drive at ASSUMED_MPH + VISIT_MIN per stop, waiting for opening times) you would reach it within RISK_BUFFER_H (0.5 h) of its closing time or after it, AND it closes within URGENT_WINDOW_H (2 h) of the route start. At-risk stops are pulled as early as possible, soonest-closing first, all moves together adding at most URGENT_MAX_MIN (6) minutes of estimated driving (+15% road cushion), never creating new after-closing arrivals, start never moves, later at-risk stops stay behind earlier ones (minPos). Stops not at risk stay where the shortest-loop logic put them. NOTE: the owner first asked about a 1-hour window; I proposed at-risk + a cap, and kept the cap at 2 h (not 1 h) because the at-risk test already filters, and a 1 h cap would ignore a shop closing in 90 minutes that sits late in the route. If they still want 1 h, change URGENT_WINDOW_H. Moved shops show 'Closes at X · going here first' on their route card (cttUrgent). Unit-tested on a stand-in 4-shop line: an at-risk far shop jumps ahead; a shop already early in the order is left alone; a shop closing later than you would arrive is left alone. Not yet seen on a real route.
   - DONE in v17.2 (Nov 3 2026): DIAMOND HIGHLIGHT FIX. The owner saw the hover/scroll highlight on main-route shops but not on the faded diamond (non-loop) shops. Causes: diamonds had no name tag, only a faint 1.5x grow at 75% opacity, and the diamond cards and markers had no hover handlers. Fixes: bgBonusIcon(name) now includes a hidden name tag (.ctt-bg-name, shortName(dn(name))) that shows only with .ctt-hl; a highlighted diamond goes to full opacity, scales 1.9x and gets a gold ring (rule '.ctt-hl .ctt-bg-hit .ctt-bonus-icon'); diamond cards in More Shops and diamond markers now set hoverHL on mouseenter/mouseover like the others. The v17.1 scroll indicator therefore now shows a clear tag and ring on diamonds too. Checked in a test render (tag + big gold ring); the live highlight on a real map is still unseen.
   - DONE in v17.1 (Nov 3 2026): SCROLL INDICATOR. While the More Shops list (#ctt-offroute-list) is scrolled, the shop at the top of the visible list lights up on the map: the SAME enlarge + name tag used for hover/tap (class ctt-hl via applyHL()), driven by a new variable scrollHL beside hoverHL/stickyHL. It clears about 1.5 s after scrolling stops. Code: the IIFE right after 'var userMarker = null;'. To make this possible every card now carries data-shop=<shop name> (set in buildCard). It only follows the More Shops list, not the main route list. On a phone the map may be off screen while scrolling the list, so the indicator is mainly visible where list and map show together; the map never pans or zooms for it (existing rule). Tested: cards carry names and scrolling raises no errors (stub map cannot show the highlight itself); not yet seen on a real map.
@@ -241,7 +243,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v17.4-20261103">
+<meta name="ctt-build" content="v17.6-20261103">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 47 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2389,6 +2391,11 @@ STILL TO DO / IDEAS
   .ctt-bp-add { margin-top: 8px; width: 100%; font: 700 14px 'Libre Franklin', sans-serif; color: #fff; background: var(--rust); border: none; border-radius: 18px; padding: 9px 12px; cursor: pointer; }
   .ctt-bp-add:disabled { background: #b8ad93; cursor: default; }
   .ctt-you-pin { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 34px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.55)); }
+  .ctt-you-pin { position: relative; animation: ctt-car-pulse 1.8s ease-in-out infinite; }
+  .ctt-you-pin::before { content: ""; position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: rgba(174,76,44,0.45); z-index: -1; animation: ctt-car-ring 1.8s ease-out infinite; }
+  @keyframes ctt-car-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+  @keyframes ctt-car-ring { 0% { transform: scale(0.6); opacity: 0.7; } 100% { transform: scale(1.9); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .ctt-you-pin, .ctt-you-pin::before { animation: none; } }
   .ctt-errand-icon { position: relative; width: 30px; height: 30px; border-radius: 8px; background: #fbf1d4; border: 2px solid #6f6450; display: flex; align-items: center; justify-content: center; font-size: 16px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.35); }
   .ctt-errand-icon b { position: absolute; top: -9px; right: -9px; min-width: 17px; height: 17px; padding: 0 3px; box-sizing: border-box; border-radius: 9px; background: #2c2417; color: #f2ead9; font: 700 10px/17px 'Libre Franklin', sans-serif; text-align: center; }
   .ctt-tag.ctt-errand { border-style: dashed; }
@@ -2518,7 +2525,6 @@ STILL TO DO / IDEAS
 .ctt-cta-navrow .ctt-cta-undo{padding:6px 3px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .ctt-cta-navrow .ctt-cta-undo span{font-weight:400;font-size:10.5px;letter-spacing:0;text-transform:none;opacity:.8;text-decoration:none;display:inline-block}
 .ctt-cta-navrow .ctt-cta-undo[aria-disabled="true"]{opacity:.45}
-.ctt-awake{display:block;margin:4px auto 0;background:none;border:0;padding:6px 8px;font:400 10px 'Libre Franklin',sans-serif;letter-spacing:.03em;color:var(--taupe);text-decoration:underline;cursor:pointer}.ctt-awake[aria-pressed="true"]{color:var(--ink);font-weight:700}
 .ctt-nav-sep{color:var(--ink);opacity:1;font:700 15px 'Libre Franklin',sans-serif}
 .ctt-cta-hint{flex:0 1 auto;text-align:right;font:400 10px/1.2 'Libre Franklin',sans-serif;color:var(--taupe);margin:0 6px 0 0;max-width:30%}
 @media (min-width:431px){.ctt-cta-hint{max-width:none;white-space:nowrap;margin-right:10px}}
@@ -2644,7 +2650,7 @@ STILL TO DO / IDEAS
         <span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">Let's begin at your nearest shop.</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite"></span></span>
       </button>
         <div class="ctt-cta-toast" id="ctt-cta-toast" role="status" aria-live="polite" hidden></div>
-        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><span class="ctt-cta-hint" id="ctt-cta-hint">Control the route with just one button</span><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div><button type="button" class="ctt-awake" id="ctt-awake" style="display:none;" aria-pressed="false">Keep screen on: Off</button></div>
+        <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><span class="ctt-cta-hint" id="ctt-cta-hint">Control the route with just one button</span><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
     </div>
   </div>
@@ -2802,7 +2808,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v17.4 &mdash; November 3, 2026</p>
+      <p class="ctt-version">v17.6 &mdash; November 3, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
@@ -4858,23 +4864,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   // Quiet location recheck: moves only the car. It never rebuilds the route (that still happens when you tap the big button).
   // Runs about every 45 seconds while the page is on screen, and once when the screen comes back. Only after you have located once.
-  // KEEP SCREEN ON (owner-controlled, default Off, remembered in localStorage 'ctt-awake'). Uses the Screen Wake Lock API; the phone drops the lock whenever the page is hidden, so it is asked for again when the page comes back.
-  var wakeLock = null, wantAwake = false;
-  try { wantAwake = localStorage.getItem('ctt-awake') === '1'; } catch (e) {}
-  function paintAwake() { var b = document.getElementById('ctt-awake'); if (!b) return; b.textContent = 'Keep screen on: ' + (wantAwake ? 'On' : 'Off'); b.setAttribute('aria-pressed', wantAwake ? 'true' : 'false'); }
-  function applyAwake() {
-    if (!('wakeLock' in navigator)) return;
-    if (wantAwake && !wakeLock && !document.hidden) {
-      navigator.wakeLock.request('screen').then(function(l) { wakeLock = l; l.addEventListener('release', function() { wakeLock = null; }); }).catch(function() {});
-    } else if (!wantAwake && wakeLock) { wakeLock.release().catch(function() {}); wakeLock = null; }
-  }
-  (function() {
-    var b = document.getElementById('ctt-awake'); if (!b) return;
-    paintAwake();
-    b.addEventListener('click', function() { wantAwake = !wantAwake; try { localStorage.setItem('ctt-awake', wantAwake ? '1' : '0'); } catch (e) {} paintAwake(); applyAwake(); });
-    document.addEventListener('visibilitychange', applyAwake);
-    applyAwake();
-  })();
   var carCheckBusy = false, carCheckLast = 0;
   function recheckCar() {
     if (!hasClickedLocateBefore || !navigator.geolocation || carCheckBusy || document.hidden) return;
@@ -5296,9 +5285,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var row = document.getElementById('ctt-cta-navrow'); if (!row) return;
     var t = dirTarget();
     var hint = document.getElementById('ctt-cta-hint');
-    var awakeBtn = document.getElementById('ctt-awake');
-    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; if (hint) hint.style.display = 'none'; if (awakeBtn) awakeBtn.style.display = 'none'; return; }
-    if (awakeBtn && ('wakeLock' in navigator)) awakeBtn.style.display = '';
+    if (!hasClickedLocateBefore || !t) { row.style.display = 'none'; if (hint) hint.style.display = 'none'; return; }
     var u = document.getElementById('ctt-cta-undo');
     if (u) u.setAttribute('aria-disabled', lastCtaAction ? 'false' : 'true');
     document.getElementById('ctt-nav-dir').setAttribute('aria-label', 'Directions to ' + dn(t.name));
