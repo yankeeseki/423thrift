@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>423 Thrift Rush | Chattanooga Thrift Trail</title>
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="canonical" href="https://423thrift.com/arcade/thrift-rush/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;background:#2a1d14;color:#f6ecd6;font-family:"Press Start 2P",monospace;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+  #wrap{display:flex;flex-direction:column;align-items:center;height:100%;padding:10px 6px}
+  #screen{position:relative;border:4px solid #7a4b2a;outline:4px solid #e3a93b;border-radius:6px;overflow:hidden}
+  #screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.08) 0 1px,transparent 1px 3px)}
+  canvas{display:block;image-rendering:pixelated;touch-action:none}
+  #pad{display:grid;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(2,46px);gap:6px;margin-top:12px}
+  #pad button{background:#3a2818;border:3px solid #7a4b2a;color:#e3a93b;border-radius:4px;font-family:inherit;font-size:16px;touch-action:none;box-shadow:0 3px 0 #120c08}
+  #pad button:active{transform:translateY(3px);box-shadow:none}
+  #up{grid-column:2;grid-row:1}#left{grid-column:1;grid-row:2}#down{grid-column:2;grid-row:2}#right{grid-column:3;grid-row:2}
+  #mute{position:fixed;right:8px;bottom:8px;background:#3a2818;border:2px solid #7a4b2a;color:#e3a93b;font-family:inherit;font-size:8px;padding:6px;border-radius:3px}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="screen"><canvas id="c"></canvas></div>
+  <div id="pad">
+    <button id="up" data-d="up">▲</button>
+    <button id="left" data-d="left">◀</button>
+    <button id="down" data-d="down">▼</button>
+    <button id="right" data-d="right">▶</button>
+  </div>
+</div>
+<a href="/arcade/" style="position:fixed;left:8px;bottom:8px;z-index:20;background:#3a2818;border:2px solid #7a4b2a;color:#e3a93b;font:8px 'Press Start 2P',monospace;padding:7px 8px;border-radius:3px;text-decoration:none">&larr; ARCADE</a>
+<button id="mute">SND ON</button>
+<script>
+(() => {
+// ================== MAP ==================
+const MAP = [
+"###################",
+"#        #        #",
+"# ## ### # ### ## #",
+"#                 #",
+"# ## # ##### # ## #",
+"#    #   #   #    #",
+"#### ### # ### ####",
+"#                 #",
+"# ## # #RRR# # ## #",
+"# #  #       #  # #",
+"# # ## ## ## ## # #",
+"#                 #",
+"#### # ##### # ####",
+"#    #   #   #    #",
+"# ## ### # ### ## #",
+"#  #     P     #  #",
+"## # # ##### # # ##",
+"#    #   #   #    #",
+"# ###### # ###### #",
+"#                 #",
+"###################"
+];
+const W = 19, MH = 21, TOP = 3.3, BOT = 2.2, TH = TOP + MH + BOT;
+const D = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+const OPP = {up:'down',down:'up',left:'right',right:'left'};
+const START = {x:9,y:15};
+const SPAWNS = [{x:1,y:1},{x:17,y:1},{x:1,y:19},{x:17,y:19},{x:9,y:3},{x:1,y:11},{x:17,y:11},{x:9,y:19},{x:9,y:11}];
+const LEVELS = 5;
+const shopperCount = L => Math.round(3 * Math.pow(1.33, L-1)); // 3,4,5,7,9: each level ~33% busier
+const REG = {x:9,y:7};
+const GAME_TIME = 300;
+
+function section(x,y){
+  if(y <= 6) return 'clothing';
+  if(y >= 12 && x < 9) return 'toys';
+  if(y >= 12 && x > 9) return 'furniture';
+  return 'center';
+}
+
+// ================== PALETTE & SPRITES ==================
+const PAL = {k:'#2a1d14',w:'#f6ecd6',y:'#e3a93b',o:'#d06a35',r:'#b5502f',b:'#3d6c8a',g:'#7a9a3a',m:'#3e5226',p:'#c9849e',n:'#7a4b2a',s:'#a39d8c'};
+const C = {ink:'#2a1d14',hud:'#2a1d14',mustard:'#e3a93b',cream:'#f6ecd6',rust:'#b5502f',orange:'#d06a35',wall:'#7a4b2a',wallTop:'#a86a3a',rail:'#3a2616',slot:'#4a3626'};
+const FLOORS = {clothing:['#efe2c4','#e7d6b3'], toys:['#f0dcca','#e8d0bb'], furniture:['#e6dcc2','#ddd0b1'], center:['#f3e9d2','#ebdfc4']};
+
+const ITEMS = {
+  // CLOTHING
+  boot:{name:'COWBOY BOOT',sec:'clothing',spr:["..kkk...","..knk...","..knk...","..knk...","..knnk..","..knnnkk","..knnnnk","..kkkkkk"]},
+  hat:{name:'FEDORA',sec:'clothing',spr:["........","..kkkk..",".knnnnk.",".knnnnk.",".kooook.","kkkkkkkk","........","........"]},
+  jacket:{name:'DENIM JACKET',sec:'clothing',spr:[".bb..bb.","bbbwwbbb","bbbwwbbb","b.bbbb.b","b.bbbb.b","b.bbbb.b","..bbbb..","..b..b.."]},
+  sweater:{name:'UGLY SWEATER',sec:'clothing',spr:["..o..o..",".oooooo.","oooooooo","oyyyyyyo","o.oooo.o","o.yyyy.o","..oooo..","..oooo.."]},
+  // TOYS
+  teddy:{name:'TEDDY BEAR',sec:'toys',spr:[".nn..nn.","nnnnnnnn",".nknnkn.",".nnyynn.","..nnnn..",".nnnnnn.","nnnyynnn",".nn..nn."]},
+  robot:{name:'TIN ROBOT',sec:'toys',spr:["...kk...",".ssssss.",".skssks.",".ssssss.","..ssss..","ssyyyyss","s.ssss.s","..s..s.."]},
+  game:{name:'BOARD GAME',sec:'toys',spr:["........","kkkkkkkk","krwrwrwk","kwrwrwrk","krwrwrwk","kwrwrwrk","kkkkkkkk","........"]},
+  train:{name:'CHOO CHOO TRAIN',sec:'toys',spr:["........",".kk..kkk",".kk..kwk","rrrrrrrk","rrrrrrrk","rrrrrrrr",".kk..kk.",".kk..kk."]},
+  // FURNITURE
+  lamp:{name:'LAVA LAMP',sec:'furniture',spr:["..yyyy..",".yyyyyy.","yyyyyyyy","...nn...","...nn...","...nn...","..nnnn..",".nnnnnn."]},
+  chair:{name:'ARMCHAIR',sec:'furniture',spr:[".kkkk...",".kook...",".kook...",".kook...",".kkkkkkk",".koooook",".k....k.",".k....k."]},
+  clock:{name:'WALL CLOCK',sec:'furniture',spr:["..kkkk..",".kwwwwk.","kwwkwwwk","kwwkwwwk","kwwkkkwk","kwwwwwwk",".kwwwwk.","..kkkk.."]},
+  tv:{name:'OLD TV',sec:'furniture',spr:[".k...k..","..k.k...","kkkkkkkk","kbbbbknk","kbwbbkyk","kbbbbknk","kkkkkkkk",".k....k."]},
+  // EXTRAS (anywhere, 25 pts, count toward haul size)
+  record:{name:'LOCAL BAND RECORD',sec:'any',extra:true,spr:["..kkkk..",".kkkkkk.","kkksskkk","kkkookkk","kkkookkk","kkksskkk",".kkkkkk.","..kkkk.."]},
+  teacup:{name:'TEACUP',sec:'any',extra:true,spr:["........","kkkkkk..","kwbbwkkk","kwwwwk.k","kwbbwkkk",".kwwk...","kkkkkk..","........"]},
+  tape:{name:'MIXTAPE',sec:'any',extra:true,spr:["........","kkkkkkkk","kyyyyyyk","kykwwkyk","kyyyyyyk","kyksskyk","kkkkkkkk","........"]},
+  postcard:{name:'LOOKOUT MTN POSTCARD',sec:'any',extra:true,spr:["kkkkkkkk","kbbbbbyk","kbbbgbbk","kbbgggbk","kbgkgggk","kgggkggk","kggggggk","kkkkkkkk"]},
+  // JUNK
+  mold:{name:'BLACK MOLD',sec:'any',bad:-150,spr:[".m..g...","..mgm.m.",".gmkgmg.","mgmgmkgm",".mkgmgm.","gmgmkgm.",".mgmgm..","..m..m.."]},
+  juggalo:{name:'PRECIOUS MOMENTS JUGGALO',sec:'toys',bad:-100,spr:["..kkkk..",".kwwwwk.",".kkwwkk.",".kwwwwk.",".kwkkwk.","..kwwk..",".kppppk.","kkkkkkkk"]},
+  lll:{name:'LIVE LAUGH LOVE ART',sec:'furniture',bad:-100,spr:["...kk...","..k..k..","nnnnnnnn","nkwkwkwn","nkwkwkwn","nkkkkkkn","nwwwwwwn","nnnnnnnn"]},
+  shake:{name:'SHAKE WEIGHT',sec:'any',bad:-75,spr:["........","ss....ss","ss....ss","ssppppss","ssppppss","ss....ss","ss....ss","........"]},
+  purse:{name:'FAKE PURSE',sec:'clothing',bad:-75,spr:["...kk...","..k..k..",".kkkkkk.","kyyyyyyk","kyokkoyk","kyyyyyyk","kyyyyyyk","kkkkkkkk"]},
+};
+const LIST = ['boot','hat','jacket','sweater','teddy','robot','game','train','lamp','chair','clock','tv'];
+const EXTRAS = Object.keys(ITEMS).filter(k => ITEMS[k].extra);
+const BAD = Object.keys(ITEMS).filter(k => ITEMS[k].bad);
+const CART = ["........","k.......",".kkkkkkk",".kswswsk",".ksssssk","..kkkkk.","..k...k.","..k...k."];
+const REGISTER = ["........",".kkkkk..",".kgggk..",".kkkkkkk","kssssssk","kskskskk","kssssssk","kkkkkkkk"];
+const PLAYER = [
+  ["...kk...","..kwwk..","...kk...","..ooooo.",".o.oo..o","...oo...","..k..k..",".k....k."],
+  ["...kk...","..kwwk..","...kk...","..ooooo.",".o.oo..o","...oo...","...kk...","...kk..."]
+];
+const SHOPPERS = [
+  {name:'GRANNY',spr:["..ssss..",".ssssss.","..kwwk..","..wwww..","..pppp..",".pppppp.","..p..p..","..k..k.."]},
+  {name:'RESELLER',spr:["........","..bbbb..","..bbbbbb","..wkwk..","..wwww..",".bbbbbb.","..b..b..","..k..k.."]},
+  {name:'FLEA',spr:["..nnnn..","..wkwk..","..wwww..","..nnnn..","...nn...",".gggggg.","..g..g..","..k..k.."]},
+  {name:'EARLY BIRD',spr:["..rrrr..",".rrrrrr.",".kwkkwk.","..wwww..","..rrrr..",".rrrrrr.","..r..r..","..k..k.."]},
+  {name:'COLLECTOR',spr:["..kkkk..","..kkkk..",".kwkkwk.","..wwww..","..yyyy..",".yyyyyy.","..y..y..","..k..k.."]},
+  {name:'COUPON CLIPPER',spr:["..yyyy..",".yyyyyy.","..kwwk..","..wwww..","..gggg..",".gggggg.","..g..g..","..k..k.."]},
+  {name:'PICKER',spr:["........","..oooo..","..oooooo","..wkwk..","..wwww..",".nnnnnn.","..n..n..","..k..k.."]},
+  {name:'BOOKWORM',spr:["..nnnn..","..nnnn..",".kwkkwk.","..wwww..","..bbbb..",".bbbbbb.","..b..b..","..k..k.."]},
+  {name:'DEAL HUNTER',spr:["..kkkk..","..wkwk..","..wwww..","..kkkk..","...kk...",".rrrrrr.","..r..r..","..k..k.."]},
+];
+
+// ================== CANVAS ==================
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let TS = 20, DPR = 1, floorCache = null;
+const FONT = '"Press Start 2P", monospace';
+function resize(){
+  const availW = window.innerWidth - 24, availH = window.innerHeight - 150;
+  TS = Math.max(12, Math.floor(Math.min(availW / W, availH / TH)));
+  DPR = window.devicePixelRatio || 1;
+  cv.style.width = (TS*W)+'px'; cv.style.height = (TS*TH)+'px';
+  cv.width = Math.round(TS*W*DPR); cv.height = Math.round(TS*TH*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled = false;
+  floorCache = null;
+}
+window.addEventListener('resize', resize);
+try { document.fonts && document.fonts.load('10px "Press Start 2P"').then(() => { floorCache = null; }); } catch(e){}
+
+function spr(rows, cx, cy, size, flip){
+  const p = size/8, x0 = Math.round(cx - size/2), y0 = Math.round(cy - size/2);
+  for(let r=0;r<8;r++){ const row = rows[r];
+    for(let c=0;c<8;c++){ const ch = row[flip ? 7-c : c]; if(!ch || ch==='.') continue;
+      ctx.fillStyle = PAL[ch];
+      ctx.fillRect(x0 + Math.floor(c*p), y0 + Math.floor(r*p), Math.ceil(p), Math.ceil(p));
+    }}
+}
+function txt(s, x, y, size, color, align='left', shadow, c2){
+  const g = c2 || ctx;
+  g.font = Math.floor(size)+'px '+FONT; g.textAlign = align; g.textBaseline = 'top';
+  if(shadow){ g.fillStyle = shadow; g.fillText(s, x+Math.max(1,size/8), y+Math.max(1,size/8)); }
+  g.fillStyle = color; g.fillText(s, x, y);
+}
+
+// ================== SOUND ==================
+let actx = null, muted = false;
+function audio(){ if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(actx && actx.state==='suspended') actx.resume(); }
+function tone(f, dur, type='square', vol=0.04, slide=0, delay=0){
+  if(muted || !actx) return;
+  const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + delay;
+  o.type = type; o.frequency.setValueAtTime(f, t);
+  if(slide) o.frequency.linearRampToValueAtTime(Math.max(40,f+slide), t+dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t+dur+0.02);
+}
+const muteBtn = document.getElementById('mute');
+muteBtn.onclick = e => { e.stopPropagation(); muted = !muted; muteBtn.textContent = muted ? 'SND OFF' : 'SND ON'; };
+
+// ================== HIGH SCORES (shared) ==================
+// Each player's doc: scores/<theirId> = {entries:[{ini,score,won,at}...]} (their own top 15).
+// The board flattens everyone's entries and shows the top 15, arcade style.
+const BOARD_SIZE = 15;
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+let localBoard = []; try { localBoard = JSON.parse(lsGet('thriftRushBoard', '[]')) || []; } catch(e){ localBoard = []; }
+let backend = null, DB = null, myId = null, onlineBoard = null, myEntries = [], online = false, boardMsg = 'LOADING SCORES...', postMsg = '', lastPosted = null;
+const cleanIni = s => (String(s||'').toUpperCase().replace(/[^A-Z]/g,'') + '???').slice(0,3);
+function getBoard(){ return online ? (onlineBoard || []) : localBoard; }
+// --- Firestore backend (423thrift.com): set up by the module script at the bottom of the page ---
+function useFirestore(api){
+  if(backend) return;
+  backend = 'fs'; online = true; boardMsg = 'LOADING SCORES...';
+  const timer = setTimeout(() => { if(!onlineBoard) boardMsg = "CAN'T REACH SCORES"; }, 10000);
+  try {
+    api.subscribe(list => {
+      clearTimeout(timer);
+      onlineBoard = list.filter(e => e && typeof e.score === 'number')
+        .map(e => ({ini:cleanIni(e.ini), score:e.score, won:!!e.won, level:+e.level||0, at:0}))
+        .slice(0, BOARD_SIZE);
+    }, () => { clearTimeout(timer); online = false; backend = null; });
+  } catch(e){ online = false; backend = null; }
+}
+if(window.TRFirestore) useFirestore(window.TRFirestore);
+else window.addEventListener('trfs-ready', () => useFirestore(window.TRFirestore));
+
+async function initScores(){
+  let tries = 0;
+  while(!backend && !(window.claude && window.claude.use) && tries < 20){ await new Promise(r => setTimeout(r, 150)); tries++; }
+  if(backend || !(window.claude && window.claude.use)){ if(!backend) boardMsg = ''; return; }
+  try {
+    const [db, u] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if(!db || !u){ boardMsg = ''; return; }
+    try { myId = await u.id(); } catch(e){}
+    if(!myId || backend){ if(!backend) boardMsg = ''; return; }
+    backend = 'claude'; DB = db; online = true;
+    const timer = setTimeout(() => { if(!onlineBoard) boardMsg = "CAN'T REACH SCORES"; }, 10000);
+    DB.collection('scores').limit(500).onSnapshot(snap => {
+      if(!snap.metadata.fromCache) clearTimeout(timer);
+      const all = [];
+      for(const d of snap.docs){
+        const data = d.data() || {}, list = Array.isArray(data.entries) ? data.entries : [];
+        if(d.id === myId) myEntries = list.slice();
+        for(const e of list) if(e && typeof e.score === 'number') all.push({ini:cleanIni(e.ini), score:e.score, won:!!e.won, level:+e.level||0, at:e.at||0, uid:d.id});
+      }
+      all.sort((a,b) => b.score - a.score || a.at - b.at);
+      onlineBoard = all.slice(0, BOARD_SIZE);
+    }, err => { clearTimeout(timer); online = false; boardMsg = ''; });
+  } catch(e){ boardMsg = ''; online = false; }
+}
+function qualifies(sc){
+  if(sc <= 0) return false;
+  const b = getBoard();
+  return b.length < BOARD_SIZE || sc > b[b.length-1].score;
+}
+async function saveEntry(ini, sc, won){
+  const entry = {ini, score:sc, won:!!won, level:(result && result.level) || 1, at:Date.now()};
+  lastPosted = entry;
+  lsSet('thriftRushIni', ini);
+  // local board always (also the fallback when offline)
+  localBoard.push(entry); localBoard.sort((a,b) => b.score - a.score || a.at - b.at); localBoard = localBoard.slice(0, BOARD_SIZE);
+  lsSet('thriftRushBoard', JSON.stringify(localBoard));
+  if(!online){ postMsg = 'SAVED ON THIS DEVICE'; return; }
+  postMsg = 'SAVING...';
+  if(backend === 'fs'){
+    try { await window.TRFirestore.add(entry); postMsg = 'SCORE SAVED!'; }
+    catch(e){ postMsg = 'SAVED ON DEVICE ONLY'; }
+    return;
+  }
+  try {
+    const ref = DB.doc('scores/' + myId);
+    const cur = await ref.get();
+    let list = cur.exists && Array.isArray(cur.data().entries) ? cur.data().entries.slice() : myEntries.slice();
+    list.push(entry); list.sort((a,b) => b.score - a.score); list = list.slice(0, BOARD_SIZE);
+    await ref.set({entries:list});
+    postMsg = 'SCORE SAVED!';
+  } catch(e){
+    postMsg = (e && e.code === 'invalid_argument') ? 'VIEW-ONLY: SAVED ON DEVICE' : 'SAVED ON DEVICE ONLY';
+  }
+}
+const topScore = () => { const b = getBoard(); return b[0] ? b[0].score : 0; };
+
+// ================== GRID ==================
+const cell = (x,y) => (y<0||y>=MH||x<0||x>=W) ? '#' : MAP[y][x];
+const open = (x,y) => { const c = cell(x,y); return c!=='#' && c!=='R'; };
+const DROP = [];
+for(let y=0;y<MH;y++) for(let x=0;x<W;x++){
+  if(open(x,y) && [[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy]) => cell(x+dx,y+dy)==='R')) DROP.push({x,y});
+}
+const isDrop = (x,y) => DROP.some(d => d.x===x && d.y===y);
+const SEC_TILES = {clothing:[], toys:[], furniture:[]};
+for(let y=0;y<MH;y++) for(let x=0;x<W;x++){
+  if(!open(x,y) || isDrop(x,y)) continue;
+  const s = section(x,y); if(SEC_TILES[s]) SEC_TILES[s].push({x,y});
+}
+function makeEnt(x,y){ return {tx:x,ty:y,nx:x,ny:y,t:0,dir:null}; }
+const pos = e => ({x: e.tx + (e.nx-e.tx)*e.t, y: e.ty + (e.ny-e.ty)*e.t});
+
+// ================== STATE ==================
+const BAG_MAX = 6, MULT = [0, 1, 1.5, 2, 3, 4, 5];
+let state = 'title', stateT = 0, clock = 0;
+let level = 1, score, timeLeft, player, want, shoppers, floorItems, bag, found, popups, bumpCD, spawnT, fullMsgT, banner, result;
+
+function newGame(){
+  score = 0; level = 1; popups = []; postMsg = ''; result = null;
+  startLevel();
+  state = 'play'; stateT = 0;
+  showBanner('WELCOME TO THE 423!', 1.6, 'LEVEL 1 OF 5 · CHATTANOOGA, TN');
+}
+function startLevel(){
+  timeLeft = GAME_TIME; bag = []; floorItems = []; found = {}; bumpCD = 0; spawnT = 0; fullMsgT = 0;
+  player = makeEnt(START.x, START.y); player.face = 1; want = null;
+  shoppers = [];
+  const n = shopperCount(level);
+  for(let i=0;i<n;i++) addShopper();
+  for(let i=0;i<12;i++) spawnItem();
+}
+function addShopper(){
+  const i = shoppers.length;
+  const s = SPAWNS[i % SPAWNS.length]; const e = makeEnt(s.x, s.y); e.kind = i % SHOPPERS.length; e.wait = 0.8 + i*0.5; e.face = 1;
+  shoppers.push(e);
+}
+const foundCount = () => LIST.filter(k => found[k]).length;
+const shopperSpeed = () => 3.6 + (level-1)*0.2 + foundCount()*0.08;
+const pSpeed = () => 6.4;
+const targetCount = () => 12;
+
+function spawnItem(){
+  const missing = LIST.filter(k => !found[k] && !floorItems.some(f => f.type===k) && !bag.includes(k));
+  let type;
+  if(missing.length) type = missing[Math.random()*missing.length|0];
+  else {
+    const r = Math.random();
+    if(r < 0.32) type = BAD[Math.random()*BAD.length|0];
+    else if(r < 0.64) type = EXTRAS[Math.random()*EXTRAS.length|0];
+    else type = LIST[Math.random()*LIST.length|0];
+  }
+  const sec = ITEMS[type].sec;
+  const pool = sec === 'any' ? [].concat(SEC_TILES.clothing, SEC_TILES.toys, SEC_TILES.furniture) : SEC_TILES[sec];
+  const taken = new Set(floorItems.map(f => f.x+','+f.y));
+  const free = pool.filter(t => !taken.has(t.x+','+t.y) && (Math.abs(t.x-player.tx)+Math.abs(t.y-player.ty)) > 2);
+  if(!free.length) return;
+  const t = free[Math.random()*free.length|0];
+  floorItems.push({type, x:t.x, y:t.y, born:clock});
+}
+function addScore(n){ score += n; }
+function pop(text, x, y, color, life=1.2){ popups.push({text, x, y, color, t:life, life}); }
+function showBanner(text, dur, sub){ banner = {text, sub, t:dur}; }
+const isNeeded = k => LIST.includes(k) && !found[k];
+
+// ================== PLAYER ==================
+function pChoose(p){
+  if(want && open(p.tx+D[want][0], p.ty+D[want][1])) p.dir = want;
+  if(p.dir && open(p.tx+D[p.dir][0], p.ty+D[p.dir][1])){
+    p.nx = p.tx+D[p.dir][0]; p.ny = p.ty+D[p.dir][1];
+    if(p.dir==='left') p.face = -1; if(p.dir==='right') p.face = 1;
+    return true;
+  }
+  p.nx = p.tx; p.ny = p.ty; return false;
+}
+function updatePlayer(dt){
+  const p = player, moving = !(p.nx===p.tx && p.ny===p.ty);
+  if(moving && want && want===OPP[p.dir]){
+    [p.tx,p.nx] = [p.nx,p.tx]; [p.ty,p.ny] = [p.ny,p.ty]; p.t = 1-p.t; p.dir = want;
+    if(p.dir==='left') p.face = -1; if(p.dir==='right') p.face = 1;
+  }
+  if(!moving){ if(!pChoose(p)) return; p.t = 0; }
+  p.t += pSpeed()*dt;
+  while(p.t >= 1){
+    p.tx = p.nx; p.ty = p.ny; p.t -= 1;
+    arrive(p.tx, p.ty);
+    if(state !== 'play') return;
+    if(!pChoose(p)){ p.t = 0; break; }
+  }
+}
+function arrive(x,y){
+  const i = floorItems.findIndex(f => f.x===x && f.y===y);
+  if(i >= 0){
+    const it = floorItems[i], def = ITEMS[it.type];
+    if(def.bad){
+      // junk: points off right away, item vanishes, never goes in your cart
+      floorItems.splice(i,1); addScore(def.bad);
+      pop('EW! '+def.name+' '+def.bad, x, y, C.rust, 1.6); tone(180,0.25,'sawtooth',0.04,-80);
+    } else if(bag.length >= BAG_MAX){
+      if(clock - fullMsgT > 1.5){ pop('BAG FULL!', x, y, C.rust); fullMsgT = clock; tone(140,0.15,'square',0.04); }
+    } else {
+      bag.push(it.type); floorItems.splice(i,1);
+      if(isNeeded(it.type)){ pop(def.name+'!', x, y, C.orange); tone(660,0.07,'square',0.035); tone(880,0.08,'square',0.035,0,0.07); }
+      else { pop(def.name, x, y, C.ink); tone(520,0.06,'square',0.03); }
+    }
+  }
+  if(isDrop(x,y) && bag.length) deliver();
+}
+function deliver(){
+  let goods = 0, base = 0, bad = 0;
+  for(const t of bag){
+    const def = ITEMS[t];
+    if(def.bad){ bad += def.bad; continue; }
+    goods++;
+    if(isNeeded(t)){ found[t] = true; base += 100; }
+    else base += 25;
+  }
+  const mult = MULT[goods] || 1, total = Math.round(base*mult) + bad;
+  addScore(total);
+  pop(goods >= 2 ? goods+'-ITEM HAUL x'+mult : (goods ? 'SOLD!' : 'YIKES'), REG.x, REG.y-1.2, C.orange, 1.8);
+  pop((total>=0?'+':'')+total, REG.x, REG.y-0.2, total>=0 ? C.ink : C.rust, 1.8);
+  if(bad) pop('JUNK '+bad, REG.x, REG.y+0.8, C.rust, 1.8);
+  bag = [];
+  if(total >= 0){ tone(988,0.08,'square',0.04); tone(1319,0.25,'square',0.04,0,0.08); if(goods>=3) tone(1760,0.3,'square',0.035,0,0.2); }
+  else tone(220,0.3,'sawtooth',0.04,-100);
+  if(foundCount() >= 12){ if(level >= LEVELS) endGame(true); else levelUp(); }
+}
+function levelUp(){
+  const timeBonus = Math.floor(Math.max(0, timeLeft)), lvlBonus = 500 * level;
+  addScore(timeBonus + lvlBonus);
+  level++;
+  startLevel();
+  state = 'levelup'; stateT = 0;
+  banner = {text:'LEVEL '+level+' OF '+LEVELS, sub:'+'+lvlBonus+' LEVEL  +'+timeBonus+' TIME', sub2:'THE SHOP IS 33% BUSIER!', t:2.8};
+  [523,659,784,1047].forEach((f,i) => tone(f,0.15,'square',0.04,0,i*0.1));
+}
+let ini = ['A','A','A'], iniPos = 0;
+function endGame(won){
+  const timeBonus = Math.floor(Math.max(0, timeLeft));   // 1 point per second left on the clock
+  const winBonus = won ? 1000 : 0;
+  addScore(timeBonus + winBonus);
+  result = {won, timeBonus, winBonus, items: foundCount(), level};
+  lastPosted = null;
+  if(won) [523,659,784,1047,1319].forEach((f,i) => tone(f,0.18,'square',0.04,0,i*0.12));
+  else tone(300,0.9,'triangle',0.05,-250);
+  if(qualifies(score)){
+    ini = cleanIni(lsGet('thriftRushIni','AAA')).replace(/\?/g,'A').split(''); iniPos = 0;
+    state = 'initials'; stateT = 0;
+  } else {
+    state = won ? 'win' : 'over'; stateT = 0;
+    postMsg = score > 0 ? 'NOT ON THE BOARD THIS TIME' : '';
+  }
+}
+function iniInput(d){
+  if(state !== 'initials' || stateT < 0.6) return;
+  const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if(d === 'up' || d === 'down'){
+    const i = A.indexOf(ini[iniPos]); ini[iniPos] = A[(i + (d==='up' ? 1 : 25)) % 26]; tone(600,0.04,'square',0.03);
+  } else if(d === 'left'){ iniPos = Math.max(0, iniPos-1); tone(400,0.04,'square',0.03); }
+  else if(d === 'right' || d === 'ok'){
+    if(iniPos < 2){ iniPos++; tone(700,0.05,'square',0.03); }
+    else finishInitials();
+  }
+}
+function iniType(ch){ if(state !== 'initials') return; ini[iniPos] = ch; if(iniPos < 2) iniPos++; tone(700,0.05,'square',0.03); }
+function finishInitials(){
+  if(state !== 'initials') return;
+  const s = ini.join('');
+  state = result.won ? 'win' : 'over'; stateT = 0;
+  tone(988,0.08,'square',0.04); tone(1319,0.2,'square',0.04,0,0.08);
+  saveEntry(s, score, result.won);
+}
+
+// ================== SHOPPERS ==================
+function shopperTarget(s){
+  // head for the nearest good item on the floor (they don't touch junk)
+  let best = null, bd = 1e9;
+  for(const f of floorItems){
+    if(ITEMS[f.type].bad) continue;
+    const d = Math.abs(f.x-s.tx) + Math.abs(f.y-s.ty) + (f.claimBy !== undefined && f.claimBy !== s.kind ? 6 : 0);
+    if(d < bd){ bd = d; best = f; }
+  }
+  return best;
+}
+function sChoose(s){
+  const opts = [];
+  for(const d of ['up','left','down','right']){
+    if(s.dir && d===OPP[s.dir]) continue;
+    if(open(s.tx+D[d][0], s.ty+D[d][1])) opts.push(d);
+  }
+  if(!opts.length && s.dir) opts.push(OPP[s.dir]);
+  if(!opts.length) return false;
+  let d;
+  const t = shopperTarget(s);
+  if(!t || Math.random() < 0.2) d = opts[Math.random()*opts.length|0];
+  else {
+    let bd = 1e9;
+    for(const o of opts){ const x=s.tx+D[o][0], y=s.ty+D[o][1], dist=(x-t.x)**2+(y-t.y)**2; if(dist<bd){bd=dist; d=o;} }
+  }
+  s.dir = d; s.nx = s.tx+D[d][0]; s.ny = s.ty+D[d][1];
+  if(d==='left') s.face = -1; if(d==='right') s.face = 1;
+  return true;
+}
+function updateShopper(s, dt){
+  if(s.wait > 0){ s.wait -= dt; return; }
+  if(s.nx===s.tx && s.ny===s.ty){ if(!sChoose(s)) return; s.t = 0; }
+  s.t += shopperSpeed()*dt;
+  while(s.t >= 1){
+    s.tx = s.nx; s.ty = s.ny; s.t -= 1;
+    const i = floorItems.findIndex(f => f.x===s.tx && f.y===s.ty && !ITEMS[f.type].bad);
+    if(i >= 0){
+      const f = floorItems[i]; floorItems.splice(i,1);
+      if(isNeeded(f.type)) pop(SHOPPERS[s.kind].name+' TOOK '+ITEMS[f.type].name, s.tx, s.ty, C.rust, 1.6);
+      s.wait = 1.0; s.nx = s.tx; s.ny = s.ty; s.t = 0;
+      return;
+    }
+    if(!sChoose(s)){ s.t = 0; break; }
+  }
+}
+function checkBumps(){
+  if(bumpCD > 0) return;
+  const pp = pos(player);
+  for(const s of shoppers){
+    const sp = pos(s);
+    if(Math.abs(sp.x-pp.x) < 0.65 && Math.abs(sp.y-pp.y) < 0.65){
+      bumpCD = 1.3; s.wait = Math.max(s.wait, 0.8);
+      if(!bag.length){ pop('EXCUSE ME!', pp.x, pp.y-0.4, C.ink); tone(300,0.08,'square',0.03); return; }
+      const k = bag.splice(Math.random()*bag.length|0, 1)[0];
+      const spot = dropSpot(player.tx, player.ty);
+      if(spot) floorItems.push({type:k, x:spot.x, y:spot.y, born:clock});
+      pop('BUMP! DROPPED '+ITEMS[k].name, pp.x, pp.y-0.4, C.rust, 1.5);
+      tone(250,0.2,'square',0.045,-120);
+      return;
+    }
+  }
+}
+function dropSpot(x,y){
+  const taken = new Set(floorItems.map(f => f.x+','+f.y));
+  const cands = [[0,0],[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1],[2,0],[-2,0],[0,2],[0,-2]];
+  for(const [dx,dy] of cands){
+    const nx = x+dx, ny = y+dy;
+    if(open(nx,ny) && !isDrop(nx,ny) && !taken.has(nx+','+ny)) return {x:nx, y:ny};
+  }
+  return null;
+}
+
+// ================== LOOP ==================
+function step(dt){
+  stateT += dt;
+  for(const p of popups) p.t -= dt; popups = popups.filter(p => p.t > 0);
+  if(banner){ banner.t -= dt; if(banner.t <= 0) banner = null; }
+  if(state === 'levelup'){ if(stateT > 2.8) state = 'play'; return; }
+  if(state !== 'play') return;
+  timeLeft -= dt;
+  if(timeLeft <= 0){ timeLeft = 0; endGame(false); return; }
+  if(timeLeft < 30 && Math.floor(timeLeft) !== Math.floor(timeLeft + dt) && Math.floor(timeLeft) % 5 === 0) tone(880,0.05,'square',0.03);
+  if(bumpCD > 0) bumpCD -= dt;
+  spawnT -= dt;
+  if(spawnT <= 0 && floorItems.length < targetCount()){ spawnItem(); spawnT = 1.0; }
+  updatePlayer(dt);
+  if(state !== 'play') return;
+  for(const s of shoppers) updateShopper(s, dt);
+  checkBumps();
+}
+
+// ================== DRAW ==================
+function seeded(x,y,i){ const s = Math.sin(x*127.1 + y*311.7 + i*74.7)*43758.5453; return s - Math.floor(s); }
+function buildFloor(){
+  const c = document.createElement('canvas');
+  c.width = Math.round(TS*W*DPR); c.height = Math.round(TS*MH*DPR);
+  const g = c.getContext('2d'); g.setTransform(DPR,0,0,DPR,0,0); g.imageSmoothingEnabled = false;
+  const u = Math.max(2, Math.round(TS/8));
+  for(let y=0;y<MH;y++) for(let x=0;x<W;x++){
+    const f = FLOORS[section(x,y)]; g.fillStyle = (x+y)%2 ? f[0] : f[1]; g.fillRect(x*TS,y*TS,TS,TS);
+  }
+  const garments = ['#b5502f','#3d6c8a','#e3a93b','#7a9a3a','#c9849e','#f6ecd6','#d06a35'];
+  for(let y=0;y<MH;y++) for(let x=0;x<W;x++){
+    const ch = MAP[y][x], px = x*TS, py = y*TS, sec = section(x,y);
+    if(ch === '#'){
+      const border = (x===0||y===0||x===W-1||y===MH-1);
+      g.fillStyle = C.wall; g.fillRect(px,py,TS,TS);
+      if(border || sec==='center'){
+        if(cell(x,y-1)!=='#'){ g.fillStyle = C.wallTop; g.fillRect(px,py,TS,u); }
+        continue;
+      }
+      if(sec === 'clothing'){
+        // clothes rack: rail + hanging garments
+        g.fillStyle = C.rail; g.fillRect(px, py+u, TS, u);
+        for(let i=0;i<3;i++){
+          g.fillStyle = garments[Math.floor(seeded(x,y,i)*garments.length)];
+          g.fillRect(px + Math.round(i*TS/3)+1, py+u*2, Math.round(TS/3)-2, TS-u*3);
+        }
+      } else if(sec === 'toys'){
+        // toy shelf: two shelves of little blocks
+        g.fillStyle = '#5a3a20'; g.fillRect(px,py,TS,TS);
+        g.fillStyle = C.wallTop; g.fillRect(px,py+Math.round(TS/2)-u/2,TS,u); g.fillRect(px,py+TS-u,TS,u);
+        for(let row=0;row<2;row++) for(let i=0;i<2;i++){
+          g.fillStyle = garments[Math.floor(seeded(x,y,row*2+i+5)*garments.length)];
+          const bw = Math.round(TS*0.3);
+          g.fillRect(px + Math.round(TS*0.12 + i*TS*0.45), py + Math.round(row*TS/2 + TS/2 - u/2 - bw), bw, bw);
+        }
+      } else {
+        // furniture: wood with drawer lines & knobs
+        g.fillStyle = '#8c5a32'; g.fillRect(px,py,TS,TS);
+        g.fillStyle = C.rail; g.fillRect(px, py+Math.round(TS/2), TS, Math.max(1,u/2));
+        g.fillStyle = C.mustard;
+        g.fillRect(px+Math.round(TS/2)-u/2, py+Math.round(TS*0.25)-u/2, u, u);
+        g.fillRect(px+Math.round(TS/2)-u/2, py+Math.round(TS*0.75)-u/2, u, u);
+      }
+    } else if(ch === 'R'){
+      g.fillStyle = C.mustard; g.fillRect(px,py,TS,TS);
+      g.fillStyle = C.wall; g.fillRect(px,py+TS-u*2,TS,u*2);
+    }
+  }
+  // section signs
+  const sign = (label, x0, y0, w) => {
+    const fs = Math.min(TS*0.36, (w*TS - u*4) / label.length);
+    g.fillStyle = C.ink; g.fillRect(x0*TS+u, y0*TS+u, w*TS-u*2, TS-u*2);
+    g.strokeStyle = C.mustard; g.lineWidth = 1; g.strokeRect(x0*TS+u+0.5, y0*TS+u+0.5, w*TS-u*2-1, TS-u*2-1);
+    txt(label, x0*TS + w*TS/2, y0*TS + TS/2 - fs/2, fs, C.mustard, 'center', null, g);
+  };
+  sign('CLOTHING', 0, 6, 4); sign('CLOTHING', 15, 6, 4);
+  sign('TOYS', 0, 12, 4); sign('FURNITURE', 15, 12, 4);
+  floorCache = c;
+}
+function drawCart(px, py, face, load){
+  const off = face < 0 ? -1 : 1, cx = px + off*TS*0.55, cy = py + TS*0.12, size = TS*0.72;
+  spr(CART, cx, cy, size, face < 0);
+  if(load && load.length){
+    const u = Math.max(2, Math.round(TS/9));
+    for(let i=0;i<load.length;i++){
+      ctx.fillStyle = ITEMS[load[i]].bad ? C.rust : C.mustard;
+      ctx.fillRect(Math.round(cx - size*0.28 + (i%3)*(u+1)), Math.round(cy - size*0.3 - Math.floor(i/3)*(u+1)), u, u);
+    }
+  }
+}
+const sx = x => x*TS + TS/2;
+const sy = y => (y+TOP)*TS + TS/2;
+
+function draw(){
+  if(!floorCache) buildFloor();
+  ctx.fillStyle = C.hud; ctx.fillRect(0,0,TS*W,TS*TH);
+  ctx.drawImage(floorCache, 0, TOP*TS, TS*W, TS*MH);
+  spr(REGISTER, sx(REG.x), sy(8)-TS*0.1, TS*0.95);
+  txt('$', sx(8), sy(8)-TS*0.3, TS*0.6, C.ink, 'center');
+  txt('$', sx(10), sy(8)-TS*0.3, TS*0.6, C.ink, 'center');
+
+  if(state === 'title'){ drawHud(); drawTitle(); return; }
+
+  if(bag.length && Math.floor(clock*4)%2){
+    ctx.strokeStyle = C.orange; ctx.lineWidth = Math.max(2, TS/10); ctx.setLineDash([TS/5, TS/6]);
+    for(const d of DROP) ctx.strokeRect(d.x*TS+2, (d.y+TOP)*TS+2, TS-4, TS-4);
+    ctx.setLineDash([]);
+  }
+
+  for(const f of floorItems){
+    const def = ITEMS[f.type], age = clock - f.born, s = age < 0.3 ? age/0.3 : 1;
+    const bob = Math.round(Math.sin(clock*3 + f.x)*TS*0.04);
+    spr(def.spr, sx(f.x), sy(f.y)+bob, TS*0.82*s);
+    if(def.bad && Math.floor(clock*3)%2) txt('!', f.x*TS+TS*0.92, (f.y+TOP)*TS-TS*0.05, TS*0.38, C.rust, 'center');
+    if(isNeeded(f.type)){
+      const t = TS*0.11, cx = f.x*TS+TS*0.13, cy = (f.y+TOP)*TS+TS*0.13;
+      ctx.fillStyle = C.orange; ctx.fillRect(cx-t/2, cy-t*1.5, t, t*3); ctx.fillRect(cx-t*1.5, cy-t/2, t*3, t);
+    }
+  }
+
+  for(const s of shoppers){
+    if(s.wait > 0 && stateT < 3 && Math.floor(clock*6)%2) continue;
+    const p = pos(s), moving = !(s.nx===s.tx && s.ny===s.ty);
+    const lift = moving && Math.floor(clock*8)%2 ? Math.round(TS*0.05) : 0;
+    drawCart(sx(p.x), sy(p.y), s.face, null);
+    spr(SHOPPERS[s.kind].spr, sx(p.x), sy(p.y)-lift, TS*0.95, s.face < 0);
+  }
+
+  if(!(bumpCD > 0.6 && Math.floor(clock*12)%2)){
+    const p = pos(player), moving = !(player.nx===player.tx && player.ny===player.ty);
+    drawCart(sx(p.x), sy(p.y), player.face, bag);
+    spr(PLAYER[moving ? Math.floor(clock*8)%2 : 1], sx(p.x), sy(p.y), TS*0.95, player.face < 0);
+  }
+
+  for(const p of popups){
+    const k = 1 - p.t/p.life;
+    ctx.globalAlpha = Math.min(1, p.t*2.5);
+    const fs = TS*0.38, half = (p.text.length*fs)/2 + TS*0.3;
+    const x = Math.min(Math.max(sx(p.x), half), TS*W - half);
+    txt(p.text, x, sy(p.y) - TS*0.4 - k*TS*0.8, fs, p.color, 'center', C.cream);
+    ctx.globalAlpha = 1;
+  }
+
+  drawHud();
+  if(banner) panel(banner.text, banner.sub, banner.sub2);
+  if(state === 'paused') panel('PAUSED', 'TAP TO RESUME');
+  if(state === 'over' || state === 'win') drawResults();
+  if(state === 'initials') drawInitials();
+}
+function drawHud(){
+  ctx.fillStyle = C.hud; ctx.fillRect(0,0,TS*W,TS*TOP);
+  const f = TS*0.42;
+  txt('SCORE', TS*0.4, TS*0.3, f*0.75, C.mustard);
+  txt(String(Math.max(0,score||0)).padStart(6,'0'), TS*0.4, TS*0.8, f, (score<0)?C.rust:C.cream);
+  txt('HI', TS*5.9, TS*0.3, f*0.75, C.mustard);
+  txt(String(Math.max(topScore(), score||0)).padStart(6,'0'), TS*5.9, TS*0.8, f, C.cream);
+  txt('LEVEL', TS*11.3, TS*0.3, f*0.75, C.mustard);
+  txt((level||1)+'/'+LEVELS, TS*11.3, TS*0.8, f, C.cream);
+  const tl = timeLeft === undefined ? GAME_TIME : timeLeft;
+  const mm = Math.floor(Math.ceil(tl)/60), ss = String(Math.ceil(tl)%60).padStart(2,'0');
+  txt('TIME', TS*(W-0.4), TS*0.3, f*0.75, C.mustard, 'right');
+  txt(mm+':'+ss, TS*(W-0.4), TS*0.8, f, (tl < 30 && Math.floor(clock*2)%2) ? C.orange : C.cream, 'right');
+  // 12-item list
+  const span = 11*1.45, start = (W - span)/2;
+  LIST.forEach((k,i) => {
+    const cx = TS*(start + i*1.45), cy = TS*2.35, got = found && found[k];
+    ctx.fillStyle = got ? C.slot : C.cream; ctx.fillRect(cx-TS*0.6, cy-TS*0.6, TS*1.2, TS*1.2);
+    if(i % 4 === 0 && i) { ctx.fillStyle = C.mustard; ctx.fillRect(cx-TS*0.74, cy-TS*0.5, 2, TS); }
+    spr(ITEMS[k].spr, cx, cy, TS*0.95);
+    if(!got && bag && bag.includes(k)){
+      // carrying it: cross it off (goes away if you drop it)
+      ctx.strokeStyle = C.rust; ctx.lineWidth = Math.max(2, TS/7);
+      ctx.beginPath();
+      ctx.moveTo(cx-TS*0.45, cy-TS*0.45); ctx.lineTo(cx+TS*0.45, cy+TS*0.45);
+      ctx.moveTo(cx+TS*0.45, cy-TS*0.45); ctx.lineTo(cx-TS*0.45, cy+TS*0.45);
+      ctx.stroke();
+    }
+    if(got){
+      ctx.strokeStyle = C.orange; ctx.lineWidth = Math.max(2, TS/7);
+      ctx.beginPath(); ctx.moveTo(cx-TS*0.4, cy); ctx.lineTo(cx-TS*0.1, cy+TS*0.35); ctx.lineTo(cx+TS*0.45, cy-TS*0.4); ctx.stroke();
+    }
+  });
+  // bag
+  const by = (TOP+MH)*TS;
+  ctx.fillStyle = C.hud; ctx.fillRect(0, by, TS*W, TS*BOT);
+  txt('BAG', TS*0.4, by+TS*0.8, f*0.75, C.mustard);
+  for(let i=0;i<BAG_MAX;i++){
+    const cx = TS*(3.4 + i*1.35), cy = by + TS*1.05;
+    ctx.strokeStyle = C.wall; ctx.lineWidth = 2; ctx.strokeRect(cx-TS*0.6, cy-TS*0.6, TS*1.2, TS*1.2);
+    if(bag && bag[i]){
+      const def = ITEMS[bag[i]];
+      ctx.fillStyle = def.bad ? '#5a2a22' : C.slot; ctx.fillRect(cx-TS*0.58, cy-TS*0.58, TS*1.16, TS*1.16);
+      spr(def.spr, cx, cy, TS*0.95);
+    }
+  }
+  if(bag){
+    const goods = bag.filter(t => !ITEMS[t].bad).length;
+    if(goods >= 2) txt('x'+MULT[goods], TS*(W-0.4), by+TS*0.8, f, C.orange, 'right');
+  }
+}
+function box(x0, y0, w, h){
+  ctx.fillStyle = 'rgba(42,29,20,.95)'; ctx.fillRect(x0,y0,w,h);
+  ctx.strokeStyle = C.mustard; ctx.lineWidth = 3; ctx.strokeRect(x0,y0,w,h);
+}
+function panel(title, sub, sub2){
+  const y = TS*(TOP+7.4);
+  box(TS, y, TS*(W-2), TS*(sub2 ? 5 : 4.2));
+  txt(title, TS*W/2, y+TS*1, TS*0.6, C.mustard, 'center');
+  if(sub) txt(sub, TS*W/2, y+TS*2.4, TS*0.34, C.cream, 'center');
+  if(sub2) txt(sub2, TS*W/2, y+TS*3.4, TS*0.34, C.orange, 'center');
+}
+function drawBoard(y, rows, rowH){
+  const cx = TS*W/2, s = TS*0.36, b = getBoard(); rowH = rowH || TS*0.66;
+  if(online && !onlineBoard){ txt(boardMsg, cx, y, s, C.cream, 'center'); return y + TS; }
+  if(!b.length){ txt('NO SCORES YET. BE FIRST!', cx, y, s, C.cream, 'center'); return y + TS; }
+  b.slice(0, rows).forEach((e,i) => {
+    const mine = lastPosted && e.ini === lastPosted.ini && e.score === lastPosted.score;
+    const col = mine && Math.floor(clock*4)%2 ? C.orange : C.cream;
+    txt(String(i+1).padStart(2,' ')+'.', TS*3.0, y, s, C.mustard);
+    txt(e.ini, TS*5.6, y, s, col);
+    if(e.won) txt('*', TS*8.2, y, s, C.mustard);
+    else if(e.level) txt('L'+e.level, TS*8.2, y, s*0.85, C.mustard);
+    txt(String(e.score).padStart(6,'0'), TS*(W-3.0), y, s, col, 'right');
+    y += rowH;
+  });
+  return y;
+}
+function tri(x, y, s, dir){
+  ctx.fillStyle = C.mustard; ctx.beginPath();
+  ctx.moveTo(x - s, y - dir*s/2); ctx.lineTo(x + s, y - dir*s/2); ctx.lineTo(x, y + dir*s/2); ctx.closePath(); ctx.fill();
+}
+function drawInitials(){
+  const x0 = TS*0.8, y0 = TS*(TOP+2), w = TS*(W-1.6), h = TS*(MH-4);
+  box(x0,y0,w,h);
+  const cx = TS*W/2; let y = y0 + TS*1;
+  txt(result.won ? 'ALL 5 LEVELS CLEARED!' : 'CLOSING TIME!', cx, y, TS*0.46, result.won ? C.orange : C.mustard, 'center'); y += TS*1.2;
+  txt(result.won ? 'LEVEL 5 OF 5' : 'LEVEL '+result.level+' · ITEMS '+result.items+'/12', cx, y, TS*0.34, C.cream, 'center'); y += TS*0.65;
+  if(result.won) { txt('WIN BONUS +'+result.winBonus, cx, y, TS*0.34, C.cream, 'center'); y += TS*0.65; }
+  txt('TIME LEFT +'+result.timeBonus, cx, y, TS*0.34, C.cream, 'center'); y += TS*0.9;
+  txt('SCORE '+score, cx, y, TS*0.55, C.mustard, 'center'); y += TS*1.5;
+  txt('NEW HIGH SCORE!', cx, y, TS*0.42, C.orange, 'center'); y += TS*0.8;
+  txt('ENTER YOUR INITIALS', cx, y, TS*0.34, C.cream, 'center'); y += TS*1.2;
+  for(let i=0;i<3;i++){
+    const lx = cx + (i-1)*TS*2.2, sel = i === iniPos;
+    if(sel){ tri(lx, y-TS*0.45, TS*0.32, -1); tri(lx, y+TS*1.65, TS*0.32, 1); }
+    txt(ini[i], lx, y, TS*1.1, sel && Math.floor(clock*4)%2 ? C.orange : C.cream, 'center');
+    ctx.fillStyle = sel ? C.mustard : C.slot; ctx.fillRect(lx-TS*0.6, y+TS*1.2, TS*1.2, Math.max(2,TS/8));
+  }
+  y += TS*2.4;
+  txt('UP/DOWN: LETTER', cx, y, TS*0.3, C.cream, 'center'); y += TS*0.55;
+  txt('RIGHT: NEXT', cx, y, TS*0.3, C.cream, 'center'); y += TS*0.55;
+  txt('TAP SCREEN = OK', cx, y, TS*0.3, C.cream, 'center');
+}
+function drawTitle(){
+  const x0 = TS*0.8, y0 = TS*(TOP+0.6), w = TS*(W-1.6), h = TS*(MH-1.2);
+  box(x0,y0,w,h);
+  const cx = TS*W/2; let y = y0 + TS*0.8;
+  txt('423', cx, y, TS*1.25, C.orange, 'center', C.rust); y += TS*1.45;
+  txt('THRIFT RUSH', cx, y, TS*0.78, C.mustard, 'center', C.rust); y += TS*1.05;
+  txt('A CHATTANOOGA THRIFT TRAIL GAME', cx, y, TS*0.27, C.cream, 'center'); y += TS*0.75;
+  const s = TS*0.34;
+  const page = Math.floor(clock/8) % 2;
+  if(page === 0){
+    const lines = ['FIND ALL 12 ITEMS ON','THE LIST UP TOP AND','RUSH THEM TO THE $','REGISTER. CARRY MORE','AT ONCE = BIGGER x!','','5 LEVELS. EACH ONE IS','33% BUSIER. EVERY','SECOND LEFT = 1 PT.'];
+    for(const l of lines){ txt(l, cx, y, s, C.cream, 'center'); y += TS*0.55; }
+    y += TS*0.2;
+    txt('JUNK COSTS YOU:', cx, y, s, C.mustard, 'center'); y += TS*0.8;
+    for(const k of BAD){
+      spr(ITEMS[k].spr, x0+TS*1.3, y+TS*0.3, TS*0.95);
+      txt(ITEMS[k].name, x0+TS*2.2, y+TS*0.14, s*0.92, C.cream);
+      txt(String(ITEMS[k].bad), x0+w-TS*0.5, y+TS*0.14, s*0.92, C.orange, 'right');
+      y += TS*0.95;
+    }
+    y += TS*0.1;
+    txt("BUMP A SHOPPER AND", cx, y, s, C.cream, 'center'); y += TS*0.55;
+    txt("YOU DROP AN ITEM.", cx, y, s, C.cream, 'center');
+  } else {
+    txt('HIGH SCORES', cx, y - TS*0.5, TS*0.5, C.mustard, 'center'); y += TS*0.5;
+    y = drawBoard(y, BOARD_SIZE, TS*0.66);
+    txt('* = CLEARED ALL 5 LEVELS', cx, y + TS*0.1, s*0.8, C.mustard, 'center');
+  }
+  if(Math.floor(clock*2)%2) txt('TAP TO START', cx, y0 + h - TS*1.1, TS*0.48, C.mustard, 'center');
+}
+function drawResults(){
+  const x0 = TS*0.8, y0 = TS*(TOP+1), w = TS*(W-1.6), h = TS*(MH-2);
+  box(x0,y0,w,h);
+  const cx = TS*W/2, s = TS*0.36; let y = y0 + TS*0.9;
+  if(state === 'win'){ txt('ALL 5 LEVELS CLEARED!', cx, y, TS*0.46, C.orange, 'center'); }
+  else { txt('CLOSING TIME!', cx, y, TS*0.55, C.mustard, 'center'); }
+  txt('THANKS FOR THRIFTING THE 423', cx, y0 + h - TS*1.7, TS*0.3, C.cream, 'center');
+  y += TS*1.2;
+  txt(result.won ? 'LEVEL 5 OF 5' : 'LEVEL '+result.level+'  ITEMS '+result.items+'/12', cx, y, s, C.cream, 'center'); y += TS*0.7;
+  if(result.won){ txt('WIN BONUS  +'+result.winBonus, cx, y, s, C.cream, 'center'); y += TS*0.7; }
+  txt('TIME LEFT  +'+result.timeBonus, cx, y, s, C.cream, 'center'); y += TS*0.7;
+  y += TS*0.2;
+  txt('SCORE '+score, cx, y, TS*0.55, C.mustard, 'center'); y += TS*1.0;
+  if(postMsg) txt(postMsg, cx, y, s*0.9, C.orange, 'center');
+  y += TS*1.0;
+  txt('HIGH SCORES', cx, y, s, C.mustard, 'center'); y += TS*0.9;
+  drawBoard(y, 6);
+  if(stateT > 1.2 && Math.floor(clock*2)%2) txt('TAP TO PLAY AGAIN', cx, y0 + h - TS*1.0, TS*0.42, C.mustard, 'center');
+}
+
+let last = performance.now();
+function frame(now){
+  const dt = Math.min(0.05, (now-last)/1000); last = now; clock += dt;
+  step(dt); draw();
+  requestAnimationFrame(frame);
+}
+
+// ================== INPUT ==================
+function start(){
+  audio();
+  if(state==='title' || ((state==='over'||state==='win') && stateT > 1.2)) newGame();
+  else if(state==='paused') state='play';
+}
+function setDir(d){ audio(); if(state==='initials'){ iniInput(d); return; } want = d; if(state!=='play') start(); }
+const KEYS = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right',W:'up',S:'down',A:'left',D:'right'};
+window.addEventListener('keydown', e => {
+  if(state==='initials'){
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){ e.preventDefault(); setDir(KEYS[e.key]); return; }
+    if(/^[a-zA-Z]$/.test(e.key)){ iniType(e.key.toUpperCase()); return; }
+    if(e.key==='Enter'){ finishInitials(); return; }
+    if(e.key==='Backspace'){ iniInput('left'); return; }
+    return;
+  }
+  if(KEYS[e.key]){ e.preventDefault(); setDir(KEYS[e.key]); return; }
+  if(e.key==='p'||e.key==='P'||e.key==='Escape'){ if(state==='play') state='paused'; else if(state==='paused') state='play'; return; }
+  start();
+});
+for(const b of document.querySelectorAll('#pad button')) b.addEventListener('pointerdown', e => { e.preventDefault(); setDir(b.dataset.d); });
+let tx0=null, ty0=null;
+document.addEventListener('touchstart', e => { const t = e.touches[0]; tx0=t.clientX; ty0=t.clientY; }, {passive:true});
+document.addEventListener('touchmove', e => {
+  if(tx0===null) return;
+  const t = e.touches[0], dx = t.clientX-tx0, dy = t.clientY-ty0;
+  if(Math.abs(dx) < 18 && Math.abs(dy) < 18) return;
+  setDir(Math.abs(dx) > Math.abs(dy) ? (dx>0?'right':'left') : (dy>0?'down':'up'));
+  tx0 = t.clientX; ty0 = t.clientY; e.preventDefault();
+}, {passive:false});
+document.addEventListener('touchend', () => { tx0 = ty0 = null; });
+cv.addEventListener('pointerdown', () => { if(state==='initials'){ if(stateT > 0.5) iniInput('ok'); return; } start(); });
+document.addEventListener('visibilitychange', () => { if(document.hidden && state==='play') state='paused'; });
+
+// ================== BOOT ==================
+resize();
+score = 0; bag = []; popups = []; found = {}; floorItems = []; shoppers = [];
+initScores();
+requestAnimationFrame(frame);
+})();
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+var app=initializeApp({apiKey:"AIzaSyDSJYyUkpUQuwyZ6E7gNwutNb819BS_sTU",authDomain:"chattanooga-thrift-trail.firebaseapp.com",projectId:"chattanooga-thrift-trail",messagingSenderId:"553643358865",appId:"1:553643358865:web:66cbf21479e7ab67c71d30"});
+var db=getFirestore(app),col=collection(db,"thriftRushScores");
+window.TRFirestore={
+  subscribe:function(cb,err){return onSnapshot(query(col,orderBy("score","desc"),limit(15)),function(s){cb(s.docs.map(function(d){return d.data();}));},err);},
+  add:function(e){return addDoc(col,{ini:String(e.ini),score:Math.round(e.score),won:!!e.won,level:Math.round(e.level)||1,at:Date.now()});}
+};
+window.dispatchEvent(new Event("trfs-ready"));
+</script>
+</body>
+</html>

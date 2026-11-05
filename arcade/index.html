@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arcade | Chattanooga Thrift Trail</title>
+<meta name="description" content="Play Chattanooga-themed games from the Chattanooga Thrift Trail: 423 Thrift Rush and the Thrift Trail Grand Prix. Beat the high scores.">
+<link rel="canonical" href="https://423thrift.com/arcade/">
+<meta property="og:title" content="Arcade | Chattanooga Thrift Trail"><meta property="og:description" content="Play Chattanooga-themed games and beat the high scores.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://423thrift.com/arcade/">
+<meta property="og:image" content="https://423thrift.com/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DXP5B81PJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6DXP5B81PJ');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet">
+<style>
+.topbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px dashed var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topbar{flex-wrap:wrap;gap:4px 12px}.topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}.topbar a.sitetitle:hover{text-decoration:underline}
+.topbar a.logo{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--ink);text-decoration:none}
+
+:root{--paper:#f2ead9;--card:#fbf6ea;--ink:#2c2417;--olive:#4a5a3a;--rust:#ae4c2c;--line:#d8cdb2;--taupe:#6b6252}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+header img{width:56px;height:56px;border-radius:12px}
+header a{color:var(--olive);font-weight:700;text-decoration:none;font-family:system-ui,sans-serif}
+h1,h2,h3{font-family:'Archivo Black',Georgia,serif;font-weight:400}
+h1{font-size:clamp(28px,8vw,40px);line-height:1.05;margin:14px 0 8px;color:var(--rust)}
+h2{font-size:24px;margin:30px 0 10px;border-bottom:1.5px dashed var(--line);padding-bottom:4px;scroll-margin-top:12px}
+h3{margin:0 0 2px;font-size:19px}
+.count{font-size:14px;color:var(--taupe);font-weight:400}
+.soon{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);border:1.5px dashed var(--line);border-radius:6px;padding:8px 12px;margin:14px 0 4px}
+.cta{display:inline-block;margin:12px 0 14px;padding:12px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 16px;font-family:system-ui,sans-serif}
+nav a{font-size:13px;font-weight:600;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:4px 11px;text-decoration:none;background:var(--card)}
+nav a:hover{background:var(--olive);color:#fff}
+#q{width:100%;padding:11px 12px;font-size:16px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-family:system-ui,sans-serif}
+.shop{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:0 0 12px}
+.shop p{margin:4px 0;font-size:15px}
+.meta,.hours,.links,.closing{font-family:system-ui,sans-serif;font-size:13.5px!important;color:#5c5240}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--olive);border:1px solid var(--olive);border-radius:10px;padding:0 7px;margin-right:4px}
+.closing{color:var(--rust)!important;font-weight:600}
+a{color:var(--olive)}
+#none{display:none;font-family:system-ui,sans-serif;color:var(--taupe);margin-top:16px}
+.tip{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;margin-top:28px;padding:14px;border-top:1.5px dashed var(--line);font-family:system-ui,sans-serif}
+.tip span{font-size:13px;color:#6b6252}
+.tip a{font-weight:600;font-size:13px;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:5px 13px;text-decoration:none}
+.tip a:hover{background:var(--olive);color:#fff}
+footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:var(--taupe)}
+.charities p{font-family:system-ui,sans-serif;font-size:14.5px;color:#5c5240;margin:0 0 10px}.charities strong{color:var(--ink)}
+.gi{font-family:system-ui,sans-serif;font-size:15px;text-align:center;margin:22px 0 0}.det{font-family:system-ui,sans-serif;font-size:13px;color:var(--taupe);margin:4px 0}.benefit{background:#f3ecd2;border-left:3px solid #c98a2b;padding:6px 10px;border-radius:3px}
+
+.sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
+.sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
+.sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+.sm-btn svg{width:28px;height:28px}
+.sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
+.sm-menu[hidden]{display:none!important}
+.sm-menu:not([hidden]){display:block!important}
+.sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
+.sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
+.sm-menu a[aria-current=page]{color:var(--rust)!important}
+.sm-foot{text-align:center;font:12px/1.4 system-ui,sans-serif;color:#6b6252;margin:0;padding:8px 16px 36px}.sm-foot a{color:inherit}
+.thx{text-align:center;padding:20px 0}
+.tipbox{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;margin-top:24px;padding-top:14px;border-top:1.5px dashed var(--line);font:13px system-ui,sans-serif;color:var(--taupe)}
+.tipbox a{font-weight:700;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:5px 13px;text-decoration:none}
+
+h1{margin:14px 0 6px}.lead{font:15px/1.5 system-ui,sans-serif;color:var(--taupe);margin:0 0 18px}
+.game{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:16px 16px 18px;margin:0 0 16px}
+.game h2{margin:0 0 4px;border:0;padding:0;font-size:24px;color:var(--ink)}
+.game p{font:15px/1.5 system-ui,sans-serif;margin:6px 0;color:var(--ink)}.game .meta{font-size:13px;color:var(--taupe)}
+.play{display:inline-block;margin:10px 0 0;padding:12px 24px;background:var(--rust);color:#fff;border-radius:999px;font:700 15px 'Libre Franklin',system-ui,sans-serif;text-decoration:none}
+.play:hover{background:var(--ink)}
+</style></style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/arcade/" aria-current="page">🕹️ Arcade</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap"><h1>Arcade</h1>
+<p class="lead">Chattanooga-themed games from the Thrift Trail. Pick one, play, and get your initials on the high score board.</p>
+<div class="game"><h2>423 Thrift Rush</h2>
+<p>A retro thrift-store dash. Find all 12 items on your list, rush them to the register, and steer clear of the junk. Five levels, and each one is 33% busier.</p>
+<p class="meta">Arrow keys, swipe or on-screen buttons. Works on phones.</p>
+<a class="play" href="/arcade/thrift-rush/">Play 423 Thrift Rush</a></div>
+<div class="game"><h2>Thrift Trail Grand Prix</h2>
+<p>Race the real roads of the Scenic City Loop against the Red, Blue and Green cars. Every thrift shop you reach adds time to your clock. Watch for two-way traffic, dogs and grannies at the crosswalks, and grab the speed boosts.</p>
+<p class="meta">Keys: arrows or W A S D. On phones, use the on-screen buttons.</p>
+<a class="play" href="/arcade/grand-prix/">Play the Grand Prix</a></div>
+</div>
+<p class="sm-foot">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener">Thrifty Flea</a></p><script src="/menu.js" defer></script>
+</body></html>
