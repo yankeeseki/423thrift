@@ -50,6 +50,7 @@ Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 STILL TO DO / IDEAS
 - DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box (just the two centered buttons, no label or note) holding both '+ Add Your Own Stop' and '☕ Add a coffee stop' (the coffee panel moved into that box; ids unchanged).
 - DONE in v19.4 (Nov 7 2026): 'Your own stops' box is just two centered buttons (17px, no label or note); Add Your Own Stop help text shortened to one paragraph; Share The Trail buttons on desktop (min-width 781px) are 3 over 2 in equal-width pills (CSS grid on .ctt-share-row), phone layout unchanged; More Shops list is sorted open-now (or closing soon) first, then closed (sortOffRouteByOpen, called after addBackgroundBonus in recalibrate; order inside each group unchanged; no section headings because the height and scroll code treat every child as a shop card).
+- DONE in v19.5 (Nov 7 2026): Add Your Own Stop: button shows the ➕ emoji instead of a plain +; appointment-time field forced inside the box (min-width 0, appearance none, form overflow hidden; written for iPhone Safari, which cannot be tested in the sandbox); suggestions only list places WITH a street address (1,519 of 2,553 in places.json); the 'Enjoying the trail?' tip row removed from this dialog only (other dialogs keep it); More Shops heading + note stay on ONE line on phones (nowrap, smaller text under 480px and 380px; only the longer "All Other Shops" label on a 320px-wide screen clips the note); removed the coffee panel line 'Hours come from Google and can change.'.
 - VERSION NUMBERING RULE (Mod, Nov 7 2026): versions count 19.1, 19.2 ... 19.9, then 20.0, 20.1 ... (never 19.10 or 19.11). Mod set THIS build to v19.2; the next build is v19.3.
 - FIX in v19.2 (Nov 7 2026): Add Your Own Stop dialog crashed on open in the first build of this feature, mislabeled v19.10 (suggestion code ran before nameEl/addrEl were declared), so suggestions, icons and the close button did nothing. Moved the block after the declarations; tested with a stubbed Playwright harness.
 - DONE in v19.2 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
@@ -340,7 +341,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.4-20261107">
+<meta name="ctt-build" content="v19.5-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1776,6 +1777,9 @@ LINGERING IDEAS
   .ctt-offroute-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; font-size: 19px; font-weight: 800; }
   .ctt-offroute-head { padding: 4px 0; }
+  .ctt-offroute-head .ctt-offroute-toggle, .ctt-offroute-head .ctt-offroute-note { white-space: nowrap; }
+  @media (max-width: 480px) { .ctt-offroute-head { gap: 6px; } .ctt-offroute-head .ctt-offroute-toggle { font-size: 17px; } .ctt-offroute-head .ctt-offroute-note { font-size: 11px; min-width: 0; overflow: hidden; text-overflow: ellipsis; } }
+  @media (max-width: 380px) { .ctt-offroute-head .ctt-offroute-toggle { font-size: 16px; } .ctt-offroute-head .ctt-offroute-note { font-size: 10px; } }
   .ctt-offroute-note { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 400; color: #6b6252; text-align: right; }
   #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 0; scrollbar-width: none; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
@@ -2523,8 +2527,11 @@ LINGERING IDEAS
   .ctt-tag.ctt-errand .ctt-tag-photo-fallback { background: #fbf1d4 !important; color: inherit; font-size: 26px; border-radius: 8px; border: 2px solid #6f6450; }
   .ctt-errand-when { font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; color: var(--ink); }
   .ctt-as-sug { margin-top: 4px; } .ctt-as-sug button { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-top: 4px; cursor: pointer; font: 400 14px 'Libre Franklin', sans-serif; color: var(--ink); } .ctt-as-sug button strong { display: block; font-weight: 700; } .ctt-as-sug button span { display: block; font-size: 12px; color: var(--taupe); }
+  .ctt-as-form input[type=time] { display: block; -webkit-appearance: none; appearance: none; min-height: 44px; line-height: 1.2; }
+  .ctt-as-form input[type=time]::-webkit-date-and-time-value { text-align: left; min-width: 0; }
+  .ctt-as-form { max-width: 100%; overflow-x: hidden; }
   .ctt-as-form label { display: block; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; margin: 12px 0 4px; color: var(--ink); }
-  .ctt-as-form input[type=text], .ctt-as-form input[type=time], .ctt-as-form select { width: 100%; box-sizing: border-box; font: 400 16px 'Libre Franklin', sans-serif; padding: 10px 11px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
+  .ctt-as-form input[type=text], .ctt-as-form input[type=time], .ctt-as-form select { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; font: 400 16px 'Libre Franklin', sans-serif; padding: 10px 11px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
   .ctt-as-icons { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 2px; }
   .ctt-as-icons button { width: 100%; max-width: 56px; justify-self: center; height: 46px; font-size: 22px; line-height: 1; border: 2px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; padding: 0; }
   .ctt-as-icons button[aria-pressed="true"] { border-color: var(--rust); background: #fbf1d4; box-shadow: 0 0 0 2px var(--rust); }
@@ -2838,7 +2845,7 @@ LINGERING IDEAS
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
       <div class="ctt-own-box">
-        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open">&#43; Add Your Own Stop</button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button></div>
+        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open">&#10133; Add Your Own Stop</button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button></div>
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
@@ -2935,7 +2942,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.4 &mdash; November 7, 2026</p>
+      <p class="ctt-version">v19.5 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4804,7 +4811,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<p class="ctt-as-help">Pick a suggestion or type an address (looked up with OpenStreetMap, never kept). Add a time and we fit it into your route; otherwise it goes where it adds the least driving.</p>' +
       '<p class="ctt-as-msg" id="ctt-as-msg" role="status"></p>' +
       '<button type="submit" class="ctt-as-go" id="ctt-as-go">Add to my trail</button></form>' +
-      '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div></div></div>';
+      '</div></div>';
     var anchor = document.getElementById('ctt-gi-overlay'); anchor.parentNode.insertBefore(ov, anchor);
     document.body.style.overflow = 'hidden';
     var picked = ERRAND_ICONS.length - 1, touched = false;
@@ -4818,6 +4825,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (q.length < 2 || !P) { sugEl.innerHTML = ''; return; }
       var toks = q.split(/\s+/), c = map.getCenter(), out = [];
       P.forEach(function(p) {
+        if (!p[1]) return;
         var nm = p[0].toLowerCase(), words = nm.split(/[^a-z0-9']+/);
         if (!toks.every(function(t) { return words.some(function(w) { return w.indexOf(t) === 0; }); })) return;
         out.push({ p: p, d: haversineMiles(c.lat, c.lng, p[3], p[4]), s: nm.indexOf(q) === 0 ? 0 : 1 });
@@ -5441,7 +5449,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           '<a class="ctt-cf-btn" href="' + cfDirections(x.c) + '" target="_blank" rel="noopener">Directions</a>' +
           '<button type="button" class="ctt-cf-btn primary" data-cf="add" data-id="' + x.id + '" data-before="' + cfEsc(r.target.name) + '">Add to route</button></div>';
       });
-      h += '<div class="ctt-cf-note">Hours come from Google and can change.</div>';
     }
     cfPanel.innerHTML = h;
   }
