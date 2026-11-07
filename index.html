@@ -48,10 +48,12 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
-- DONE in v19.10 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
-- DONE in v19.10 (Nov 7 2026): ADD YOUR OWN STOP IS NOW VISIBLE (unhidden for a phone test; uses Nominatim for one address lookup per Add tap, fine at low traffic; switch geocoder if traffic grows). Rewards shown in the details line (d.rw): America's, Providence, Chambliss, Ladies of Charity.
-- OFF in v19.10 (Nov 7 2026): the loop-finished popup and finish card (v13.6) are switched off with FINISH_CARD_ON = false in checkLoopsDone(); Mod disliked the card design. Redo the card design later, then set the flag back to true.
-- DONE in v19.10 (Nov 7 2026): added a copyright line to the footer (home + menu.js sub-pages), a LICENSE file (all rights reserved) and hidden build-mark fingerprints; Google Search Console verified and sitemap.xml submitted; Enforce HTTPS is on; repo stays public (GitHub Free cannot publish Pages from a private repo). Refresh sitemap.xml at the next build (add arcade, downtown-north-shore and other newer pages).
+- VERSION NUMBERING RULE (Mod, Nov 7 2026): versions count 19.1, 19.2 ... 19.9, then 20.0, 20.1 ... (never 19.10 or 19.11). Mod set THIS build to v19.2; the next build is v19.3.
+- FIX in v19.2 (Nov 7 2026): Add Your Own Stop dialog crashed on open in the first build of this feature, mislabeled v19.10 (suggestion code ran before nameEl/addrEl were declared), so suggestions, icons and the close button did nothing. Moved the block after the declarations; tested with a stubbed Playwright harness.
+- DONE in v19.2 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
+- DONE in v19.2 (Nov 7 2026): ADD YOUR OWN STOP IS NOW VISIBLE (unhidden for a phone test; uses Nominatim for one address lookup per Add tap, fine at low traffic; switch geocoder if traffic grows). Rewards shown in the details line (d.rw): America's, Providence, Chambliss, Ladies of Charity.
+- OFF in v19.2 (Nov 7 2026): the loop-finished popup and finish card (v13.6) are switched off with FINISH_CARD_ON = false in checkLoopsDone(); Mod disliked the card design. Redo the card design later, then set the flag back to true.
+- DONE in v19.2 (Nov 7 2026): added a copyright line to the footer (home + menu.js sub-pages), a LICENSE file (all rights reserved) and hidden build-mark fingerprints; Google Search Console verified and sitemap.xml submitted; Enforce HTTPS is on; repo stays public (GitHub Free cannot publish Pages from a private repo). Refresh sitemap.xml at the next build (add arcade, downtown-north-shore and other newer pages).
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
 - DONE in v9.9 (Oct 31 2026): tagline under title (wording by Mod: 'Plan the perfect thrift experience. Chattanooga area thrift, vintage and antique shops, in an optimized driving order...'); removed 'free'/'today' from meta + SEO paragraph; blog post why-not-just-use-google-maps-for-thrifting (no stop number stated, per Mod); How this works line; how-to FAQ; stale update-banner text fixed.
 - DONE in v9.8 (Oct 31 2026): Crafter's Emporium grouped with Hixson (Trail area, /shops/ page, Hixson landing page).
@@ -183,7 +185,7 @@ STILL TO DO / IDEAS
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
   - DONE in v19.9 (Nov 4 2026): MAP NAMES ON/OFF BUTTON is back (reverses the v10.55 removal): small 'Names: On/Off' tab at the bottom right of the map (CSS .ctt-names-toggle already existed); default On; choice remembered in localStorage 'ctt-names'. Off = numbers only, a name shows on hover/tap.
-  - PENDING for v19.10 (Nov 4 2026): Thrift Rush: each level has its own floor plan with more dead ends (MAPS array, setMap()); wording 'harder than the last' (no 33% text); Loop Run: renamed, scored on finish time (1000 finish + place bonus + (300 - race seconds) x 15, plus 100 per shop), fewer obstacles, tighter corners, perspective chase camera, realistic car sprites. arcade/grand-prix removed, arcade/loop-run added.
+  - PENDING for v19.2 (Nov 4 2026): Thrift Rush: each level has its own floor plan with more dead ends (MAPS array, setMap()); wording 'harder than the last' (no 33% text); Loop Run: renamed, scored on finish time (1000 finish + place bonus + (300 - race seconds) x 15, plus 100 per shop), fewer obstacles, tighter corners, perspective chase camera, realistic car sprites. arcade/grand-prix removed, arcade/loop-run added.
   - DONE in v19.8 (Nov 4 2026): ARCADE. New page /arcade/ (arcade/index.html, sub-page shell like shops/update) lists two games; 'Arcade' link added to the footer row (after Blog, id ctt-arcade-open, home page and menu.js FOOT_HTML) and to the hamburger Explore list (index.html items() and menu.js). Games live at /arcade/thrift-rush/ (423 Thrift Rush, copied from the Claude artifact) and /arcade/loop-run/ (Scenic City Loop Run racer, renamed from Thrift Trail Grand Prix; folder renamed from grand-prix: real-road Scenic City Loop track, chase camera with Top/Chase toggle, two-way traffic, crosswalk grannies, 3-letter-initials high scores). Each game page has a module script that exposes window.TRFirestore / window.GPFirestore (subscribe + add) on the same Firebase project; Thrift Rush uses collection thriftRushScores (rule already published), Loop Run uses NEW collection loopRunScores which needs a create-only, read-all Firestore rule (fields ini, score, place, shops, time, at; owner must publish it) or its scores stay on the device. menu.js was PATCHED BY HAND (work/build_menu.py output is stale; do not regenerate it). sitemap.xml should list /arcade/, /arcade/thrift-rush/, /arcade/loop-run/.
   - DONE in v19.8 (Nov 4 2026): NIFTY THRIFTY (Fort Oglethorpe) is the Featured Shop on TUESDAYS (owner, by voice). isFeaturedToday() and featuredDayLabel() now return Nifty Thrifty when dayIdx === 2 (label 'Nifty Thrifty in Fort O'); the schedule box on shops/index.html is updated, and Vinterest (Hixson) takes over Mon/Wed/Thu/Fri from Dec 28. Nifty Thrifty is open Tue-Fri 11-6, so Tuesday works. Starts with the next build, no start date set.
   - DONE in v19.8 (Nov 4 2026): NEW BONUS STOP: Parker's Picks and Vendor Mall (Hixson, Vintage / Curated), 5420 Hixson Pike, Hixson, TN 37343, (423) 805-8112. Hours from the door lettering: Mon-Fri 10-6, Sat 10-4, Sun closed (a holiday sign said Mon-Sat 10-6, Sun 12-5, no dates, NOT listed). PIN IS AN ESTIMATE (35.1421, -85.2321, interpolated along Hixson Pike): check it on the map and fix lat/lng if it is off; the Get directions link uses the address so it is right either way. No website link (it only has social pages). Shop counts went 47 -> 48 (descriptions, footer text, menu.js) and the Hixson pages were updated (shops/index.html, thrift-stores-hixson).
@@ -285,12 +287,58 @@ STILL TO DO / IDEAS
 - Mercantile at the Ridge is now a Curated Shop. Dirty Jane's Antiques is CONFIRMED Antique (owner, Nov 4 2026). CATEGORY RULE (owner, Nov 4 2026): each shop has one main type, Thrift / Vintage / Antique. Anything curated is Vintage, not Thrift (The Thrift Stop and Crafter's Emporium & Book Exchange stay Vintage). Vintage & More On The Blvd and Dirty Jane's are antique malls, so they stay Antique. Optional idea, not built: a 'Our shop is mainly: Thrift / Vintage / Antique' dropdown on the manager form, plus a one-line note 'Each shop is labeled by what it mainly sells.'
 - JSON-LD and static SEO shop lists still include Vinterest (Southside) after Dec 27 2026; trim then.
 - Neighborhood landing pages (sample Hixson page exists, not live) undecided.
+==================== EXTRA BUILD NOTES (added Nov 7 2026, shipped in v19.2) ====================
+OWNER'S WORKING RULES (follow these every time)
+- Do NOT build a new version or zip until the owner types "nv". Every build gets a NEW version number, even for a one-line fix.
+- VERSION NUMBERS: 19.1 ... 19.9, then 20.0, 20.1 ... 20.9, then 21.0. Never 19.10 / 19.11. (The build first called v19.10 was replaced by v19.2, per Mod.)
+- Zip only the CHANGED files, in their correct folders, inside a folder named for the version (e.g. v19.3/). Always say which files changed and which one is the MAIN page (index.html) and which is the SHOPS page (shops/index.html).
+- Owner is colorblind: match colors exactly; never approximate a brand color. Brand blue is #2c3e44.
+- Public wording: "moderator(s)" and "Mod's"; "shop" not "store"; "small business"; links just say "Website"; do not mention Facebook; avoid the words "free" and "today" in public copy; no lines that depend on fiction or pop culture.
+- Walk the owner through steps ONE AT A TIME (he uses a Mac). When he says to talk several changes through first, build nothing until he says "go".
+- When a feature changes, update the how-to page (/how-to/) and the guide blog post too.
+- filmproducer.co is a SEPARATE site. Do not help with tax evasion.
+- Owner is on GitHub Free: the repo stays PUBLIC (GitHub Pages cannot publish from a private repo on Free). Code protection = copyright line, LICENSE file, hidden build-mark fingerprints (window.__cttMark and the comment in the head).
+
+FILES IN THE REPO ROOT
+- index.html = MAIN page (map, route, filters, Add Your Own Stop, everything). Single file, Leaflet + jsPDF + Firebase + GA4 (G-D9GTHCWF4F).
+- menu.js = footer, menu and the version line for every sub-page. Its version line must match index.html on every release.
+- places.json = type-ahead list for Add Your Own Stop (~2,553 Chattanooga businesses, ~152 KB, array rows: [name, street, city, lat, lng]). Data is OpenStreetMap (ODbL), credited in the footer. Do NOT copy Google Maps data. If it is missing from the repo root, the suggestions silently never appear.
+- LICENSE = all rights reserved, contact 423thrift@gmail.com.
+- sitemap.xml (71 URLs, submitted in Google Search Console, works), sw.js (service worker, stale-while-revalidate), shops/ (SHOPS page), thrift-stores-*/ neighborhood pages, calendar/, how-to/, blog/, arcade/, icons/, sponsors/.
+
+ADD YOUR OWN STOP (function openAddStop in index.html)
+- Visible now (the .ctt-addstop-row is unhidden). Uses Nominatim for one address lookup per Add tap unless a place was picked from the suggestions (then its saved lat/lng are used and no lookup happens).
+- Order of code inside openAddStop MATTERS: declare nameEl / addrEl / msg / go, THEN `var chosen`, THEN the suggestion code (sugEl, loadPlaces, showSug, listeners), THEN close(), icons, submit. In the first build the suggestion code ran before nameEl existed, threw, and left the icons, close button and submit unwired. a syntax check (node check) cannot catch this kind of bug.
+- Suggestions: word-prefix match on the name, names that START with the typed text first, then nearest to the map center, top 6, each showing name, address/city and miles. Rows without a street fill the address with just the city.
+- HOW TO TEST WITHOUT THE LIVE PAGE: the sandbox cannot load Leaflet or jsPDF, so extract the openAddStop function into a small HTML harness with stubs (map.getCenter, haversineMiles, cttEsc, dn, ERRAND_ICONS, ERRAND_GUESS, activeRoute, locationsByName, geocodeStop, a #ctt-gi-overlay element, a fake fetch returning places.json) and drive it with Playwright: type "wal", expect 6 suggestions, click one, click an icon (aria-pressed changes), click the close X (overlay removed), expect no page errors.
+- Skipped extras from the v16.2 plan: coffee tie-in, "Make this next", fitting timed appointments into the route.
+
+REWARDS INFO (data key "rw" in SHOP_DETAILS, shown by shopDetailsHtml after Wi-Fi)
+- Add these ONLY as managers confirm them, one shop at a time. So far: America's Thrift Store = Rewards program; Providence = Punch card; Chambliss = Rewards program; Ladies of Charity = Punch card.
+- They also appear on /shops/ and the five neighborhood pages that have detail lines. On those pages the apostrophe is the entity &#x27; and Fort Oglethorpe shows as "Fort O".
+
+OFF / HELD ITEMS
+- Loop-finished popup and finish card: OFF with FINISH_CARD_ON = false (owner disliked the design). Redo the design later, then flip the flag.
+- Newsletter: ON HOLD for several weeks (owner has no way to send yet).
+- Arcade: ON HOLD. Pending when it resumes: Thrift Rush MAPS array (each level its own floor plan with more dead ends) and wording "harder than the last"; rename Scenic City Loop Run to Thrift Trail Rally; copy the racer to /arcade/loop-run; a loopRunScores Firestore rule.
+- Best restock day: unknown, skip until there is real data. Coffee shops: leave as they are.
+- "Closing soon": already works and starts 60 minutes before closing.
+
+RACER GAME "Thrift Trail Rally" (separate working copy outside the site; published as a Claude artifact, NOT part of this repo yet)
+- One HTML canvas pseudo-3D engine. template.html + build.py + mktrack.py (makes track.json) produce game.html.
+- Done this round: rounded dead-end transitions, lighter traffic (heavier on highways, lighter on side roads), Lookout Mountain silhouette, T. rex rear view and fire instead of spin-outs, checkpoints at shop fronts with shop names on the building walls, 10% easier, same-lane rear-end = half speed and no spin, 10% fewer animals and grannies, "Construction ahead" signs in the grass, only the car that gets hit spins, small "Wrong way" notice, car faces the right way after a spin-out.
+- STILL OPEN: owner's screenshot "sidewalks should always be a visual cue for where to go, this is an example of a bad route" (needs the exact shop or sign location). Not verified: speed on the owner's phone, trains, a full human-played lap.
+
+LINGERING IDEAS
+- Shop manager outreach for rewards, restroom, card-minimum and Wi-Fi details.
+- Review about a week of Google Analytics together; mark key events (start_trail, get_directions, download_poster, tip_click).
+- Optional blog post about Add Your Own Stop.
 ==========================================================================================================
 -->
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.10-20261107">
+<meta name="ctt-build" content="v19.2-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2872,7 +2920,7 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.10 &mdash; November 7, 2026</p>
+      <p class="ctt-version">v19.2 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4708,7 +4756,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div></div></div>';
     var anchor = document.getElementById('ctt-gi-overlay'); anchor.parentNode.insertBefore(ov, anchor);
     document.body.style.overflow = 'hidden';
-    var picked = ERRAND_ICONS.length - 1, touched = false, chosen = null;
+    var picked = ERRAND_ICONS.length - 1, touched = false;
+    var nameEl = document.getElementById('ctt-as-name'), addrEl = document.getElementById('ctt-as-addr'), msg = document.getElementById('ctt-as-msg'), go = document.getElementById('ctt-as-go');
+    var chosen = null;
     var sugEl = document.getElementById('ctt-as-sug');
     function loadPlaces() { if (window.__cttPlaces || window.__cttPlacesBusy) return; window.__cttPlacesBusy = true; fetch('/places.json').then(function(r) { return r.json(); }).then(function(a) { window.__cttPlaces = a; }).catch(function() { window.__cttPlacesBusy = false; }); }
     loadPlaces();
@@ -4734,7 +4784,6 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
     addrEl.addEventListener('input', function() { chosen = null; });
     nameEl.addEventListener('input', function() { chosen = null; showSug(); });
-    var nameEl = document.getElementById('ctt-as-name'), addrEl = document.getElementById('ctt-as-addr'), msg = document.getElementById('ctt-as-msg'), go = document.getElementById('ctt-as-go');
     function close() { if (ov.parentNode) ov.parentNode.removeChild(ov); document.body.style.overflow = ''; document.removeEventListener('keydown', onKey); }
     function onKey(e) { if (e.key === 'Escape') close(); }
     document.addEventListener('keydown', onKey);
