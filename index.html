@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- ctt-origin: 423thrift.com | build-mark TCTT-7f3a9c2e-lookout | (c) 2026 Chattanooga Thrift Trail, all rights reserved. Copying this code or its shop data without permission is not allowed. -->
 <!--
 ==================== PROJECT HANDOFF NOTES (invisible on the page; for the site owner) ====================
 If the chat is ever lost: start a new chat, attach this index.html, and say
@@ -47,6 +48,10 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- DONE in v19.10 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
+- DONE in v19.10 (Nov 7 2026): ADD YOUR OWN STOP IS NOW VISIBLE (unhidden for a phone test; uses Nominatim for one address lookup per Add tap, fine at low traffic; switch geocoder if traffic grows). Rewards shown in the details line (d.rw): America's, Providence, Chambliss, Ladies of Charity.
+- OFF in v19.10 (Nov 7 2026): the loop-finished popup and finish card (v13.6) are switched off with FINISH_CARD_ON = false in checkLoopsDone(); Mod disliked the card design. Redo the card design later, then set the flag back to true.
+- DONE in v19.10 (Nov 7 2026): added a copyright line to the footer (home + menu.js sub-pages), a LICENSE file (all rights reserved) and hidden build-mark fingerprints; Google Search Console verified and sitemap.xml submitted; Enforce HTTPS is on; repo stays public (GitHub Free cannot publish Pages from a private repo). Refresh sitemap.xml at the next build (add arcade, downtown-north-shore and other newer pages).
 - DONE in v9.2 (prepared, not yet delivered): "Add the Trail to Your Home Screen" is right-aligned on the same line as "Read the full how-to guide" in How this works (computer). On phones the two do not fit on one line, so it wraps and stays right-aligned.
 - DONE in v9.9 (Oct 31 2026): tagline under title (wording by Mod: 'Plan the perfect thrift experience. Chattanooga area thrift, vintage and antique shops, in an optimized driving order...'); removed 'free'/'today' from meta + SEO paragraph; blog post why-not-just-use-google-maps-for-thrifting (no stop number stated, per Mod); How this works line; how-to FAQ; stale update-banner text fixed.
 - DONE in v9.8 (Oct 31 2026): Crafter's Emporium grouped with Hixson (Trail area, /shops/ page, Hixson landing page).
@@ -178,7 +183,8 @@ STILL TO DO / IDEAS
   - DONE in v10.97 (Nov 1 2026): coffee button on phones is back to its natural width.
 - VERSION NUMBERS: go .1 to .9, then the next whole number (v11.9 is followed by v12.0).
   - DONE in v19.9 (Nov 4 2026): MAP NAMES ON/OFF BUTTON is back (reverses the v10.55 removal): small 'Names: On/Off' tab at the bottom right of the map (CSS .ctt-names-toggle already existed); default On; choice remembered in localStorage 'ctt-names'. Off = numbers only, a name shows on hover/tap.
-  - DONE in v19.8 (Nov 4 2026): ARCADE. New page /arcade/ (arcade/index.html, sub-page shell like shops/update) lists two games; 'Arcade' link added to the footer row (after Blog, id ctt-arcade-open, home page and menu.js FOOT_HTML) and to the hamburger Explore list (index.html items() and menu.js). Games live at /arcade/thrift-rush/ (423 Thrift Rush, copied from the Claude artifact) and /arcade/grand-prix/ (Thrift Trail Grand Prix racer: real-road Scenic City Loop track, chase camera with Top/Chase toggle, two-way traffic, crosswalk grannies, 3-letter-initials high scores). Each game page has a module script that exposes window.TRFirestore / window.GPFirestore (subscribe + add) on the same Firebase project; Thrift Rush uses collection thriftRushScores (rule already published), Grand Prix uses NEW collection grandPrixScores which needs a create-only, read-all Firestore rule (fields ini, score, place, shops, at; owner must publish it) or its scores stay on the device. menu.js was PATCHED BY HAND (work/build_menu.py output is stale; do not regenerate it). sitemap.xml should list /arcade/, /arcade/thrift-rush/, /arcade/grand-prix/.
+  - PENDING for v19.10 (Nov 4 2026): Thrift Rush: each level has its own floor plan with more dead ends (MAPS array, setMap()); wording 'harder than the last' (no 33% text); Loop Run: renamed, scored on finish time (1000 finish + place bonus + (300 - race seconds) x 15, plus 100 per shop), fewer obstacles, tighter corners, perspective chase camera, realistic car sprites. arcade/grand-prix removed, arcade/loop-run added.
+  - DONE in v19.8 (Nov 4 2026): ARCADE. New page /arcade/ (arcade/index.html, sub-page shell like shops/update) lists two games; 'Arcade' link added to the footer row (after Blog, id ctt-arcade-open, home page and menu.js FOOT_HTML) and to the hamburger Explore list (index.html items() and menu.js). Games live at /arcade/thrift-rush/ (423 Thrift Rush, copied from the Claude artifact) and /arcade/loop-run/ (Scenic City Loop Run racer, renamed from Thrift Trail Grand Prix; folder renamed from grand-prix: real-road Scenic City Loop track, chase camera with Top/Chase toggle, two-way traffic, crosswalk grannies, 3-letter-initials high scores). Each game page has a module script that exposes window.TRFirestore / window.GPFirestore (subscribe + add) on the same Firebase project; Thrift Rush uses collection thriftRushScores (rule already published), Loop Run uses NEW collection loopRunScores which needs a create-only, read-all Firestore rule (fields ini, score, place, shops, time, at; owner must publish it) or its scores stay on the device. menu.js was PATCHED BY HAND (work/build_menu.py output is stale; do not regenerate it). sitemap.xml should list /arcade/, /arcade/thrift-rush/, /arcade/loop-run/.
   - DONE in v19.8 (Nov 4 2026): NIFTY THRIFTY (Fort Oglethorpe) is the Featured Shop on TUESDAYS (owner, by voice). isFeaturedToday() and featuredDayLabel() now return Nifty Thrifty when dayIdx === 2 (label 'Nifty Thrifty in Fort O'); the schedule box on shops/index.html is updated, and Vinterest (Hixson) takes over Mon/Wed/Thu/Fri from Dec 28. Nifty Thrifty is open Tue-Fri 11-6, so Tuesday works. Starts with the next build, no start date set.
   - DONE in v19.8 (Nov 4 2026): NEW BONUS STOP: Parker's Picks and Vendor Mall (Hixson, Vintage / Curated), 5420 Hixson Pike, Hixson, TN 37343, (423) 805-8112. Hours from the door lettering: Mon-Fri 10-6, Sat 10-4, Sun closed (a holiday sign said Mon-Sat 10-6, Sun 12-5, no dates, NOT listed). PIN IS AN ESTIMATE (35.1421, -85.2321, interpolated along Hixson Pike): check it on the map and fix lat/lng if it is off; the Get directions link uses the address so it is right either way. No website link (it only has social pages). Shop counts went 47 -> 48 (descriptions, footer text, menu.js) and the Hixson pages were updated (shops/index.html, thrift-stores-hixson).
   - DONE in v19.7 (Nov 4 2026): MANAGER FORM IS TICK-BOX FORWARD (shops/update/index.html). Radio buttons: role (Owner default), restrooms Yes/No, card minimum (No minimum / $3 / $5 / Other, which reveals a 'How much?' box), wheelchair Yes/No, free Wi-Fi Yes/No. Tick boxes: Sale days and Best days for new items (Mon-Sun), payment types (existing). Punch cards / loyalty points / text alerts is a QUESTION with a free-text answer (no tick boxes, so shops can explain). Short optional text boxes remain for hours, what's on sale, restock details, rewards details, charity and notes. Email now sends: sale_days, sale_details, best_days_for_new_items, restock_details, rewards (free text), card_minimum ('Other: $10' when Other), restrooms, wheelchair, free_wifi. Left blank = not answered.
@@ -284,7 +290,7 @@ STILL TO DO / IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.9-20261104">
+<meta name="ctt-build" content="v19.10-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1336,6 +1342,7 @@ STILL TO DO / IDEAS
      (GA4 > Admin > Data streams > your web stream). While it still says G-XXXXXXXXXX,
      nothing is sent anywhere and no Google script is loaded. -->
 <script>
+  window.__cttMark = "tctt-4b8d1e-scenic";
   window.CTT_GA_ID = 'G-6DXP5B81PJ';
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -2454,6 +2461,7 @@ STILL TO DO / IDEAS
   .ctt-tag.ctt-errand { border-style: dashed; }
   .ctt-tag.ctt-errand .ctt-tag-photo-fallback { background: #fbf1d4 !important; color: inherit; font-size: 26px; border-radius: 8px; border: 2px solid #6f6450; }
   .ctt-errand-when { font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; color: var(--ink); }
+  .ctt-as-sug { margin-top: 4px; } .ctt-as-sug button { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-top: 4px; cursor: pointer; font: 400 14px 'Libre Franklin', sans-serif; color: var(--ink); } .ctt-as-sug button strong { display: block; font-weight: 700; } .ctt-as-sug button span { display: block; font-size: 12px; color: var(--taupe); }
   .ctt-as-form label { display: block; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; margin: 12px 0 4px; color: var(--ink); }
   .ctt-as-form input[type=text], .ctt-as-form input[type=time], .ctt-as-form select { width: 100%; box-sizing: border-box; font: 400 16px 'Libre Franklin', sans-serif; padding: 10px 11px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
   .ctt-as-icons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
@@ -2767,7 +2775,7 @@ STILL TO DO / IDEAS
       </div>
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
-        <div class="ctt-addstop-row" style="display:none" hidden><button type="button" class="ctt-offroute-toggle" id="ctt-addstop-open">&#43; Add Your Own Stop</button><span class="ctt-offroute-note">errands, lunch, appointments</span></div>
+        <div class="ctt-addstop-row"><button type="button" class="ctt-offroute-toggle" id="ctt-addstop-open">&#43; Add Your Own Stop</button><span class="ctt-offroute-note">errands, lunch, appointments</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
     </div>
@@ -2864,9 +2872,10 @@ STILL TO DO / IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.9 &mdash; November 4, 2026</p>
+      <p class="ctt-version">v19.10 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
+      <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
 <h2>Chattanooga thrift stores, vintage shops &amp; antique shops</h2>
 <p>Chattanooga Thrift Trail is a self-guided map of 48 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
@@ -2962,7 +2971,7 @@ STILL TO DO / IDEAS
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
-  var SHOP_DETAILS = {"Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun 50-90% off &middot; Mon 50% off select items &middot; Tue-Thu 75% off select items &middot; Wed also 10% off for seniors and veterans &middot; Sat 90% off items"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
+  var SHOP_DETAILS = {"Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No", "rw": "Punch card"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "rw": "Punch card"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"p": "Cash, checks, Venmo", "s": "End-of-season sales in winter and summer", "x": "$$"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "rw": "Punch card"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun 50-90% off &middot; Mon 50% off select items &middot; Tue-Thu 75% off select items &middot; Wed also 10% off for seniors and veterans &middot; Sat 90% off items"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
     var b = [];
@@ -2972,6 +2981,7 @@ STILL TO DO / IDEAS
     if (d.p) b.push('Pay: ' + d.p);
     if (d.m === 'No') b.push('No card minimum'); else if (d.m === 'Yes') b.push('Card minimum: Yes');
     if (d.f) b.push('Free Wi-Fi');
+    if (d.rw) b.push(d.rw);
     if (d.s) b.push('Sales: ' + d.s);
     if (!b.length) return '';
     return '<' + tag + ' class="ctt-det">' + b.join(' &middot; ') + '</' + tag + '>';
@@ -4103,8 +4113,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       { id: 'all', title: 'every shop on the Trail', short: 'EVERY SHOP ON THE TRAIL', list: openAll }
     ];
   }
+  var FINISH_CARD_ON = false; // Nov 7 2026: finish celebration switched OFF (Mod disliked the card design); set true to bring it back
   function checkLoopsDone() {
-    if (!storageOK) return;
+    if (!FINISH_CARD_ON || !storageOK) return;
     Object.keys(visitedStores).forEach(function(n) { if (visitedStores[n]) everAdd(n); });
     var ever = lsGet(EVER_KEY), done = lsGet(DONE_KEY);
     var defs = loopDefs();
@@ -4685,19 +4696,44 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<p class="ctt-shops-sub">An errand, lunch, a coffee or an appointment. It joins today&rsquo;s trail and clears itself tomorrow. It stays on this device.</p>' +
       '<button type="button" class="ctt-shops-close" id="ctt-as-x" aria-label="Close">&times;</button></div>' +
       '<div class="ctt-shops-body"><form class="ctt-as-form" id="ctt-as-form" autocomplete="off">' +
-      '<label for="ctt-as-name">What is it?</label><input type="text" id="ctt-as-name" maxlength="60" placeholder="Walmart, oil change, Dr. Smith, lunch">' +
+      '<label for="ctt-as-name">What is it?</label><input type="text" id="ctt-as-name" maxlength="60" placeholder="Walmart, oil change, Dr. Smith, lunch"><div class="ctt-as-sug" id="ctt-as-sug"></div>' +
       '<label for="ctt-as-addr">Address</label><input type="text" id="ctt-as-addr" maxlength="120" placeholder="Street address, or the business name and city">' +
       '<label>Pick an icon</label><div class="ctt-as-icons" id="ctt-as-icons" role="group" aria-label="Icon">' + icons + '</div>' +
       '<label for="ctt-as-time">Appointment time (optional)</label><input type="time" id="ctt-as-time">' +
       '<p class="ctt-as-help">If you add a time, the card shows when to leave. It is an estimate, with no live traffic.</p>' +
       '<label for="ctt-as-where">Where in your trail?</label><select id="ctt-as-where">' + where + '</select>' +
-      '<p class="ctt-as-help">To find it on the map, the address is looked up with OpenStreetMap&rsquo;s free search. We don&rsquo;t keep it.</p>' +
+      '<p class="ctt-as-help">Start typing to pick a common Chattanooga place, or type a street address. Other addresses are looked up with OpenStreetMap&rsquo;s free search. We don&rsquo;t keep it.</p>' +
       '<p class="ctt-as-msg" id="ctt-as-msg" role="status"></p>' +
       '<button type="submit" class="ctt-as-go" id="ctt-as-go">Add to my trail</button></form>' +
       '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div></div></div>';
     var anchor = document.getElementById('ctt-gi-overlay'); anchor.parentNode.insertBefore(ov, anchor);
     document.body.style.overflow = 'hidden';
-    var picked = ERRAND_ICONS.length - 1, touched = false;
+    var picked = ERRAND_ICONS.length - 1, touched = false, chosen = null;
+    var sugEl = document.getElementById('ctt-as-sug');
+    function loadPlaces() { if (window.__cttPlaces || window.__cttPlacesBusy) return; window.__cttPlacesBusy = true; fetch('/places.json').then(function(r) { return r.json(); }).then(function(a) { window.__cttPlaces = a; }).catch(function() { window.__cttPlacesBusy = false; }); }
+    loadPlaces();
+    function showSug() {
+      var q = nameEl.value.trim().toLowerCase(), P = window.__cttPlaces;
+      if (q.length < 2 || !P) { sugEl.innerHTML = ''; return; }
+      var toks = q.split(/\s+/), c = map.getCenter(), out = [];
+      P.forEach(function(p) {
+        var nm = p[0].toLowerCase(), words = nm.split(/[^a-z0-9']+/);
+        if (!toks.every(function(t) { return words.some(function(w) { return w.indexOf(t) === 0; }); })) return;
+        out.push({ p: p, d: haversineMiles(c.lat, c.lng, p[3], p[4]), s: nm.indexOf(q) === 0 ? 0 : 1 });
+      });
+      out.sort(function(a, b) { return a.s - b.s || a.d - b.d; });
+      out = out.slice(0, 6); sugEl._out = out;
+      sugEl.innerHTML = out.map(function(o, i) { return '<button type="button" data-i="' + i + '"><strong>' + cttEsc(o.p[0]) + '</strong><span>' + cttEsc((o.p[1] ? o.p[1] + ', ' : '') + (o.p[2] || 'Chattanooga area')) + ' &middot; ' + o.d.toFixed(1) + ' mi</span></button>'; }).join('');
+    }
+    sugEl.addEventListener('click', function(e) {
+      var b = e.target.closest('button'); if (!b || !sugEl._out) return;
+      var p = sugEl._out[+b.getAttribute('data-i')].p;
+      nameEl.value = p[0]; addrEl.value = (p[1] ? p[1] + ', ' : '') + (p[2] || 'Chattanooga');
+      nameEl.dispatchEvent(new Event('input'));
+      chosen = { lat: p[3], lng: p[4], nm: p[0], ad: addrEl.value }; sugEl.innerHTML = '';
+    });
+    addrEl.addEventListener('input', function() { chosen = null; });
+    nameEl.addEventListener('input', function() { chosen = null; showSug(); });
     var nameEl = document.getElementById('ctt-as-name'), addrEl = document.getElementById('ctt-as-addr'), msg = document.getElementById('ctt-as-msg'), go = document.getElementById('ctt-as-go');
     function close() { if (ov.parentNode) ov.parentNode.removeChild(ov); document.body.style.overflow = ''; document.removeEventListener('keydown', onKey); }
     function onKey(e) { if (e.key === 'Escape') close(); }
@@ -4716,7 +4752,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var nm = nameEl.value.trim(), ad = addrEl.value.trim();
       if (!nm && !ad) { msg.textContent = 'Add a name or an address first.'; return; }
       msg.textContent = 'Looking it up…'; go.disabled = true;
-      geocodeStop(ad || nm, function(hit, failed) {
+      (chosen && chosen.nm === nm && chosen.ad === ad ? function(q, cb) { cb({ lat: chosen.lat, lng: chosen.lng, label: chosen.nm + ', ' + chosen.ad }, false); } : geocodeStop)(ad || nm, function(hit, failed) {
         go.disabled = false;
         if (!hit) { msg.textContent = failed ? 'Could not reach the address search. Check your connection and try again.' : 'We could not find that spot. Try the street address with the city, like 123 Main St, Chattanooga.'; return; }
         if (haversineMiles(hit.lat, hit.lng, 35.0456, -85.3097) > 100) { msg.textContent = 'That looks far from Chattanooga. Check the address and try again.'; return; }
