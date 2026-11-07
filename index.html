@@ -48,7 +48,8 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
-- DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box holding both '+ Add Your Own Stop' and '☕ Add a coffee stop' (the coffee panel moved into that box; ids unchanged).
+- DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box (just the two centered buttons, no label or note) holding both '+ Add Your Own Stop' and '☕ Add a coffee stop' (the coffee panel moved into that box; ids unchanged).
+- DONE in v19.4 (Nov 7 2026): 'Your own stops' box is just two centered buttons (17px, no label or note); Add Your Own Stop help text shortened to one paragraph; Share The Trail buttons on desktop (min-width 781px) are 3 over 2 in equal-width pills (CSS grid on .ctt-share-row), phone layout unchanged; More Shops list is sorted open-now (or closing soon) first, then closed (sortOffRouteByOpen, called after addBackgroundBonus in recalibrate; order inside each group unchanged; no section headings because the height and scroll code treat every child as a shop card).
 - VERSION NUMBERING RULE (Mod, Nov 7 2026): versions count 19.1, 19.2 ... 19.9, then 20.0, 20.1 ... (never 19.10 or 19.11). Mod set THIS build to v19.2; the next build is v19.3.
 - FIX in v19.2 (Nov 7 2026): Add Your Own Stop dialog crashed on open in the first build of this feature, mislabeled v19.10 (suggestion code ran before nameEl/addrEl were declared), so suggestions, icons and the close button did nothing. Moved the block after the declarations; tested with a stubbed Playwright harness.
 - DONE in v19.2 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
@@ -339,7 +340,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.3-20261107">
+<meta name="ctt-build" content="v19.4-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2426,6 +2427,14 @@ LINGERING IDEAS
     padding: 8px 18px; cursor: pointer; transition: all 0.15s ease;
   }
   .ctt-share-btn:hover { background: var(--ink); color: var(--paper); }
+  @media (min-width: 781px) {
+    .ctt-share-row { display: grid; grid-template-columns: repeat(6, 1fr); justify-items: stretch; gap: 10px; max-width: 430px; margin: 0 auto; }
+    .ctt-share-row .ctt-share-btn:nth-child(1), .ctt-share-row .ctt-share-btn:nth-child(2), .ctt-share-row .ctt-share-btn:nth-child(3) { grid-column: span 2; }
+    .ctt-share-row .ctt-share-btn:nth-child(4) { grid-column: 2 / span 2; }
+    .ctt-share-row .ctt-share-btn:nth-child(5) { grid-column: 4 / span 2; }
+    .ctt-share-row .ctt-share-status { grid-column: 1 / -1; text-align: center; }
+    .ctt-share-row .ctt-share-status:empty { display: none; }
+  }
   .ctt-share-status { font-size: 12px; color: var(--paper); font-weight: 600; }
 
   .ctt-feedback-row-simple { text-align: right; margin: 20px 0 6px 0; font-size: 12px; color: #6b6252; line-height: 1.5; }
@@ -2487,13 +2496,11 @@ LINGERING IDEAS
   .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
 
   /* Your own stops (errands, lunch, appointments) */
-  .ctt-own-box { margin-top: 26px; padding: 12px 14px; border: 1.5px dashed var(--line); border-radius: 6px; background: transparent; }
-  .ctt-own-title { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6b6252; margin-bottom: 8px; }
-  .ctt-own-btns { display: flex; flex-wrap: wrap; gap: 8px; }
-  .ctt-own-btn { margin: 0; font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 20px; padding: 7px 14px; cursor: pointer; position: relative; }
+  .ctt-own-box { margin-top: 26px; padding: 14px; border: 1.5px dashed var(--line); border-radius: 6px; background: transparent; }
+  .ctt-own-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .ctt-own-btn { margin: 0; font-family: 'Libre Franklin', sans-serif; font-size: 17px; font-weight: 700; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 26px; padding: 9px 18px; cursor: pointer; position: relative; }
   .ctt-own-btn:hover { background: var(--rust); color: #fff; }
   .ctt-own-btn::after { content: ""; position: absolute; inset: -6px -4px; }
-  .ctt-own-note { text-align: left; margin-top: 8px; }
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .ctt-bg-hit { position: relative; }
   .ctt-bg-hit .ctt-bonus-icon { opacity: .75; }
@@ -2831,9 +2838,7 @@ LINGERING IDEAS
         <div id="ctt-offroute-list" style="display:none;"></div>
       </div>
       <div class="ctt-own-box">
-        <div class="ctt-own-title">Your own stops</div>
         <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open">&#43; Add Your Own Stop</button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button></div>
-        <div class="ctt-offroute-note ctt-own-note">errands, lunch, appointments, coffee</div>
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
@@ -2930,7 +2935,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.3 &mdash; November 7, 2026</p>
+      <p class="ctt-version">v19.4 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4589,6 +4594,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
   }
 
+  // More Shops order: shops that are open right now (or closing soon) first, then closed ones. Each group keeps its existing order.
+  function sortOffRouteByOpen() {
+    var cards = Array.prototype.slice.call(offRouteListEl.children), open = [], closed = [];
+    cards.forEach(function(c) {
+      var st = locationsByName[c.getAttribute('data-shop')], os = st && st.hours ? getOpenStatus(st.hours) : null;
+      (os && (os.state === 'open' || os.state === 'soon') ? open : closed).push(c);
+    });
+    open.concat(closed).forEach(function(c) { offRouteListEl.appendChild(c); });
+  }
+
   function recalibrate(startIdx) {
     lastStartIdx = startIdx || 0;
     if (!displayContext) liveStartIdx = lastStartIdx;
@@ -4718,6 +4733,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
     }
     { var showing = {}; included.forEach(function(x) { showing[x.name] = 1; }); excluded.forEach(function(x) { showing[x.name] = 1; }); addBackgroundBonus(showing); }
+    sortOffRouteByOpen();
     equalizeListHeights();
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     refreshOffRouteLabel();
@@ -4785,8 +4801,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<label for="ctt-as-addr">Address</label><input type="text" id="ctt-as-addr" maxlength="120" placeholder="Street address, or the business name and city">' +
       '<label>Pick an icon</label><div class="ctt-as-icons" id="ctt-as-icons" role="group" aria-label="Icon">' + icons + '</div>' +
       '<label for="ctt-as-time">Appointment time (optional)</label><input type="time" id="ctt-as-time">' +
-      '<p class="ctt-as-help">We place your stop for you. With a time, it goes where you can finish the shops before it and the card shows when to leave. Without one, it goes where it adds the least driving. Estimates only, no live traffic.</p>' +
-      '<p class="ctt-as-help">Start typing to pick a common Chattanooga place, or type a street address. Other addresses are looked up with OpenStreetMap&rsquo;s free search. We don&rsquo;t keep it.</p>' +
+      '<p class="ctt-as-help">Pick a suggestion or type an address (looked up with OpenStreetMap, never kept). Add a time and we fit it into your route; otherwise it goes where it adds the least driving.</p>' +
       '<p class="ctt-as-msg" id="ctt-as-msg" role="status"></p>' +
       '<button type="submit" class="ctt-as-go" id="ctt-as-go">Add to my trail</button></form>' +
       '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div></div></div>';
