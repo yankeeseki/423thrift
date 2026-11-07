@@ -48,6 +48,7 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box holding both '+ Add Your Own Stop' and '☕ Add a coffee stop' (the coffee panel moved into that box; ids unchanged).
 - VERSION NUMBERING RULE (Mod, Nov 7 2026): versions count 19.1, 19.2 ... 19.9, then 20.0, 20.1 ... (never 19.10 or 19.11). Mod set THIS build to v19.2; the next build is v19.3.
 - FIX in v19.2 (Nov 7 2026): Add Your Own Stop dialog crashed on open in the first build of this feature, mislabeled v19.10 (suggestion code ran before nameEl/addrEl were declared), so suggestions, icons and the close button did nothing. Moved the block after the declarations; tested with a stubbed Playwright harness.
 - DONE in v19.2 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
@@ -338,7 +339,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.2-20261107">
+<meta name="ctt-build" content="v19.3-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1754,7 +1755,7 @@ LINGERING IDEAS
   .ctt-offroute-container {
     margin-top: 14px;
     padding: 12px 14px;
-    border: 1.5px dashed var(--line);
+    border: 2px solid var(--ink);
     border-radius: 6px;
     background: var(--card);
   }
@@ -1772,7 +1773,8 @@ LINGERING IDEAS
   }
   .ctt-offroute-toggle:hover { color: var(--rust); }
   .ctt-offroute-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; }
+  .ctt-offroute-head .ctt-offroute-toggle { width: auto; flex: 0 1 auto; font-size: 19px; font-weight: 800; }
+  .ctt-offroute-head { padding: 4px 0; }
   .ctt-offroute-note { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 400; color: #6b6252; text-align: right; }
   #ctt-offroute-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; max-height: 900px; overflow-y: auto; padding-right: 0; scrollbar-width: none; scrollbar-color: var(--olive) var(--paper); }
   .ctt-schedule-row {
@@ -2485,9 +2487,13 @@ LINGERING IDEAS
   .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
 
   /* Your own stops (errands, lunch, appointments) */
-  .ctt-addstop-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 8px; }
-  .ctt-addstop-row .ctt-offroute-toggle { width: auto; flex: 0 1 auto; color: var(--rust); font-size: 14px; position: relative; }
-  .ctt-addstop-row .ctt-offroute-toggle::after { content: ""; position: absolute; inset: -9px -6px; }
+  .ctt-own-box { margin-top: 26px; padding: 12px 14px; border: 1.5px dashed var(--line); border-radius: 6px; background: transparent; }
+  .ctt-own-title { font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6b6252; margin-bottom: 8px; }
+  .ctt-own-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ctt-own-btn { margin: 0; font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 20px; padding: 7px 14px; cursor: pointer; position: relative; }
+  .ctt-own-btn:hover { background: var(--rust); color: #fff; }
+  .ctt-own-btn::after { content: ""; position: absolute; inset: -6px -4px; }
+  .ctt-own-note { text-align: left; margin-top: 8px; }
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .ctt-bg-hit { position: relative; }
   .ctt-bg-hit .ctt-bonus-icon { opacity: .75; }
@@ -2512,8 +2518,8 @@ LINGERING IDEAS
   .ctt-as-sug { margin-top: 4px; } .ctt-as-sug button { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-top: 4px; cursor: pointer; font: 400 14px 'Libre Franklin', sans-serif; color: var(--ink); } .ctt-as-sug button strong { display: block; font-weight: 700; } .ctt-as-sug button span { display: block; font-size: 12px; color: var(--taupe); }
   .ctt-as-form label { display: block; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 13px; margin: 12px 0 4px; color: var(--ink); }
   .ctt-as-form input[type=text], .ctt-as-form input[type=time], .ctt-as-form select { width: 100%; box-sizing: border-box; font: 400 16px 'Libre Franklin', sans-serif; padding: 10px 11px; border: 1.5px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); }
-  .ctt-as-icons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
-  .ctt-as-icons button { width: 46px; height: 46px; font-size: 22px; line-height: 1; border: 2px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; padding: 0; }
+  .ctt-as-icons { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 2px; }
+  .ctt-as-icons button { width: 100%; max-width: 56px; justify-self: center; height: 46px; font-size: 22px; line-height: 1; border: 2px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; padding: 0; }
   .ctt-as-icons button[aria-pressed="true"] { border-color: var(--rust); background: #fbf1d4; box-shadow: 0 0 0 2px var(--rust); }
   .ctt-as-help { font: 400 12.5px 'Libre Franklin', sans-serif; color: #6b6252; margin: 4px 0 0; line-height: 1.4; }
   .ctt-as-msg { min-height: 1.3em; margin: 10px 0 0; font: 700 13px 'Libre Franklin', sans-serif; color: #a8402a; }
@@ -2780,7 +2786,6 @@ LINGERING IDEAS
         </div>
 
       </div>
-      <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       <div class="ctt-day-plan-inputs" id="ctt-day-plan-inputs" style="display:none;">
         <input type="date" class="ctt-schedule-input" id="ctt-schedule-date" title="Pick a date">
         <input type="time" class="ctt-schedule-input" id="ctt-schedule-time" value="09:00" min="07:00" max="19:00" title="Most shops close by 6-8 PM (a couple stay open till 10 PM Fri/Sat)">
@@ -2791,7 +2796,7 @@ LINGERING IDEAS
       </div>
       <div class="ctt-storage-note" id="ctt-storage-note" style="display:none;">Heads up: this browser isn&rsquo;t letting the Trail save your progress (private or incognito mode can do this). Your visited and removed shops will reset if you refresh or leave the page.</div>
       <div class="ctt-list" id="ctt-list">
-        <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><div class="ctt-day-picker">  <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>  <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button></div><button type="button" class="ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
+        <div class="ctt-list-bar" id="ctt-list-bar"><button type="button" class="ctt-filter-toggle" id="ctt-filter-toggle" aria-expanded="false" aria-controls="ctt-filter-panel">Filter</button><div class="ctt-day-picker">  <button class="ctt-day-option active" id="ctt-day-today-btn">Today</button>  <button class="ctt-day-option" id="ctt-day-plan-btn">Later</button></div><span class="ctt-list-count" id="ctt-list-count" aria-live="polite"></span></div>
       <div class="ctt-filter-panel" id="ctt-filter-panel" style="display:none;" role="group" aria-label="Filter shops">
         <div class="ctt-fp-sec" id="ctt-fp-types"><div class="ctt-fp-h">1. The experience you want</div>
           <div class="ctt-fp-row">
@@ -2823,8 +2828,13 @@ LINGERING IDEAS
       </div>
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
-        <div class="ctt-addstop-row"><button type="button" class="ctt-offroute-toggle" id="ctt-addstop-open">&#43; Add Your Own Stop</button><span class="ctt-offroute-note">errands, lunch, appointments</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
+      </div>
+      <div class="ctt-own-box">
+        <div class="ctt-own-title">Your own stops</div>
+        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open">&#43; Add Your Own Stop</button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button></div>
+        <div class="ctt-offroute-note ctt-own-note">errands, lunch, appointments, coffee</div>
+        <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
     <div id="ctt-map" class="ctt-labels-off"></div>
@@ -2920,7 +2930,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.2 &mdash; November 7, 2026</p>
+      <p class="ctt-version">v19.3 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4399,7 +4409,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 
   // ---- Your own stops (errands, lunch, an appointment): kept on this device, for today only ----
   var ERRAND_KEY = 'ctt-errands';
-  var ERRAND_ICONS = [['🛒', 'Shopping'], ['🔧', 'Car'], ['🩺', 'Doctor'], ['💊', 'Pharmacy'], ['🏦', 'Bank'], ['⛽', 'Gas'], ['📮', 'Post office'], ['✂️', 'Haircut'], ['🍽️', 'Food'], ['☕', 'Coffee'], ['📍', 'Other']];
+  var ERRAND_ICONS = [['🛒', 'Shopping'], ['🔧', 'Car'], ['🩺', 'Doctor'], ['💊', 'Pharmacy'], ['🏦', 'Bank'], ['⛽', 'Gas'], ['📮', 'Post office'], ['✂️', 'Haircut'], ['🍽️', 'Food'], ['☕', 'Coffee'], ['🐾', 'Pet'], ['📍', 'Other']];
   var ERRAND_GUESS = [
     [/\b(walmart|target|kroger|publix|aldi|costco|sam'?s|grocery|market|dollar|lowe'?s|home depot|store)\b/i, 0],
     [/\b(oil|tire|tires|car wash|auto|mechanic|brake|jiffy|valvoline|garage)\b/i, 1],
@@ -4410,6 +4420,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     [/\b(post office|usps|ups|fedex|mail)\b/i, 6],
     [/\b(hair|salon|barber|nails|haircut)\b/i, 7],
     [/\b(coffee|starbucks|dunkin|latte|espresso)\b/i, 9],
+    [/\b(vet|veterinar\w*|petco|petsmart|groomer|grooming|pet store|pet)\b/i, 10],
     [/\b(lunch|dinner|breakfast|restaurant|pizza|burger|taco|cafe|diner|food|grill|bbq)\b/i, 8]
   ];
   var errandObjs = {};
@@ -4733,10 +4744,36 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       .then(function(a) { done(a && a[0] ? { lat: parseFloat(a[0].lat), lng: parseFloat(a[0].lon), label: String(a[0].display_name || '') } : null, false); })
       .catch(function() { done(null, true); });
   }
+  // Where a new own stop goes: with an appointment time, right after the last shop you can finish before leaving for it
+  // (about 25 mph and 20 minutes per shop, plus 10 minutes of cushion); without a time, the spot that adds the least driving.
+  // Returns the shop it should follow ('' = first stop). Shops already visited are never placed after.
+  function placeErrand(lat, lng, time) {
+    var shops = activeRoute.filter(function(x) { return !x.isErrand; });
+    var lastDone = -1; shops.forEach(function(s, i) { if (visitedStores[s.name]) lastDone = i; });
+    var from = lastDone >= 0 ? shops[lastDone] : fallbackOrigin();
+    var rest = shops.slice(lastDone + 1);
+    if (!rest.length) return lastDone >= 0 ? shops[lastDone].name : '';
+    var mi = function(a, b) { return haversineMiles(a.lat, a.lng, b.lat, b.lng) * 1.35; };
+    var me = { lat: lat, lng: lng }, m = /^(\d{1,2}):(\d{2})$/.exec(time || '');
+    var anchor = lastDone >= 0 ? shops[lastDone].name : '';
+    if (m && from && isFinite(from.lat)) {
+      var appt = (+m[1]) + (+m[2]) / 60, t = effectiveNow().decHour, prev = from;
+      for (var i = 0; i < rest.length; i++) {
+        t += mi(prev, rest[i]) / 25 + 20 / 60;
+        if (t + mi(rest[i], me) / 25 + 10 / 60 <= appt) { anchor = rest[i].name; prev = rest[i]; } else break;
+      }
+      return anchor;
+    }
+    var best = Infinity, a = from;
+    for (var k = 0; k <= rest.length; k++) {
+      var b = rest[k], add = b ? (a && isFinite(a.lat) ? mi(a, me) + mi(me, b) - mi(a, b) : mi(me, b)) : (a && isFinite(a.lat) ? mi(a, me) : 0);
+      if (add < best) { best = add; anchor = k === 0 ? (lastDone >= 0 ? shops[lastDone].name : '') : rest[k - 1].name; }
+      if (b) a = b;
+    }
+    return anchor;
+  }
   function openAddStop() {
     var old = document.getElementById('ctt-as-overlay'); if (old) old.parentNode.removeChild(old);
-    var shopsNow = activeRoute.filter(function(x) { return !x.isErrand; });
-    var where = '<option value="__end">Last stop</option><option value="__first">First stop</option>' + shopsNow.map(function(s) { return '<option value="' + encodeURIComponent(s.name) + '">After ' + cttEsc(dn(s.name)) + '</option>'; }).join('');
     var icons = ERRAND_ICONS.map(function(ic, i) { return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === ERRAND_ICONS.length - 1 ? 'true' : 'false') + '" aria-label="' + ic[1] + '" title="' + ic[1] + '">' + ic[0] + '</button>'; }).join('');
     var ov = document.createElement('div'); ov.className = 'ctt-shops-overlay open'; ov.id = 'ctt-as-overlay';
     ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'ctt-as-title');
@@ -4744,12 +4781,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<p class="ctt-shops-sub">An errand, lunch, a coffee or an appointment. It joins today&rsquo;s trail and clears itself tomorrow. It stays on this device.</p>' +
       '<button type="button" class="ctt-shops-close" id="ctt-as-x" aria-label="Close">&times;</button></div>' +
       '<div class="ctt-shops-body"><form class="ctt-as-form" id="ctt-as-form" autocomplete="off">' +
-      '<label for="ctt-as-name">What is it?</label><input type="text" id="ctt-as-name" maxlength="60" placeholder="Walmart, oil change, Dr. Smith, lunch"><div class="ctt-as-sug" id="ctt-as-sug"></div>' +
+      '<label for="ctt-as-name">Where to?</label><input type="text" id="ctt-as-name" maxlength="60" placeholder="Walmart, oil change, Dr. Smith, lunch"><div class="ctt-as-sug" id="ctt-as-sug"></div>' +
       '<label for="ctt-as-addr">Address</label><input type="text" id="ctt-as-addr" maxlength="120" placeholder="Street address, or the business name and city">' +
       '<label>Pick an icon</label><div class="ctt-as-icons" id="ctt-as-icons" role="group" aria-label="Icon">' + icons + '</div>' +
       '<label for="ctt-as-time">Appointment time (optional)</label><input type="time" id="ctt-as-time">' +
-      '<p class="ctt-as-help">If you add a time, the card shows when to leave. It is an estimate, with no live traffic.</p>' +
-      '<label for="ctt-as-where">Where in your trail?</label><select id="ctt-as-where">' + where + '</select>' +
+      '<p class="ctt-as-help">We place your stop for you. With a time, it goes where you can finish the shops before it and the card shows when to leave. Without one, it goes where it adds the least driving. Estimates only, no live traffic.</p>' +
       '<p class="ctt-as-help">Start typing to pick a common Chattanooga place, or type a street address. Other addresses are looked up with OpenStreetMap&rsquo;s free search. We don&rsquo;t keep it.</p>' +
       '<p class="ctt-as-msg" id="ctt-as-msg" role="status"></p>' +
       '<button type="submit" class="ctt-as-go" id="ctt-as-go">Add to my trail</button></form>' +
@@ -4773,12 +4809,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       out.sort(function(a, b) { return a.s - b.s || a.d - b.d; });
       out = out.slice(0, 6); sugEl._out = out;
-      sugEl.innerHTML = out.map(function(o, i) { return '<button type="button" data-i="' + i + '"><strong>' + cttEsc(o.p[0]) + '</strong><span>' + cttEsc((o.p[1] ? o.p[1] + ', ' : '') + (o.p[2] || 'Chattanooga area')) + ' &middot; ' + o.d.toFixed(1) + ' mi</span></button>'; }).join('');
+      sugEl.innerHTML = out.map(function(o, i) { return '<button type="button" data-i="' + i + '"><strong>' + cttEsc(o.p[0]) + '</strong><span>' + cttEsc([o.p[1], o.p[2]].filter(Boolean).join(', ')) + ((o.p[1] || o.p[2]) ? ' &middot; ' : '') + o.d.toFixed(1) + ' mi away</span></button>'; }).join('');
     }
     sugEl.addEventListener('click', function(e) {
       var b = e.target.closest('button'); if (!b || !sugEl._out) return;
       var p = sugEl._out[+b.getAttribute('data-i')].p;
-      nameEl.value = p[0]; addrEl.value = (p[1] ? p[1] + ', ' : '') + (p[2] || 'Chattanooga');
+      nameEl.value = p[0]; addrEl.value = [p[1], p[2]].filter(Boolean).join(', ') || (p[0] + ', Chattanooga');
       nameEl.dispatchEvent(new Event('input'));
       chosen = { lat: p[3], lng: p[4], nm: p[0], ad: addrEl.value }; sugEl.innerHTML = '';
     });
@@ -4808,7 +4844,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var label = nm || hit.label.split(',').slice(0, 2).join(',').trim() || 'My stop';
         var taken = function(n) { return !!locationsByName[n]; };
         var unique = label, k = 2; if (taken(unique)) unique = label + ' (my stop)'; while (taken(unique)) { unique = label + ' (my stop ' + (k++) + ')'; }
-        var w = document.getElementById('ctt-as-where').value, after = w === '__end' ? '__end' : (w === '__first' ? '' : decodeURIComponent(w));
+        var after = placeErrand(hit.lat, hit.lng, document.getElementById('ctt-as-time').value || '');
         var e2 = { id: 'e' + Date.now().toString(36), name: unique, address: ad || hit.label.split(',').slice(0, 3).join(',').trim(), lat: hit.lat, lng: hit.lng, icon: ERRAND_ICONS[picked][0], time: document.getElementById('ctt-as-time').value || '', date: todayDateStr(), after: after };
         errands.push(e2); registerErrand(e2); saveErrands(); cttTrack('add_own_stop', { icon: ERRAND_ICONS[picked][1] });
         close(); recalibrate(lastStartIdx);
