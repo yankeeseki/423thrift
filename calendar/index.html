@@ -105,7 +105,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
   .ctt-cal-check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400 !important; }
   .ctt-cal-check input { width: 20px; height: 20px; margin-top: 2px; flex: none; }
 #ctt-cal-formwrap{margin-bottom:14px}.ctt-calsub{font-family:system-ui,sans-serif;font-size:14px;color:var(--taupe);margin:0 0 10px}
-</style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How it works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
+</style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>Community Calendar</h1>
 <p class="ctt-calsub">Yard sales, church sales, shop events and special thrift days around Chattanooga.</p>
 <div id="ctt-cal-body"></div>
@@ -195,7 +195,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     var idx = (y - ty) * 12 + (m - tm), items = itemsForMonth(y, m);
     var dim = new Date(y, m + 1, 0).getDate(), lead = new Date(y, m, 1).getDay();
     var h = '<div class="ctt-cal-nav"><button type="button" class="ctt-cal-arrow" data-cal-nav="-1" aria-label="Previous month"' + (idx <= 0 ? ' disabled' : '') + '>&larr;</button><div class="ctt-cal-month" aria-live="polite">' + CAL_MONTHS[m] + ' ' + y + '</div><button type="button" class="ctt-cal-arrow" data-cal-nav="1" aria-label="Next month"' + (idx >= 14 ? ' disabled' : '') + '>&rarr;</button></div>';
-    if (idx !== 0) h += '<div style="text-align:center;margin:-2px 0 6px"><button type="button" class="ctt-cal-today" data-cal-today="1">Back to this month</button></div>';
+    if (idx !== 0) h += '<div style="text-align:center;margin:-2px 0 6px"><button type="button" class="ctt-cal-today" data-cal-today="1">Back to This Month</button></div>';
     h += '<div class="ctt-cal-grid" id="ctt-cal-grid" role="group" aria-label="' + CAL_MONTHS[m] + ' ' + y + '">';
     ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d) { h += '<div class="ctt-cal-dow">' + d + '</div>'; });
     for (var i = 0; i < lead; i++) h += '<div class="ctt-cal-cell blank"></div>';
@@ -207,7 +207,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     h += '</div><div class="ctt-cal-legend"><span>● Community event</span><span>◆ Special day</span></div>';
     el.innerHTML = h; h = '';
     var shown = calSel ? items.filter(function(x) { return covers(x, calSel); }) : items;
-    h += '<div class="ctt-cal-listhead"><span>' + (calSel ? pretty(calSel) : CAL_MONTHS[m]) + '</span>' + (calSel ? '<button type="button" class="ctt-cal-all" data-cal-all="1">Show all of ' + CAL_MONTHS[m] + '</button>' : '') + '</div>';
+    h += '<div class="ctt-cal-listhead"><span>' + (calSel ? pretty(calSel) : CAL_MONTHS[m]) + '</span>' + (calSel ? '<button type="button" class="ctt-cal-all" data-cal-all="1">Show All of ' + CAL_MONTHS[m] + '</button>' : '') + '</div>';
     if (!shown.length) h += '<p class="ctt-cal-empty">' + (calSel ? 'Nothing listed for this day.' : 'Nothing listed this month yet. Know of an event? Submit it above.') + '</p>';
     var cards = ''; shown.forEach(function(x) { cards += itemHtml(x, rep); }); if (cards) h += '<div class="ctt-cal-cards">' + cards + '</div>';
     document.getElementById('ctt-cal-list').innerHTML = h;
@@ -230,7 +230,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
     else if (b.hasAttribute('data-cal-today')) { calView = null; calSel = null; renderView(); }
   });
   function render() {
-    var h = '<div id="ctt-cal-view"></div><div style="text-align:center"><button type="button" class="ctt-cal-add" id="ctt-cal-add" style="margin-top:12px">Submit your event</button></div><div id="ctt-cal-formwrap"></div><div id="ctt-cal-list"></div>';
+    var h = '<div id="ctt-cal-view"></div><div style="text-align:center"><button type="button" class="ctt-cal-add" id="ctt-cal-add" style="margin-top:12px">Submit Your Event</button></div><div id="ctt-cal-formwrap"></div><div id="ctt-cal-list"></div>';
     h += '<div class="ctt-shops-tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>';
     body.innerHTML = h;
     document.getElementById('ctt-cal-add').onclick = showForm;
@@ -257,7 +257,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
       '<label for="cs-details">Anything shoppers should know (optional)</label><textarea id="cs-details" maxlength="300"></textarea>' +
       '<label class="ctt-cal-check"><input type="checkbox" id="cs-ok"> <span>This event happens in person at the address above. It is not online.</span></label>' +
       '<div class="ctt-gi-hp" aria-hidden="true"><label>Leave blank<input type="text" id="cs-hp" tabindex="-1" autocomplete="off"></label></div>' +
-      '<div class="ctt-gi-status" id="cs-status" role="status"></div><button type="submit" class="ctt-shops-back" id="cs-send">Post my event</button></form>';
+      '<div class="ctt-gi-status" id="cs-status" role="status"></div><button type="submit" class="ctt-shops-back" id="cs-send">Post My Event</button></form>';
     document.getElementById('ctt-cal-form').onsubmit = submit;
     document.getElementById('cs-title').focus();
   }
