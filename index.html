@@ -53,6 +53,9 @@ STILL TO DO / IDEAS
 - DONE in v19.5 (Nov 7 2026): Add Your Own Stop: button shows the ➕ emoji instead of a plain +; appointment-time field forced inside the box (min-width 0, appearance none, form overflow hidden; written for iPhone Safari, which cannot be tested in the sandbox); suggestions only list places WITH a street address (1,519 of 2,553 in places.json); the 'Enjoying the trail?' tip row removed from this dialog only (other dialogs keep it); More Shops heading + note stay on ONE line on phones (nowrap, smaller text under 480px and 380px; only the longer "All Other Shops" label on a 320px-wide screen clips the note); removed the coffee panel line 'Hours come from Google and can change.'.
 - DONE in v19.6 (Nov 7 2026): how-to FAQ (Add Your Own Stop, coffee stop, More Shops open-first) and the guide blog post (new 'Add your own stops' section; dateModified 2026-11-07) updated for the v19.2-v19.5 changes; Add Your Own Stop subtitle now says 'your trail' (no 'today'). A reminder is scheduled for Dec 28 2026 to trim Vinterest (Southside) from the JSON-LD and static SEO lists.
 - DONE in v19.8 (Nov 8 2026): Title Case on all buttons/links/menu/footer (site + 81 blog pages); St. Timothy's Thrift Shop update; coffee-stop row restyled as a coffee-brown shop card. (PENDING lines below were built in v19.8.)
+- DONE in v19.9 (Nov 8 2026): COFFEE STOP is a real route stop (own-stop style, coffee-brown card, not counted as a thrift stop, in miles/time). The PENDING v19.9 lines below were built.
+- PENDING (v19.9): the coffee stop is NOT counted as a thrift stop (no number, not in 'N shops' / 'to go' counts, shop numbers skip it) but IS in miles, route line and timing.
+- PENDING (next build, v19.9, Nov 8 2026): COFFEE STOP IS NOW A REAL ROUTE STOP: 'Add to Route' makes it a numbered own-stop (errand with coffee:1, cup icon, coffee-brown card, 'Coffee Stop' badge, hours line) placed right before the next shop; it is in the route line, can be moved up/down, Make This Next, Visited, removed (-). One coffee stop at a time. The old separate ctt-cf-row is gone.
 - PENDING (next build after v19.7, Nov 7 2026): CAPITALIZATION RULE (owner): every button, link, menu item and footer link uses Title Case (e.g. Get Directions, Reset Filters, Shop Managers, Send Feedback, How It Works). Headings, FAQ questions and body text are left as they are. Applied to index.html, menu.js, shops, neighborhood pages, calendar, how-to, arcade, sponsors; the blog pages (menu, Plan Your Thrift Route, Read More, All Blog Posts, Browse All Shops) are also changed; the working copy now holds the full blog folder (81 files).
 - PENDING (next build, Nov 8 2026): COFFEE STOP ROW restyled to look like a shop card: coffee-brown (#5b3a29) background, cream text, cup icon circle, Coffee Stop tag, name/address/hours/Before shop, Title Case buttons.
 - PENDING (next build, Nov 7 2026): ST. TIMOTHY'S THRIFT SHOP updated from its own manager-form submission (Monica Baker, Manager; featured-shop interest Yes; discount-card interest Yes; storefront confirmed): hours Wed 9-12 (was 9:30-12), Thu 3-5, Fri/Sat 10-1; restrooms Yes, wheelchair Yes, pay Cash/checks/Venmo (no credit cards), Wi-Fi No (not shown), sales 'Various sales Wed-Sat'; proceeds-benefit list replaced with their seven charities (owner corrected the spelling to St. Isidore's Pantry; the form said Isadore); shop note adds Grand Millennial, parking across the street at the church, The Clothes House two doors down, donation window at the back. NOT shown (no field): best days for new items Wed/Thu; restock detail (put out Monday for Wednesday opening, usually restock before opening Thursday). Same edits in shops/index.html and thrift-stores-signal-mountain/index.html.
@@ -348,7 +351,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.8-20261108">
+<meta name="ctt-build" content="v19.9-20261108">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -1677,15 +1680,12 @@ LINGERING IDEAS
   .ctt-cf-btn { display:inline-block; font-family:'Libre Franklin',sans-serif; font-size:13px; font-weight:700; color:var(--rust); background:var(--card); border:2px solid var(--rust); border-radius:6px; padding:5px 11px; margin-right:6px; text-decoration:none; cursor:pointer; }
   .ctt-cf-btn.primary { background:var(--rust); color:#fff; }
   .ctt-cf-note { font-size:11px; color:#6b6252; margin-top:6px; }
-  .ctt-cf-row { display:flex; gap:10px; align-items:flex-start; background:#5b3a29; border:1px solid #3e2518; border-radius:3px; padding:9px 12px; margin:0 0 8px 0; font-family:'Libre Franklin',sans-serif; color:#fbf3e4; }
-  .ctt-cf-row .ctt-cf-ico { flex-shrink:0; align-self:center; width:52px; height:52px; border-radius:50%; background:#fbf3e4; color:#5b3a29; display:flex; align-items:center; justify-content:center; font-size:26px; line-height:1; box-shadow:0 0 0 1.5px #3e2518; }
-  .ctt-cf-row .ctt-cf-info { flex:1 1 auto; min-width:0; }
-  .ctt-cf-row .ctt-cf-name { font-size:14.5px; font-weight:700; line-height:1.25; color:#fbf3e4; text-transform:uppercase; letter-spacing:0.01em; }
-  .ctt-cf-row .ctt-cf-meta { font-size:12px; font-weight:600; color:#f1e2c8; margin:2px 0 0; line-height:1.4; }
-  .ctt-cf-row .ctt-cf-kind { display:inline-block; font-size:11px; font-weight:700; color:#fbf3e4; border:1px solid #fbf3e4; border-radius:10px; padding:0 7px; margin-bottom:3px; }
-  .ctt-cf-row .ctt-cf-btns { margin-top:7px; display:flex; flex-wrap:wrap; gap:6px; }
-  .ctt-cf-row .ctt-cf-btn { color:#5b3a29; background:#fbf3e4; border:2px solid #fbf3e4; margin:0; }
-  .ctt-cf-row .ctt-cf-btn[data-cf="remove"] { color:#fbf3e4; background:transparent; }
+  .ctt-tag.ctt-coffee { background:#5b3a29; border:1px solid #3e2518; border-style:solid; color:#fbf3e4; }
+  .ctt-tag.ctt-coffee:hover, .ctt-tag.ctt-coffee.active { border-color:#fbf3e4; }
+  .ctt-tag.ctt-coffee .ctt-tag-name, .ctt-tag.ctt-coffee .ctt-tag-num { color:#fbf3e4; }
+  .ctt-tag.ctt-coffee .ctt-tag-addr, .ctt-tag.ctt-coffee .ctt-tag-addr a, .ctt-tag.ctt-coffee .ctt-errand-when, .ctt-tag.ctt-coffee .ctt-vtext { color:#f1e2c8; }
+  .ctt-tag.ctt-coffee .ctt-tag-photo-fallback { background:#fbf3e4 !important; border-color:#3e2518; }
+  .ctt-tag.ctt-coffee .ctt-makenext { color:#5b3a29; background:#fbf3e4; border-color:#fbf3e4; }
   .ctt-cf-pin { width:26px; height:26px; line-height:22px; text-align:center; font-size:15px; background:#fff; border:2px solid var(--rust); border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,.35); }
   .ctt-cf-pin.picked { background:var(--rust); }
   .ctt-cf-pin.ctt-cf-prev { width:34px; }
@@ -2961,7 +2961,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.8 &mdash; November 8, 2026</p>
+      <p class="ctt-version">v19.9 &mdash; November 8, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3900,12 +3900,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var lastRouteMiles = 0, lastRouteCount = 0;
   function updateListCount() {
     var el = document.getElementById('ctt-list-count'); if (!el) return;
-    var n = activeRoute.length;
-    var v = activeRoute.filter(function(s) { return visitedStores[s.name]; }).length;
+    var cfN = activeRoute.filter(function(s) { return s.coffee; }).length;
+    var n = activeRoute.length - cfN;
+    var v = activeRoute.filter(function(s) { return !s.coffee && visitedStores[s.name]; }).length;
     window.cttRouteN = n - v; // the Filter button counts only shops not yet visited
     var ft = document.getElementById('ctt-filter-toggle'); if (ft) ft.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
     if (!n) { el.textContent = ''; return; }
-    var noun = errands.length ? 'stop' : 'shop';
+    var noun = errands.filter(function(e) { return !e.coffee; }).length ? 'stop' : 'shop';
     el.textContent = n + ' ' + noun + (n === 1 ? '' : 's') + (v ? ' \u00b7 ' + v + ' visited' : '');
   }
   function updateRouteStat(count, miles) {
@@ -3915,6 +3916,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var el = document.getElementById('ctt-route-stat');
     if (!el) return;
     var remaining = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
+    var remCount = remaining.filter(function(s) { return !s.coffee; }).length;
     // Straight-line estimate for just what's left (excluding visited shops),
     // consistent with how "shops left" already excludes them - the OSRM
     // road-distance figure passed in covers the whole route, visited or
@@ -3923,7 +3925,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     for (var i = 0; i < remaining.length - 1; i++) {
       milesRemaining += haversineMiles(remaining[i].lat, remaining[i].lng, remaining[i + 1].lat, remaining[i + 1].lng);
     }
-    el.innerHTML = 'About <strong>' + milesRemaining.toFixed(1) + ' miles</strong> remaining &nbsp;&middot;&nbsp; <strong>' + remaining.length + (errands.length ? ' stop' : ' shop') + (remaining.length === 1 ? '' : 's') + '</strong> to go';
+    el.innerHTML = 'About <strong>' + milesRemaining.toFixed(1) + ' miles</strong> remaining &nbsp;&middot;&nbsp; <strong>' + remCount + (errands.filter(function(e) { return !e.coffee; }).length ? ' stop' : ' shop') + (remCount === 1 ? '' : 's') + '</strong> to go';
   }
   function drawStraightFallback(points) {
     if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
@@ -4458,7 +4460,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function errandStore(e) {
     var o = errandObjs[e.id] || (errandObjs[e.id] = {});
     o.name = e.name; o.address = e.address; o.lat = e.lat; o.lng = e.lng; o.hours = ''; o.note = ''; o.category = 'errand';
-    o.isErrand = true; o.id = e.id; o.icon = e.icon; o.time = e.time || '';
+    o.isErrand = true; o.id = e.id; o.icon = e.icon; o.time = e.time || ''; o.coffee = !!e.coffee; o.hoursNote = e.hoursNote || '';
     return o;
   }
   function registerErrand(e) { locationsByName[e.name] = errandStore(e); }
@@ -4536,21 +4538,22 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return out;
   }
   function errandIcon(num, store) {
-    return L.divIcon({ html: '<div class="ctt-errand-icon" title="' + cttEsc(store.name) + '">' + store.icon + '<b>' + num + '</b></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+    return L.divIcon({ html: '<div class="ctt-errand-icon" title="' + cttEsc(store.name) + '">' + store.icon + (num !== '' ? '<b>' + num + '</b>' : '') + '</div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
   }
   function buildErrandCard(store, label, idx, total) {
     var card = document.createElement('div');
     var isVisited = !!visitedStores[store.name];
-    card.className = 'ctt-tag ctt-errand' + (isVisited ? ' visited' : '');
+    card.className = 'ctt-tag ctt-errand' + (store.coffee ? ' ctt-coffee' : '') + (isVisited ? ' visited' : '');
     card.setAttribute('data-store-name', encodeURIComponent(store.name));
     var when = whenLine(store, idx);
     card.innerHTML =
       '<div class="ctt-tag-row"><div class="ctt-tag-photo-col"><div class="ctt-tag-photo-fallback">' + store.icon + '</div></div><div class="ctt-tag-info">' +
-      '<div class="ctt-tag-top"><div class="ctt-tag-name"><span class="ctt-tag-num">' + label + '</span>' + cttEsc(dn(store.name)) + '</div>' +
+      '<div class="ctt-tag-top"><div class="ctt-tag-name">' + (label !== '' ? '<span class="ctt-tag-num">' + label + '</span>' : '') + cttEsc(dn(store.name)) + '</div>' +
         '<span class="ctt-vbadge">&#10003; Visited</span><label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> <span class="ctt-vtext">Visited</span></label></div>' +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + cttEsc(store.address) + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
       (when ? '<div class="ctt-tag-note ctt-errand-when">' + when + '</div>' : '') +
-      '<div class="ctt-tag-bottom-row"><div class="ctt-tag-meta"><span class="ctt-badge" style="background:#6f6450;">Your stop</span></div><button type="button" class="ctt-makenext">Make This Next</button></div>' +
+      (store.coffee && store.hoursNote ? '<div class="ctt-tag-note ctt-errand-when">' + cttEsc(store.hoursNote) + '</div>' : '') +
+      '<div class="ctt-tag-bottom-row"><div class="ctt-tag-meta"><span class="ctt-badge" style="background:' + (store.coffee ? '#3e2518' : '#6f6450') + ';">' + (store.coffee ? 'Coffee Stop' : 'Your stop') + '</span></div><button type="button" class="ctt-makenext">Make This Next</button></div>' +
       '</div><div class="ctt-tag-controls-col"><button class="ctt-toggle-btn remove" title="Remove this stop">&minus;</button>' +
       '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (idx === 0 ? ' disabled' : '') + '>&#9650;</button>' +
       '<button type="button" class="ctt-ctrl-btn ctt-reorder-down" title="Move Down"' + (idx === total - 1 ? ' disabled' : '') + '>&#9660;</button></div></div>';
@@ -4699,13 +4702,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     if (typeMode() !== 'none') window.cttNoneAutoOpened = false;
 
+    var cfBefore = 0;
     optimized.forEach(function(store, i) {
+      var num = i + 1 - cfBefore; if (store.coffee) cfBefore++;
       if (store.isErrand) {
-        var em = L.marker([store.lat, store.lng], { icon: errandIcon(i + 1, store), zIndexOffset: 1000 }).addTo(map);
+        var em = L.marker([store.lat, store.lng], { icon: errandIcon(store.coffee ? '' : num, store), zIndexOffset: 1000 }).addTo(map);
         em._cttR = 15; em._cttAnchor = [15, 15]; em._cttBaseZ = 1000;
         em.bindPopup('<strong>' + cttEsc(store.icon + ' ' + dn(store.name)) + '</strong><br>' + cttEsc(store.address) + (store.time ? '<br>\u23F0 ' + clock12(store.time) : ''), { maxWidth: 300, minWidth: 180 });
         routeMarkers.push(em); markerByName[store.name] = em;
-        var ecard = buildErrandCard(store, i + 1, i, optimized.length);
+        var ecard = buildErrandCard(store, store.coffee ? '' : num, i, optimized.length);
         (function(store, em, ecard) {
           function pick() { document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); }); ecard.classList.add('active'); stickyHL = store.name; applyHL(); }
           ecard.addEventListener('click', pick);
@@ -4720,13 +4725,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       }
       var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
       var featuredNow = isFeaturedToday(store);
-      var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(i + 1, store.name) : numberedIcon(i + 1, color, store.name), zIndexOffset: 1000 }).addTo(map);
+      var marker = L.marker([store.lat, store.lng], { icon: featuredNow ? featuredStarIcon(num, store.name) : numberedIcon(num, color, store.name), zIndexOffset: 1000 }).addTo(map);
       marker._cttR = featuredNow ? 15 : 11;
       marker._cttAnchor = featuredNow ? [15, 17] : [11, 11];
-      marker.bindPopup(shopPopupHtml(store, i + 1), { maxWidth: 320, minWidth: 200 });
+      marker.bindPopup(shopPopupHtml(store, num), { maxWidth: 320, minWidth: 200 });
       routeMarkers.push(marker);
       marker._cttBaseZ = 1000; markerByName[store.name] = marker;
-      var card = buildCard(store, i + 1, color, true, i, optimized.length);
+      var card = buildCard(store, num, color, true, i, optimized.length);
       (function(store, marker, card) {
         card.addEventListener('click', function() {
           document.querySelectorAll('.ctt-tag').forEach(function(el) { el.classList.remove('active'); });
@@ -5417,7 +5422,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
   function cfOptions() {
     var now = effectiveNow();
-    var remaining = activeRoute.filter(function(x) { return !visitedStores[x.name]; });
+    var remaining = activeRoute.filter(function(x) { return !visitedStores[x.name] && !x.coffee; });
     if (!remaining.length) return { target: null, items: [] };
     var t = remaining[0], o = fallbackOrigin();
     var pinned = {};
@@ -5486,22 +5491,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     cfPanel.innerHTML = h;
   }
   function cfCardFor(name) { return routeListEl.querySelector('[data-store-name="' + encodeURIComponent(name) + '"]'); }
-  function cfRenderRow() {
-    var old = routeListEl.querySelector('.ctt-cf-row'); if (old) old.remove();
-    if (coffeePin) { map.removeLayer(coffeePin); coffeePin = null; }
-    if (!coffeeStop) return;
-    if (visitedStores[coffeeStop.before]) { coffeeStop = null; return; }
-    var card = cfCardFor(coffeeStop.before); if (!card) return;
-    var c = COFFEE[coffeeStop.id];
-    var row = document.createElement('div'); row.className = 'ctt-cf-row';
-    var st = cfStatus(c, effectiveNow());
-    var stTxt = (st.state === 'unknown' || !st.text) ? '' : '<div class="ctt-cf-meta">' + cfEsc(st.text) + '</div>';
-    row.innerHTML = '<div class="ctt-cf-ico" aria-hidden="true">&#9749;</div><div class="ctt-cf-info"><span class="ctt-cf-kind">Coffee Stop</span><div class="ctt-cf-name">' + cfEsc(c.n) + '</div><div class="ctt-cf-meta">' + cfEsc(c.a.split(',')[0]) + '</div>' + stTxt + '<div class="ctt-cf-meta">Before ' + cfEsc(coffeeStop.before) + '</div>' +
-      '<div class="ctt-cf-btns"><a class="ctt-cf-btn" href="' + cfDirections(c) + '" target="_blank" rel="noopener">Directions</a><button type="button" class="ctt-cf-btn" data-cf="done">Done</button><button type="button" class="ctt-cf-btn" data-cf="remove">Remove</button></div></div>';
-    card.parentNode.insertBefore(row, card);
-    coffeePin = L.marker([c.la, c.lo], { icon: L.divIcon({ className: '', html: '<div class="ctt-cf-pin" title="' + cfEsc(c.n) + '">&#9749;</div>', iconSize: [26, 26], iconAnchor: [13, 13] }), zIndexOffset: 500, keyboard: false }).addTo(map);
-    coffeePin.bindPopup(cfPopup(coffeeStop.id), { maxWidth: 260 });
-  }
+  function cfRenderRow() { var old = routeListEl.querySelector('.ctt-cf-row'); if (old) old.remove(); if (coffeePin) { map.removeLayer(coffeePin); coffeePin = null; } }
   function cfPopup(id) {
     var c = COFFEE[id], st = cfStatus(c, effectiveNow());
     return '<strong>&#9749; ' + cfEsc(c.n) + '</strong><br>' + cfEsc(c.a) + (c.k && c.k !== 'approx' ? '<br>' + cfEsc(c.k) : '') + '<br>' + (st.state === 'unknown' ? 'Hours not confirmed' : cfEsc(st.text)) +
@@ -5515,10 +5505,18 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var b = e.target.closest('[data-cf]'); if (!b) return;
     if (b.getAttribute('data-cf') === 'close') { cfPanel.classList.remove('open'); cfClearPreview(); }
     if (b.getAttribute('data-cf') === 'add') {
-      coffeeStop = { id: b.getAttribute('data-id'), before: b.getAttribute('data-before') };
-      cttTrack('coffee_add', { shop: COFFEE[coffeeStop.id].n });
-      cfPanel.classList.remove('open'); cfClearPreview(); cfRenderRow();
-      var row = routeListEl.querySelector('.ctt-cf-row'); if (row && row.scrollIntoView) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var cid = b.getAttribute('data-id'), c = COFFEE[cid], before = b.getAttribute('data-before');
+      cttTrack('coffee_add', { shop: c.n });
+      errands = errands.filter(function(e) { if (e.coffee) { delete locationsByName[e.name]; delete errandObjs[e.id]; delete visitedStores[e.name]; return false; } return true; });
+      var names = activeRoute.map(function(x) { return x.name; }), bi = names.indexOf(before), after = '';
+      for (var k = bi - 1; k >= 0; k--) { if (!activeRoute[k].isErrand) { after = names[k]; break; } }
+      var st = cfStatus(c, effectiveNow());
+      var nm = c.n; if (locationsByName[nm]) nm = c.n + ' (coffee stop)';
+      var e2 = { id: 'cf' + Date.now().toString(36), name: nm, address: c.a.split(',').slice(0, 2).join(',').trim(), lat: c.la, lng: c.lo, icon: '\u2615', time: '', date: todayDateStr(), after: after, coffee: 1, hoursNote: (st.state === 'unknown' || !st.text) ? '' : st.text };
+      errands.push(e2); registerErrand(e2); saveErrands();
+      cfPanel.classList.remove('open'); cfClearPreview(); recalibrate(lastStartIdx);
+      showToast('Coffee stop added');
+      setTimeout(function() { var cc = cfCardFor(nm); if (cc && cc.scrollIntoView) cc.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);
     }
   });
   routeListEl.addEventListener('click', function(e) {
