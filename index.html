@@ -52,6 +52,8 @@ STILL TO DO / IDEAS
 - DONE in v19.4 (Nov 7 2026): 'Your own stops' box is just two centered buttons (17px, no label or note); Add Your Own Stop help text shortened to one paragraph; Share The Trail buttons on desktop (min-width 781px) are 3 over 2 in equal-width pills (CSS grid on .ctt-share-row), phone layout unchanged; More Shops list is sorted open-now (or closing soon) first, then closed (sortOffRouteByOpen, called after addBackgroundBonus in recalibrate; order inside each group unchanged; no section headings because the height and scroll code treat every child as a shop card).
 - DONE in v19.5 (Nov 7 2026): Add Your Own Stop: button shows the ➕ emoji instead of a plain +; appointment-time field forced inside the box (min-width 0, appearance none, form overflow hidden; written for iPhone Safari, which cannot be tested in the sandbox); suggestions only list places WITH a street address (1,519 of 2,553 in places.json); the 'Enjoying the trail?' tip row removed from this dialog only (other dialogs keep it); More Shops heading + note stay on ONE line on phones (nowrap, smaller text under 480px and 380px; only the longer "All Other Shops" label on a 320px-wide screen clips the note); removed the coffee panel line 'Hours come from Google and can change.'.
 - DONE in v19.6 (Nov 7 2026): how-to FAQ (Add Your Own Stop, coffee stop, More Shops open-first) and the guide blog post (new 'Add your own stops' section; dateModified 2026-11-07) updated for the v19.2-v19.5 changes; Add Your Own Stop subtitle now says 'your trail' (no 'today'). A reminder is scheduled for Dec 28 2026 to trim Vinterest (Southside) from the JSON-LD and static SEO lists.
+- DONE in v19.7 (Nov 7 2026): RACER (Thrift Trail Rally): starts with 60 s, checkpoint bonuses are 110% of a bot's leg time (calcBon), tuned so about 70% of players can finish; the route's river and creek crossings are raised bridges with a ramp hop and lower gravity; the Tennessee Aquarium and the Walnut Street and Market Street bridges are on the map; driving into the aquarium turns the car into a fish that falls back onto the track (easter egg). 29 new blog posts scheduled Nov 9 2026 and Nov 2028 to Dec 2029 (new post footers omit the 'Hours and details can change' line). Pinball is NOT in this build.
+- DONE in v19.7 (Nov 7 2026): 'Make this next' button on own-stop cards (makeNext(); hidden on the stop that is already next and on visited stops); footer line 'Hours and details can change, so check with the shop before you go.' removed from /shops/ and the neighborhood pages (the feedback sentence stays); arcade release and easier racer (see ARCADE line); new blog posts scheduled through Dec 17 2029 (see blog notes).
 - VERSION NUMBERING RULE (Mod, Nov 7 2026): versions count 19.1, 19.2 ... 19.9, then 20.0, 20.1 ... (never 19.10 or 19.11). Mod set THIS build to v19.2; the next build is v19.3.
 - FIX in v19.2 (Nov 7 2026): Add Your Own Stop dialog crashed on open in the first build of this feature, mislabeled v19.10 (suggestion code ran before nameEl/addrEl were declared), so suggestions, icons and the close button did nothing. Moved the block after the declarations; tested with a stubbed Playwright harness.
 - DONE in v19.2 (Nov 7 2026): places.json (NEW FILE in the repo root, ~150 KB, ~2,550 Chattanooga-area businesses from an OpenStreetMap Overpass export: name, street address, city, lat, lng; data (c) OpenStreetMap contributors, ODbL; credited in the footer) powers type-ahead suggestions in Add Your Own Stop (loaded only when that dialog opens; picking a suggestion skips the address lookup). Refresh it by re-running the Overpass query in the chat history and regenerating the file.
@@ -324,7 +326,7 @@ REWARDS INFO (data key "rw" in SHOP_DETAILS, shown by shopDetailsHtml after Wi-F
 OFF / HELD ITEMS
 - Loop-finished popup and finish card: OFF with FINISH_CARD_ON = false (owner disliked the design). Redo the design later, then flip the flag.
 - Newsletter: ON HOLD for several weeks (owner has no way to send yet).
-- Arcade: ON HOLD. Pending when it resumes: Thrift Rush MAPS array (each level its own floor plan with more dead ends) and wording "harder than the last"; rename Scenic City Loop Run to Thrift Trail Rally; copy the racer to /arcade/loop-run; a loopRunScores Firestore rule.
+- ARCADE (released in v19.7, Nov 7 2026): /arcade/ lists 423 Thrift Rush (5 levels, each its own floor plan, 'harder than the last') and Thrift Trail Rally at /arcade/loop-run/ (the racer; it replaced the old Scenic City Loop Run; same URL). Rally scores use Firestore collection loopRunScores through window.GPFirestore (module script at the bottom of arcade/loop-run/index.html); the Firestore rule for loopRunScores must allow read and create (rule text was given in chat). Rally source (template.html, mktrack.py, osm.py, build.py) lives OUTSIDE the site folder; rebuild game.html with build.py and re-wrap it with the page head/foot. Street NAMES on signs come straight from OpenStreetMap name tags (abbreviated: Street>ST, Road>RD, etc.); route SHAPE is about 89% within 15 m of the real streets (target: at least 85%). Easier-play settings (v19.7): start time 115 s, checkpoint bonuses +12%, turn rate +15%, gentler grass, spin-out and red-light penalties smaller, rival cars about 3% slower.
 - Best restock day: unknown, skip until there is real data. Coffee shops: leave as they are.
 - "Closing soon": already works and starts 60 minutes before closing.
 
@@ -342,7 +344,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.6-20261107">
+<meta name="ctt-build" content="v19.7-20261107">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2075,6 +2077,10 @@ LINGERING IDEAS
   }
   .ctt-tag-rating { font-family: 'Libre Franklin', sans-serif; font-size: 12px; color: var(--gold); white-space: nowrap; }
   .ctt-tag-rating.unrated { color: #b8ad95; }
+  .ctt-makenext { font: 700 12px 'Libre Franklin', sans-serif; color: var(--rust); background: var(--card); border: 1.5px solid var(--rust); border-radius: 14px; padding: 4px 11px; cursor: pointer; position: relative; margin-left: auto; }
+  .ctt-makenext:hover { background: var(--rust); color: #fff; }
+  .ctt-makenext::after { content: ""; position: absolute; inset: -8px -4px; }
+  .ctt-errand.visited .ctt-makenext { display: none; }
   .ctt-tag-bottom-row { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
   .ctt-tag-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .ctt-tag-meta { gap: 16px; }
@@ -2943,7 +2949,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.6 &mdash; November 7, 2026</p>
+      <p class="ctt-version">v19.7 &mdash; November 7, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4480,6 +4486,19 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     cttTrack('reorder_stop');
     recalibrate(lastStartIdx);
   }
+  // "Make this next" on an own stop: it becomes the first stop that is not yet visited.
+  function makeNext(store) {
+    var names = activeRoute.map(function(s) { return s.name; });
+    var i = names.indexOf(store.name); if (i < 0) return;
+    names.splice(i, 1);
+    var at = -1; for (var k = 0; k < names.length; k++) { if (!visitedStores[names[k]]) { at = k; break; } }
+    if (at < 0) at = names.length;
+    names.splice(at, 0, store.name);
+    reanchor(names);
+    cttTrack('own_stop_make_next');
+    recalibrate(lastStartIdx);
+    showToast('Now your next stop');
+  }
   function removeErrand(store) {
     errands = errands.filter(function(e) { return e.id !== store.id; });
     delete locationsByName[store.name]; delete errandObjs[store.id]; delete visitedStores[store.name];
@@ -4519,11 +4538,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         '<span class="ctt-vbadge">&#10003; Visited</span><label class="ctt-visited-check"><input type="checkbox" class="ctt-visited-checkbox"' + (isVisited ? ' checked' : '') + '> <span class="ctt-vtext">Visited</span></label></div>' +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + cttEsc(store.address) + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
       (when ? '<div class="ctt-tag-note ctt-errand-when">' + when + '</div>' : '') +
-      '<div class="ctt-tag-bottom-row"><div class="ctt-tag-meta"><span class="ctt-badge" style="background:#6f6450;">Your stop</span></div></div>' +
+      '<div class="ctt-tag-bottom-row"><div class="ctt-tag-meta"><span class="ctt-badge" style="background:#6f6450;">Your stop</span></div><button type="button" class="ctt-makenext">Make this next</button></div>' +
       '</div><div class="ctt-tag-controls-col"><button class="ctt-toggle-btn remove" title="Remove this stop">&minus;</button>' +
       '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (idx === 0 ? ' disabled' : '') + '>&#9650;</button>' +
       '<button type="button" class="ctt-ctrl-btn ctt-reorder-down" title="Move Down"' + (idx === total - 1 ? ' disabled' : '') + '>&#9660;</button></div></div>';
     card.querySelector('.ctt-toggle-btn').addEventListener('click', function(e) { e.stopPropagation(); removeErrand(store); });
+    card.querySelector('.ctt-makenext').addEventListener('click', function(e) { e.stopPropagation(); makeNext(store); });
     card.querySelector('.ctt-reorder-up').addEventListener('click', function(e) { e.stopPropagation(); moveInRoute(store, -1); });
     card.querySelector('.ctt-reorder-down').addEventListener('click', function(e) { e.stopPropagation(); moveInRoute(store, 1); });
     var chk = card.querySelector('.ctt-visited-checkbox');
@@ -5547,6 +5567,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   recalibrate = function(startIdx) { var r = recalibrateCore(startIdx); refreshCtaLabel(); return r; };
   function refreshNextButton() {
     refreshCtaLabel();
+    (function() { var cs = routeListEl.querySelectorAll('.ctt-tag[data-store-name]'), first = null;
+      for (var q = 0; q < cs.length; q++) { if (!cs[q].classList.contains('visited') && cs[q].querySelector('.ctt-visited-checkbox')) { first = cs[q]; break; } }
+      routeListEl.querySelectorAll('.ctt-makenext').forEach(function(b) { b.style.display = (b.closest('.ctt-tag') === first) ? 'none' : ''; }); })();
     organizeVisited();
     routeListEl.querySelectorAll('.ctt-done-btn').forEach(function(b) { b.remove(); });
     var cards = routeListEl.querySelectorAll('.ctt-tag[data-store-name]');
