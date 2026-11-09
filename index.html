@@ -55,6 +55,7 @@ STILL TO DO / IDEAS
 - DONE in v19.8 (Nov 8 2026): Title Case on all buttons/links/menu/footer (site + 81 blog pages); St. Timothy's Thrift Shop update; coffee-stop row restyled as a coffee-brown shop card. (PENDING lines below were built in v19.8.)
 - DONE in v20.0 (Nov 9 2026): EAST RIDGE ANTIQUE DISTRICT SPLIT: still ONE map pin and ONE route stop (counts as 1), but the card lists its 3 open shops (Sugar Plum Antiques & Treasures; Rusted Rooster Antiques & Decor; Chattanooga Olive Oil Company & Artisan Village), each with its own hours, open/closed status and Website link (location field members:[{n,h,u}], membersHtml()). District hours = union of the three. Static pages (shops/, thrift-stores-east-ridge/) list the three shops too.
 - DONE in v20.1 (Nov 9 2026): MONTHLY 'TRAIL NEWS' BONUS BLOG (owner request): once a month a bonus post on how the site has improved plus the shops added; first one is blog/whats-new-on-the-thrift-trail-november-2026 (cat 'Trail News', live Nov 9; blog index has a new Trail News chip). Goal: make the Trail feel more and more sophisticated; no version numbers in the post. The assistant cannot publish by itself: draft it each month (next ~Dec 7) and send the zip.
+- DONE in v20.2 (Nov 9 2026): East Ridge Antique District member shops are now separate mini-cards (white card, gold left edge, rust CAPS name, own hours/open status/Website) inside one tan dashed 'N shops at this address' group, so they read as separate shops that are still together.
 - DONE in v19.9 (Nov 8 2026): COFFEE STOP is a real route stop (own-stop style, coffee-brown card, not counted as a thrift stop, in miles/time). The PENDING v19.9 lines below were built.
 - PENDING (v19.9): the coffee stop is NOT counted as a thrift stop (no number, not in 'N shops' / 'to go' counts, shop numbers skip it) but IS in miles, route line and timing.
 - PENDING (next build, v19.9, Nov 8 2026): COFFEE STOP IS NOW A REAL ROUTE STOP: 'Add to Route' makes it a numbered own-stop (errand with coffee:1, cup icon, coffee-brown card, 'Coffee Stop' badge, hours line) placed right before the next shop; it is in the route line, can be moved up/down, Make This Next, Visited, removed (-). One coffee stop at a time. The old separate ctt-cf-row is gone.
@@ -353,7 +354,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v20.1-20261109">
+<meta name="ctt-build" content="v20.2-20261109">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2113,10 +2114,11 @@ LINGERING IDEAS
   .ctt-tag-addr a:not(.ctt-directions-link) { font-weight: 800; }
   .ctt-tag-addr a.ctt-directions-link { color: #2c3e44; border-bottom-color: #2c3e44; }
   .ctt-tag-hours { font-size: 11px; font-weight: 400; font-style: italic; color: #6b6252; margin-top: 2px; }
-  .ctt-members { margin-top:6px; border-top:1px solid var(--line); }
-  .ctt-mem { padding:5px 0 4px 8px; border-left:3px solid #c98a2b; margin-top:5px; }
-  .ctt-mem-name { font-size:13px; font-weight:700; color:var(--ink); line-height:1.25; }
-  .ctt-mem-hours { font-size:12px; color:#5c5240; line-height:1.4; }
+  .ctt-members { margin-top:8px; padding:7px 7px 3px; background:rgba(201,138,43,.10); border:1px dashed #c98a2b; border-radius:6px; }
+  .ctt-members-head { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#7a5416; margin:0 0 6px 2px; }
+  .ctt-mem { background:var(--card); border:1px solid var(--line); border-left:4px solid #c98a2b; border-radius:5px; padding:7px 10px 7px 10px; margin:0 0 6px; box-shadow:0 1px 2px rgba(44,36,23,.10); }
+  .ctt-mem-name { font-size:13.5px; font-weight:700; line-height:1.25; color:var(--rust); text-transform:uppercase; letter-spacing:0.01em; }
+  .ctt-mem-hours { font-size:12px; color:#5c5240; line-height:1.45; margin-top:2px; }
   .ctt-mem-hours a { color:var(--rust); font-weight:700; }
   .ctt-mem-open { font-weight:700; color:#2f5d2a; }
   .ctt-mem-closed { font-weight:700; color:#8a3b1f; }
@@ -2970,7 +2972,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v20.1 &mdash; November 9, 2026</p>
+      <p class="ctt-version">v20.2 &mdash; November 9, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4292,7 +4294,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // A stop that holds several shops at one address (East Ridge Antique District): each shop shows its own hours, open status and Website link.
   function membersHtml(store) {
     if (!store.members || !store.members.length) return '';
-    return '<div class="ctt-members">' + store.members.map(function(m) {
+    return '<div class="ctt-members"><div class="ctt-members-head">' + store.members.length + ' shops at this address</div>' + store.members.map(function(m) {
       var st = getOpenStatus(m.h), cls = (st.state === 'open' || st.state === 'soon') ? 'ctt-mem-open' : 'ctt-mem-closed';
       return '<div class="ctt-mem"><div class="ctt-mem-name">' + cttEsc(m.n) + '</div><div class="ctt-mem-hours">' + m.h + ' &middot; <span class="' + cls + '">' + (cls === 'ctt-mem-open' ? cttEsc(st.text) : 'Closed now') + '</span> &middot; <a href="' + m.u + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Website</a></div></div>';
     }).join('') + '</div>';
