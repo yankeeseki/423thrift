@@ -53,6 +53,8 @@ STILL TO DO / IDEAS
 - DONE in v19.5 (Nov 7 2026): Add Your Own Stop: button shows the ➕ emoji instead of a plain +; appointment-time field forced inside the box (min-width 0, appearance none, form overflow hidden; written for iPhone Safari, which cannot be tested in the sandbox); suggestions only list places WITH a street address (1,519 of 2,553 in places.json); the 'Enjoying the trail?' tip row removed from this dialog only (other dialogs keep it); More Shops heading + note stay on ONE line on phones (nowrap, smaller text under 480px and 380px; only the longer "All Other Shops" label on a 320px-wide screen clips the note); removed the coffee panel line 'Hours come from Google and can change.'.
 - DONE in v19.6 (Nov 7 2026): how-to FAQ (Add Your Own Stop, coffee stop, More Shops open-first) and the guide blog post (new 'Add your own stops' section; dateModified 2026-11-07) updated for the v19.2-v19.5 changes; Add Your Own Stop subtitle now says 'your trail' (no 'today'). A reminder is scheduled for Dec 28 2026 to trim Vinterest (Southside) from the JSON-LD and static SEO lists.
 - DONE in v19.8 (Nov 8 2026): Title Case on all buttons/links/menu/footer (site + 81 blog pages); St. Timothy's Thrift Shop update; coffee-stop row restyled as a coffee-brown shop card. (PENDING lines below were built in v19.8.)
+- DONE in v20.0 (Nov 9 2026): EAST RIDGE ANTIQUE DISTRICT SPLIT: still ONE map pin and ONE route stop (counts as 1), but the card lists its 3 open shops (Sugar Plum Antiques & Treasures; Rusted Rooster Antiques & Decor; Chattanooga Olive Oil Company & Artisan Village), each with its own hours, open/closed status and Website link (location field members:[{n,h,u}], membersHtml()). District hours = union of the three. Static pages (shops/, thrift-stores-east-ridge/) list the three shops too.
+- DONE in v20.1 (Nov 9 2026): MONTHLY 'TRAIL NEWS' BONUS BLOG (owner request): once a month a bonus post on how the site has improved plus the shops added; first one is blog/whats-new-on-the-thrift-trail-november-2026 (cat 'Trail News', live Nov 9; blog index has a new Trail News chip). Goal: make the Trail feel more and more sophisticated; no version numbers in the post. The assistant cannot publish by itself: draft it each month (next ~Dec 7) and send the zip.
 - DONE in v19.9 (Nov 8 2026): COFFEE STOP is a real route stop (own-stop style, coffee-brown card, not counted as a thrift stop, in miles/time). The PENDING v19.9 lines below were built.
 - PENDING (v19.9): the coffee stop is NOT counted as a thrift stop (no number, not in 'N shops' / 'to go' counts, shop numbers skip it) but IS in miles, route line and timing.
 - PENDING (next build, v19.9, Nov 8 2026): COFFEE STOP IS NOW A REAL ROUTE STOP: 'Add to Route' makes it a numbered own-stop (errand with coffee:1, cup icon, coffee-brown card, 'Coffee Stop' badge, hours line) placed right before the next shop; it is in the route line, can be moved up/down, Make This Next, Visited, removed (-). One coffee stop at a time. The old separate ctt-cf-row is gone.
@@ -351,7 +353,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v19.9-20261108">
+<meta name="ctt-build" content="v20.1-20261109">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 48 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2111,6 +2113,13 @@ LINGERING IDEAS
   .ctt-tag-addr a:not(.ctt-directions-link) { font-weight: 800; }
   .ctt-tag-addr a.ctt-directions-link { color: #2c3e44; border-bottom-color: #2c3e44; }
   .ctt-tag-hours { font-size: 11px; font-weight: 400; font-style: italic; color: #6b6252; margin-top: 2px; }
+  .ctt-members { margin-top:6px; border-top:1px solid var(--line); }
+  .ctt-mem { padding:5px 0 4px 8px; border-left:3px solid #c98a2b; margin-top:5px; }
+  .ctt-mem-name { font-size:13px; font-weight:700; color:var(--ink); line-height:1.25; }
+  .ctt-mem-hours { font-size:12px; color:#5c5240; line-height:1.4; }
+  .ctt-mem-hours a { color:var(--rust); font-weight:700; }
+  .ctt-mem-open { font-weight:700; color:#2f5d2a; }
+  .ctt-mem-closed { font-weight:700; color:#8a3b1f; }
   .ctt-tag-note { font-size: 12.5px; color: #5c5240; margin-top: 5px; line-height: 1.4; }
   .ctt-tag-num {
     display: inline-flex; align-items: center; justify-content: center; padding-top: 2px;
@@ -2961,7 +2970,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v19.9 &mdash; November 8, 2026</p>
+      <p class="ctt-version">v20.1 &mdash; November 9, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3011,7 +3020,7 @@ LINGERING IDEAS
     { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Sun-Thu 11-6 &middot; Fri/Sat 11-7", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
-    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon 10:30-5:30 &middot; Tue-Fri 10:30-5 &middot; Sat 10:30-4 &middot; Sun 12-5", myRating: null, note: "Most of the antique district has closed. Three shops are still open: <a href='https://www.facebook.com/profile.php?id=61588683545518' target='_blank' rel='noopener'>Sugar Plum Antiques & Treasures</a> (Mon-Sat 10-6, Sun 12-6), <a href='https://rustedrooster.net' target='_blank' rel='noopener'>Rusted Rooster Antiques & Decor</a> (Mon closed, Tue-Fri 10-5, Sat 10-4, Sun 11-5) and <a href='https://www.facebook.com/artisanvillage/' target='_blank' rel='noopener'>Chattanooga Olive Oil Company & Artisan Village</a> (Mon-Sat 10:30-5:30, Sun 12-5:30). The hours listed are when every open shop is available, so check each shop's hours, and some close as early as 4.", myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
+    { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Three shops share this address and each keeps its own hours.", members: [{ n: "Sugar Plum Antiques & Treasures", h: "Mon-Sat 10-6 &middot; Sun 12-6", u: "https://www.facebook.com/profile.php?id=61588683545518" }, { n: "Rusted Rooster Antiques & Decor", h: "Tue-Fri 10-5 &middot; Sat 10-4 &middot; Sun 11-5", u: "https://rustedrooster.net" }, { n: "Chattanooga Olive Oil Company & Artisan Village", h: "Mon-Sat 10:30-5:30 &middot; Sun 12-5:30", u: "https://www.facebook.com/artisanvillage/" }], myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
     { name: "Mercantile at the Ridge", area: "East Ridge", category: "Curated Shop", lat: 34.9910399, lng: -85.1970144, address: "6725 Ringgold Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Eclectic and well-curated booths, plus an on-site tea room reviewers enjoy.", myNote: "", url: "https://mercantileattheridgetn.com" },
     { name: "Dirty Jane's Antiques", area: "Red Bank", category: "Antique Mall", lat: 35.0861552, lng: -85.3149767, address: "1910 Dayton Blvd, Red Bank, TN 37415", hours: "Mon Closed &middot; Tue-Sat 10-6 &middot; Sun 12-6", myRating: null, note: "Deceptively huge antique mall with reviewers often mentioning losing track of time browsing.", myNote: "", url: "https://dirtyjanesantiques.com" },
     { name: "Samaritan Center", area: "Ooltewah", category: "Thrift Store", lat: 35.0841331, lng: -85.0591954, address: "9231 Lee Hwy, Ooltewah, TN 37363", hours: "Mon-Thu 9-6 &middot; Fri/Sat Closed &middot; Sun 1-5", myRating: null, note: "Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.", myNote: "", url: "https://thesamaritancenter.net" },
@@ -4280,6 +4289,14 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     cttTrack('loop_finished', { loop: d.id });
   }
 
+  // A stop that holds several shops at one address (East Ridge Antique District): each shop shows its own hours, open status and Website link.
+  function membersHtml(store) {
+    if (!store.members || !store.members.length) return '';
+    return '<div class="ctt-members">' + store.members.map(function(m) {
+      var st = getOpenStatus(m.h), cls = (st.state === 'open' || st.state === 'soon') ? 'ctt-mem-open' : 'ctt-mem-closed';
+      return '<div class="ctt-mem"><div class="ctt-mem-name">' + cttEsc(m.n) + '</div><div class="ctt-mem-hours">' + m.h + ' &middot; <span class="' + cls + '">' + (cls === 'ctt-mem-open' ? cttEsc(st.text) : 'Closed now') + '</span> &middot; <a href="' + m.u + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Website</a></div></div>';
+    }).join('') + '</div>';
+  }
   function buildCard(store, label, color, onRoute, routeIndex, routeTotal) {
     var combinedIdx = routeIndex;
     if (onRoute) { var shopsOnly = activeRoute.filter(function(x) { return !x.isErrand; }); routeIndex = shopsOnly.indexOf(store); routeTotal = shopsOnly.length; }
@@ -4322,6 +4339,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       reasonHtml +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
       '<div class="ctt-tag-note">' + store.note + (store.myNote ? '<br><em>' + store.myNote + '</em>' : '') + '</div>' +
+      membersHtml(store) +
       '<div class="ctt-tag-bottom-row">' +
         '<div class="ctt-tag-meta">' +
           '<span class="ctt-badge" style="background:' + color + ';">' + (CAT_LABEL[store.category] || store.category) + '</span>' +
