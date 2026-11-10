@@ -61,6 +61,8 @@ STILL TO DO / IDEAS
 - DONE in v20.3: NEW SHOP CREATIVE REUSE: 'Creative ReSupply' (The Chattery's secondhand art supply shop, 1800 Rossville Ave, Southside; from Melissa Hawkins' manager form; badge 'Art Supply Shop' via store.badge; category Curated Shop but NOT a thrift shop; in bonusDefaults only, never on the Lookout/Scenic loops; pin coordinates are APPROXIMATE (35.0306,-85.2995), verify). OWNER RULE: it always sits at the BOTTOM of every list (store.last: More Shops order, Shops & Charities popup sort, last stop in any route, last on static /shops/ and Southside pages). Owner will follow up on the featured-shop and discount-card interest. Shop counts 48 -> 49.
 - DONE in v20.3: BLOG POST 'The Lookout Loop: A Moderator-Curated Thrift Route Through Chattanooga' (blog/lookout-loop-moderator-curated-thrift-route-chattanooga/, cat Guide, dated Fri Nov 13 2026 so it is hidden until then; includes the owner's map screenshot lookout-loop-map.png with OpenStreetMap credit). Added to blog/index.html (card + dates array); sitemap-blog.xml entry to add at build.
 - DONE in v20.3: shorter MAP name tags (SHORT_NAMES; route cards keep full names): Crazy Daisy, Green Gardinia, Parker's Picks, St. Timothy's, Clothes House, Bachman Barn, NNH.
+- DONE in v20.5 (Nov 9 2026): Arcade removed from the hamburger menu (home: addLink list; sub-pages: menu.js). The Arcade footer link and /arcade/ pages stay.
+- DONE in v20.5: BLOG BACKDATING (owner: make the live posts look spread out, not all posted at once). New publish dates: how-the-chattanooga-thrift-trail-works Sep 14; be-kind-with-your-reviews Sep 28; why-not-just-use-google-maps Oct 6; vinterest-southside-closing Oct 19; thrift-vintage-antique-three-kinds Oct 26; what-it-costs-to-be-a-vendor Nov 4; add-your-own-stop Nov 7 (not earlier: the feature launched Nov 7); whats-new-november-2026 stays Nov 9; Lookout Loop stays Fri Nov 13. Changed in each post, the blog index (cards re-sorted newest first, dates array), every post's DM list and Keep Reading data-dates, and sitemap-blog.xml.
 - DONE in v20.4 (Nov 9 2026): BIG BUTTON FIRST-SHOP FIX (owner bug: the first tap only got location and the button already pointed at shop 2, so there was no way to hold for directions to shop 1). New state 'Head to <shop 1>' (preStart(), arrivedFirst saved per day in localStorage 'ctt-arrived'): hold/Directions = shop 1; tap = 'I'm here' (ticks nothing, undo-able, toast 'At X'); then the old 'Continue to <shop 2>' flow. Returning visitors (location already allowed) see Head to on page load. First-time visitors still get the permission prompt on their first tap, but that tap only plans the route and never skips a shop (no location prompt on page load). Start Over clears arrivedFirst. Owner dropped the idea of choosing the loop direction (ignore it).
 - DONE in v20.4: MORE SHOPS ORDER (owner): open now (or closing soon) first, then everything else; each group closest first from the visitor's location (under an hour old), else the current/next shop, else downtown (moreShopsOrigin). Creative ReSupply is no longer pinned to the very bottom of More Shops: it always sits in the second group, sorted by distance (store.last still applies to routes and the Shops & Charities popup sort).
 - DONE in v20.4: GOODWILL (FORT O) MOVED: the old 516 Battlefield Pkwy store is closed per the owner; the Trail now uses the newer store at 1873 Battlefield Pkwy (Battlefield Centre, next to Planet Fitness, opened Nov 6 2025). Pin coordinates are APPROXIMATE (34.9502,-85.2338, from nearby Battlefield Centre addresses), verify. Hours kept Mon-Sat 9-8, Sun 10-8 (Goodwill standard), verify. New card note; coffee picks now Scooter's 1935 Battlefield first. FTO_PREFERRED_ORDER is now a west-to-east sweep Nifty > Providence > SACs > Goodwill, flipped when the stop before them is nearer the east end. Updated shops/, thrift-stores-fort-oglethorpe/ and the Fort O day-trip blog post.
@@ -366,7 +368,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v20.4-20261109">
+<meta name="ctt-build" content="v20.5-20261109">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 49 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2984,7 +2986,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v20.4 &mdash; November 9, 2026</p>
+      <p class="ctt-version">v20.5 &mdash; November 9, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -6486,7 +6488,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       list.push({ heading: 'Explore' });
       var shopsEl = document.getElementById('ctt-shops-open');
       if (shopsEl) list.push({ label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
-      addLink('ctt-cal-open'); addLink('ctt-blog-open'); addLink('ctt-arcade-open');
+      addLink('ctt-cal-open'); addLink('ctt-blog-open');
       list.push({ heading: 'Use the Trail' });
       list.push({ label: '📲 Get the Web App', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '🖨️ Trail Poster', el: poster, scroll: false });
