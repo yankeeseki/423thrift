@@ -61,6 +61,8 @@ STILL TO DO / IDEAS
 - DONE in v20.3: NEW SHOP CREATIVE REUSE: 'Creative ReSupply' (The Chattery's secondhand art supply shop, 1800 Rossville Ave, Southside; from Melissa Hawkins' manager form; badge 'Art Supply Shop' via store.badge; category Curated Shop but NOT a thrift shop; in bonusDefaults only, never on the Lookout/Scenic loops; pin coordinates are APPROXIMATE (35.0306,-85.2995), verify). OWNER RULE: it always sits at the BOTTOM of every list (store.last: More Shops order, Shops & Charities popup sort, last stop in any route, last on static /shops/ and Southside pages). Owner will follow up on the featured-shop and discount-card interest. Shop counts 48 -> 49.
 - DONE in v20.3: BLOG POST 'The Lookout Loop: A Moderator-Curated Thrift Route Through Chattanooga' (blog/lookout-loop-moderator-curated-thrift-route-chattanooga/, cat Guide, dated Fri Nov 13 2026 so it is hidden until then; includes the owner's map screenshot lookout-loop-map.png with OpenStreetMap credit). Added to blog/index.html (card + dates array); sitemap-blog.xml entry to add at build.
 - DONE in v20.3: shorter MAP name tags (SHORT_NAMES; route cards keep full names): Crazy Daisy, Green Gardinia, Parker's Picks, St. Timothy's, Clothes House, Bachman Barn, NNH.
+- DONE in v20.6 (owner, Nov 10 2026): route cards for shops opening later today show '⏰ Opens in 1h 57m' (under 1 hour: 'Opens in 45 min') right below the shop name (opensInHtml; amber #8a5f1a text, same as the 'closing soon' badge). Live view only, not in Later previews; updates every 30 s and disappears once the shop opens.
+- DONE in v20.6 (owner, Nov 9 2026): NO HAGGLING COPY anywhere on the site: never write copy about haggling, negotiating or asking for price reductions or discounts. Done in the working copy: the 'Art of the Haggle' post (blog/how-to-haggle-at-thrift-and-antique-stores, was dated Jul 17 2028) is pulled from the blog index, dates array, sitemap-blog.xml and every Keep Reading/DM list, and its page is now a noindex redirect to /blog/ (owner may delete the folder in GitHub instead); vendor-cost post 'room on the price' line rewritten; yard-sale post 'negotiate politely' removed; teacher post 'mention you are a teacher, some shops offer discounts' tip replaced. The Jul 17 2028 1st/3rd-Monday slot is now empty.
 - DONE in v20.5 (Nov 9 2026): Arcade removed from the hamburger menu (home: addLink list; sub-pages: menu.js). The Arcade footer link and /arcade/ pages stay.
 - DONE in v20.5: BLOG BACKDATING (owner: make the live posts look spread out, not all posted at once). New publish dates: how-the-chattanooga-thrift-trail-works Sep 14; be-kind-with-your-reviews Sep 28; why-not-just-use-google-maps Oct 6; vinterest-southside-closing Oct 19; thrift-vintage-antique-three-kinds Oct 26; what-it-costs-to-be-a-vendor Nov 4; add-your-own-stop Nov 7 (not earlier: the feature launched Nov 7); whats-new-november-2026 stays Nov 9; Lookout Loop stays Fri Nov 13. Changed in each post, the blog index (cards re-sorted newest first, dates array), every post's DM list and Keep Reading data-dates, and sitemap-blog.xml.
 - DONE in v20.4 (Nov 9 2026): BIG BUTTON FIRST-SHOP FIX (owner bug: the first tap only got location and the button already pointed at shop 2, so there was no way to hold for directions to shop 1). New state 'Head to <shop 1>' (preStart(), arrivedFirst saved per day in localStorage 'ctt-arrived'): hold/Directions = shop 1; tap = 'I'm here' (ticks nothing, undo-able, toast 'At X'); then the old 'Continue to <shop 2>' flow. Returning visitors (location already allowed) see Head to on page load. First-time visitors still get the permission prompt on their first tap, but that tap only plans the route and never skips a shop (no location prompt on page load). Start Over clears arrivedFirst. Owner dropped the idea of choosing the loop direction (ignore it).
@@ -368,7 +370,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v20.5-20261109">
+<meta name="ctt-build" content="v20.6-20261110">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 49 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2344,6 +2346,7 @@ LINGERING IDEAS
   .ctt-open-badge.open { background: #dcedd8; color: #2e7d32; }
   .ctt-open-badge.soon { background: #f5e2bc; color: #8a5f1a; }
   .ctt-open-badge.closed { background: #f5dcd8; color: #b3261e; }
+  .ctt-opens-in { font-size: 12.5px; font-weight: 700; color: #8a5f1a; margin: 2px 0 4px; }
 
   #ctt-map { height: 100%; width: 100%; border-radius: 4px; border: 1px solid var(--line); filter: sepia(8%) saturate(85%); }
   .ctt-seo { margin: 28px 0 6px; padding-top: 22px; border-top: 1.5px dashed var(--line); font-family: 'Libre Franklin', sans-serif; font-size: 12px; line-height: 1.5; color: #6f6450; }
@@ -2986,7 +2989,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v20.5 &mdash; November 9, 2026</p>
+      <p class="ctt-version">v20.6 &mdash; November 10, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3602,6 +3605,33 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     }
     return { state: 'closed', text: 'Closed' };
   }
+
+  // v20.6: route cards for shops that open later today show a live 'Opens in 1h 57m' line under the title.
+  // Live view only (hidden while previewing another day with Later); ticks every 30 seconds.
+  function opensAtToday(hoursStr) {
+    if (displayContext) return null;
+    var now = getEasternNow(), t = parseHoursString(hoursStr)[now.dayIdx];
+    return t && now.decHour < t[0] ? t[0] : null;
+  }
+  function opensInText(at) {
+    var mins = Math.ceil((at - getEasternNow().decHour) * 60);
+    if (mins <= 0) return '';
+    var h = Math.floor(mins / 60), m = mins % 60;
+    return '\u23F0 Opens in ' + (h ? h + 'h ' + m + 'm' : m + ' min');
+  }
+  function opensInHtml(store) {
+    if (!store || !store.hours || store.isErrand) return '';
+    var at = opensAtToday(store.hours); if (at === null) return '';
+    var txt = opensInText(at); if (!txt) return '';
+    return '<div class="ctt-opens-in" data-opens-at="' + at + '">' + txt + '</div>';
+  }
+  setInterval(function() {
+    var els = document.querySelectorAll('.ctt-opens-in[data-opens-at]');
+    for (var i = 0; i < els.length; i++) {
+      var txt = displayContext ? '' : opensInText(parseFloat(els[i].getAttribute('data-opens-at')));
+      if (txt) els[i].textContent = txt; else els[i].remove();
+    }
+  }, 30000);
 
   function haversineMiles(lat1, lon1, lat2, lon2) {
     var R = 3958.8;
@@ -4356,6 +4386,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           dn(store.name) +
         '</div>' + visitedHtml +
       '</div>' +
+      (onRoute ? opensInHtml(store) : '') +
       reasonHtml +
       '<div class="ctt-tag-addr"><a href="' + mapsLink(store.address) + '" target="_blank" rel="noopener">' + store.address + '</a><a class="ctt-directions-link" href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions &rarr;</a></div>' +
       '<div class="ctt-tag-note">' + store.note + (store.myNote ? '<br><em>' + store.myNote + '</em>' : '') + '</div>' +
