@@ -61,6 +61,13 @@ STILL TO DO / IDEAS
 - DONE in v20.3: NEW SHOP CREATIVE REUSE: 'Creative ReSupply' (The Chattery's secondhand art supply shop, 1800 Rossville Ave, Southside; from Melissa Hawkins' manager form; badge 'Art Supply Shop' via store.badge; category Curated Shop but NOT a thrift shop; in bonusDefaults only, never on the Lookout/Scenic loops; pin coordinates are APPROXIMATE (35.0306,-85.2995), verify). OWNER RULE: it always sits at the BOTTOM of every list (store.last: More Shops order, Shops & Charities popup sort, last stop in any route, last on static /shops/ and Southside pages). Owner will follow up on the featured-shop and discount-card interest. Shop counts 48 -> 49.
 - DONE in v20.3: BLOG POST 'The Lookout Loop: A Moderator-Curated Thrift Route Through Chattanooga' (blog/lookout-loop-moderator-curated-thrift-route-chattanooga/, cat Guide, dated Fri Nov 13 2026 so it is hidden until then; includes the owner's map screenshot lookout-loop-map.png with OpenStreetMap credit). Added to blog/index.html (card + dates array); sitemap-blog.xml entry to add at build.
 - DONE in v20.3: shorter MAP name tags (SHORT_NAMES; route cards keep full names): Crazy Daisy, Green Gardinia, Parker's Picks, St. Timothy's, Clothes House, Bachman Barn, NNH.
+- DONE in v20.4 (Nov 9 2026): BIG BUTTON FIRST-SHOP FIX (owner bug: the first tap only got location and the button already pointed at shop 2, so there was no way to hold for directions to shop 1). New state 'Head to <shop 1>' (preStart(), arrivedFirst saved per day in localStorage 'ctt-arrived'): hold/Directions = shop 1; tap = 'I'm here' (ticks nothing, undo-able, toast 'At X'); then the old 'Continue to <shop 2>' flow. Returning visitors (location already allowed) see Head to on page load. First-time visitors still get the permission prompt on their first tap, but that tap only plans the route and never skips a shop (no location prompt on page load). Start Over clears arrivedFirst. Owner dropped the idea of choosing the loop direction (ignore it).
+- DONE in v20.4: MORE SHOPS ORDER (owner): open now (or closing soon) first, then everything else; each group closest first from the visitor's location (under an hour old), else the current/next shop, else downtown (moreShopsOrigin). Creative ReSupply is no longer pinned to the very bottom of More Shops: it always sits in the second group, sorted by distance (store.last still applies to routes and the Shops & Charities popup sort).
+- DONE in v20.4: GOODWILL (FORT O) MOVED: the old 516 Battlefield Pkwy store is closed per the owner; the Trail now uses the newer store at 1873 Battlefield Pkwy (Battlefield Centre, next to Planet Fitness, opened Nov 6 2025). Pin coordinates are APPROXIMATE (34.9502,-85.2338, from nearby Battlefield Centre addresses), verify. Hours kept Mon-Sat 9-8, Sun 10-8 (Goodwill standard), verify. New card note; coffee picks now Scooter's 1935 Battlefield first. FTO_PREFERRED_ORDER is now a west-to-east sweep Nifty > Providence > SACs > Goodwill, flipped when the stop before them is nearer the east end. Updated shops/, thrift-stores-fort-oglethorpe/ and the Fort O day-trip blog post.
+- DONE in v20.4: Providence Thrift (Fort O): No card minimum (plus its punch card) on the Trail, shops/ and the Fort O page.
+- DONE in v20.4: Goodwill (East Brainerd) was already on both loops with the right hours (Mon-Sat 9-8, Sun 10-8); no change needed.
+- DONE in v20.4: two bonus blog posts, live Nov 9 2026 (cat Guide): thrift-vintage-antique-three-kinds-of-shops and what-it-costs-to-be-a-vendor-vintage-antique-shops (ends on "we're all thrift and vintage enthusiasts"); both linked from how-to section 3 (Filter), the blog index and sitemap-blog.xml. How-to quick start, the guide post and the one-button post updated for 'Head to'.
+- STILL WAITING (owner): SideQuest (clothing-only Vintage shop) needs its address/Maps link and hours.
 - DONE in v19.9 (Nov 8 2026): COFFEE STOP is a real route stop (own-stop style, coffee-brown card, not counted as a thrift stop, in miles/time). The PENDING v19.9 lines below were built.
 - PENDING (v19.9): the coffee stop is NOT counted as a thrift stop (no number, not in 'N shops' / 'to go' counts, shop numbers skip it) but IS in miles, route line and timing.
 - PENDING (next build, v19.9, Nov 8 2026): COFFEE STOP IS NOW A REAL ROUTE STOP: 'Add to Route' makes it a numbered own-stop (errand with coffee:1, cup icon, coffee-brown card, 'Coffee Stop' badge, hours line) placed right before the next shop; it is in the route line, can be moved up/down, Make This Next, Visited, removed (-). One coffee stop at a time. The old separate ctt-cf-row is gone.
@@ -359,7 +366,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v20.3-20261109">
+<meta name="ctt-build" content="v20.4-20261109">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 49 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -499,7 +506,7 @@ LINGERING IDEAS
      "name": "Goodwill (Fort Oglethorpe)",
      "address": {
       "@type": "PostalAddress",
-      "streetAddress": "516 Battlefield Pkwy",
+      "streetAddress": "1873 Battlefield Pkwy",
       "addressLocality": "Fort Oglethorpe",
       "addressRegion": "GA",
       "postalCode": "30742",
@@ -507,8 +514,8 @@ LINGERING IDEAS
      },
      "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 34.953313,
-      "longitude": -85.257687
+      "latitude": 34.950200,
+      "longitude": -85.233800
      }
     }
    },
@@ -2977,7 +2984,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v20.3 &mdash; November 9, 2026</p>
+      <p class="ctt-version">v20.4 &mdash; November 9, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3002,7 +3009,7 @@ LINGERING IDEAS
     { name: "Providence Thrift (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.955506, lng: -85.257814, address: "491 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun Closed", myRating: 4, note: "Big selection including furniture and mattresses, though some reviewers find pricing inconsistent for a thrift shop.", myNote: "", url: "https://www.providencethriftstore.com/" },
     { name: "Nifty Thrifty", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.9492325, lng: -85.2586457, address: "2749 Lafayette Rd, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Fri 11-6 &middot; Sat/Sun Closed", myRating: 3, note: "Consistently five-star reviews for unbeatable prices and an owner reviewers describe as exceptionally kind.", myNote: "", url: "https://www.facebook.com/p/Nifty-Thrifty-61553743095267/" },
     { name: "SACs Thrift Avenue", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.952501, lng: -85.247213, address: "1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon Closed &middot; Tue-Sat 10-5 &middot; Sun Closed", myRating: 3, note: "Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.", myNote: "", url: "https://www.savacenterga.org/sacs-thrift-avenue" },
-    { name: "Goodwill (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.953313, lng: -85.257687, address: "516 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Reviewers are split on this location, with several feeling prices run high for a thrift shop.", myNote: "", url: "https://goodwillchatt.org" },
+    { name: "Goodwill (Fort Oglethorpe)", area: "Fort Oglethorpe", category: "Thrift Store", lat: 34.950200, lng: -85.233800, address: "1873 Battlefield Pkwy, Fort Oglethorpe, GA 30742", hours: "Mon-Sat 9-8 &middot; Sun 10-8", myRating: 4, note: "Goodwill's newer Fort O store, in the Battlefield Centre shopping center next to Planet Fitness, with a drive-up donation center.", myNote: "", url: "https://goodwillchatt.org" },
     { name: "Chambliss Thrift (Brainerd)", area: "Brainerd", category: "Thrift Store", lat: 35.023061, lng: -85.242554, address: "3723 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Sat 10-6 &middot; Sun 1-6", myRating: 4, note: "Rotating inventory with a good plus-size and kids selection, though reviews are mixed on furniture and electronics.", myNote: "", url: "https://chamblisscenter.org" },
     { name: "America's Thrift (Brainerd)", area: "Brainerd", category: "Thrift Store", lat: 35.0114178, lng: -85.2106934, address: "5844 Brainerd Rd, Chattanooga, TN 37411", hours: "Mon-Thu 8-9 &middot; Fri-Sat 8-10 &middot; Sun 10-8", myRating: 4, note: "Clean and well organized, but a common theme in reviews is that prices run higher than expected for a thrift shop.", myNote: "", url: "https://americasthrift.com" },
     { name: "Hunts Thrift", area: "East Brainerd", category: "Thrift Store", lat: 35.0174675, lng: -85.1824304, address: "1301 Hickory Valley Rd, Chattanooga, TN 37421", hours: "Mon-Sat 10-7 &middot; Sun 10-6", myRating: 4, note: "Reviews are notably mixed — some love the selection and staff, while many others feel prices are too high for donated goods.", myNote: "", url: "https://huntsthrift.com" },
@@ -3077,7 +3084,7 @@ LINGERING IDEAS
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
-  var SHOP_DETAILS = {"Creative ReSupply": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "r": "No", "m": "$5", "f": 1}, "Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No", "rw": "Punch card"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "rw": "Punch card"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"w": 1, "p": "Cash, checks, Venmo", "x": "$$", "r": "Yes", "s": "Various sales Wed-Sat"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "rw": "Punch card"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun 50-90% off &middot; Mon 50% off select items &middot; Tue-Thu 75% off select items &middot; Wed also 10% off for seniors and veterans &middot; Sat 90% off items"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
+  var SHOP_DETAILS = {"Creative ReSupply": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "r": "No", "m": "$5", "f": 1}, "Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No", "rw": "Punch card"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "rw": "Punch card"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"w": 1, "p": "Cash, checks, Venmo", "x": "$$", "r": "Yes", "s": "Various sales Wed-Sat"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "rw": "Punch card"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun 50-90% off &middot; Mon 50% off select items &middot; Tue-Thu 75% off select items &middot; Wed also 10% off for seniors and veterans &middot; Sat 90% off items"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
     var b = [];
@@ -4443,14 +4450,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
 
   // When starting from the Tennessee side, these four Fort Oglethorpe
-  // shops default to this specific order (Nifty -> SACs -> Goodwill ->
-  // Providence) rather than pure nearest-neighbor, since that's the
+  // shops default to this specific order (Nifty -> Providence -> SACs ->
+  // Goodwill, or the reverse) rather than pure nearest-neighbor, since that's the
   // sequence that tends to work best coming in from that direction. When
   // starting from the Georgia side, nearest-neighbor is left alone. This
   // only ever reorders the four shops relative to each other - it doesn't
   // touch where they sit relative to everything else in the route. A
   // manual drag/reorder always overrides this default.
-  var FTO_PREFERRED_ORDER = ['Nifty Thrifty', 'SACs Thrift Avenue', 'Goodwill (Fort Oglethorpe)', 'Providence Thrift (Fort Oglethorpe)'];
+  // v20.4: Goodwill moved to 1873 Battlefield Pkwy (east end, near I-75), so the order is now a clean
+  // west-to-east sweep along Battlefield Pkwy, flipped east-to-west when the stop before them is nearer the east end.
+  var FTO_PREFERRED_ORDER = ['Nifty Thrifty', 'Providence Thrift (Fort Oglethorpe)', 'SACs Thrift Avenue', 'Goodwill (Fort Oglethorpe)'];
   function applyFtOPreference(route, startLat) {
     var isTNSide = startLat === null || startLat === undefined || startLat >= 35.00;
     if (!isTNSide) return route;
@@ -4465,6 +4474,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var toInsert = presentInOrder.map(function(name) {
       return route.filter(function(s) { return s.name === name; })[0];
     });
+    var prev = insertAt > 0 ? rest[insertAt - 1] : null;
+    if (prev && toInsert.length > 1) {
+      var a = toInsert[0], z = toInsert[toInsert.length - 1];
+      var dA = Math.pow(prev.lat - a.lat, 2) + Math.pow(prev.lng - a.lng, 2), dZ = Math.pow(prev.lat - z.lat, 2) + Math.pow(prev.lng - z.lng, 2);
+      if (dZ < dA) toInsert.reverse();
+    }
     rest.splice.apply(rest, [insertAt, 0].concat(toInsert));
     return rest;
   }
@@ -4666,17 +4681,25 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
   }
 
-  // More Shops order: shops that are open right now (or closing soon) first, then closed ones. Each group keeps its existing order.
+  // More Shops order (v20.4, owner): two groups, open now (or closing soon) first, then everything else.
+  // Each group is sorted closest first: from your last known location (under an hour old), else your current/next shop,
+  // else downtown. Shops marked last (Creative ReSupply) always go in the second group, sorted by distance like the rest.
+  function moreShopsOrigin() {
+    if (lastUserPos && Date.now() - lastUserPos.t < 3600000) return lastUserPos;
+    var n = typeof nextStop === 'function' ? nextStop() : null;
+    if (n) return n;
+    return { lat: 35.0456, lng: -85.3097 };
+  }
   function sortOffRouteByOpen() {
-    var cards = Array.prototype.slice.call(offRouteListEl.children), open = [], closed = [];
+    var cards = Array.prototype.slice.call(offRouteListEl.children), open = [], rest = [], o = moreShopsOrigin();
     cards.forEach(function(c) {
       var st = locationsByName[c.getAttribute('data-shop')], os = st && st.hours ? getOpenStatus(st.hours) : null;
-      (os && (os.state === 'open' || os.state === 'soon') ? open : closed).push(c);
+      c._cttMi = st ? haversineMiles(o.lat, o.lng, st.lat, st.lng) : 9999;
+      (os && (os.state === 'open' || os.state === 'soon') && !(st && st.last) ? open : rest).push(c);
     });
-    // Shops marked last (Creative ReSupply) always sit at the very bottom, after the closed ones.
-    function isLast(c) { var st = locationsByName[c.getAttribute('data-shop')]; return !!(st && st.last); }
-    var tail = open.concat(closed).filter(isLast);
-    open.concat(closed).filter(function(c) { return !isLast(c); }).concat(tail).forEach(function(c) { offRouteListEl.appendChild(c); });
+    function near(a, b) { return a._cttMi - b._cttMi; }
+    open.sort(near); rest.sort(near);
+    open.concat(rest).forEach(function(c) { offRouteListEl.appendChild(c); });
   }
 
   // The stop (never the first, never one the visitor added by hand) with the longest wait over 12 minutes for its shop to open, or null.
@@ -5322,8 +5345,22 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     applyUrgencyClass(result.urgency);
   }
   var hasClickedLocateBefore = false;
+  // v20.4 FIRST-SHOP FIX: before you reach the first shop, the big button names that shop ("Head to X"),
+  // hold = directions to it, tap = "I'm here" (ticks nothing). Only after that does it move on to "Continue to <shop 2>".
+  // The tap that asks for location only plans the route; it never skips a shop. Saved per day in 'ctt-arrived'.
+  var arrivedFirst = false;
+  try { var arv = JSON.parse(localStorage.getItem('ctt-arrived') || 'null'); if (arv && arv.d === new Date().toDateString()) arrivedFirst = arv.n || false; } catch (e) {}
+  function saveArrived() { try { if (arrivedFirst) localStorage.setItem('ctt-arrived', JSON.stringify({ d: new Date().toDateString(), n: arrivedFirst })); else localStorage.removeItem('ctt-arrived'); } catch (e) {} }
+  function firstUnvisited() { for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) return activeRoute[i]; } return null; }
+  function preStart() {
+    if (!hasClickedLocateBefore) return false;
+    if (Object.keys(visitedStores).some(function(n) { return visitedStores[n]; })) return false;
+    var f = firstUnvisited(); if (!f) return false;
+    return arrivedFirst !== f.name; // arriving counts only for the shop you were at; a re-plan to a different first shop asks again
+  }
+  var NEXT_LABEL_RE = /Head to|Continue to|Last stop done/;
   function setCtaBtnText(line1, line2) {
-    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (/Continue to|Last stop done/.test(String(line1)) ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
+    ctaBtn.innerHTML = '<span class="ctt-cta-btn-line1' + (NEXT_LABEL_RE.test(String(line1)) ? ' is-next' : '') + '">' + line1 + '</span><span class="ctt-cta-btn-sub"><span class="ctt-cta-btn-line2" id="ctt-cta-btn-line2">' + line2 + '</span><span class="ctt-cta-btn-line3" id="ctt-cta-updated" aria-live="polite">' + updatedText + '</span></span>';
     setStopLine();
     updateCtaPrompt();
   }
@@ -5333,8 +5370,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var ns = [];
     for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
     if (!ns.length) return null;
+    if (preStart()) return 'Your first shop. Hold for directions, tap when you get there.';
     var any = Object.keys(visitedStores).some(function(n) { return visitedStores[n]; });
-    return (any ? 'Current stop: ' : 'First stop: ') + dn(ns[0].name);
+    return (any || arrivedFirst ? 'Current stop: ' : 'First stop: ') + dn(ns[0].name);
   }
   function setStopLine() {
     var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1'), l2 = document.getElementById('ctt-cta-btn-line2');
@@ -5346,6 +5384,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     for (var i = 0; i < activeRoute.length; i++) { if (!visitedStores[activeRoute[i].name]) ns.push(activeRoute[i]); }
     if (!ns.length) return '&#128717; Next shop';
     function esc2(n) { return dn(n).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    if (preStart()) return '&#128663; Head to ' + esc2(ns[0].name);
     // One button: tapping it ticks the current shop Visited and the label moves on to the shop after it.
     return ns[1] ? '&#128663; Continue to ' + esc2(ns[1].name) : '&#127937; Last stop done';
   }
@@ -5470,7 +5509,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // Hand-picked by the moderators. COFFEE_PICKS lists the favorites near each shop; the panel also
   // weighs how far each place is off the way between where you are and the next shop.
   var COFFEE = {"0":{"n":"Mean Mug Coffeehouse Southside","a":"114 W Main St, Chattanooga, TN 37408","la":35.03659,"lo":-85.30886,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"1":{"n":"The Livingstone","a":"420 S Willow St, Chattanooga, TN 37404","la":35.03327,"lo":-85.27246,"h":[null,[7.5,15.5],[7.5,15.5],[7.5,15.5],[7.5,18.5],[7.5,15.5],[7.5,15.5]]},"2":{"n":"Oaks Coffee House","a":"2916 Silverdale Rd, Chattanooga, TN 37421","la":35.06182,"lo":-85.13766,"h":[null,[7.0,19.0],[7.0,19.0],[7.0,19.0],[7.0,19.0],[7.0,19.0],[8.0,19.0]]},"3":{"n":"330 Main","a":"330 E Main St, Chattanooga, TN 37408","la":35.03435,"lo":-85.30292,"h":[[9.0,19.0],null,null,[9.0,18.0],[9.0,18.0],[9.0,23.0],[9.0,21.0]]},"4":{"n":"Sleepyhead Coffee","a":"735 Broad St Ste 104, Chattanooga, TN 37402","la":35.04729,"lo":-85.31082,"h":[[8.0,16.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[8.0,16.0]]},"5":{"n":"Milk & Honey","a":"135 N Market St, Chattanooga, TN 37405","la":35.06409,"lo":-85.30923,"h":[[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0]]},"6":{"n":"Mean Mug Coffeehouse Northshore","a":"205 Manufacturers Rd Ste 109, Chattanooga, TN 37405","la":35.0631,"lo":-85.31291,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"7":{"n":"Stone Cup Cafe","a":"208 Frazier Ave, Chattanooga, TN 37405","la":35.06216,"lo":-85.30635,"h":[[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0],[7.0,18.0]]},"8":{"n":"Sleepyhead Coffee","a":"2602 E Main St #110, Chattanooga, TN 37404","la":35.02199,"lo":-85.2693,"h":[[8.0,16.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[7.0,17.0],[8.0,16.0]]},"9":{"n":"Reve Coffee and Books","a":"1948 Northpoint Blvd #144, Chattanooga, TN 37415","la":35.13722,"lo":-85.24202,"h":[[8.0,16.0],null,null,[8.0,16.0],[8.0,16.0],[8.0,16.0],[8.0,16.0]]},"10":{"n":"New Wave Coffee Roasters","a":"2405 Lyndon Ave #121, Red Bank, TN 37415","la":35.09577,"lo":-85.30545,"h":[null,[8.0,14.0],[8.0,14.0],[8.0,13.0],[8.0,14.0],[8.0,13.0],null]},"11":{"n":"Red Owl Coffee Company","a":"4241 Hixson Pike, Chattanooga, TN 37415","la":35.11639,"lo":-85.25153,"h":[[7.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0],[6.0,17.0]]},"12":{"n":"White Oak Mountain Coffee Bar & Roastery","a":"8206 Apison Pike, Ooltewah, TN 37363","la":35.06896,"lo":-85.09962,"h":[[7.0,16.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[6.0,19.0],[7.0,16.0]]},"13":{"n":"Shredders Lair","a":"3230 Brainerd Rd, Chattanooga, TN 37411","la":35.02695,"lo":-85.25394,"h":[[8.0,0.0],[8.0,15.0],[8.0,15.0],[8.0,0.0],[8.0,0.0],[8.0,1.0],[8.0,1.0]]},"14":{"n":"Grindhead Coffee Chattanooga","a":"7955 E Brainerd Rd Ste 105, Chattanooga, TN 37421","la":35.00597,"lo":-85.15194,"h":[[8.0,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[7.5,15.0],[8.0,15.0]]},"15":{"n":"7 Brew Coffee","a":"5771 Brainerd Rd, Chattanooga, TN 37411","la":35.01326,"lo":-85.21257,"h":[[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,22.0],[5.5,23.0],[5.5,23.0]]},"16":{"n":"Red Owl Coffee Company","a":"7737 E Brainerd Rd, Chattanooga, TN 37421","la":35.01149,"lo":-85.15569,"h":[[7.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0],[6.0,18.0]]},"17":{"n":"Scooter's Coffee","a":"5970 Brainerd Rd, Chattanooga, TN 37421","la":35.01673,"lo":-85.20659,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"18":{"n":"Together Cafe","a":"801 S Orchard Knob Ave, Chattanooga, TN 37404","la":35.03169,"lo":-85.27712,"h":[null,[7.0,16.5],[7.0,16.5],[7.0,16.5],[7.0,16.5],[7.0,16.5],[8.0,14.0]]},"19":{"n":"The Human Bean","a":"735 Battlefield Pkwy, Fort Oglethorpe, GA 30742","la":34.95459,"lo":-85.25303,"h":[[7.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[5.0,19.0],[6.0,19.0]]},"20":{"n":"Scooter's Coffee","a":"1935 Battlefield Pkwy, Fort Oglethorpe, GA 30742","la":34.94797,"lo":-85.23297,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"21":{"n":"Mean Mug Coffeehouse Hamilton Place","a":"2090 Hamilton Pl Blvd #106, Chattanooga, TN 37421","la":35.03294,"lo":-85.16038,"h":[[7.0,16.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[6.0,15.0],[7.0,16.0]]},"22":{"n":"Fifth Matcha and Coffee","a":"4423 tn-58 FIFTH trailer, Chattanooga, TN 37416","la":35.08484,"lo":-85.20145,"h":[null,[7.5,12.0],null,[7.5,0.0],null,null,null]},"23":{"n":"Scooter's Coffee","a":"4631 TN-58, Chattanooga, TN 37416","la":35.08662,"lo":-85.19232,"h":[[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0],[5.5,21.0]]},"24":{"n":"Mad Priest Coffee Roasters","a":"1200 McCallie Ave, Chattanooga, TN 37404","la":35.03909,"lo":-85.28404,"h":[[7,18],[7,18],[7,18],[7,18],[7,18],[7,18],[7,18]]},"26":{"n":"Velo Coffee Roasters","a":"509 E Main St #3, Chattanooga, TN 37408","la":35.03412,"lo":-85.30119,"h":[[8,17],[8,17],[8,17],[8,17],[8,17],[8,17],[8,17]]},"27":{"n":"Goodman Coffee Roasters - Warehouse Row","a":"1110 Market St, Chattanooga, TN 37408","la":35.04308,"lo":-85.30915,"h":[null,[7.5,18],[7.5,18],[7.5,18],[7.5,18],[7.5,18],[8,18]]},"28":{"n":"Starbucks North Shore","a":"20 Cherokee Blvd, Chattanooga, TN 37405","la":35.06319,"lo":-85.31001,"h":[[6,18],[6,18],[6,18],[6,18],[6,18],[6,18],[6,18]]},"29":{"n":"Starbucks","a":"1201 Broad St, Chattanooga, TN 37402","la":35.04076,"lo":-85.30961,"h":[[6,14],[5.5,16],[5.5,16],[5.5,16],[5.5,16],[5.5,16],[5.5,16]]},"30":{"n":"Starbucks","a":"5610 Brainerd Rd, Chattanooga, TN 37411","la":35.01107,"lo":-85.21494,"h":[[5,21],[5,21],[5,21],[5,21],[5,21],[5,21],[5,21]]},"31":{"n":"Starbucks","a":"5513 TN-153, Hixson, TN 37343","la":35.14359,"lo":-85.24958,"h":[[5,21],[5,21],[5,21],[5,21],[5,21],[5,21],[5,21]]},"32":{"n":"Starbucks","a":"5579 TN-153, Hixson, TN 37343","la":35.14815,"lo":-85.25038,"h":[[8,20],[8,20],[8,20],[8,20],[8,20],[8,20],[8,20]]},"33":{"n":"Starbucks","a":"5238 TN-153, Chattanooga, TN 37343","la":35.12492,"lo":-85.24012,"h":[[5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[5,22]]},"34":{"n":"Starbucks (Food City)","a":"3901 Dayton Blvd, Red Bank, TN 37415","la":35.11971,"lo":-85.29147,"h":[[7,20],[7,20],[7,20],[7,20],[7,20],[7,20],[7,20]],"k":"inside Food City"},"35":{"n":"Starbucks","a":"8021 E Brainerd Rd, Chattanooga, TN 37421","la":35.00497,"lo":-85.15117,"h":[[5,19.5],[5,20],[5,20],[5,20],[5,20],[5,20],[5,19.5]]},"36":{"n":"Starbucks (Food City)","a":"3636 Ringgold Rd, East Ridge, TN 37412","la":35.00151,"lo":-85.25954,"h":[[7,21],[7,21],[7,21],[7,21],[7,21],[7,21],[7,21]],"k":"inside Food City"},"37":{"n":"Starbucks","a":"635 Camp Jordan Pkwy, East Ridge, TN 37412","la":34.99154,"lo":-85.20148,"h":[[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22],[4.5,22]]}};
-  var COFFEE_PICKS = {"America's Thrift (Brainerd)":[15,30,17],"Pop's & Granny's Thrift Store":[25,13,1],"Chambliss Thrift (Brainerd)":[25,13],"Poor Taste":[0,27,26],"Goodwill (East Brainerd)":[14,16,35],"Hunts Thrift":[16,17],"Chattanooga Room in the Inn Thrift Store":[36],"East Ridge Antique District":[37],"Goodwill (East Ridge)":[36],"Mercantile at the Ridge":[37],"Goodwill (Fort Oglethorpe)":[19],"Nifty Thrifty":[19],"Providence Thrift (Fort Oglethorpe)":[19],"SACs Thrift Avenue":[19,20],"Archive Thrift":[21,17],"Providence Thrift (Lee Hwy)":[21],"Savers":[21],"Habitat For Humanity":[24,26],"America's Thrift (Northgate)":[9],"Bethel Thrift":[9,31,33],"Crafter's Emporium & Book Exchange":[11],"Goodwill (Hixson)":[9,31,33],"Vinterest (Hixson)":[9,33,31],"Edith's Emporium":[24,8,18],"THE REFINDERY on McCallie":[24,18,1],"Humane Ed. Soc. Thrift":[22,23],"Collective Clothing":[6,7,5],"Electric Crocodile (N. Shore)":[6,5,7],"Local Dive Retail":[6,5,28],"NNH Thrift (N. Shore)":[6,5,28],"Samaritan Center":[2,12],"Dirty Jane's Antiques":[10],"NNH Thrift (Red Bank)":[34],"Chambliss Thrift (Red Bank)":[10],"Vintage & More On The Blvd":[34],"Friends & Family Thrift":[34,31],"Ladies of Charity Thrift":[26,3],"Bachman Bargain Barn":[34,32],"St. Timothy's Thrift Shop":[34,10],"The Clothes House on Signal Mountain":[34,10],"Electric Crocodile (Southside)":[26,0,4],"Lookout Thrift":[26,0,29],"Vinterest (Southside)":[0,27,26],"Goodwill (Hwy 58)":[23]};
+  var COFFEE_PICKS = {"America's Thrift (Brainerd)":[15,30,17],"Pop's & Granny's Thrift Store":[25,13,1],"Chambliss Thrift (Brainerd)":[25,13],"Poor Taste":[0,27,26],"Goodwill (East Brainerd)":[14,16,35],"Hunts Thrift":[16,17],"Chattanooga Room in the Inn Thrift Store":[36],"East Ridge Antique District":[37],"Goodwill (East Ridge)":[36],"Mercantile at the Ridge":[37],"Goodwill (Fort Oglethorpe)":[20,19],"Nifty Thrifty":[19],"Providence Thrift (Fort Oglethorpe)":[19],"SACs Thrift Avenue":[19,20],"Archive Thrift":[21,17],"Providence Thrift (Lee Hwy)":[21],"Savers":[21],"Habitat For Humanity":[24,26],"America's Thrift (Northgate)":[9],"Bethel Thrift":[9,31,33],"Crafter's Emporium & Book Exchange":[11],"Goodwill (Hixson)":[9,31,33],"Vinterest (Hixson)":[9,33,31],"Edith's Emporium":[24,8,18],"THE REFINDERY on McCallie":[24,18,1],"Humane Ed. Soc. Thrift":[22,23],"Collective Clothing":[6,7,5],"Electric Crocodile (N. Shore)":[6,5,7],"Local Dive Retail":[6,5,28],"NNH Thrift (N. Shore)":[6,5,28],"Samaritan Center":[2,12],"Dirty Jane's Antiques":[10],"NNH Thrift (Red Bank)":[34],"Chambliss Thrift (Red Bank)":[10],"Vintage & More On The Blvd":[34],"Friends & Family Thrift":[34,31],"Ladies of Charity Thrift":[26,3],"Bachman Bargain Barn":[34,32],"St. Timothy's Thrift Shop":[34,10],"The Clothes House on Signal Mountain":[34,10],"Electric Crocodile (Southside)":[26,0,4],"Lookout Thrift":[26,0,29],"Vinterest (Southside)":[0,27,26],"Goodwill (Hwy 58)":[23]};
   var coffeeStop = null, coffeePin = null;
   function cfEsc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
   function cfBrand(n) { var m = n.match(/Starbucks|Mean Mug|Goodman|Scooter|Sleepyhead|Red Owl|Mad Priest/); return m ? m[0] : n; }
@@ -5611,10 +5650,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     drop.querySelector('summary').innerHTML = '&#10003; Visited (' + body.children.length + ') <span aria-hidden="true">' + (drop.open ? '&#9652;' : '&#9662;') + '</span>';
     if (!body.children.length) drop.remove();
   }
-  function isNextLabel(t) { return /Continue to|Last stop done|Next shop/.test(t); }
+  function isNextLabel(t) { return /Head to|Continue to|Last stop done|Next shop/.test(t); }
   // Small row under the big button: Undo (double-tap) | Directions (hold) | Next (tap). Same actions as the gestures, for anyone who prefers a plain tap.
   function dirTarget() {
     var ns = activeRoute.filter(function(s) { return !visitedStores[s.name]; });
+    if (preStart()) return ns[0] || null;
     return ns[1] || ns[0] || null;
   }
   var hintPulsed = false; // the hint pulses for 3 seconds the first time it appears after the page opens
@@ -5635,7 +5675,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var l1 = ctaBtn && ctaBtn.querySelector('.ctt-cta-btn-line1');
     if (!l1 || !isNextLabel(l1.textContent)) return;
     var lab = nextBtnLabel();
-    l1.innerHTML = lab; l1.classList.toggle('is-next', /Continue to|Last stop done/.test(lab));
+    l1.innerHTML = lab; l1.classList.toggle('is-next', NEXT_LABEL_RE.test(lab));
     updateCtaPrompt(); setStopLine();
   }
   // Any re-plan (remove/add a shop, filter change, start over) keeps the big button's labels honest.
@@ -5697,7 +5737,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // Undo walks back one step at a time (up to 30), each press un-ticking the most recent shop.
   function undoOne() {
     var a = ctaStack.pop();
-    if (a) { var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox'); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } }
+    if (a && a.arrive) { arrivedFirst = false; saveArrived(); }
+    else if (a) { var c = cardByName(a.name), cb = c && c.querySelector('.ctt-visited-checkbox'); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } }
     lastCtaAction = ctaStack.length ? ctaStack[ctaStack.length - 1] : null;
     return !!a;
   }
@@ -5743,6 +5784,14 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     // Double-tap: the first tap already moved on, so take that back AND the step before it = one step back from where you were.
     if (ctaStack.length && lastNextAt && now - lastNextAt < 650) { lastNextAt = 0; doUndo(2); showToast('Went back a step', false); return; }
     var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), nx = l1 && l1.classList.contains('is-next') ? nextStop() : null;
+    if (nx && preStart()) {
+      // First tap after the plan is made: you're at shop 1 now, so the button moves on to shop 2. Nothing is ticked yet.
+      arrivedFirst = nx.name; saveArrived();
+      cttTrack('cta_arrived_first');
+      setUndo({ arrive: true, name: nx.name }); lastNextAt = now; refreshCtaLabel();
+      showToast('At ' + dn(nx.name).replace(/\s*\([^)]*\)\s*$/, ''), true);
+      return;
+    }
     if (nx) {
       var c = cardByName(nx.name), cb = c && c.querySelector('.ctt-visited-checkbox');
       cttTrack('done_next_stop');
@@ -6552,6 +6601,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     manualOverrides = {};
     manualOrderNames = null;
     pinnedStartName = null;
+    arrivedFirst = false; saveArrived();
     try { localStorage.removeItem('ctt-progress'); } catch (e) {}
     cttTrack('start_over');
     recalibrate(0);
