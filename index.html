@@ -64,6 +64,9 @@ STILL TO DO / IDEAS
 - DONE in v20.7 (Nov 10 2026): (1) MAP LEGEND matches the real markers: Route = olive #4a5a3a circle with cream border, Bonus = faded (75%) gold #a3872f diamond, Featured = cream #eddcac star with gold #a3872f outline (SVG). (2) DISCLAIMER: the Google Analytics sentence is gone (index.html + menu.js); it now says 'Your location stays on your device. It is never sent, saved or shared.' NOTE: GA scripts still load on the pages; only the wording changed (owner's call). (3) THRIFT TRAIL RALLY (arcade/loop-run): gravity stronger (BG 110 to 150, rail-jump gravity 560 to 760), land-bounce-fly bug fixed (after landing a 0.7 s cooldown and the hill-speed history is cleared, so a landing can't re-launch a big-air jump), ALL time bonuses 25% smaller (BONK=.75 on checkpoints, Moon Pie, Sweet tea, plane flight, secret shortcut). Map landmark 'Be Caffeinated' renamed 'Coffee Shop' in the game data. (4) NEW BLOG POST 'Why Paying Cash Is Good for Everyone When You Thrift' (dated Oct 13 2026, Guide; blog index, dates array, sitemap-blog.xml, how-to FAQ link). No haggling/discount copy. (5) NEW BLOG POST 'A Good Way to Destroy Value: Tape, Stickers and Marker on Vintage Finds' (from a voice-call draft; dated Jul 17 2028 to fill the empty slot, so it stays hidden until then; change the date in the post, blog index card, dates array and sitemap-blog.xml to publish sooner). (6) SHOP DETAILS: both Chambliss shops show 'Sales: Sun college students, Mon seniors 65+, Tue military and first responders, 20% off with ID'; Friends & Family shows 'Sales: Half off daily, Mon furniture, Tue select clothing, Wed art, Thu media, Fri shoes, Sat glassware' (the red X on the Monday furniture line is unexplained, so all furniture is assumed half off (owner, Nov 10); Tuesday is SELECT clothing per the sign); Humane Ed. Soc. Thrift: Card minimum $5 and note 'Prices run a bit higher than typical thrift, closer to a curated shop' (main page, shops/, thrift-stores-brainerd-hamilton-place). Card minimum display now shows any dollar amount ('Card minimum: $5'). (7) BE CAFFEINATED removed from places.json (Add Your Own Stop suggestions; 3 rows) and from the Rally game. RULE: never list or suggest Be Caffeinated anywhere. (8) ROUTE RULE: on days the Humane shop is on the route it always comes BEFORE the Hwy 58 Goodwill (humaneBeforeGoodwill in recalibrate; not applied to a hand-dragged order, when the Goodwill is the starting shop, or once the Goodwill is ticked visited). (9) NAV BUTTONS ALWAYS VISIBLE: the row under the big button (Directions | Next | Undo) no longer hides when no stops are left; the hint line becomes 'That's every stop for today!' (all ticked) or a short no-stops message, Directions greys out. (10) START OVER COMPLETELY: menu item + footer button + in-page 'Are you sure?' (cttAsk, no browser pop-up); wipes localStorage, sessionStorage, IndexedDB, caches and service workers, reloads as a first visit and asks for location right away (sessionStorage flag ctt-fresh-start). The regular Start Over stays (lighter, today only) and now also uses the in-page confirm. (11) SHOP SEARCH BOX at the top of the shop list (#ctt-list-q): live word-start match on any word in a shop's name, case-insensitive, 16 px font, clear (x), searches the route list and More Shops (opens More Shops while a search is typed); Enter scrolls to the first match. (12) how-to: Search, Start Over Completely, stuck-Trail and cash-or-card entries; one-button blog post got a 'Want to start somewhere else?' section.
 - DONE in v20.8 (Nov 10 2026): GOODWILL (FORT O) PIN is now exact from the owner's Google Maps link (34.9495954, -85.2333329) in index.html, shops/ and thrift-stores-fort-oglethorpe/. Hours VERIFIED Nov 10 2026 from the Google listing (Mon-Sat 9-8, Sun 10-8, same as before; address 1873 Battlefield Pkwy confirmed). Analytics: owner wants NO public mention of Google Analytics (disclaimer already clean). SideQuest is dropped until the owner raises it again.
 - DONE in v20.8 (Nov 10 2026): CREATIVE RESUPPLY pin moved to 35.0321875,-85.3033125 (Google plus code 2MJW+VM; the old estimate was about 0.25 mi east) and address now '1800 Rossville Ave #108'; hours match Google. FRIENDS & FAMILY Tuesday is 'select clothing' per the sign photo.
+- DONE in v21.0 (Nov 11 2026): MOST VISITED chart at the bottom of shops/index.html (div#most-visited, NOT a <section>: the shops page filter script hides every <section>). COUNTING: cttCountVisit() in the Firebase module writes one doc per shop per day to the 'visits' collection (id = <shop-slug>__<YYYY-MM-DD Eastern>, only field = count; Firestore rule published by Mod Nov 11: create count==1, update count+1, no delete, read all). countTrailVisit() calls it when a shop is ticked visited (both checkbox handlers); restoring saved progress does not count; one count per shop per device per day (localStorage 'ctt-vc'). CHART RULES (owner): top 25 only for 6 months after the first recorded visit; NO numbers on bars until 25 shops have 100+ visits; FLAME = climbed 3+ places vs 7 days ago, 10+ visits that week, and in the top 10% of climbers; GOLD bar = Featured Shop of the day, read from the #featured-shops list on the same page (one list to edit; Dec 28 2026 swaps Vinterest Southside for Hixson), keeps its real rank, can also flame. Never colour-only: flame is a shape, gold has a star + 'Featured Shop' label. Public Dec 28 handoff sentence removed from the shops page (owner: not public). Monthly newsletter reminder is a scheduled task (1st of each month, 9:41 AM Eastern).
+- DONE in v20.9 (Nov 11 2026): FASTER AUTO-UPDATE (owner: 'make it refresh much sooner, every time it's opened'). (1) BUG FIXED: the update check matched the FIRST ctt-build text in the page, which is in these handoff notes ('content=...'), so every open page thought a new version was waiting and reloaded itself for nothing, then the 2-tries-then-wait-10-minutes guard held back real updates; the check now only accepts a real stamp like v20.9-20261111. (2) New tiny file version.txt (one line, same build string) is read every 30 s; the full page check runs every 2 min as a backstop. (3) Every time the app is opened or brought back (screen on, back from another app, pageshow from the page cache, focus, network back) it checks at once and a new version replaces the page immediately. (4) Idle rule: refresh when hidden, when untouched since opening, or after 10 s idle (was 20 s); never while typing. (5) sw.js VERSION ctt-v3: html/js/json/xml/txt from our own site are now NETWORK-FIRST (they used to be stale-first, one reload behind), pictures/icons stay stale-first. EVERY RELEASE now changes THREE things: ctt-version line, ctt-build meta, version.txt.
+- DONE in v20.9 (Nov 11 2026): LIVE REFRESH WHILE USING THE TRAIL (owner: 'while using it, it needs to update/auto refresh more often; every time it's opened, screen off, or back from another app'). (1) resumeRefresh(): on visibilitychange (visible), pageshow from the page cache, or window focus the car pin gets a brand-new location fix (maximumAge 0), and if the app was away more than 60 s the route is re-checked against the clock via recalibrate(lastStartIdx) (shops that opened/closed, Closing Soon / Opens In badges, countdown) with scroll position kept; skipped in a Later preview and while typing in a field. Ticked shops, hand-made order and search text are kept. (2) Car pin recheck every 30 s (was 45 s); the open/closed route check every 30 s (was 60 s). (3) NOT changed on purpose: the route is not re-ordered from your new spot on its own; that still happens when you tap the big button / Start Over, so the stops don't jump around mid-trip.
 - STILL OPEN after v20.7: SideQuest (needs address + hours), Most Visited chart (needs a Firebase rule), GA/analytics disclosure wording (see v20.7 note 2).
 - DONE in v20.6 (owner, Nov 10 2026): route cards for shops opening later today show '⏰ Opens in 1h 57m' (under 1 hour: 'Opens in 45 min') right below the shop name (opensInHtml; amber #8a5f1a text, same as the 'closing soon' badge). Live view only, not in Later previews; updates every 30 s and disappears once the shop opens.
 - DONE in v20.6 (owner, Nov 9 2026): NO HAGGLING COPY anywhere on the site: never write copy about haggling, negotiating or asking for price reductions or discounts. Done in the working copy: the 'Art of the Haggle' post (blog/how-to-haggle-at-thrift-and-antique-stores, was dated Jul 17 2028) is pulled from the blog index, dates array, sitemap-blog.xml and every Keep Reading/DM list, and its page is now a noindex redirect to /blog/ (owner may delete the folder in GitHub instead); vendor-cost post 'room on the price' line rewritten; yard-sale post 'negotiate politely' removed; teacher post 'mention you are a teacher, some shops offer discounts' tip replaced. The Jul 17 2028 1st/3rd-Monday slot is now empty.
@@ -308,7 +311,8 @@ STILL TO DO / IDEAS
   - DONE in v13.2 (Nov 1 2026): shop names on route cards no longer link out to websites; shop details lines on the Shops and neighborhood pages match the Trail exactly.
   - DONE in v13.1 (Nov 1 2026): +/- zoom buttons back on the map; ticking a shop out of order re-plans the rest of the route from it (nothing skipped); footnote reworded ('See something that has changed?'); older blog posts say 'small business'.
   - DONE in v13.0 (Nov 1 2026): footer lines reordered (version, sponsor, map data); Start Here button on every route shop; Get Involved buttons 33% narrower and pill-shaped; calendar Submit/Post buttons half-width and rounded.
-- EVERY RELEASE: change BOTH the visible version line (class ctt-version) AND <meta name="ctt-build" content="..."> in the head. The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
+- DONE in v20.9 (code review, Nov 11 2026): parseHoursString now wraps day ranges (Fri-Mon, Sat-Sun) so a range can never silently drop days; one-button-runs-your-thrift-day post had another post's canonical/og/JSON-LD copied in (fixed) and was missing from blog index + sitemap-blog (added; dated 2026-11-02).
+- EVERY RELEASE: change THREE things: the visible version line (class ctt-version), <meta name="ctt-build" content="..."> in the head, AND the one-line file version.txt in the site root (same build string, e.g. v20.9-20261111; open pages read it every 30 s). If version.txt is forgotten the full check still catches the update, just slower (every 2 min or at the next app open). The build string is what tells open pages to refresh themselves; if it is not changed, visitors will not be told about the update.
 - BLOG POSTS: "How the Chattanooga Thrift Trail Works: The Complete Guide" is live (dated Oct 30 2026, outside the 1st/3rd-Monday schedule). The booth-etiquette post is scheduled Jan 18 2027.
   MAINTENANCE: re-read the guide post and /how-to/ every month or two and update both whenever a feature changes (filters, map labels, layout, new shops). Bump the post's dateModified.
 - LATER (owner request, Oct 30 2026): per-shop visitor details to show on cards: public restrooms, card payments or cash only, card minimum purchase (e.g. "$5 minimum"), wheelchair access, price feel ($/$$), weekly sale info, free Wi-Fi. (Parking dropped by owner: about 95% of shops have free parking.) DISPLAY RULE (owner, Oct 30 2026): any detail we do not have is simply NOT SHOWN. No "unknown" or "not listed" placeholders; a shop with no details shows nothing extra. Source data lives in work/shop_details.json (null = hide). CASH RULE: every shop is assumed to accept cash unless the owner says otherwise (exceptions list in work/shop_details.json). Wheelchair access is shown simply as Yes (wheelchair icon) whenever Google lists any accessible item; no breakdown. Gemini/Deep Research could not read Google listings reliably (tested Oct 30; its output was mostly guesses), so collect by hand, screenshots of Google Maps About tabs, or the Google Places API. Verified so far: St. Timothy's (Signal Mountain) pays by cash, local check or Venmo.
@@ -374,7 +378,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v20.8-20261110">
+<meta name="ctt-build" content="v21.0-20261111">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 49 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -3007,7 +3011,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version">v20.8 &mdash; November 10, 2026</p>
+      <p class="ctt-version">v21.0 &mdash; November 11, 2026</p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3348,7 +3352,7 @@ LINGERING IDEAS
       else if (dayPart.indexOf('-') !== -1) {
         var rp = dayPart.split('-');
         var s = DAY_ORDER.indexOf(rp[0]), e = DAY_ORDER.indexOf(rp[1]);
-        for (var d = s; d <= e; d++) days.push(d);
+        if (s >= 0 && e >= 0) { for (var n = (e - s + 7) % 7, d = s; n >= 0; n--, d = (d + 1) % 7) days.push(d); } // wraps (Fri-Mon, Sat-Sun)
       } else if (dayPart.indexOf('/') !== -1) {
         dayPart.split('/').forEach(function(d) { days.push(DAY_ORDER.indexOf(d)); });
       } else { days.push(DAY_ORDER.indexOf(dayPart)); }
@@ -4273,6 +4277,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } }
   function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function everAdd(name) { var e = lsGet(EVER_KEY); if (!e[name]) { e[name] = todayDateStr(); lsSet(EVER_KEY, e); } }
+  // v21.0 Most Visited: called when a shop is ticked visited. Real Trail shops only (not custom stops or coffee); once per device per day (guard inside cttCountVisit). Restoring saved progress does NOT count.
+  function countTrailVisit(name) { try { if (window.cttCountVisit && allLocations.some(function(x) { return x.name === name && !x.coffee; })) window.cttCountVisit(name); } catch (er) {} }
   function loopDefs() {
     var openAll = allLocations.filter(function(x) { return !x.closesAfter || effectiveNow().dateStr <= x.closesAfter; }).map(function(x) { return x.name; });
     return [
@@ -4480,6 +4486,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var wasNext = this.checked ? nextStop() : null;
         var jumpedAhead = !!(wasNext && wasNext.name !== store.name && !manualOrderNames);
         visitedStores[store.name] = this.checked;
+        if (this.checked) countTrailVisit(store.name);
         if (this.checked) { lastVisited = { name: store.name, lat: store.lat, lng: store.lng, t: Date.now() }; nudgeNextStop(); }
         card.classList.toggle('visited', this.checked);
         refreshNextButton();
@@ -4660,6 +4667,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     card.querySelector('.ctt-visited-check').addEventListener('click', function(e) { e.stopPropagation(); });
     chk.addEventListener('change', function() {
       visitedStores[store.name] = this.checked;
+      if (this.checked) countTrailVisit(store.name);
       if (this.checked) lastVisited = { name: store.name, lat: store.lat, lng: store.lng, t: Date.now() };
       card.classList.toggle('visited', this.checked);
       refreshNextButton(); equalizeListHeights(); refreshCountdown();
@@ -5259,7 +5267,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var now = getEasternNow();
     var key = allLocations.filter(function(s) { return isOnRouteToday(s, now); }).map(function(s) { return s.name; }).sort().join('|');
     if (key !== lastAutoKey) { lastAutoKey = key; recalibrate(lastStartIdx); }
-  }, 60000);
+  }, 30000);
 
   // ---- Single CTA: nearest OPEN stop (or soonest-opening if nothing's
   // open yet) + shopping-day countdown ----
@@ -5283,7 +5291,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function placeStartMarker(lat, lng) {
     dropCarTrailDot(lat, lng);
     var at = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
-    var popHtml = '<strong>You were here at ' + at + '</strong><br>It refreshes about every 45 seconds while the Trail is open, and when you come back to it.';
+    var popHtml = '<strong>You were here at ' + at + '</strong><br>It refreshes about every 30 seconds while the Trail is open, and every time you come back to it.';
     if (userMarker) { userMarker.setLatLng([lat, lng]); if (userMarker.setPopupContent) userMarker.setPopupContent(popHtml); return; }
     userMarker = L.marker([lat, lng], { icon: L.divIcon({ html: '<div class="ctt-you-pin" aria-label="Your last known spot">' + cttIconGlyph() + '</div>', className: '', iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -26] }), zIndexOffset: 2000 }).addTo(map);
     userMarker.bindPopup(popHtml, { maxWidth: 220 });
@@ -5292,18 +5300,39 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // Quiet location recheck: moves only the car. It never rebuilds the route (that still happens when you tap the big button).
   // Runs about every 45 seconds while the page is on screen, and once when the screen comes back. Only after you have located once.
   var carCheckBusy = false, carCheckLast = 0;
-  function recheckCar() {
+  function recheckCar(fresh) {
     if (!hasClickedLocateBefore || !navigator.geolocation || carCheckBusy || document.hidden) return;
-    if (Date.now() - carCheckLast < 10000) return;
+    if (!fresh && Date.now() - carCheckLast < 10000) return;
     carCheckBusy = true; carCheckLast = Date.now();
     navigator.geolocation.getCurrentPosition(function(pos) {
       carCheckBusy = false;
       lastUserPos = { lat: pos.coords.latitude, lng: pos.coords.longitude, t: Date.now() };
       placeStartMarker(pos.coords.latitude, pos.coords.longitude);
-    }, function() { carCheckBusy = false; }, { enableHighAccuracy: false, maximumAge: 30000, timeout: 10000 });
+    }, function() { carCheckBusy = false; }, { enableHighAccuracy: false, maximumAge: fresh === true ? 0 : 20000, timeout: 10000 });
   }
-  setInterval(recheckCar, 45000);
-  document.addEventListener('visibilitychange', function() { if (!document.hidden) recheckCar(); });
+  setInterval(recheckCar, 30000);
+  // Every time the app comes back (screen on, back from another app, back from the page cache), the Trail brings itself up to date at once (v20.9, owner):
+  // a brand-new location fix for the car, and, if you were away more than a minute, the route is re-checked against the clock (shops that opened or closed,
+  // Closing Soon and Opens In badges, the countdown). Your scroll spot, ticked shops, hand-made order and search text are kept. Skipped in a Later preview and while you are typing.
+  var hiddenAt = 0, lastResumeAt = 0;
+  function resumeRefresh() {
+    if (document.hidden || !hasClickedLocateBefore || Date.now() - lastResumeAt < 3000) return;
+    lastResumeAt = Date.now();
+    var away = hiddenAt ? Date.now() - hiddenAt : 0; hiddenAt = 0;
+    recheckCar(true);
+    if (displayContext) return;
+    var a = document.activeElement; if (a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return;
+    if (away > 60000) {
+      var sy = window.pageYOffset, offTop = offRouteListEl ? offRouteListEl.scrollTop : 0;
+      recalibrate(lastStartIdx);
+      window.scrollTo(0, sy); if (offRouteListEl) offRouteListEl.scrollTop = offTop;
+      if (typeof refreshCountdown === 'function') refreshCountdown();
+      lastAutoKey = allLocations.filter(function(x) { return isOnRouteToday(x, getEasternNow()); }).map(function(x) { return x.name; }).sort().join('|');
+    }
+  }
+  document.addEventListener('visibilitychange', function() { if (document.hidden) hiddenAt = Date.now(); else resumeRefresh(); });
+  window.addEventListener('pageshow', function(e) { if (e.persisted) resumeRefresh(); });
+  window.addEventListener('focus', resumeRefresh);
 
   function pickStartingLocation(uLat, uLng, excludeVisited) {
     var now = effectiveNow();
@@ -6405,13 +6434,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       document.addEventListener(ev, function() { lastTouch = Date.now(); }, { passive: true, capture: true });
     });
     function typing() { var a = document.activeElement; return a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName); }
-    // Safe moments to refresh: the tab is in the background, or the visitor just arrived and hasn't touched anything, or they've been idle a little while.
+    // Safe moments to refresh: the tab is in the background, or the visitor just arrived or came back and hasn't touched anything, or they've been idle for 10 seconds.
     function safeNow() {
       if (typing()) return false;
       if (document.visibilityState === 'hidden') return true;
       var now = Date.now();
-      if (!lastTouch) return now - loadedAt < 15000;
-      return now - lastTouch > 20000;
+      if (!lastTouch) return true; // opened or resumed and not touched since
+      return now - lastTouch > 10000; // idle for 10 seconds
     }
     function go(build) {
       var rec = null; try { rec = JSON.parse(sessionStorage.getItem('ctt-upd') || 'null'); } catch (e) {}
@@ -6427,20 +6456,34 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (!pending) return;
       if (safeNow()) go(pending); else timer = setTimeout(attempt, 5000);
     }
+    // Full check: reads the live page and compares its build stamp. Quick check (every 30 s): reads the tiny version.txt (one line, the same build string).
+    function newer(b) { if (b && b !== cur) { pending = b; attempt(); } }
     function check() {
       if (pending) { attempt(); return; }
       fetch(location.pathname + '?v=' + Date.now(), { cache: 'no-store' }).then(function(r) { return r.ok ? r.text() : ''; }).then(function(t) {
-        var m = t.match(/<meta name="ctt-build" content="([^"]+)"/);
-        if (!m || m[1] === cur) return;
-        pending = m[1];
-        attempt();
+        // Match only a real build stamp like v20.9-20261111: the handoff notes at the top of this very page also mention <meta name="ctt-build" content="...">, which an unrestricted match used to pick up, so every open page thought a new version was waiting and reloaded itself for nothing (v20.9 fix).
+        var m = t.match(/<meta name="ctt-build" content="(v\d+\.\d+-\d{8})"/);
+        if (m) newer(m[1]);
       }).catch(function() {});
     }
-    setTimeout(check, 1000);
+    function quick() {
+      if (pending) { attempt(); return; }
+      fetch('version.txt?v=' + Date.now(), { cache: 'no-store' }).then(function(r) { return r.ok ? r.text() : ''; }).then(function(t) {
+        t = (t || '').trim(); if (/^v\d+\.\d+-\d{8}$/.test(t)) newer(t);
+      }).catch(function() {});
+    }
+    // Every time the app is opened or brought back (phone screen on, switching back from another app, back from the page cache, network back):
+    // check right away, and treat it as a fresh arrival so a new version replaces the page at once instead of waiting for you to go idle.
+    function resumed() { lastTouch = 0; loadedAt = Date.now(); quick(); check(); }
+    setTimeout(function() { quick(); check(); }, 500);
     document.addEventListener('visibilitychange', function() {
-      if (document.visibilityState === 'hidden') attempt(); else check();
+      if (document.visibilityState === 'hidden') attempt(); else resumed();
     });
-    setInterval(check, 2 * 60 * 1000);
+    window.addEventListener('pageshow', function(e) { if (e.persisted) resumed(); });
+    window.addEventListener('focus', resumed);
+    window.addEventListener('online', resumed);
+    var ticks = 0;
+    setInterval(function() { if (document.visibilityState !== 'visible') return; ticks++; if (ticks % 4 === 0) check(); else quick(); }, 30 * 1000);
   })();
 
   // ---- Offline support (see sw.js; needs https) ----
@@ -6851,7 +6894,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
-    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, increment, getDocs, serverTimestamp
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, setDoc, increment, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   var firebaseConfig = {
@@ -6871,6 +6914,24 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       firebaseReady = true;
     }
   } catch (e) { firebaseReady = false; console.error('Chattanooga Thrift Trail: Firebase failed to initialize.', e); }
+
+  // MOST VISITED COUNTER (v21.0). One tiny document per shop per day in the 'visits' collection: id = <shop-slug>__<YYYY-MM-DD Eastern>, field = count only
+  // (the Firestore rule allows ONLY {count:1} on create and count+1 on update, nothing else, never delete). Called from everAdd() when a shop is marked visited.
+  // Guard: one count per shop per device per day (localStorage 'ctt-vc'). Fails silently; never blocks the route. The chart that reads these is at the bottom of shops/index.html.
+  window.cttCountVisit = function(name) {
+    try {
+      if (!firebaseReady || !name) return;
+      var slug = String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      if (!slug) return;
+      var day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+      var g = {}; try { g = JSON.parse(localStorage.getItem('ctt-vc') || '{}') || {}; } catch (e) {}
+      if (g.d !== day) g = { d: day, s: {} };
+      if (g.s[slug]) return;
+      g.s[slug] = 1; try { localStorage.setItem('ctt-vc', JSON.stringify(g)); } catch (e) {}
+      var ref = doc(db, 'visits', slug + '__' + day);
+      updateDoc(ref, { count: increment(1) }).catch(function() { return setDoc(ref, { count: 1 }); }).catch(function() {});
+    } catch (e) {}
+  };
 
   // Optional Account email: also keep a copy in the database ('contacts' collection) so it is not only in an inbox.
   window.cttSaveContact = function(o) {

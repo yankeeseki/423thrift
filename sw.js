@@ -3,7 +3,7 @@
      and the last good copy is used when you're offline.
    - Map library, fonts and map tiles you've already viewed are kept for offline use.
    - Live things (route lines, reviews, analytics) are never stored. */
-var VERSION = 'ctt-v2';
+var VERSION = 'ctt-v3'; // v20.9: bumped so every device drops its old caches and the new network-first rule below takes over
 var SHELL_CACHE = VERSION + '-shell';
 var RUNTIME_CACHE = VERSION + '-runtime';
 var TILE_CACHE = VERSION + '-tiles';
@@ -75,7 +75,15 @@ self.addEventListener('fetch', function(e) {
   }
 
   if (url.origin === self.location.origin) {
-    e.respondWith(staleWhileRevalidate(req, SHELL_CACHE));
+    // Pages, scripts, data and lists (html, js, json, xml, txt): network first, so a new release is never one reload behind (saved copy only when offline).
+    // Pictures, icons and the manifest: saved copy first, refreshed quietly in the background.
+    if (/\.(png|jpe?g|gif|svg|webp|ico|webmanifest|woff2?)$/i.test(url.pathname)) { e.respondWith(staleWhileRevalidate(req, SHELL_CACHE)); return; }
+    e.respondWith(
+      fetch(req.url, { cache: 'no-store', credentials: 'same-origin' }).then(function(res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(SHELL_CACHE).then(function(c) { c.put(req, copy); }); }
+        return res;
+      }).catch(function() { return caches.match(req, { ignoreSearch: true }); })
+    );
     return;
   }
   if (/(^|\.)tile\.openstreetmap\.org$/.test(url.hostname)) {
