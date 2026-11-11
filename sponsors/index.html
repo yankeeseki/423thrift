@@ -81,25 +81,40 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .tipbox{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;margin-top:24px;padding-top:14px;border-top:1.5px dashed var(--line);font:13px system-ui,sans-serif;color:var(--taupe)}
 .tipbox a{font-weight:700;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:5px 13px;text-decoration:none}
 .poster-ask{margin:26px 0 8px;padding:16px 18px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;text-align:center}.poster-ask h2{font-size:20px;margin:0 0 6px;border:0;color:var(--ink)}.poster-ask p{font-family:system-ui,sans-serif;font-size:15px;margin:0 auto 12px;max-width:62ch}.poster-btn{display:inline-block;padding:11px 18px;background:var(--rust);color:#fff;border-radius:999px;font-family:system-ui,sans-serif;font-weight:700;text-decoration:none}.poster-btn:hover{background:#8f3e22}.poster-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-.spons h2{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:20px;margin:26px 0 8px;color:var(--ink)}.spons ul{margin:6px 0 0;padding-left:20px;font:15px/1.5 system-ui,sans-serif}.spons li{margin:4px 0}.spons p{font:15px/1.5 system-ui,sans-serif;max-width:68ch}.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 0}.plan{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px;text-align:center}.plan b{display:block;font:700 13px 'Libre Franklin',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)}.plan .pr{font:400 30px 'Archivo Black',sans-serif;color:var(--rust);margin:4px 0 0}.plan .pp{font:13px system-ui,sans-serif;color:var(--taupe);margin:0}@media(max-width:480px){.plans{grid-template-columns:1fr}}</style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
+.spons h2{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:20px;margin:26px 0 8px;color:var(--ink)}.spons ul{margin:6px 0 0;padding-left:20px;font:15px/1.5 system-ui,sans-serif}.spons li{margin:4px 0}.spons{max-width:760px;margin:0 auto}/* v21.4: the whole page body is one centered readable column, so text, boxes and the form all share the same left and right edges (the 68ch limit on paragraphs made them narrower than the boxes) */.spons p{font:15px/1.5 system-ui,sans-serif}.spons>p{text-align:left;margin:0 0 12px;max-width:none!important;width:auto!important}.spons ul.qtrs{padding-left:0}.qtrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 0;padding:0;list-style:none}.qtrs li{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;margin:0;font:14px/1.4 system-ui,sans-serif}.qtrs b{display:block;font:700 12px 'Libre Franklin',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)}@media(max-width:480px){.qtrs{grid-template-columns:1fr}}.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 0}.plan{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px;text-align:center}.plan b{display:block;font:700 13px 'Libre Franklin',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)}.plan .pr{font:400 30px 'Archivo Black',sans-serif;color:var(--rust);margin:4px 0 0}.plan .pd{font:700 13px system-ui,sans-serif;color:var(--olive);margin:6px 0 0}.plan .pp{font:13px system-ui,sans-serif;color:var(--taupe);margin:0}@media(max-width:480px){.plans{grid-template-columns:1fr}}</style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>Become a Featured Shop</h1>
 <div class="spons">
 <div class="scope-note"><p class="scope-line"><strong>Storefront shops only,</strong> near the existing Trail and within approx. 20 miles &amp; 20 minutes of downtown Chattanooga.</p></div>
-<p>Be the Featured Shop of the Day on the Chattanooga Thrift Trail. Pick one day of the week and it&rsquo;s yours for the whole quarter.</p>
+<p>Be the Featured Shop of the Day on the Chattanooga Thrift Trail. Pick one day of the week and it&rsquo;s yours for the whole quarter. <strong>Days are first come, first served</strong>, so send your request early to claim the day you want.</p>
 <h2>What&rsquo;s included</h2>
 <ul>
 <li>&ldquo;Featured Shop of the Day&rdquo; at the top of the Trail on your day, with the day&rsquo;s fun facts.</li>
-<li>A gold star and ribbon on your stop, so it stands out on the route and the map.</li>
+<li>A gold star on your stop, so it stands out on the route and the map.</li>
 <li>Your own page on 423thrift.com.</li>
-<li>A spot in the Featured shop schedule on the Shops &amp; Charities page.</li>
+<li>The big Featured Shop of the Day card on the Shops &amp; Charities page, with a paragraph about your shop.</li>
+<li>A gold bar on the Most Visited Shops chart.</li>
 </ul>
 <h2>Choose a package</h2>
 <div class="plans">
-<div class="plan"><b>Weekday</b><p class="pr">$300</p><p class="pp">per quarter &middot; Monday to Friday</p></div>
-<div class="plan"><b>Weekend</b><p class="pr">$500</p><p class="pp">per quarter &middot; Saturday or Sunday</p></div>
+<div class="plan"><b>Weekday</b><p class="pr">$300</p><p class="pp">per quarter &middot; Monday to Friday</p><p class="pd">about $23 per featured day</p></div>
+<div class="plan"><b>Weekend</b><p class="pr">$500</p><p class="pp">per quarter &middot; Saturday or Sunday</p><p class="pd">about $38 per featured day</p></div>
 </div>
-<p style="margin-top:12px">Pay in cash, or with a gift card to your shop for the same value.</p>
-<p>Sending this form is a request, not a purchase. We&rsquo;ll confirm your day is open and follow up with the next steps. Nothing is charged here.</p>
+<p style="margin-top:12px">A quarter has about 13 of any one day of the week, so your featured day comes around about 13 times. The per-day price is the quarterly price divided by 13.</p>
+<p>Pay by check, Venmo or Cash App, or with a gift card or store credit at your shop for the same value.</p>
+<h2>Quarters</h2>
+<ul class="qtrs">
+<li><b>Quarter 1</b>January &ndash; March</li>
+<li><b>Quarter 2</b>April &ndash; June</li>
+<li><b>Quarter 3</b>July &ndash; September</li>
+<li><b>Quarter 4</b>October &ndash; December</li>
+</ul>
+<h2>New shop discount</h2>
+<p>Has your shop been open for less than a year? Take an additional 20% off any package. That brings a weekday quarter to $240 and a weekend quarter to $400. Tell us when you opened on the form below.</p>
+<h2>Pay for a full year</h2>
+<p>Pay for a full year in advance and one quarter is on us: you pay for three quarters and keep your day all four. That is $900 for a weekday (about $17 per featured day) or $1,500 for a weekend (about $29 per featured day).</p>
+<h2>Other ways to promote your business</h2>
+<p>We are always open to other opportunities to promote your business. Have an idea? Tell us in the note below.</p>
+<p>Sending this form is a request, not a purchase. Days are first come, first served: we&rsquo;ll confirm your day is still open and follow up with the next steps. Nothing is charged here.</p>
 <form class="mf" id="mf" novalidate>
 <div class="hp"><label>Leave this empty <input type="text" id="mf-hp" tabindex="-1" autocomplete="off"></label></div>
 <fieldset><legend>About you</legend>
@@ -109,11 +124,12 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-email">Email</label><input type="email" id="mf-email" maxlength="120" autocomplete="email">
 </fieldset>
 <fieldset><legend>Your sponsorship</legend>
-<label for="mf-pkg">Package</label><select id="mf-pkg"><option value="Weekday $300/quarter">Weekday &ndash; $300 per quarter</option><option value="Weekend $500/quarter">Weekend &ndash; $500 per quarter</option></select>
-<label for="mf-day">Preferred day</label><select id="mf-day"></select>
-<label for="mf-qtr">Quarter</label><select id="mf-qtr"><option>January &ndash; March 2027</option><option>April &ndash; June 2027</option><option>Other (tell us below)</option></select>
-<label for="mf-pay">How you&rsquo;d like to pay</label><select id="mf-pay"><option>Cash</option><option>Gift card to my shop</option><option>Not sure yet</option></select>
-<label for="mf-note">Anything else?</label><textarea id="mf-note" placeholder="Questions, a second-choice day, what you&rsquo;d like shoppers to know..."></textarea>
+<label for="mf-pkg">Package</label><select id="mf-pkg"><option value="Weekday $300/quarter">Weekday &ndash; $300 per quarter</option><option value="Weekend $500/quarter">Weekend &ndash; $500 per quarter</option><option value="Full year weekday $900 (one quarter on us)">Full year, weekday &ndash; $900 (one quarter on us)</option><option value="Full year weekend $1500 (one quarter on us)">Full year, weekend &ndash; $1,500 (one quarter on us)</option></select>
+<label for="mf-day">Preferred day <span style="font-weight:400">(first come, first served)</span></label><select id="mf-day"></select>
+<label for="mf-qtr">Quarter</label><select id="mf-qtr"></select>
+<label for="mf-open">When did your shop open? <span style="font-weight:400">(month and year; shops open less than a year get an additional 20% off)</span></label><input type="text" id="mf-open" maxlength="40" placeholder="For example: March 2026" autocomplete="off">
+<label for="mf-pay">How you&rsquo;d like to pay</label><select id="mf-pay"><option>Check</option><option>Venmo</option><option>Cash App</option><option>Gift card or store credit at my shop</option><option>Not sure yet</option></select>
+<label for="mf-note">Anything else?</label><textarea id="mf-note" placeholder="Questions, a second-choice day in case your first is taken, what you&rsquo;d like shoppers to know..."></textarea>
 </fieldset>
 <label class="confirm" for="mf-confirm"><input type="checkbox" id="mf-confirm"> <span>I confirm that my shop has a storefront and is within approx. 20 miles &amp; 20 minutes of downtown Chattanooga.</span></label>
 <div class="st" id="mf-st" role="status"></div>
@@ -126,15 +142,19 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 (function(){
 var KEY='c1c6f136-31d8-41aa-b9f0-c27e4e92665a',f=document.getElementById('mf'),st=document.getElementById('mf-st'),btn=document.getElementById('mf-send'),pkg=document.getElementById('mf-pkg'),day=document.getElementById('mf-day');
 function v(i){return document.getElementById(i).value.trim();}
-function days(){var wk=pkg.selectedIndex===1,l=wk?['Saturday','Sunday']:['Monday','Tuesday','Wednesday','Thursday','Friday'];day.innerHTML=l.map(function(d){return '<option>'+d+'</option>';}).join('');}
+function days(){var wk=pkg.selectedIndex===1||pkg.selectedIndex===3,l=wk?['Saturday','Sunday']:['Monday','Tuesday','Wednesday','Thursday','Friday'];day.innerHTML=l.map(function(d){return '<option>'+d+'</option>';}).join('');}
 pkg.addEventListener('change',days);days();
+/* QUARTERS: always the next four quarters that have not started yet (one year out), built from today's Eastern date so the list never goes stale. Quarter n = 3 months starting Jan/Apr/Jul/Oct. */
+(function(){var q=document.getElementById('mf-qtr'),M=['January','February','March','April','May','June','July','August','September','October','November','December'],p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit'}).format(new Date()).split('-'),y=+p[0],mo=+p[1]-1,qi=Math.floor(mo/3)+1,out=[];
+for(var i=0;i<4;i++){var idx=(qi+i)%4,yr=y+Math.floor((qi+i)/4),s=idx*3;out.push('<option>Quarter '+(idx+1)+': '+M[s]+' &ndash; '+M[s+2]+' '+yr+'</option>');}
+q.innerHTML=out.join('');})();
 f.addEventListener('submit',function(e){
   e.preventDefault();
   if(v('mf-hp'))return;
   var shop=v('mf-shop'),name=v('mf-name'),email=v('mf-email');
   if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop name, your name and a valid email.';return;}
   if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles & 20 minutes of downtown Chattanooga.';return;}
-  var data={access_key:KEY,subject:'Thrift Trail: Featured shop request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:v('mf-day'),quarter:v('mf-qtr'),payment:v('mf-pay'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
+  var data={access_key:KEY,subject:'Thrift Trail: Featured shop request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:v('mf-day'),quarter:v('mf-qtr'),payment:v('mf-pay'),shop_opened:v('mf-open'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
    .then(function(r){return r.json();})
