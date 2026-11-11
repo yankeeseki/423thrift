@@ -64,6 +64,7 @@ STILL TO DO / IDEAS
 - DONE in v20.7 (Nov 10 2026): (1) MAP LEGEND matches the real markers: Route = olive #4a5a3a circle with cream border, Bonus = faded (75%) gold #a3872f diamond, Featured = cream #eddcac star with gold #a3872f outline (SVG). (2) DISCLAIMER: the Google Analytics sentence is gone (index.html + menu.js); it now says 'Your location stays on your device. It is never sent, saved or shared.' NOTE: GA scripts still load on the pages; only the wording changed (owner's call). (3) THRIFT TRAIL RALLY (arcade/loop-run): gravity stronger (BG 110 to 150, rail-jump gravity 560 to 760), land-bounce-fly bug fixed (after landing a 0.7 s cooldown and the hill-speed history is cleared, so a landing can't re-launch a big-air jump), ALL time bonuses 25% smaller (BONK=.75 on checkpoints, Moon Pie, Sweet tea, plane flight, secret shortcut). Map landmark 'Be Caffeinated' renamed 'Coffee Shop' in the game data. (4) NEW BLOG POST 'Why Paying Cash Is Good for Everyone When You Thrift' (dated Oct 13 2026, Guide; blog index, dates array, sitemap-blog.xml, how-to FAQ link). No haggling/discount copy. (5) NEW BLOG POST 'A Good Way to Destroy Value: Tape, Stickers and Marker on Vintage Finds' (from a voice-call draft; dated Jul 17 2028 to fill the empty slot, so it stays hidden until then; change the date in the post, blog index card, dates array and sitemap-blog.xml to publish sooner). (6) SHOP DETAILS: both Chambliss shops show 'Sales: Sun college students, Mon seniors 65+, Tue military and first responders, 20% off with ID'; Friends & Family shows 'Sales: Half off daily, Mon furniture, Tue select clothing, Wed art, Thu media, Fri shoes, Sat glassware' (the red X on the Monday furniture line is unexplained, so all furniture is assumed half off (owner, Nov 10); Tuesday is SELECT clothing per the sign); Humane Ed. Soc. Thrift: Card minimum $5 and note 'Prices run a bit higher than typical thrift, closer to a curated shop' (main page, shops/, thrift-stores-brainerd-hamilton-place). Card minimum display now shows any dollar amount ('Card minimum: $5'). (7) BE CAFFEINATED removed from places.json (Add Your Own Stop suggestions; 3 rows) and from the Rally game. RULE: never list or suggest Be Caffeinated anywhere. (8) ROUTE RULE: on days the Humane shop is on the route it always comes BEFORE the Hwy 58 Goodwill (humaneBeforeGoodwill in recalibrate; not applied to a hand-dragged order, when the Goodwill is the starting shop, or once the Goodwill is ticked visited). (9) NAV BUTTONS ALWAYS VISIBLE: the row under the big button (Directions | Next | Undo) no longer hides when no stops are left; the hint line becomes 'That's every stop for today!' (all ticked) or a short no-stops message, Directions greys out. (10) START OVER COMPLETELY: menu item + footer button + in-page 'Are you sure?' (cttAsk, no browser pop-up); wipes localStorage, sessionStorage, IndexedDB, caches and service workers, reloads as a first visit and asks for location right away (sessionStorage flag ctt-fresh-start). The regular Start Over stays (lighter, today only) and now also uses the in-page confirm. (11) SHOP SEARCH BOX at the top of the shop list (#ctt-list-q): live word-start match on any word in a shop's name, case-insensitive, 16 px font, clear (x), searches the route list and More Shops (opens More Shops while a search is typed); Enter scrolls to the first match. (12) how-to: Search, Start Over Completely, stuck-Trail and cash-or-card entries; one-button blog post got a 'Want to start somewhere else?' section.
 - DONE in v20.8 (Nov 10 2026): GOODWILL (FORT O) PIN is now exact from the owner's Google Maps link (34.9495954, -85.2333329) in index.html, shops/ and thrift-stores-fort-oglethorpe/. Hours VERIFIED Nov 10 2026 from the Google listing (Mon-Sat 9-8, Sun 10-8, same as before; address 1873 Battlefield Pkwy confirmed). Analytics: owner wants NO public mention of Google Analytics (disclaimer already clean). SideQuest is dropped until the owner raises it again.
 - DONE in v20.8 (Nov 10 2026): CREATIVE RESUPPLY pin moved to 35.0321875,-85.3033125 (Google plus code 2MJW+VM; the old estimate was about 0.25 mi east) and address now '1800 Rossville Ave #108'; hours match Google. FRIENDS & FAMILY Tuesday is 'select clothing' per the sign photo.
+- DONE in v21.6 (Nov 11 2026): Holiday/special-day box is wider and shorter: padding clamp(36-90px) sides, 850px cap, and the emoji now sit on the title line, three on EACH side of the bold title (same emoji repeated; only one per side under 520px wide); days with no title show just the emoji row. Code: renderHolidayBanner emoSide(), .ctt-holiday-headrow/.ctt-hd-side. Any day can get a different emoji pattern later if Mod gives a list.
 - DONE in v21.5 (Nov 11 2026): /sponsors/ updated (see STANDING RULE below): left-aligned centered 760px column, What's included matches the live features, 'first come, first served' (3 places), pay by check / Venmo / Cash App / gift card or store credit (NO cash), quarters list, rolling four-quarter dropdown built from today's date, per-day price ($23 weekday / $38 weekend; $17 / $29 on the full-year deal), full-year offer, New shop discount (additional 20% off if open under a year; form asks when it opened), 'open to other opportunities' line; fixed full-year weekend listing Mon-Fri days. A 6-month contract at 20% off was DISCUSSED but is NOT on the page yet (Mod to decide). Holiday box: emoji centered above the title, all text centered.
 - STANDING RULE (Mod, Nov 11 2026): ALWAYS KEEP /sponsors/ (sponsors/index.html, unlisted, noindex) UP TO DATE with what a Featured Shop really gets (Featured line on the Trail, gold star on the map/route, the Featured Shop of the Day card on shops/, gold bar on the Most Visited chart, own page). Check it on every release that touches featured shops. The page also lists the 4 quarters, a 'New shop discount' (open less than a year: an additional 20% off any package; $240 weekday / $400 weekend per quarter; the form asks when the shop opened), a full-year offer (pay for 3 quarters, keep all 4: $900 weekday / $1,500 weekend; my reading of 'pay for a full year in advance, one quarter free', unconfirmed) and an 'open to other ways to promote your business' line.
 - DONE in v21.4 (Nov 11 2026): see (3i) in the v21.1 note: holiday/special-day box is fit-content, centered, one closable format for every special day, emoji centered above the title. Also see the v21.3 note.
@@ -384,7 +385,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v21.5-20261111">
+<meta name="ctt-build" content="v21.6-20261111">
 <title>Chattanooga Thrift Store Map &amp; Route | The Thrift Trail</title>
 <meta name="description" content="Chattanooga thrift store map and route planner. Find 49 thrift, vintage &amp; antique shops, check hours, and get an optimized driving order.">
 <meta property="og:title" content="Chattanooga Thrift Store Map &amp; Route | The Thrift Trail">
@@ -2218,8 +2219,8 @@ LINGERING IDEAS
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
   .ctt-holiday-card {
     /* v21.1: emoji and close X are pinned to the edges and vertically centered; side padding is equal (flag side includes the thicker left border) so the text is centered on the whole card, in line with the Featured line above. */
-    position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 auto 12px; padding: 12px 40px 12px 36px; min-height: 48px; text-align: center;
-    width: fit-content; max-width: min(100%, 680px); box-sizing: border-box; /* v21.4: only as wide as its text (long holiday paragraphs stop at 680px), centered; wraps on narrow screens */
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 auto 12px; padding: 12px clamp(40px, 9vw, 90px) 12px clamp(36px, 9vw, 86px); min-height: 48px; text-align: center;
+    width: fit-content; max-width: min(100%, 850px); box-sizing: border-box; /* v21.6: about 25% wider for comfort (extra side padding, 850px cap); v21.4: only as wide as its text (long holiday paragraphs stop at 680px), centered; wraps on narrow screens */
     background: var(--card); border: 1.5px solid var(--line); border-left: 6px solid var(--olive); border-radius: 6px;
     font-family: 'Libre Franklin', sans-serif; font-size: 13.5px; line-height: 1.45; color: var(--ink);
   }
@@ -2227,6 +2228,11 @@ LINGERING IDEAS
   .ctt-holiday-text { min-width: 0; text-align: center; } /* v21.1: centered so the title and message line up with the centered birthday/fun line under them (they were left-aligned while the fun line was centered) */
   .ctt-holiday-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #6b5818; margin-bottom: 2px; }
   .ctt-holiday-head { font-family: 'Archivo Black', sans-serif; font-size: 16px; line-height: 1.25; }
+  .ctt-holiday-headrow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: nowrap; }
+  .ctt-hd-side { display: inline-flex; gap: 5px; font-size: 22px; line-height: 1; flex: 0 0 auto; }
+  .ctt-hd-title { min-width: 0; text-align: center; }
+  .ctt-hd-star.ctt-hd-top .ctt-hd-side { font-size: 26px; }
+  @media (max-width: 520px) { .ctt-hd-e2, .ctt-hd-e3 { display: none; } .ctt-holiday-headrow { gap: 8px; } }
   .ctt-holiday-body { margin-top: 3px; color: #5c5240; }
   .ctt-holiday-x { position: absolute; right: 6px; top: 6px; background: none; border: none; font-size: 22px; line-height: 1; color: var(--taupe); cursor: pointer; padding: 6px 8px; }
   .ctt-holiday-x:hover { color: var(--ink); }
@@ -2235,7 +2241,7 @@ LINGERING IDEAS
   .ctt-hd-star.ctt-hd-top { border-width: 2px; border-left-width: 8px; background: #f7e7ae; box-shadow: 0 2px 8px rgba(163,135,47,0.25); }
   .ctt-hd-star.ctt-hd-top .ctt-holiday-head { font-size: 19px; }
   .ctt-hd-star.ctt-hd-top .ctt-holiday-emo { font-size: 38px; }
-  .ctt-hd-star.ctt-hd-top { padding-left: 34px; padding-right: 40px; } /* 8px left border + 34 = 2px right border + 40 = equal sides, so content is exactly centered */
+  .ctt-hd-star.ctt-hd-top { padding-left: clamp(34px, 9vw, 84px); padding-right: clamp(40px, 9vw, 90px); } /* 8px left border + 34 = 2px right border + 40 = equal sides, so content is exactly centered */
   .ctt-open-badge.check { background: #f5e2bc; color: #6b4a10; border: 1px solid #d8b66a; text-decoration: none; cursor: pointer; }
   .ctt-open-badge.check:hover { background: #efd79b; }
   .ctt-review-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-left: auto; margin-right: 10px; padding-left: 8px; }
@@ -3025,7 +3031,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v21.5 &mdash; November 11, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v21.6 &mdash; November 11, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3595,9 +3601,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     try { dismissed = localStorage.getItem('ctt-holiday-dismissed'); } catch (e) {}
     if (dismissed === ds) { el.style.display = 'none'; return; }
     el.className = 'ctt-holiday-card ctt-hd-' + b.kind + (b.top ? ' ctt-hd-top' : '');
-    el.innerHTML = '<div class="ctt-holiday-emo" aria-hidden="true">' + (b.e || '\u2728') + '</div>' +
-      '<div class="ctt-holiday-text">' + (b.tag ? '<div class="ctt-holiday-tag">' + (b.kind === 'star' ? '&#9733; ' : '') + b.tag + '</div>' : '') +
-      (b.head ? '<div class="ctt-holiday-head">' + cttGreet(b.head) + '</div>' : '') +
+    // v21.6 (Mod): three matching emoji on EACH side of the bold title (same line) so the box is wider instead of taller; on phones only one per side shows.
+    var emo = b.e || '\u2728';
+    function emoSide(rev) { var h = ''; for (var k = 0; k < 3; k++) h += '<span class="ctt-hd-e ctt-hd-e' + (rev ? 3 - k : k + 1) + '">' + emo + '</span>'; return '<span class="ctt-hd-side" aria-hidden="true">' + h + '</span>'; }
+    var headLine = b.head ? '<div class="ctt-holiday-head ctt-holiday-headrow">' + emoSide(true) + '<span class="ctt-hd-title">' + cttGreet(b.head) + '</span>' + emoSide(false) + '</div>'
+      : '<div class="ctt-holiday-headrow ctt-hd-only" aria-hidden="true">' + emoSide(true) + emoSide(false) + '</div>';
+    el.innerHTML = '<div class="ctt-holiday-text">' + (b.tag ? '<div class="ctt-holiday-tag">' + (b.kind === 'star' ? '&#9733; ' : '') + b.tag + '</div>' : '') +
+      headLine +
       (b.body ? '<div class="ctt-holiday-body">' + b.body + '</div>' : '') +
       (b.btw ? '<div class="ctt-holiday-btw">' + b.btw + '</div>' : '') +
       (popLines.length ? '<div class="ctt-holiday-btw ctt-pop-row">' + popLines.map(function(t) { return '<span>' + cttEsc(t) + '</span>'; }).join('') + '</div>' : '') + '</div>' +
