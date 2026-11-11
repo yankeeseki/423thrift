@@ -67,7 +67,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <h1>Shops &amp; Charities</h1>
 <p>Every thrift store, vintage shop and antique mall on the Chattanooga Thrift Trail, organized by neighborhood, with addresses, hours and what reviewers say. A &#128155; note shows which local cause a shop&rsquo;s proceeds benefit.</p>
 <a class="cta" href="/">Plan Your Thrift Route &rarr;</a>
-<div class="feat" role="region" id="featured-shops" aria-labelledby="feat-h"><h2 id="feat-h">&#9733; Featured shop of the day</h2><p class="feat-sub">One shop gets the gold-star spotlight on the Trail each day.</p><ul><li><span class="fd">Sunday</span> Chattanooga Room in the Inn Thrift Store</li><li><span class="fd">Monday</span> Vinterest (Southside)</li><li><span class="fd">Tuesday</span> Nifty Thrifty</li><li><span class="fd">Wednesday</span> Vinterest (Southside)</li><li><span class="fd">Thursday</span> Vinterest (Southside)</li><li><span class="fd">Friday</span> Vinterest (Southside)</li><li><span class="fd">Saturday</span> Poor Taste</li></ul><p class="feat-note">Vinterest (Hixson) takes over the Monday, Wednesday, Thursday and Friday spot starting Dec 28, 2026.</p><a class="feat-link" href="/shops/update/#featured">Learn How You Can Become a Featured Shop &rarr;</a></div>
+<div class="feat" role="region" id="featured-shops" aria-labelledby="feat-h"><h2 id="feat-h">&#9733; Featured shop of the day</h2><p class="feat-sub">One shop gets the gold-star spotlight on the Trail each day.</p><ul><li><span class="fd">Sunday</span> Chattanooga Room in the Inn Thrift Store</li><li><span class="fd">Monday</span> Vinterest (Southside)</li><li><span class="fd">Tuesday</span> Nifty Thrifty</li><li><span class="fd">Wednesday</span> Vinterest (Southside)</li><li><span class="fd">Thursday</span> Vinterest (Southside)</li><li><span class="fd">Friday</span> Vinterest (Southside)</li><li><span class="fd">Saturday</span> Poor Taste</li></ul><a class="feat-link" href="/shops/update/#featured">Learn How You Can Become a Featured Shop &rarr;</a></div>
 <nav aria-label="Jump to a neighborhood"><a href="#hixson">Hixson</a><a href="#downtown">Downtown</a><a href="#north-shore">North Shore</a><a href="#southside">Southside</a><a href="#highland-park">Highland Park</a><a href="#east-ridge">East Ridge</a><a href="#brainerd-hamilton-place">Brainerd &amp; Hamilton Place</a><a href="#red-bank">Red Bank</a><a href="#fort-oglethorpe">Fort O, GA</a><a href="#signal-mountain">Signal Mountain</a><a href="#ooltewah">Ooltewah</a></nav>
 <input id="q" type="search" placeholder="Search by shop name or neighborhood, like &ldquo;Hixson&rdquo;" aria-label="Search shops">
 <p id="none">No shops match that search.</p>
@@ -270,6 +270,89 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="hours"><strong>Hours:</strong> Mon-Thu 9-6 · Fri/Sat Closed · Sun 1-5</p>
 <p class="det">Price: $$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay</p>
 <p>Reviews are mixed on the clearance section specifically, but many praise the low prices and friendly staff.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=9231+Lee+Hwy,+Ooltewah,+TN+37363">Get Directions</a> &middot; <a href="https://thesamaritancenter.net" rel="noopener">Website</a></p></article></section>
+<div id="most-visited" class="mv" role="region" aria-labelledby="mv-h" hidden>
+<h2 id="mv-h">&#128293; Most Visited Shops</h2>
+<p class="mv-sub" id="mv-sub"></p>
+<ol class="mv-list" id="mv-list"></ol>
+<p class="mv-key"><span class="mv-k-flame">&#128293;</span> Rising fast &nbsp;&middot;&nbsp; <span class="mv-k-star">&#9733;</span> Featured Shop</p>
+</div>
+<style>
+/* v21.0 MOST VISITED chart (a div, not a section: the shops page filter script hides every <section>). Colors are exact: bar #4a5a3a (olive), featured gold #d4a72c with #8a6a10 text/edge, flame #d9480f. Never rely on color alone: flame has a shape+label, featured has a star+label. */
+.mv{margin:26px 0;padding:16px;background:var(--card);border:1.5px solid var(--rust);border-radius:10px}
+.mv h2{margin:0 0 4px;font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:22px}
+.mv-sub{margin:0 0 12px;font:14px/1.45 system-ui,sans-serif;opacity:.85}
+.mv-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.mv-row{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;font:14px/1.3 system-ui,sans-serif}
+.mv-rk{text-align:right;font-weight:700;opacity:.8}
+.mv-bar{position:relative;min-height:30px;border-radius:6px;background:#4a5a3a;color:#fff;display:flex;align-items:center;gap:6px;padding:4px 10px;min-width:0;box-sizing:border-box}
+.mv-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.mv-n{font-weight:700;margin-left:auto;padding-left:6px}
+.mv-gold{background:linear-gradient(110deg,#b8891a 0%,#f1cf5a 35%,#d4a72c 55%,#f6dc7c 75%,#b8891a 100%);background-size:220% 100%;color:#3a2a00;border:1.5px solid #8a6a10;box-shadow:0 0 0 1px rgba(255,235,150,.6) inset,0 2px 6px rgba(138,106,16,.35);animation:mvshine 5s linear infinite}
+.mv-gold .mv-tag{font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;background:#3a2a00;color:#f6dc7c;border-radius:4px;padding:1px 5px;white-space:nowrap}
+.mv-flame{display:inline-block;width:18px;height:20px;flex:none;transform-origin:50% 100%;animation:mvflick .9s ease-in-out infinite alternate}
+.mv-key{margin:12px 0 0;font:12.5px/1.4 system-ui,sans-serif;opacity:.85}
+@keyframes mvflick{from{transform:scale(1,.92) rotate(-3deg)}to{transform:scale(.94,1.06) rotate(3deg)}}
+@keyframes mvshine{from{background-position:0 0}to{background-position:220% 0}}
+@media (prefers-reduced-motion:reduce){.mv-flame,.mv-gold{animation:none}}
+</style>
+<script>
+/* MOST VISITED chart (v21.0). Reads the public 'visits' collection (docs named <shop-slug>__<YYYY-MM-DD>, one field: count) over Firestore REST and draws ranked bars.
+   RULES (owner, Nov 11 2026): top 25 only for the first 6 months after the first recorded visit; NO numbers on bars until at least 25 shops have 100+ visits;
+   a bar gets a flame when it climbed the ranks much faster than normal over the last 7 days (needs 10+ visits that week, a climb of 3+ places, and to be in the top 10% of climbers);
+   the Featured Shop of the day (read from the #featured-shops list above, so there is ONE list to edit) gets a gold bar at its real rank.
+   Vinterest (Southside) closes Dec 27 2026: from Dec 28 the Southside entry in that list is swapped for Vinterest (Hixson) here, same as the main page. */
+(function(){
+  var API='AIzaSyDSJYyUkpUQuwyZ6E7gNwutNb819BS_sTU', PROJ='chattanooga-thrift-trail';
+  var sec=document.getElementById('most-visited'); if(!sec||!window.fetch) return;
+  function slug(n){return String(n).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
+  var names={}; [].forEach.call(document.querySelectorAll('article.shop h3'),function(h){var n=h.textContent.trim(); names[slug(n)]=n;});
+  var fmt=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'});
+  var today=fmt.format(new Date());
+  function addDays(d,k){var t=new Date(d+'T12:00:00Z');t.setUTCDate(t.getUTCDate()+k);return t.toISOString().slice(0,10);}
+  function featuredSlug(){
+    var dn=new Date(today+'T12:00:00Z').getUTCDay(), days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], out='';
+    [].forEach.call(document.querySelectorAll('#featured-shops li'),function(li){var f=li.querySelector('.fd'); if(f&&f.textContent.trim()===days[dn]){out=li.textContent.replace(f.textContent,'').trim();}});
+    if(today>='2026-12-28'&&out==='Vinterest (Southside)') out='Vinterest (Hixson)';
+    return slug(out);
+  }
+  function getAll(tok,acc){
+    var u='https://firestore.googleapis.com/v1/projects/'+PROJ+'/databases/(default)/documents/visits?pageSize=300&key='+API+(tok?'&pageToken='+encodeURIComponent(tok):'');
+    return fetch(u).then(function(r){if(!r.ok) throw new Error('x'); return r.json();}).then(function(j){
+      (j.documents||[]).forEach(function(d){var id=d.name.split('/').pop(), p=id.split('__'); if(p.length!==2) return; var c=d.fields&&d.fields.count&&parseInt(d.fields.count.integerValue,10); if(c>0) acc.push({s:p[0],d:p[1],c:c});});
+      return j.nextPageToken?getAll(j.nextPageToken,acc):acc;});
+  }
+  function rank(tot){return Object.keys(tot).sort(function(a,b){return tot[b]-tot[a]||(a<b?-1:1);});}
+  getAll('',[]).then(function(rows){
+    rows=rows.filter(function(r){return names[r.s];});
+    if(!rows.length){sec.hidden=false;document.getElementById('mv-sub').textContent='Visit counts will appear here as shops are explored.';return;}
+    var tot={},prior={},wk={},first=today,weekAgo=addDays(today,-7);
+    rows.forEach(function(r){tot[r.s]=(tot[r.s]||0)+r.c; if(r.d<=weekAgo) prior[r.s]=(prior[r.s]||0)+r.c; else wk[r.s]=(wk[r.s]||0)+r.c; if(r.d<first) first=r.d;});
+    var order=rank(tot), pOrder=rank(prior), pRank={};
+    pOrder.forEach(function(s,i){pRank[s]=i+1;});
+    var climbs={},pos=[];
+    order.forEach(function(s,i){var was=pRank[s]||(pOrder.length+1), up=was-(i+1); climbs[s]=up; if(up>0) pos.push(up);});
+    pos.sort(function(a,b){return a-b;});
+    var cut=pos.length?pos[Math.min(pos.length-1,Math.floor(pos.length*0.9))]:99;
+    function hot(s){return (wk[s]||0)>=10&&climbs[s]>=3&&climbs[s]>=cut;}
+    var hundred=order.filter(function(s){return tot[s]>=100;}).length, showNums=hundred>=25;
+    var top25Only=today<addDays(first,183), list=top25Only?order.slice(0,25):order, max=tot[order[0]]||1, fs=featuredSlug();
+    document.getElementById('mv-sub').textContent=top25Only?'The 25 shops visited most on the Trail so far.':'Every shop, ranked by visits on the Trail.';
+    var ol=document.getElementById('mv-list'), flame='<svg class="mv-flame" viewBox="0 0 18 20" role="img" aria-label="Rising fast"><title>Rising fast</title><path d="M9 1c1 3.5 5.5 5.6 5.5 10.5A5.5 5.5 0 0 1 9 17a5.5 5.5 0 0 1-5.5-5.5c0-2.2 1.1-3.7 2.2-4.9.2 1.5.9 2.4 1.8 2.9C7 6.6 7.6 3.6 9 1z" fill="#d9480f"/><path d="M9 9.5c.6 1.6 2.4 2.4 2.4 4.3A2.4 2.4 0 0 1 9 16.2a2.4 2.4 0 0 1-2.4-2.4c0-1.2.6-1.9 1.2-2.6.2.7.6 1 1 1.2-.1-1 .1-2 1.2-2.9z" fill="#ffd43b"/></svg>';
+    list.forEach(function(s,i){
+      var li=document.createElement('li'), w=Math.max(18,Math.round(tot[s]/max*100)), gold=(s===fs);
+      li.className='mv-row';
+      var rk=document.createElement('span'); rk.className='mv-rk'; rk.textContent=(i+1); li.appendChild(rk);
+      var bar=document.createElement('div'); bar.className='mv-bar'+(gold?' mv-gold':''); bar.style.width=w+'%';
+      var nm=document.createElement('span'); nm.className='mv-nm'; nm.textContent=names[s]; bar.appendChild(nm);
+      if(gold){var t=document.createElement('span'); t.className='mv-tag'; t.textContent='★ Featured Shop'; bar.appendChild(t);}
+      if(hot(s)){var f=document.createElement('span'); f.innerHTML=flame; bar.appendChild(f.firstChild);}
+      if(showNums){var n=document.createElement('span'); n.className='mv-n'; n.textContent=tot[s]; bar.appendChild(n);}
+      li.appendChild(bar); ol.appendChild(li);
+    });
+    sec.hidden=false;
+  }).catch(function(){});
+})();
+</script>
 <footer>See something that has changed? Tap &ldquo;Send feedback&rdquo; on the <a href="/">main map</a> and tell the moderators.</footer>
 <p class="gi">Love thrift and vintage? <a href="/#get-involved">Get Involved</a> and help the Trail grow.</p>
 <div class="tip"><span>Enjoying the trail?</span><a href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></div>
