@@ -65,6 +65,13 @@ STILL TO DO / IDEAS
 - DONE in v20.8 (Nov 10 2026): GOODWILL (FORT O) PIN is now exact from the owner's Google Maps link (34.9495954, -85.2333329) in index.html, shops/ and thrift-stores-fort-oglethorpe/. Hours VERIFIED Nov 10 2026 from the Google listing (Mon-Sat 9-8, Sun 10-8, same as before; address 1873 Battlefield Pkwy confirmed). Analytics: owner wants NO public mention of Google Analytics (disclaimer already clean). SideQuest is dropped until the owner raises it again.
 - DONE in v20.8 (Nov 10 2026): CREATIVE RESUPPLY pin moved to 35.0321875,-85.3033125 (Google plus code 2MJW+VM; the old estimate was about 0.25 mi east) and address now '1800 Rossville Ave #108'; hours match Google. FRIENDS & FAMILY Tuesday is 'select clothing' per the sign photo.
 - PENDING (idea, Mod asked to be reminded Nov 12 2026): 'Send To My Phone' link that carries a laptop-built route to a phone (overrides, dragged order, own stops, start); snapshot only, no database; own stops' names/addresses would be visible in the link. Not built.
+- DONE in v21.8 ( Mod Nov 13 2026): /sponsors/ now welcomes NON-THRIFT sponsors (coffee shops, restaurants, other local businesses): new 'Not a thrift shop?' section (details agreed per sponsor, nothing charged before confirming; NO prices invented for it) and a 'Type of business' dropdown on the form (sent as business_type); 'Shop name' label is 'Shop or business name'. Mod answered: non-thrift sponsors get featured sections on the site and are recommended along the route; NO new-shop discount for them (thrift/vintage/antique shops only; page says so). Price for non-thrift sponsors still not stated on the page.
+- DONE in v21.8 ( Mod Nov 13 2026): THRIFT TRAIL RALLY (arcade/loop-run/): (1) TIME UPGRADES CUT 15%: shop checkpoint bonuses BONF 1.10 to 0.935 (calcBon; 3 s minimum kept) and pickup/flight/shortcut bonuses BONK .75 to .6375, with their on-screen labels now computed from BONK; (2) SIDE STREETS (undriveable cross roads from OSM XRD/LG lists) now run about 4x as far (length x4.1, overlapping the course is fine per Mod), FADE with distance (2D: linear gradient to 10% alpha; 3D: 10 segments with falling alpha, dashes fade too) and have distant 'city blocks' of simple houses along them (decor t:'h' with ht height factor and fa fade; skipped near the course, real OSM buildings, other streets and each other; about 1,900 of them), culled by bounding box; G.dbg() now also returns decor. Frame rate checked at 60 fps in headless Chrome. Not play-tested for balance (sandbox cannot drive): ask Mod how it feels, adjust BONF/BONK.
+- DONE in v21.8 ( Mod Nov 13 2026): 'Best Days to Visit' box (.bestdays) added to the Signal Mountain section of shops/ and to thrift-stores-signal-mountain/. HAND-WRITTEN from the shops' hours (Bachman Fri/Sat 9-2; St. Timothy's Wed 9-12, Thu 3-5, Fri/Sat 10-1; Clothes House Wed-Sat 9-1): update it whenever those hours change.
+- DONE in v21.8 ( Mod Nov 13 2026): POOR TASTE IS NOW SOUTHSIDE. Moved from Downtown everywhere: main data area 'Southside'; Downtown filter button, Downtown SEO links (home, menu.js, every thrift-stores-* 'Other neighborhoods'), shops/ Downtown section + jump chip removed; Southside is now 6 shops (shops/ section + thrift-stores-southside article + JSON-LD + description); thrift-stores-downtown/ is a noindex redirect stub to Southside (like downtown-north-shore); both removed from sitemaps; saved 'Downtown' filter selections migrate to Southside; 15 blog files reworded ('Poor Taste in Southside'). Downtown is no longer a neighborhood; add it back if a downtown shop is ever listed.
+- DONE in v21.8 ( Mod Nov 13 2026): 'Print the Trail' and 'Get the web app' buttons under Take It With You are 20% larger (font 12.5 to 15px, padding 10/22).
+- DONE in v21.8 ( Mod Nov 13 2026): the home page 'Featured Shop of the Day' name is now a link (underlined, class ctt-fd-link, built by featuredShopLink(); keep in sync with the schedule) to /shops/#shop-<slug>; shops/index.html gives every article.shop an id 'shop-<slug of h3>', scrolls it to center and outlines it (3px, not color alone). Tested all four featured shops.
+- DONE in v21.8 ( Mod Nov 12 2026): shops/ Featured Shop of the Day card: label, address/hours, Get Directions/Website and the Become-a-Featured-Shop link sat left of center on wide screens (page CSS gave the paragraphs a max-width and no auto margins); now every line is centered with !important rules (.ftd .ftd-lab/.ftd-meta/.ftd-acts/.ftd-name/.ftd-copy/.feat-link); measured centered at 1900px and 390px.
 - DONE in v21.7 (Nov 12 2026): main page <title>, og:title and twitter:title are now 'Chattanooga Thrift Trail: Map & Route for Local Second-Hand Shops' (was 'Chattanooga Thrift Store Map & Route | The Thrift Trail'). Meta/og/twitter descriptions now 'Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.'
 - DONE in v21.7 (Nov 11 2026): REMOVED 'Reset' from the hamburger menu (footer button #ctt-fullreset-open stays).
 - DONE in v21.7 (Nov 11 2026): OWN STOPS GET 'Start Here' (button next to Make This Next on your-stop cards, not coffee-excluded): the stop becomes stop 1 and shops order outward from the shop nearest to it (startHereErrand: sets errand.after='', pinnedStartName = nearest shop, recalibrate). Tested with a seeded errand (before: dentist last; after: dentist first). Mention in how-to when shipped.
@@ -389,7 +396,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v21.7-20261112">
+<meta name="ctt-build" content="v21.8-20261113">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2220,6 +2227,8 @@ LINGERING IDEAS
   /* ---- Holiday banners: big and thrift days are prominent, goofy days are one small line ---- */
   /* v21.1: the label half of the Featured line is gold (#7f610b = darkest gold that still reads on the cream page, 4.8:1) so the line stands out; the shop name stays dark ink. */
   .ctt-fd-gold { color: #7f610b; }
+  .ctt-fd-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .ctt-fd-link:hover { color: var(--rust); }
   .ctt-featured-day { margin: 0 0 4px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: var(--ink); }
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
   .ctt-holiday-card {
@@ -2706,6 +2715,7 @@ LINGERING IDEAS
   .ctt-pdf-section .ctt-homescreen-link:hover { background: #9a4226; color: #fff; }
   .ctt-pdf-btnrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .ctt-pdf-btnrow .ctt-homescreen-link { margin: 0; }
+  .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { font-size: 15px; padding: 10px 22px; } /* v21.8 (Mod): Print the Trail and Get the Web App 20% larger (12.5px to 15px text, padding 8/18 to 10/22) */
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2863,7 +2873,7 @@ LINGERING IDEAS
     <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
     <p><strong>The big button:</strong> Once your route is built, that one button runs the whole trip. Tap it when you reach a shop to be pointed to the next one, tap it twice in a row to step back a shop, or press and hold it to open driving directions.</p>
     <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
-    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button></div>
+    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the Web App</button></div>
   </div>
 
   <div class="ctt-cta-row">
@@ -2952,7 +2962,7 @@ LINGERING IDEAS
       <p class="ctt-pdf-sub">Your custom route, built just for you &mdash; a simple one-page list of shops, addresses, and hours, in route order.</p>
       <div class="ctt-pdf-btnrow">
         <button class="ctt-pdf-btn" id="ctt-pdf-btn">&#128424;&#65039; Print the Trail</button>
-        <button type="button" class="ctt-homescreen-link">&#128242; Get the web app</button>
+        <button type="button" class="ctt-homescreen-link">&#128242; Get the Web App</button>
       </div>
       <p class="ctt-pdf-note" id="ctt-pdf-note" style="display:none;">Your guide starts from where you are. Your location is only used on this device to order the shops. If you want to start from another location, customize your route in the list above.</p>
     </div>
@@ -3027,7 +3037,7 @@ LINGERING IDEAS
 <section class="ctt-seo" aria-label="Browse the Chattanooga Thrift Trail by neighborhood">
 <div class="ctt-hoodbox">
 <p class="ctt-seo-label">Browse by neighborhood</p>
-<p class="ctt-seo-hoods"><a href="thrift-stores-downtown/">Downtown</a><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort O</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><span class="ctt-seo-br"></span><a class="ctt-seo-all" href="shops/"><span class="ctt-seo-sa-long">See the full list of shops, with addresses and hours</span><span class="ctt-seo-sa-short">Additional shop info</span> &rarr;</a></p>
+<p class="ctt-seo-hoods"><a href="thrift-stores-north-shore/">North Shore</a><a href="thrift-stores-southside/">Southside</a><a href="thrift-stores-highland-park/">Highland Park &amp; McCallie</a><a href="thrift-stores-east-ridge/">East Ridge</a><a href="thrift-stores-brainerd-hamilton-place/">Brainerd &amp; Hamilton Place</a><a href="thrift-stores-hixson/">Hixson</a><a href="thrift-stores-red-bank/">Red Bank</a><a href="thrift-stores-fort-oglethorpe/">Fort O</a><a href="thrift-stores-signal-mountain/">Signal Mountain</a><a href="thrift-stores-ooltewah/">Ooltewah</a><span class="ctt-seo-br"></span><a class="ctt-seo-all" href="shops/"><span class="ctt-seo-sa-long">See the full list of shops, with addresses and hours</span><span class="ctt-seo-sa-short">Additional shop info</span> &rarr;</a></p>
 </div>
 </section>
 <section class="ctt-news" id="ctt-news" aria-labelledby="ctt-news-h">
@@ -3036,13 +3046,13 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v21.7 &mdash; November 12, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v21.8 &mdash; November 13, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
 <section class="ctt-seo ctt-seo-about" aria-label="About the Chattanooga Thrift Trail">
 <h2>Chattanooga thrift stores, vintage shops &amp; antique shops</h2>
-<p>Chattanooga Thrift Trail is a self-guided map of 49 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside, Downtown and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
+<p>Chattanooga Thrift Trail is a self-guided map of 49 secondhand shops around Chattanooga, Tennessee and nearby North Georgia, from Southside and North Shore to Brainerd, Hixson, Red Bank, East Ridge, Ooltewah and Fort O. Tap the start button and the Trail builds the best driving order from where you are, around each shop&rsquo;s hours.</p>
 </section>
     </div>
   </div>
@@ -3083,7 +3093,7 @@ LINGERING IDEAS
   ];
 
   var bonusDefaults = [
-    { name: "Poor Taste", area: "Downtown", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
+    { name: "Poor Taste", area: "Southside", category: "Curated Shop", lat: 35.0356713, lng: -85.3055013, address: "61 E Main St, Chattanooga, TN 37408", hours: "Mon 11-7 &middot; Tue Closed &middot; Wed-Sun 11-7", myRating: null, note: "Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.", myNote: "", url: "http://poortaste.co/" },
     { name: "Edith's Emporium", area: "McCallie Ave", category: "Curated Shop", lat: 35.035317, lng: -85.2735411, address: "1914 McCallie Ave, Chattanooga, TN 37404", hours: "Mon-Fri 11-5 &middot; Sat 10-4 &middot; Sun 12-4", myRating: null, note: "Near-perfect reviews for its eclectic mix of gifts, home decor, and locally made goods.", myNote: "", url: "https://edithsemporium.com/" },
     { name: "Collective Clothing", area: "North Shore", category: "Curated Shop", lat: 35.0623375, lng: -85.307132, address: "40 Frazier Ave, Chattanooga, TN 37405", hours: "Sun-Thu 11-6 &middot; Fri/Sat 11-7", myRating: null, note: "Well-organized vintage clothing shop reviewers especially love for its gowns and fair prices.", myNote: "", url: "https://linktr.ee/collectiveclothing" },
     { name: "East Ridge Antique District", area: "East Ridge", category: "Antique Mall", lat: 34.9912381, lng: -85.2069991, address: "6511 Slater Rd, East Ridge, TN 37412", hours: "Mon-Sat 10-6 &middot; Sun 11-6", myRating: null, note: "Three shops share this address and each keeps its own hours.", members: [{ n: "Sugar Plum Antiques & Treasures", h: "Mon-Sat 10-6 &middot; Sun 12-6", u: "https://www.facebook.com/profile.php?id=61588683545518" }, { n: "Rusted Rooster Antiques & Decor", h: "Tue-Fri 10-5 &middot; Sat 10-4 &middot; Sun 11-5", u: "https://rustedrooster.net" }, { n: "Chattanooga Olive Oil Company & Artisan Village", h: "Mon-Sat 10:30-5:30 &middot; Sun 12-5:30", u: "https://www.facebook.com/artisanvillage/" }], myNote: "", url: "https://www.facebook.com/theeastridgeantiquedistrict/" },
@@ -3121,7 +3131,6 @@ LINGERING IDEAS
   allLocations.forEach(function(s) { locationsByName[s.name] = s; });
 
   var SHOP_GROUPS = [
-    ['Downtown', ['Downtown']],
     ['North Shore', ['North Shore']],
     ['Southside', ['Southside', 'Rossville Blvd']],
     ['Highland Park', ['McCallie Ave', 'Highland Park']],
@@ -3210,7 +3219,7 @@ LINGERING IDEAS
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
   try {
     var rawF = localStorage.getItem('ctt-filters');
-    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Downtown', 'North Shore'] : [x === 'Fort Oglethorpe, GA' ? 'Fort O' : x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, xareas: Array.isArray(pf.xareas) ? pf.xareas.map(function(x) { return x === 'Fort Oglethorpe, GA' ? 'Fort O' : x; }) : [], xtypes: { thrift: !!(pf.xtypes && pf.xtypes.thrift), curated: !!(pf.xtypes && pf.xtypes.curated), antique: !!(pf.xtypes && pf.xtypes.antique) } }; } }
+    if (rawF) { var pf = JSON.parse(rawF); if (pf && pf.types) { var oldTop = !!pf.top25 || !!pf.types.top25; filters = { types: { thrift: oldTop && pf.top25 ? false : !!pf.types.thrift, curated: oldTop && pf.top25 ? false : !!pf.types.curated, antique: oldTop && pf.top25 ? false : !!pf.types.antique, top25: oldTop, top20: !!pf.types.top20 }, areas: Array.isArray(pf.areas) ? pf.areas.reduce(function(a, x) { return a.concat(x === 'Downtown & North Shore' ? ['Southside', 'North Shore'] : x === 'Downtown' ? ['Southside'] : [x === 'Fort Oglethorpe, GA' ? 'Fort O' : x]); }, []) : [], open: !!pf.open, late: !!pf.late, charity: !!pf.charity, xareas: Array.isArray(pf.xareas) ? pf.xareas.map(function(x) { return x === 'Fort Oglethorpe, GA' ? 'Fort O' : x; }) : [], xtypes: { thrift: !!(pf.xtypes && pf.xtypes.thrift), curated: !!(pf.xtypes && pf.xtypes.curated), antique: !!(pf.xtypes && pf.xtypes.antique) } }; } }
   } catch (e) {}
   (function() { var t = filters.types; try { if (localStorage.getItem('ctt-filters-ver') !== '3') { if (!t.curated && !t.antique && !t.top25 && !t.top20) filters.types = { thrift: false, curated: false, antique: false, top25: true, top20: false }; localStorage.setItem('ctt-filters-ver', '3'); } } catch (e) {} if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
@@ -3426,6 +3435,15 @@ LINGERING IDEAS
     if (now.dayIdx === 2) return 'Nifty Thrifty in Fort O';
     return now.dateStr >= '2026-12-28' ? 'Vinterest in Hixson' : 'Vinterest on the Southside';
   }
+  // v21.8 (Mod): the Featured line links to that shop's entry on /shops/ (articles there get id="shop-<slug of name>").
+  function featuredShopLink() {
+    var now = effectiveNow(), nm;
+    if (now.dayIdx === 6) nm = 'Poor Taste';
+    else if (now.dayIdx === 0) nm = 'Chattanooga Room in the Inn Thrift Store';
+    else if (now.dayIdx === 2) nm = 'Nifty Thrifty';
+    else nm = now.dateStr >= '2026-12-28' ? 'Vinterest (Hixson)' : 'Vinterest (Southside)';
+    return '/shops/#shop-' + nm.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
   function isFeaturedToday(store) {
     var now = effectiveNow();
     if (now.dayIdx === 6) return store.name === 'Poor Taste';
@@ -3592,7 +3610,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!el) return;
     var fd = document.getElementById('ctt-featured-day');
     if (!fd) { fd = document.createElement('div'); fd.id = 'ctt-featured-day'; fd.className = 'ctt-featured-day'; el.parentNode.insertBefore(fd, el); }
-    var fdl = featuredDayLabel(); fd.innerHTML = fdl ? '<span class="ctt-fd-gold">\u2605 Featured Shop of the Day:</span> ' + cttEsc(fdl) + '.' : ''; fd.style.display = fdl ? 'block' : 'none';
+    var fdl = featuredDayLabel(); fd.innerHTML = fdl ? '<span class="ctt-fd-gold">\u2605 Featured Shop of the Day:</span> <a class="ctt-fd-link" href="' + featuredShopLink() + '">' + cttEsc(fdl) + '</a>.' : ''; fd.style.display = fdl ? 'block' : 'none';
     var ds = getEasternNow().dateStr, b = holidayFor(ds);
     var popAll = POP_FUN[ds.slice(5)] || [];
     // Up to 4 facts under the special day on the small banner, up to 3 inside the big holiday cards. More than that rotates by year.

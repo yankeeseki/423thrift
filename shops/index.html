@@ -36,6 +36,8 @@ nav{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 16px;font-family:system-ui,
 nav a{font-size:13px;font-weight:600;color:var(--olive);border:1px solid var(--olive);border-radius:14px;padding:4px 11px;text-decoration:none;background:var(--card)}
 nav a:hover{background:var(--olive);color:#fff}
 #q{width:100%;padding:11px 12px;font-size:16px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-family:system-ui,sans-serif}
+.bestdays{margin:0 0 14px;padding:12px 16px;background:var(--card,#fbf6ea);border:1.5px solid var(--line,#d8cdb2);border-left:6px solid var(--olive,#4a5a3a);border-radius:6px;font-family:system-ui,sans-serif;font-size:14.5px;line-height:1.5}.bestdays p{margin:0}.bestdays .bd-h{font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px;margin-bottom:4px}
+.shop:target,.shop.shop-hit{outline:3px solid #7f610b;outline-offset:3px;scroll-margin-top:16px}
 .shop{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:0 0 12px}
 .shop p{margin:4px 0;font-size:15px}
 .meta,.hours,.links,.closing{font-family:system-ui,sans-serif;font-size:13.5px!important;color:#5c5240}
@@ -83,6 +85,9 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .ftd-meta{margin:0 0 10px;font:14px/1.4 system-ui,sans-serif;color:var(--taupe)}
 .ftd-copy{margin:0 auto 12px;max-width:34em;font:16px/1.55 system-ui,sans-serif;color:var(--ink)}
 .ftd-acts{margin:0 0 10px;font:700 15px system-ui,sans-serif}.ftd-acts a{color:var(--rust)}
+.ftd .ftd-lab,.ftd .ftd-meta,.ftd .ftd-acts,.ftd .ftd-name{max-width:none!important;width:auto!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+.ftd .ftd-copy{max-width:34em!important;width:auto!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+.ftd .feat-link{display:block;text-align:center;margin:0 auto}
 </style>
 <script>
 /* FEATURED SHOP OF THE DAY. Edit FEATURED to change who is featured on which weekday (0=Sunday). Each name must match the shop's heading on this page exactly.
@@ -115,7 +120,21 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
 })();
 </script>
-<nav aria-label="Jump to a neighborhood"><a href="#hixson">Hixson</a><a href="#downtown">Downtown</a><a href="#north-shore">North Shore</a><a href="#southside">Southside</a><a href="#highland-park">Highland Park</a><a href="#east-ridge">East Ridge</a><a href="#brainerd-hamilton-place">Brainerd &amp; Hamilton Place</a><a href="#red-bank">Red Bank</a><a href="#fort-oglethorpe">Fort O, GA</a><a href="#signal-mountain">Signal Mountain</a><a href="#ooltewah">Ooltewah</a></nav>
+<script>
+// v21.8: every shop entry gets an id (shop-<slug>) so the home page's Featured Shop link can jump straight to it.
+(function(){
+  function slug(n){return String(n).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
+  function go(){
+    [].forEach.call(document.querySelectorAll('article.shop'),function(a){var h=a.querySelector('h3'); if(h&&!a.id) a.id='shop-'+slug(h.textContent.trim());});
+    var id=(location.hash||'').slice(1); if(!id) return;
+    var el=document.getElementById(id); if(!el||!el.classList.contains('shop')) return;
+    el.classList.add('shop-hit');
+    setTimeout(function(){ el.scrollIntoView({block:'center'}); },60);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go();
+})();
+</script>
+<nav aria-label="Jump to a neighborhood"><a href="#hixson">Hixson</a><a href="#north-shore">North Shore</a><a href="#southside">Southside</a><a href="#highland-park">Highland Park</a><a href="#east-ridge">East Ridge</a><a href="#brainerd-hamilton-place">Brainerd &amp; Hamilton Place</a><a href="#red-bank">Red Bank</a><a href="#fort-oglethorpe">Fort O, GA</a><a href="#signal-mountain">Signal Mountain</a><a href="#ooltewah">Ooltewah</a></nav>
 <input id="q" type="search" placeholder="Search by shop name or neighborhood, like &ldquo;Hixson&rdquo;" aria-label="Search shops">
 <p id="none">No shops match that search.</p>
 <section id="hixson"><h2>Hixson <span class="count">(6)</span></h2><article class="shop" data-search="vinterest - hixson hixson 2105 northpoint blvd, hixson, tn 37343 vintage / curated"><h3>Vinterest (Hixson)</h3>
@@ -142,11 +161,6 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="hours"><strong>Hours:</strong> Mon-Sat 9-8 · Sun 10-8</p>
 <p class="det">Price: $$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay &middot; No card minimum</p>
 <p>Reviews are mixed — some find great quality pieces and call staff friendly, others describe the selection as smaller and more picked-over than other locations.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=1966+Northpoint+Blvd+Ste+A,+Hixson,+TN+37343">Get Directions</a> &middot; <a href="https://goodwillchatt.org" rel="noopener">Website</a></p></article><p class="soon"><strong>Coming in 2027:</strong> Savers Thrift, here in Hixson.</p></section>
-<section id="downtown"><h2>Downtown <span class="count">(1)</span></h2><article class="shop" data-search="poor taste downtown 61 e main st, chattanooga, tn 37408 vintage / curated"><h3>Poor Taste</h3>
-<p class="meta"><span class="tag">Vintage</span> <strong>61 E Main St, Chattanooga, TN 37408</strong></p>
-<p class="hours"><strong>Hours:</strong> Mon 11-7 · Tue Closed · Wed-Sun 11-7</p>
-<p class="det">Price: $$$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards</p>
-<p>Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=61+E+Main+St,+Chattanooga,+TN+37408">Get Directions</a> &middot; <a href="http://poortaste.co/" rel="noopener">Website</a></p></article></section>
 <section id="north-shore"><h2>North Shore <span class="count">(4)</span></h2><article class="shop" data-search="collective clothing north shore 40 frazier ave, chattanooga, tn 37405 vintage / curated"><h3>Collective Clothing</h3>
 <p class="meta"><span class="tag">Vintage</span> <strong>40 Frazier Ave, Chattanooga, TN 37405</strong></p>
 <p class="hours"><strong>Hours:</strong> Sun-Thu 11-6 · Fri/Sat 11-7</p>
@@ -163,7 +177,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="meta"><span class="tag">Thrift store</span> <strong>209 Minor St, Chattanooga, TN 37405</strong></p>
 <p class="hours"><strong>Hours:</strong> Mon-Sat 10-6 · Sun Closed</p>
 <p class="det">Price: $$$ &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards</p>
-<p>Smaller shop known for higher-end donated brands at surprisingly reasonable prices.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=209+Minor+St,+Chattanooga,+TN+37405">Get Directions</a> &middot; <a href="https://www.nnhouse.org/thrifts" rel="noopener">Website</a></p></article></section><section id="southside"><h2>Southside <span class="count">(5)</span></h2><article class="shop" data-search="electric crocodile (southside) southside 1791 reggie white blvd, chattanooga, tn 37408 vintage / curated"><h3>Electric Crocodile (Southside)</h3>
+<p>Smaller shop known for higher-end donated brands at surprisingly reasonable prices.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=209+Minor+St,+Chattanooga,+TN+37405">Get Directions</a> &middot; <a href="https://www.nnhouse.org/thrifts" rel="noopener">Website</a></p></article></section><section id="southside"><h2>Southside <span class="count">(6)</span></h2><article class="shop" data-search="electric crocodile (southside) southside 1791 reggie white blvd, chattanooga, tn 37408 vintage / curated"><h3>Electric Crocodile (Southside)</h3>
 <p class="meta"><span class="tag">Vintage</span> <strong>1791 Reggie White Blvd, Chattanooga, TN 37408</strong></p>
 <p class="hours"><strong>Hours:</strong> Daily 10-7</p>
 <p class="det">Price: $$$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay</p>
@@ -183,7 +197,11 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="meta"><span class="tag">Art supply shop</span> <strong>1800 Rossville Ave #108, Chattanooga, TN 37408</strong></p>
 <p class="hours"><strong>Hours:</strong> Fri 2-6 · Sat 10-4 · Sun 12-4</p>
 <p class="det">Restrooms: No &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay &middot; Free Wi-Fi &middot; $5 card minimum</p>
-<p>A secondhand art supply shop. Donated art, craft and making supplies are resold at affordable prices, and donations are accepted during open hours. Parking is along the front of the shop and on nearby streets.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> The Chattery, a Chattanooga nonprofit that does a lot for the arts, with affordable classes and art experiences for adults.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=1800+Rossville+Ave+%23108,+Chattanooga,+TN+37408">Get Directions</a> &middot; <a href="https://creativeresupply.org" rel="noopener">Website</a></p></article></section><section id="highland-park"><h2>Highland Park <span class="count">(3)</span></h2><article class="shop" data-search="edith&#x27;s emporium mccallie ave 1914 mccallie ave, chattanooga, tn 37404 vintage / curated"><h3>Edith&#x27;s Emporium</h3>
+<p>A secondhand art supply shop. Donated art, craft and making supplies are resold at affordable prices, and donations are accepted during open hours. Parking is along the front of the shop and on nearby streets.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> The Chattery, a Chattanooga nonprofit that does a lot for the arts, with affordable classes and art experiences for adults.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=1800+Rossville+Ave+%23108,+Chattanooga,+TN+37408">Get Directions</a> &middot; <a href="https://creativeresupply.org" rel="noopener">Website</a></p></article><article class="shop" data-search="poor taste southside 61 e main st, chattanooga, tn 37408 vintage / curated"><h3>Poor Taste</h3>
+<p class="meta"><span class="tag">Vintage</span> <strong>61 E Main St, Chattanooga, TN 37408</strong></p>
+<p class="hours"><strong>Hours:</strong> Mon 11-7 · Tue Closed · Wed-Sun 11-7</p>
+<p class="det">Price: $$$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards</p>
+<p>Owner-curated vintage clothing with reviewers calling the staff especially approachable and knowledgeable.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=61+E+Main+St,+Chattanooga,+TN+37408">Get Directions</a> &middot; <a href="http://poortaste.co/" rel="noopener">Website</a></p></article></section><section id="highland-park"><h2>Highland Park <span class="count">(3)</span></h2><article class="shop" data-search="edith&#x27;s emporium mccallie ave 1914 mccallie ave, chattanooga, tn 37404 vintage / curated"><h3>Edith&#x27;s Emporium</h3>
 <p class="meta"><span class="tag">Vintage</span> <strong>1914 McCallie Ave, Chattanooga, TN 37404</strong></p>
 <p class="hours"><strong>Hours:</strong> Mon-Fri 11-5 · Sat 10-4 · Sun 12-4</p>
 <p class="det">Price: $$$$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards, tap to pay</p>
@@ -299,7 +317,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p class="meta"><span class="tag">Thrift store</span> <strong>1040 Battlefield Pkwy, Fort Oglethorpe, GA 30742</strong></p>
 <p class="hours"><strong>Hours:</strong> Mon Closed · Tue-Sat 10-5 · Sun Closed</p>
 <p class="det">Price: $$$ &middot; Restrooms: No &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, credit &amp; debit cards</p>
-<p>Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=1040+Battlefield+Pkwy,+Fort+Oglethorpe,+GA+30742">Get Directions</a> &middot; <a href="https://www.savacenterga.org/sacs-thrift-avenue" rel="noopener">Website</a></p></article></section><section id="signal-mountain"><h2>Signal Mountain <span class="count">(3)</span></h2><article class="shop" data-search="bachman bargain barn signal mountain anderson pike, signal mountain, tn 37377 thrift store"><h3>Bachman Bargain Barn</h3>
+<p>Nearly everything priced $4 or under, with proceeds supporting a local charity and reviewers praising the staff.</p><p class="benefit">&#128155; <strong>Proceeds benefit</strong> the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.</p><p class="links"><a href="https://www.google.com/maps/dir/?api=1&destination=1040+Battlefield+Pkwy,+Fort+Oglethorpe,+GA+30742">Get Directions</a> &middot; <a href="https://www.savacenterga.org/sacs-thrift-avenue" rel="noopener">Website</a></p></article></section><section id="signal-mountain"><h2>Signal Mountain <span class="count">(3)</span></h2><div class="bestdays"><p class="bd-h">Best Days to Visit</p><p><strong>Friday and Saturday</strong> are the days to go. All three shops are open, and from 10 AM to 1 PM they overlap, so you can visit every one in a single morning. Wednesday works for two of them, but Thursday is awkward because The Clothes House is open in the morning and St. Timothy&rsquo;s only in the afternoon. Sunday, Monday and Tuesday, all three shops are closed. Go in the morning, because on Wednesday, Friday and Saturday every shop closes by 2 PM.</p></div><article class="shop" data-search="bachman bargain barn signal mountain anderson pike, signal mountain, tn 37377 thrift store"><h3>Bachman Bargain Barn</h3>
 <p class="meta"><span class="tag">Thrift store</span> <strong>Anderson Pike, Signal Mountain, TN 37377</strong></p>
 <p class="hours"><strong>Hours:</strong> Sun-Thu Closed · Fri/Sat 9-2</p>
 <p class="det">Price: $$ &middot; Restrooms: Yes &middot; &#9855; Wheelchair: Yes &middot; Pay: Cash, debit cards</p>

@@ -109,16 +109,19 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <li><b>Quarter 4</b>October &ndash; December</li>
 </ul>
 <h2>New shop discount</h2>
-<p>Has your shop been open for less than a year? Take an additional 20% off any package. That brings a weekday quarter to $240 and a weekend quarter to $400. Tell us when you opened on the form below.</p>
+<p>For thrift, vintage and antique shops: has your shop been open for less than a year? Take an additional 20% off any package. That brings a weekday quarter to $240 and a weekend quarter to $400. Tell us when you opened on the form below.</p>
 <h2>Pay for a full year</h2>
 <p>Pay for a full year in advance and one quarter is on us: you pay for three quarters and keep your day all four. That is $900 for a weekday (about $17 per featured day) or $1,500 for a weekend (about $29 per featured day).</p>
+<h2>Not a thrift shop?</h2>
+<p>Coffee shops, restaurants and other local businesses near the Trail are welcome to sponsor too. Thrifters make a day of it, and they get hungry and thirsty. Sponsors that aren&rsquo;t thrift shops get featured sections on the site, and we recommend them along the route. Choose a type of business on the form below, or tell us your own idea. We&rsquo;ll confirm the details with you before anything is charged. The new shop discount is only for thrift, vintage and antique shops.</p>
 <h2>Other ways to promote your business</h2>
 <p>We are always open to other opportunities to promote your business. Have an idea? Tell us in the note below.</p>
 <p>Sending this form is a request, not a purchase. Days are first come, first served: we&rsquo;ll confirm your day is still open and follow up with the next steps. Nothing is charged here.</p>
 <form class="mf" id="mf" novalidate>
 <div class="hp"><label>Leave this empty <input type="text" id="mf-hp" tabindex="-1" autocomplete="off"></label></div>
 <fieldset><legend>About you</legend>
-<label for="mf-shop">Shop name</label><input type="text" id="mf-shop" maxlength="90" autocomplete="off">
+<label for="mf-type">Type of business</label><select id="mf-type"><option>Thrift, vintage or antique shop</option><option>Coffee shop</option><option>Restaurant or food</option><option>Other local business</option></select>
+<label for="mf-shop">Shop or business name</label><input type="text" id="mf-shop" maxlength="90" autocomplete="off">
 <label for="mf-name">Your name</label><input type="text" id="mf-name" maxlength="80" autocomplete="name">
 <label for="mf-role">Your role</label><select id="mf-role"><option>Owner</option><option>Manager</option><option>Staff</option><option>Volunteer</option></select>
 <label for="mf-email">Email</label><input type="email" id="mf-email" maxlength="120" autocomplete="email">
@@ -127,7 +130,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-pkg">Package</label><select id="mf-pkg"><option value="Weekday $300/quarter">Weekday &ndash; $300 per quarter</option><option value="Weekend $500/quarter">Weekend &ndash; $500 per quarter</option><option value="Full year weekday $900 (one quarter on us)">Full year, weekday &ndash; $900 (one quarter on us)</option><option value="Full year weekend $1500 (one quarter on us)">Full year, weekend &ndash; $1,500 (one quarter on us)</option></select>
 <label for="mf-day">Preferred day <span style="font-weight:400">(first come, first served)</span></label><select id="mf-day"></select>
 <label for="mf-qtr">Quarter</label><select id="mf-qtr"></select>
-<label for="mf-open">When did your shop open? <span style="font-weight:400">(month and year; shops open less than a year get an additional 20% off)</span></label><input type="text" id="mf-open" maxlength="40" placeholder="For example: March 2026" autocomplete="off">
+<label for="mf-open">When did your shop open? <span style="font-weight:400">(thrift, vintage and antique shops only; open less than a year gets an additional 20% off)</span></label><input type="text" id="mf-open" maxlength="40" placeholder="For example: March 2026" autocomplete="off">
 <label for="mf-pay">How you&rsquo;d like to pay</label><select id="mf-pay"><option>Check</option><option>Venmo</option><option>Cash App</option><option>Gift card or store credit at my shop</option><option>Not sure yet</option></select>
 <label for="mf-note">Anything else?</label><textarea id="mf-note" placeholder="Questions, a second-choice day in case your first is taken, what you&rsquo;d like shoppers to know..."></textarea>
 </fieldset>
@@ -152,9 +155,9 @@ f.addEventListener('submit',function(e){
   e.preventDefault();
   if(v('mf-hp'))return;
   var shop=v('mf-shop'),name=v('mf-name'),email=v('mf-email');
-  if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop name, your name and a valid email.';return;}
+  if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop or business name, your name and a valid email.';return;}
   if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles & 20 minutes of downtown Chattanooga.';return;}
-  var data={access_key:KEY,subject:'Thrift Trail: Featured shop request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:v('mf-day'),quarter:v('mf-qtr'),payment:v('mf-pay'),shop_opened:v('mf-open'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
+  var data={access_key:KEY,subject:'Thrift Trail: Featured shop request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:v('mf-day'),quarter:v('mf-qtr'),payment:v('mf-pay'),business_type:v('mf-type'),shop_opened:v('mf-open'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
    .then(function(r){return r.json();})
