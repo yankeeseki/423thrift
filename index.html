@@ -68,7 +68,9 @@ STILL TO DO / IDEAS
 - DONE in v21.9, Mod Nov 13 2026): SEND TO MY PHONE is built in the working copy (computer only: matchMedia min-width 781 + hover + fine pointer). Desktop: 'Send To My Phone' button in Take It With You opens a dialog with a QR code (qr.js, hand-written encoder, byte mode, error correction L, verified against OpenCV), Copy Link and Email It To Me. Link = /?trip=<base64url JSON {v:1,i:include,s:skip,m:manual order,n:start for that order,p:pinned start,e:own stops,f:filters}>. Phone: an early script before the main script validates it, writes ctt-progress/ctt-errands/ctt-filters, cleans the URL, then a toast says the route is ready. Snapshot only, no server; the link shows own-stop names and addresses (said in the dialog). Needs qr.js in the delivery. how-to FAQ added. If the link is too long for a code (about 850 bytes) the QR is hidden and Copy Link/Email still work. Old line: idea first asked Nov 12.
 - STANDING RULE UPDATE (Mod, Nov 13 2026): saying 'thrift store' once in a while is OK because it helps SEO (the standing 'shop over store' rule is relaxed for occasional use; keep it out of buttons/menus/headings where practical). The shops/ intro line ('Every thrift store, vintage shop and antique mall...') stays as is.
 - DONE in v21.9, Mod Nov 13 2026): ACTOR AND MUSICIAN BIRTHDAYS removed from POP_FUN (674 lines to 414; 260 lines; authors, fictional characters, athletes, directors/creators, TV hosts and historic figures kept). Comedians who act count as actors.
-- PENDING build (NOT live yet, Mod Nov 13 2026): THRIFT ADDICTION ENABLERS (non-thrift sponsors). /sponsors/ is already updated (Enabler section + form mode). Still to build: (1) wide banner right BELOW the Take It With You / Share The Trail row, stacked if several, small 'Thrift Addiction Enablers' heading; NEVER popups/overlays/anything that pushes the map, route or shop list or makes thrifting worse. Size 1200x400 (3:1) PNG/JPG under 300 KB, optional 800x400 mobile; no art = text listing with logo. (2) Enablers link in footer AND hamburger. (3) /enablers/ page: comedic thank-you intro (first pass by Claude, Mod rewrites) explaining the name, then a grid of businesses. (4) Enabler is last entry at the very bottom of the More Shops section and findable in Add Your Own. (5) Billboard with business name in the distance in the Thrift Trail Rally. Terms: $750/quarter or $2,500/year, every day, category exclusivity (coffee; restaurant or food; bar or brewery; bakery or sweets; other), first to PAY gets the category, term starts the day they pay for one quarter, current Enabler may renew before term ends (first right of refusal), check/Venmo/Cash App only, no new-shop discount. Public wording: 'Enabler', never 'sponsor'/'ad'.
+- DONE in v22.0 (Nov 13 2026): BLOG POST "How the Chattanooga Thrift Trail Helps Local Shops, Vendors and Charities" (blog/how-the-thrift-trail-helps-chattanooga-shops-vendors-charities/, new Community topic chip on blog/index.html, dated Nov 13 2026, in sitemap-blog.xml). Opens with a by-the-numbers list (49 shops, 23 locally owned, 800+ vendors in 7 multi-vendor shops, 17 charities funded by 25 shops). Vendor counts are the newest sourced figure per shop, each linked: Mercantile at the Ridge 300+ (it IS the former Chattanooga Mercantile, 6725 Ringgold Rd), Vinterest 180+ (Hixson 100+ TFP 2018, Southside 80+ 2026), Dirty Jane's 100+, Crafter's Emporium 90+, East Ridge Antique District 65+ (Dept One Three only), Refindery about 50, Electric Crocodile N. Shore 20+. No vendor count found for Parker's Picks, Edith's Emporium, Vintage & More, Crazy Daisy, Local Dive (Mod can give estimates). Mod wants confident, number-forward wording: no "we hope"/"couldn't confirm", and NO "out of date? send feedback" note.
+- DONE in v22.0 (Nov 13 2026, released): THRIFT ADDICTION ENABLERS. One data file drives everything: /enablers.json ({"enablers":[{id,name,category,blurb,address,lat,lng,url,logo,banner,bannerMobile}]}); images live in /enablers/ (banner 1200x400 PNG/JPG under 300 KB, optional bannerMobile 800x400, logo). EMPTY FILE = NOTHING SHOWS ANYWHERE (banner, More Shops entry, footer/menu link, search entry, Rally boards). Built: banner under Take It With You/Share The Trail (static, max 680px wide, stacked); last entry under More Shops (#ctt-offroute-enablers, hidden while the list is collapsed); Enablers listed FIRST in Add Your Own Stop search with 'Thrift Addiction Enabler' text; footer + hamburger 'Enablers' link (index.html footer + menu.js, shown only when the file has entries); /enablers/ page (comedic intro by Claude, first pass, Mod rewrites; grid of businesses; noindex until the first Enabler signs, then remove noindex and add to sitemap.xml); Rally billboards (BB array, up to 3, far from the road, 2D and 3D). Terms: $750/quarter or $2,500/year, every day, category exclusivity (coffee; restaurant or food; bar or brewery; bakery or sweets; other), first to PAY gets the category, term starts the day they pay for one quarter, a current Enabler may renew before the term ends (first right of refusal), check/Venmo/Cash App only, no new-shop discount. Public wording: 'Enabler', never 'sponsor'/'ad'. To ADD ONE: add the entry to enablers.json, upload their images to /enablers/, upload both; remove noindex on /enablers/ for the first one.
+- DONE in v22.0 (released Nov 13 2026): Take It With You buttons centered and the same size as the Share The Trail buttons (12.5px text, 137px wide, 33px tall; Print the Trail, Get the Web App, Send To My Phone); Send To My Phone box no longer says 'share it only with yourself' and now says the link opens in the phone's browser, not a home-screen copy; Instagram share button now uses trail-poster-story.jpg (trail-poster-instagram.jpg was never in the repo; the poster still says '20+ shops', worth refreshing); sponsorship/ and thrift-stores-signal-mountain-ooltewah/ are redirect stubs.
 - DONE in v21.8 ( Mod Nov 13 2026): /sponsors/ now welcomes NON-THRIFT sponsors (coffee shops, restaurants, other local businesses): new 'Not a thrift shop?' section (details agreed per sponsor, nothing charged before confirming; NO prices invented for it) and a 'Type of business' dropdown on the form (sent as business_type); 'Shop name' label is 'Shop or business name'. Mod answered: non-thrift sponsors get featured sections on the site and are recommended along the route; NO new-shop discount for them (thrift/vintage/antique shops only; page says so). Price for non-thrift sponsors still not stated on the page.
 - DONE in v21.8 ( Mod Nov 13 2026): THRIFT TRAIL RALLY (arcade/loop-run/): (1) TIME UPGRADES CUT 15%: shop checkpoint bonuses BONF 1.10 to 0.935 (calcBon; 3 s minimum kept) and pickup/flight/shortcut bonuses BONK .75 to .6375, with their on-screen labels now computed from BONK; (2) SIDE STREETS (undriveable cross roads from OSM XRD/LG lists) now run about 4x as far (length x4.1, overlapping the course is fine per Mod), FADE with distance (2D: linear gradient to 10% alpha; 3D: 10 segments with falling alpha, dashes fade too) and have distant 'city blocks' of simple houses along them (decor t:'h' with ht height factor and fa fade; skipped near the course, real OSM buildings, other streets and each other; about 1,900 of them), culled by bounding box; G.dbg() now also returns decor. Frame rate checked at 60 fps in headless Chrome. Not play-tested for balance (sandbox cannot drive): ask Mod how it feels, adjust BONF/BONK.
 - DONE in v21.8 ( Mod Nov 13 2026): 'Best Days to Visit' box (.bestdays) added to the Signal Mountain section of shops/ and to thrift-stores-signal-mountain/. HAND-WRITTEN from the shops' hours (Bachman Fri/Sat 9-2; St. Timothy's Wed 9-12, Thu 3-5, Fri/Sat 10-1; Clothes House Wed-Sat 9-1): update it whenever those hours change.
@@ -400,7 +402,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v21.9-20261113">
+<meta name="ctt-build" content="v22.0-20261113">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2718,9 +2720,29 @@ LINGERING IDEAS
   .ctt-homescreen-row { margin: 40px 0 22px 0; text-align: center; }
   .ctt-pdf-section .ctt-homescreen-link { margin: 10px 0 0; font-family: 'Libre Franklin', sans-serif; font-weight: 700; font-size: 12.5px; line-height: normal; background: var(--rust); color: #fff; border: none; border-radius: 20px; padding: 8px 18px; text-decoration: none; cursor: pointer; }
   .ctt-pdf-section .ctt-homescreen-link:hover { background: #9a4226; color: #fff; }
-  .ctt-pdf-btnrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  /* v21.9 Thrift Addiction Enablers: a quiet, static banner row under Take It With You / Share The Trail, and a last entry at the bottom of More Shops. */
+  .ctt-enablers { margin: 14px 0 0; text-align: center; }
+  .ctt-enablers[hidden], .ctt-en-more[hidden] { display: none; }
+  .ctt-en-head { font: 700 12.5px 'Libre Franklin', sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--taupe, #6b6252); margin: 0 0 8px; }
+  .ctt-en-head a { color: var(--rust); margin-left: 8px; text-transform: none; letter-spacing: 0; text-decoration: underline; }
+  .ctt-en-list { display: flex; flex-direction: column; gap: 10px; max-width: 680px; margin: 0 auto; } /* a 1200x400 banner is about 227px tall at this width: short and wide */
+  .ctt-en-ban { display: block; border: 1.5px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; line-height: 0; }
+  .ctt-en-ban img { width: 100%; height: auto; display: block; }
+  .ctt-en-card { display: flex; gap: 12px; align-items: center; text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+  .ctt-en-logo { width: 52px; height: 52px; flex: 0 0 52px; object-fit: contain; border-radius: 6px; background: #fff; }
+  .ctt-en-txt { min-width: 0; flex: 1 1 auto; font: 14px/1.35 'Libre Franklin', sans-serif; color: var(--ink); }
+  .ctt-en-txt b { font-size: 15px; }
+  .ctt-en-txt p { margin: 2px 0 0; }
+  .ctt-en-links { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 14px; font: 700 13px 'Libre Franklin', sans-serif; }
+  .ctt-en-links a { color: var(--rust); }
+  .ctt-en-tag { display: inline-block; font: 700 11px 'Libre Franklin', sans-serif; letter-spacing: .04em; text-transform: uppercase; border: 1.5px solid var(--taupe, #6b6252); color: var(--taupe, #6b6252); border-radius: 10px; padding: 1px 8px; margin-bottom: 4px; }
+  .ctt-en-more { margin-top: 9px; display: flex; flex-direction: column; gap: 9px; }
+  #ctt-offroute-list[style*="display:none"] ~ #ctt-offroute-enablers, #ctt-offroute-list[style*="display: none"] ~ #ctt-offroute-enablers { display: none; }
+  .ctt-pdf-btnrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
   .ctt-pdf-btnrow .ctt-homescreen-link { margin: 0; }
-  .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { font-size: 15px; padding: 10px 22px; } /* v21.8 (Mod): Print the Trail and Get the Web App 20% larger (12.5px to 15px text, padding 8/18 to 10/22) */
+  /* v21.9 (Mod): the Take It With You buttons are centered in their box and match the Share The Trail buttons (12.5px text, 8px 18px padding), all three the same width. (Replaces the v21.8 20% larger size.) */
+  .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { font-size: 12.5px; padding: 8px 6px; flex: 0 1 137px; min-width: 0; box-sizing: border-box; border-width: 1.5px; border-style: solid; white-space: nowrap; text-align: center; line-height: normal; }
+  @media (max-width: 480px) { .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { padding: 8px 6px; } }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2952,6 +2974,7 @@ LINGERING IDEAS
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
         <div id="ctt-offroute-list" style="display:none;"></div>
+        <div id="ctt-offroute-enablers" class="ctt-en-more" hidden></div>
       </div>
       <div class="ctt-own-box">
         <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open">&#10133; Add Your Own Stop</button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open">&#9749; Add a coffee stop</button></div>
@@ -2986,6 +3009,10 @@ LINGERING IDEAS
       </div>
     </div>
   </div>
+
+  <!-- v21.9 THRIFT ADDICTION ENABLERS banner. Filled from /enablers.json; stays hidden (and takes no space) when the file has no Enablers. Static on purpose: no popups, no motion, nothing over the map, route or shop list. -->
+  <section class="ctt-enablers" id="ctt-enablers" aria-label="Thrift Addiction Enablers" hidden></section>
+
 
   <div class="ctt-homescreen-panel" id="ctt-homescreen-panel" style="display:none;">
     <h3>Get the Trail Web App</h3>
@@ -3032,7 +3059,7 @@ LINGERING IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-enablers-open" href="enablers/" style="display:none">Enablers</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -3052,7 +3079,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v21.9 &mdash; November 13, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.0 &mdash; November 13, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -5130,9 +5157,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         if (!toks.every(function(t) { return words.some(function(w) { return w.indexOf(t) === 0; }); })) return;
         out.push({ p: p, d: haversineMiles(c.lat, c.lng, p[3], p[4]), s: nm.indexOf(q) === 0 ? 0 : 1 });
       });
+      (window.__cttEnablers || []).forEach(function(e) {
+        if (!e.address || !isFinite(e.lat) || !isFinite(e.lng)) return;
+        var nm = e.name.toLowerCase(), words = nm.split(/[^a-z0-9']+/);
+        if (!toks.every(function(t) { return words.some(function(w) { return w.indexOf(t) === 0; }); })) return;
+        out = out.filter(function(o) { return o.p[0].toLowerCase() !== nm; });
+        out.push({ p: [e.name, e.address, '', +e.lat, +e.lng], d: haversineMiles(c.lat, c.lng, +e.lat, +e.lng), s: -1, en: 1 });
+      });
       out.sort(function(a, b) { return a.s - b.s || a.d - b.d; });
       out = out.slice(0, 6); sugEl._out = out;
-      sugEl.innerHTML = out.map(function(o, i) { return '<button type="button" data-i="' + i + '"><strong>' + cttEsc(o.p[0]) + '</strong><span>' + cttEsc([o.p[1], o.p[2]].filter(Boolean).join(', ')) + ((o.p[1] || o.p[2]) ? ' &middot; ' : '') + o.d.toFixed(1) + ' mi away</span></button>'; }).join('');
+      sugEl.innerHTML = out.map(function(o, i) { return '<button type="button" data-i="' + i + '"><strong>' + cttEsc(o.p[0]) + '</strong><span>' + cttEsc([o.p[1], o.p[2]].filter(Boolean).join(', ')) + ((o.p[1] || o.p[2]) ? ' &middot; ' : '') + o.d.toFixed(1) + ' mi away' + (o.en ? ' &middot; Thrift Addiction Enabler' : '') + '</span></button>'; }).join('');
     }
     sugEl.addEventListener('click', function(e) {
       var b = e.target.closest('button'); if (!b || !sugEl._out) return;
@@ -6287,7 +6321,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var text = encodeURIComponent('Check out the Chattanooga Thrift Trail \u2014 a mapped route through the best thrift, vintage, and antique shops in Chattanooga!');
     window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, '_blank', 'width=580,height=520');
   });
-  // ---- Instagram: one button, one image (trail-poster-instagram.jpg, 1080x1920, poster centered with white space so Story, Reel, Post and Message all work).
+  // ---- Instagram: one button, one image (trail-poster-story.jpg, 1080x1920; v21.9 pointed it here because trail-poster-instagram.jpg was never in the repo, poster centered with white space so Story, Reel, Post and Message all work).
   // Phones get the share sheet; desktops open the image to save and post. "Trail Poster" stays the print version. ----
   (function() {
     var driveHref = (document.querySelector('.ctt-poster-btn') || {}).href || '';
@@ -6325,7 +6359,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         }
       });
     }
-    setup('ctt-share-poster', 'trail-poster-instagram.jpg', 'chattanooga-thrift-trail.jpg', 'instagram');
+    setup('ctt-share-poster', 'trail-poster-story.jpg', 'chattanooga-thrift-trail.jpg', 'instagram');
   })();
   document.getElementById('ctt-share-text').addEventListener('click', function() {
     cttTrack('share', { method: 'text_message' });
@@ -6699,7 +6733,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
     if (!btn || !menu) return;
-    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-arcade-open': '\uD83D\uDD79\uFE0F ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
+    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-enablers-open': '\uD83E\uDD64 ', 'ctt-arcade-open': '\uD83D\uDD79\uFE0F ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
       var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
@@ -6710,7 +6744,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       list.push({ heading: 'Explore' });
       var shopsEl = document.getElementById('ctt-shops-open');
       if (shopsEl) list.push({ label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
-      addLink('ctt-cal-open'); addLink('ctt-blog-open');
+      addLink('ctt-cal-open'); addLink('ctt-blog-open'); addLink('ctt-enablers-open');
       list.push({ heading: 'Use the Trail' });
       list.push({ label: '📲 Get the Web App', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '🖨️ Trail Poster', el: poster, scroll: false });
@@ -6863,6 +6897,33 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     document.addEventListener('keydown', esc);
     document.body.appendChild(ov); ov.querySelector('.ctt-ask-no').focus();
   }
+  // ---- THRIFT ADDICTION ENABLERS (v21.9): one file, /enablers.json, drives the banner, the More Shops entry, Add Your Own Stop search, the footer/menu link, the Enablers page and the Rally billboard. Empty file = nothing shows anywhere. ----
+  (function() {
+    function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : ''; }
+    function safeImg(u) { return /^(\/?enablers\/)[\w.\-]+\.(png|jpe?g|webp|svg)$/i.test(u || '') ? u.replace(/^\//, '') : ''; }
+    function card(e, more) {
+      var logo = safeImg(e.logo), web = safeUrl(e.url);
+      var h = '<div class="ctt-en-card">' + (logo ? '<img class="ctt-en-logo" src="' + cttEsc(logo) + '" alt="" loading="lazy">' : '') + '<div class="ctt-en-txt">' + (more ? '<span class="ctt-en-tag">Thrift Addiction Enabler</span><br>' : '') + '<b>' + cttEsc(e.name) + '</b>' + (e.blurb ? '<p>' + cttEsc(e.blurb) + '</p>' : '') + (e.address ? '<p>' + cttEsc(e.address) + '</p>' : '') +
+        '<div class="ctt-en-links">' + (web ? '<a href="' + cttEsc(web) + '" target="_blank" rel="noopener">Website</a>' : '') + (e.address ? '<a href="' + directionsLink(e.address) + '" target="_blank" rel="noopener">Directions</a>' : '') + '</div></div></div>';
+      return h;
+    }
+    function banner(e) {
+      var b = safeImg(e.banner), m = safeImg(e.bannerMobile), web = safeUrl(e.url);
+      if (!b) return card(e, false);
+      var img = (m ? '<picture><source media="(max-width:600px)" srcset="' + cttEsc(m) + '"><img src="' + cttEsc(b) + '" alt="' + cttEsc(e.name + (e.blurb ? ': ' + e.blurb : '')) + '" width="1200" height="400" loading="lazy"></picture>' : '<img src="' + cttEsc(b) + '" alt="' + cttEsc(e.name + (e.blurb ? ': ' + e.blurb : '')) + '" width="1200" height="400" loading="lazy">');
+      return web ? '<a class="ctt-en-ban" href="' + cttEsc(web) + '" target="_blank" rel="noopener">' + img + '</a>' : '<div class="ctt-en-ban">' + img + '</div>';
+    }
+    function render(list) {
+      list = (Array.isArray(list) ? list : []).filter(function(e) { return e && typeof e.name === 'string' && e.name; }).slice(0, 12);
+      window.__cttEnablers = list;
+      var host = document.getElementById('ctt-enablers'), more = document.getElementById('ctt-offroute-enablers'), fl = document.getElementById('ctt-enablers-open');
+      if (!list.length) return;
+      if (fl) fl.style.display = '';
+      if (host) { host.innerHTML = '<p class="ctt-en-head">Thrift Addiction Enablers<a href="enablers/">Meet Them</a></p><div class="ctt-en-list">' + list.map(banner).join('') + '</div>'; host.hidden = false; }
+      if (more) { more.innerHTML = list.map(function(e) { return card(e, true); }).join(''); more.hidden = false; }
+    }
+    fetch('enablers.json', { cache: 'no-cache' }).then(function(r) { return r.json(); }).then(function(j) { render(j && j.enablers); }).catch(function() {});
+  })();
   // ---- SEND TO MY PHONE (computer only, v21.9): a link, a QR code, or an email that carries today's route to a phone. A snapshot only: nothing is stored on a server. ----
   (function() {
     var btn = document.getElementById('ctt-sendphone-btn'); if (!btn) return;
@@ -6902,7 +6963,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       ov.innerHTML = '<div class="ctt-ask-dialog"><h2 class="ctt-ask-title">Send To My Phone</h2>' +
         '<p class="ctt-ask-body" id="ctt-sp-lead"></p>' +
         '<div style="text-align:center;margin:0 0 12px"><canvas id="ctt-sp-qr" role="img" aria-label="QR code for your route" style="max-width:100%;border:1.5px solid var(--line);border-radius:6px;background:#fff"></canvas></div>' +
-        '<p class="ctt-ask-body" style="font-size:13px;margin:0 0 14px">Point your phone\u2019s camera at the code, or use the buttons below. This is a one-time copy: later changes on either device do not sync, and shops you have visited on the phone stay marked. <strong>Anyone with the link can see the names and addresses of your own stops,</strong> so share it only with yourself.</p>' +
+        '<p class="ctt-ask-body" style="font-size:13px;margin:0 0 14px">Point your phone\u2019s camera at the code, or use the buttons below. This is a one-time copy: later changes on either device do not sync, and shops you have visited on the phone stay marked. <strong>Anyone with the link can see the names and addresses of your own stops.</strong> The link opens in your phone\u2019s browser. A Trail you added to your home screen keeps its own separate copy, so for this trip keep going in the browser.</p>' +
         '<div class="ctt-ask-row"><button type="button" class="ctt-ask-yes" id="ctt-sp-copy">Copy Link</button><button type="button" class="ctt-ask-no" id="ctt-sp-mail">Email It To Me</button></div>' +
         '<div class="ctt-ask-row" style="margin-top:10px"><button type="button" class="ctt-ask-no" id="ctt-sp-close">Close</button></div>' +
         '<p class="ctt-ask-body" id="ctt-sp-msg" role="status" style="font-size:13px;margin:10px 0 0;min-height:1.3em"></p></div>';
