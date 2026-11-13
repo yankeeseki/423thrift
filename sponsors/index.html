@@ -112,8 +112,31 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <p>For thrift, vintage and antique shops: has your shop been open for less than a year? Take an additional 20% off any package. That brings a weekday quarter to $240 and a weekend quarter to $400. Tell us when you opened on the form below.</p>
 <h2>Pay for a full year</h2>
 <p>Pay for a full year in advance and one quarter is on us: you pay for three quarters and keep your day all four. That is $900 for a weekday (about $17 per featured day) or $1,500 for a weekend (about $29 per featured day).</p>
-<h2>Not a thrift shop?</h2>
-<p>Coffee shops, restaurants and other local businesses near the Trail are welcome to sponsor too. Thrifters make a day of it, and they get hungry and thirsty. Sponsors that aren&rsquo;t thrift shops get featured sections on the site, and we recommend them along the route. Choose a type of business on the form below, or tell us your own idea. We&rsquo;ll confirm the details with you before anything is charged. The new shop discount is only for thrift, vintage and antique shops.</p>
+<h2>Not a thrift shop? Become a Thrift Addiction Enabler</h2>
+<p>Coffee shops, restaurants, bakeries and other local businesses near the Trail are welcome. Thrifters make a day of it, and they get hungry and thirsty. Enablers are the friends and neighbors who keep our thrifting habit going, and we say thank you with a spot of their own.</p>
+<div class="plans">
+<div class="plan"><b>Enabler</b><p class="pr">$750</p><p class="pp">per quarter &middot; every day of the week</p></div>
+<div class="plan"><b>Enabler, Full Year</b><p class="pr">$2,500</p><p class="pp">pay for the year in advance</p><p class="pd">saves $500 over four quarters</p></div>
+</div>
+<h3 style="font:700 16px system-ui,sans-serif;margin:16px 0 4px">What&rsquo;s included</h3>
+<ul>
+<li>A wide banner on the main page, right below the Take It With You and Share The Trail boxes, every day of the week. It never covers the map, the route or the shop list.</li>
+<li><strong>Category exclusivity:</strong> no other business in your category (coffee, restaurant or food, bar or brewery, bakery or sweets, other) can be an Enabler while you are.</li>
+<li>A listing on the Thrift Addiction Enablers page, linked from the footer and the menu.</li>
+<li>Your business at the very bottom of the More Shops section, and findable when someone adds their own stop.</li>
+<li>A billboard with your business name in the distance in the Thrift Trail Rally.</li>
+<li>We recommend you along the route.</li>
+</ul>
+<h3 style="font:700 16px system-ui,sans-serif;margin:16px 0 4px">How it works</h3>
+<ul>
+<li>Whoever pays first gets the category. Sending the form does not hold it.</li>
+<li>You start the day you pay, and your term runs one full quarter (three months) from that date.</li>
+<li>A current Enabler gets the first right of refusal: pay before your term ends and the spot stays yours, even if another business in your category asks for it.</li>
+<li>Pay by check, Venmo or Cash App. Gift cards and store credit are not accepted for Enabler spots.</li>
+<li>No new shop discount applies. That is only to help new thrift, vintage and antique shops.</li>
+</ul>
+<h3 style="font:700 16px system-ui,sans-serif;margin:16px 0 4px">What to send us</h3>
+<p>At minimum: your business name, a one-line blurb, your address, a website link and a logo if you have one. Want something great? Send a wide banner (1200 &times; 400 pixels, PNG or JPG, under 300 KB) with your text and logo near the center. You can also send a second version for phones (800 &times; 400 pixels). No artwork? We&rsquo;ll build a text listing with your logo.</p>
 <h2>Other ways to promote your business</h2>
 <p>We are always open to other opportunities to promote your business. Have an idea? Tell us in the note below.</p>
 <p>Sending this form is a request, not a purchase. Days are first come, first served: we&rsquo;ll confirm your day is still open and follow up with the next steps. Nothing is charged here.</p>
@@ -127,7 +150,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 <label for="mf-email">Email</label><input type="email" id="mf-email" maxlength="120" autocomplete="email">
 </fieldset>
 <fieldset><legend>Your sponsorship</legend>
-<label for="mf-pkg">Package</label><select id="mf-pkg"><option value="Weekday $300/quarter">Weekday &ndash; $300 per quarter</option><option value="Weekend $500/quarter">Weekend &ndash; $500 per quarter</option><option value="Full year weekday $900 (one quarter on us)">Full year, weekday &ndash; $900 (one quarter on us)</option><option value="Full year weekend $1500 (one quarter on us)">Full year, weekend &ndash; $1,500 (one quarter on us)</option></select>
+<label for="mf-pkg">Package</label><select id="mf-pkg"><option value="Weekday $300/quarter">Weekday &ndash; $300 per quarter</option><option value="Weekend $500/quarter">Weekend &ndash; $500 per quarter</option><option value="Full year weekday $900 (one quarter on us)">Full year, weekday &ndash; $900 (one quarter on us)</option><option value="Full year weekend $1500 (one quarter on us)">Full year, weekend &ndash; $1,500 (one quarter on us)</option><option value="Enabler $750/quarter" hidden disabled>Enabler &ndash; $750 per quarter</option><option value="Enabler full year $2500" hidden disabled>Enabler, full year &ndash; $2,500</option></select>
 <label for="mf-day">Preferred day <span style="font-weight:400">(first come, first served)</span></label><select id="mf-day"></select>
 <label for="mf-qtr">Quarter</label><select id="mf-qtr"></select>
 <label for="mf-open">When did your shop open? <span style="font-weight:400">(thrift, vintage and antique shops only; open less than a year gets an additional 20% off)</span></label><input type="text" id="mf-open" maxlength="40" placeholder="For example: March 2026" autocomplete="off">
@@ -147,6 +170,15 @@ var KEY='c1c6f136-31d8-41aa-b9f0-c27e4e92665a',f=document.getElementById('mf'),s
 function v(i){return document.getElementById(i).value.trim();}
 function days(){var wk=pkg.selectedIndex===1||pkg.selectedIndex===3,l=wk?['Saturday','Sunday']:['Monday','Tuesday','Wednesday','Thursday','Friday'];day.innerHTML=l.map(function(d){return '<option>'+d+'</option>';}).join('');}
 pkg.addEventListener('change',days);days();
+/* ENABLERS: a non-thrift business type switches the form to the Enabler packages ($750/quarter or $2,500/year), hides the day, quarter and new-shop fields (an Enabler starts the day they pay, every day of the week) and removes gift card or store credit from the payment choices. */
+var typ=document.getElementById('mf-type'),payS=document.getElementById('mf-pay'),payAll=payS.innerHTML;
+function enab(){return typ.selectedIndex>0;}
+function mode(){var e=enab(),i;for(i=0;i<pkg.options.length;i++){var en=/^Enabler/.test(pkg.options[i].value);pkg.options[i].hidden=e?!en:en;pkg.options[i].disabled=e?!en:en;}
+ pkg.selectedIndex=e?4:0;
+ ['mf-day','mf-qtr','mf-open'].forEach(function(id){var el=document.getElementById(id),lb=document.querySelector('label[for='+id+']');el.style.display=e?'none':'';if(lb)lb.style.display=e?'none':'';});
+ payS.innerHTML=payAll;if(e){for(i=payS.options.length-1;i>=0;i--){if(/Gift card/.test(payS.options[i].text))payS.remove(i);}}
+ if(!e)days();}
+typ.addEventListener('change',mode);mode();
 /* QUARTERS: always the next four quarters that have not started yet (one year out), built from today's Eastern date so the list never goes stale. Quarter n = 3 months starting Jan/Apr/Jul/Oct. */
 (function(){var q=document.getElementById('mf-qtr'),M=['January','February','March','April','May','June','July','August','September','October','November','December'],p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit'}).format(new Date()).split('-'),y=+p[0],mo=+p[1]-1,qi=Math.floor(mo/3)+1,out=[];
 for(var i=0;i<4;i++){var idx=(qi+i)%4,yr=y+Math.floor((qi+i)/4),s=idx*3;out.push('<option>Quarter '+(idx+1)+': '+M[s]+' &ndash; '+M[s+2]+' '+yr+'</option>');}
@@ -157,7 +189,7 @@ f.addEventListener('submit',function(e){
   var shop=v('mf-shop'),name=v('mf-name'),email=v('mf-email');
   if(!shop||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='#b3261e';st.textContent='Please add the shop or business name, your name and a valid email.';return;}
   if(!document.getElementById('mf-confirm').checked){st.style.color='#b3261e';st.textContent='Please tick the box to confirm your shop has a storefront and is within approx. 20 miles & 20 minutes of downtown Chattanooga.';return;}
-  var data={access_key:KEY,subject:'Thrift Trail: Featured shop request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:v('mf-day'),quarter:v('mf-qtr'),payment:v('mf-pay'),business_type:v('mf-type'),shop_opened:v('mf-open'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
+  var data={access_key:KEY,subject:'Thrift Trail: '+(enab()?'Enabler':'Featured shop')+' request ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,shop:shop,role:v('mf-role'),package:v('mf-pkg'),preferred_day:enab()?'Every day (Enabler)':v('mf-day'),quarter:enab()?'Starts the day they pay, one quarter':v('mf-qtr'),payment:v('mf-pay'),business_type:v('mf-type'),shop_opened:v('mf-open'),confirmed_storefront_within_20_miles:'Yes',notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
    .then(function(r){return r.json();})
