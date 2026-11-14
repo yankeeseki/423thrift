@@ -3,20 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Item Search: What Is My Thrift Find Worth? | Chattanooga Thrift Trail</title>
-<meta name="description" content="Found something at a Chattanooga thrift shop? Search it with Google or eBay image search, or try ThriftiVision to name it and see what it sells for on eBay.">
-<link rel="canonical" href="https://423thrift.com/itemsearch/">
-<meta property="og:title" content="Item Search | Chattanooga Thrift Trail">
-<meta property="og:description" content="Snap a photo of a thrift find and see what it sells for.">
-<meta property="og:url" content="https://423thrift.com/itemsearch/">
-<meta property="og:image" content="https://423thrift.com/og-image.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="robots" content="noindex, nofollow">
+<title>Item Search | Chattanooga Thrift Trail</title>
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* v22.3: public Item Search page (hamburger + footer link; in sitemap.xml). Sub-page menu and footer come from /menu.js. */
-  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#b5502f; --line:#d8cdb2; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
+  /* v22.2: hidden test page. Not linked anywhere, not in the sitemap, noindex. */
+  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#ae4c2c; --line:#c9bb99; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
   .wrap { max-width:520px; margin:0 auto; padding:20px 16px 60px; }
@@ -28,9 +22,6 @@
   .btn.alt { background:var(--card); color:var(--rust); }
   .btn.slate { background:var(--slate); border-color:var(--slate); }
   .btn + .btn { margin-top:10px; }
-  /* Brand colors only (no logos): Google blue #1A73E8, eBay red #E53238. */
-  .btn.brand-g { background:#1A73E8; border-color:#1A73E8; color:#fff; }
-  .btn.brand-e { background:#E53238; border-color:#E53238; color:#fff; }
   .btn:focus-visible, input:focus-visible { outline:3px solid var(--olive); outline-offset:2px; }
   #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e8dfc9; margin-bottom:12px; }
   label { display:block; font-weight:700; font-size:14px; margin-bottom:6px; }
@@ -41,99 +32,49 @@
   #results { display:none; }
   #file { display:none; }
   .spin { display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--rust); border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-right:6px; }
-  .btn[disabled] { opacity:.45; cursor:default; }
-  .kw { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0 4px; }
-  .kw input[type=text] { font-size:16px; padding:10px 12px; }
-  .kw input:disabled { background:#efe8d8; }
-  .kw .wide { grid-column:1 / -1; }
-  .count { font-size:12.5px; color:var(--taupe); margin:4px 0 12px; }
-  .count.ok { color:var(--olive); font-weight:600; }
-  .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
-  h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
-  .card > .note:first-of-type { margin-top:0; }
-  .est { margin-top:14px; padding:12px 14px; border-radius:10px; background:#f3ecdb; border:1.5px solid var(--line); }
-  .est-head { font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--olive); margin-bottom:4px; }
-  .est-range { font-family:'Archivo Black',Georgia,serif; font-size:26px; line-height:1.15; }
-  .est-sub { font-size:13px; color:var(--taupe); margin-top:2px; }
-  .est-none { font-size:15px; font-weight:600; color:var(--taupe); }
-  .est ul { list-style:none; padding:0; margin:10px 0 0; }
-  .est li { font-size:13.5px; margin:6px 0; }
-  .est li a { color:var(--slate); }
-  .linkbtn { background:none; border:none; padding:8px 0 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--rust); text-decoration:underline; cursor:pointer; }
-  .topbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px dashed var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
-  .topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}
-  .topbar a.sitetitle:hover{text-decoration:underline}
-  .sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
-  .sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
-  .sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
-  .sm-btn svg{width:28px;height:28px}
-  .sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
-  .sm-menu[hidden]{display:none!important}
-  .sm-menu:not([hidden]){display:block!important}
-  .sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
-  .sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
   @keyframes sp { to { transform:rotate(360deg); } }
 </style>
 </head>
 <body>
-<div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
+  <a class="back" href="/">&larr; Chattanooga Thrift Trail</a>
   <h1>Item Search</h1>
-  <p class="sub">Found something? Search it and see what it sells for.</p>
+  <p class="sub">Snap a photo of something you found, then see what it has sold for.</p>
 
   <div class="card">
-    <a class="btn brand-g" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">&#128247; Google Image Search</a>
-    <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
-  </div>
-
-  <div class="card">
-    <h2>ThriftiVision <span class="beta">BETA</span></h2>
-    <p class="note" style="margin:0 0 12px">Snap a photo, fill in what you know, and get a name and value.</p>
     <img id="preview" alt="Your photo">
     <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
-    <input type="file" id="file" accept="image/*">
-    <div class="kw" id="kw">
-      <input type="text" id="k-brand" maxlength="40" autocomplete="off" placeholder="Brand or maker" aria-label="Brand or maker">
-      <input type="text" id="k-title" maxlength="60" autocomplete="off" placeholder="Title, model or pattern" aria-label="Title, model or pattern">
-      <input type="text" id="k-year" maxlength="20" autocomplete="off" placeholder="Year or era" aria-label="Year or era">
-      <input type="text" id="k-color" maxlength="30" autocomplete="off" placeholder="Color" aria-label="Color">
-      <input type="text" id="k-size" maxlength="20" autocomplete="off" placeholder="Size" aria-label="Size">
-      <input type="text" id="k-material" maxlength="30" autocomplete="off" placeholder="Material" aria-label="Material">
-      <input type="text" id="k-country" maxlength="30" autocomplete="off" placeholder="Made in (country)" aria-label="Country of origin">
-      <input type="text" id="k-other" maxlength="40" autocomplete="off" placeholder="Other (type, features...)" aria-label="Other">
-    </div>
-    <p class="count" id="count">Fill in at least one box.</p>
-    <button type="button" class="btn slate" id="go" disabled>Search</button>
+    <input type="file" id="file" accept="image/*" capture="environment">
     <p class="status" id="status" role="status" aria-live="polite"></p>
   </div>
 
   <div class="card" id="results">
     <label for="q">What is it? Fix the name if it's off.</label>
     <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl">
-    <div class="est" id="est">
-      <div class="est-head">Estimated Value</div>
-      <div id="est-body"></div>
-      <button type="button" class="linkbtn" id="est-again" style="display:none">Update Estimate For This Name</button>
-    </div>
     <div style="margin-top:14px">
       <a class="btn" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
-      <a class="btn alt" id="live" target="_blank" rel="noopener">Live on eBay</a>
-      <a class="btn alt" id="goog" target="_blank" rel="noopener">Check Google</a>
+      <a class="btn alt" id="live" target="_blank" rel="noopener">For Sale on eBay</a>
+      <a class="btn alt" id="goog" target="_blank" rel="noopener">Google It</a>
     </div>
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Nothing is saved by the Trail.</p>
+  <div class="card" id="typecard">
+    <label for="q2">Or just type what it is</label>
+    <input type="text" id="q2" maxlength="120" autocomplete="off" placeholder="Brand, type, pattern or model">
+    <button type="button" class="btn slate" id="go2" style="margin-top:12px">Search</button>
+  </div>
+
+  <p class="note">Photos are sent to Google's Gemini AI only to name the item. Please don't photograph people. Nothing is saved by the Trail.</p>
 </div>
 
 <script>
 (function () {
+  // Paste your Cloudflare Worker address here after you deploy it (it ends in workers.dev). Leave empty and the page still works with the type box.
   var WORKER_URL = 'https://itemsearch.derek-de2.workers.dev/';
-  var KEYS = ['brand', 'title', 'year', 'color', 'size', 'material', 'country', 'other'];
 
   var $ = function (id) { return document.getElementById(id); };
-  var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q'), go = $('go');
-  var photo = '';
+  var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
 
   function setStatus(t, err, busy) {
     statusEl.className = 'status' + (err ? ' err' : '');
@@ -149,146 +90,54 @@
     $('goog').href = on ? 'https://www.google.com/search?q=' + t : '#';
     ['sold', 'live', 'goog'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
   }
-  var lastKw = {}, priced = '';
-  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  function fmt(n) { return '$' + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2).replace(/\.00$/, '')); }
-  function getEstimate() {
-    var name = (q.value || '').trim(), body = $('est-body');
-    $('est-again').style.display = 'none';
-    if (!name) { body.innerHTML = '<div class="est-none">No evaluation data available</div>'; return; }
-    priced = name;
-    body.innerHTML = '<div class="est-sub"><span class="spin"></span>Checking eBay...</div>';
-    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 20000);
-    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ price: name, keywords: lastKw }), signal: ctl.signal })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        clearTimeout(timer);
-        if (priced !== name) return;
-        var e = j && j.estimate;
-        if (!e) { body.innerHTML = '<div class="est-none">No evaluation data available</div>'; return; }
-        var range = e.low === e.high ? fmt(e.low) : fmt(e.low) + ' &ndash; ' + fmt(e.high);
-        var conf = { good: 'Good match', fair: 'Fair match', low: 'Rough guess' }[e.confidence] || '';
-        var h = '<div class="est-range">' + range + '</div>'
-          + '<div class="est-sub">' + conf + ': ' + e.count + ' matching eBay listing' + (e.count === 1 ? '' : 's') + (e.count > 1 ? ', middle ' + fmt(e.median) : '') + '.</div>'
-          + '<div class="est-sub">' + esc(j.note || '') + '</div>';
-        if (j.listings && j.listings.length) {
-          h += '<ul>' + j.listings.map(function (l) {
-            return '<li><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a> &middot; ' + fmt(l.price) + (l.condition ? ' &middot; ' + esc(l.condition) : '') + '</li>';
-          }).join('') + '</ul>';
-        }
-        body.innerHTML = h;
-      })
-      .catch(function () { clearTimeout(timer); if (priced === name) body.innerHTML = '<div class="est-none">No evaluation data available</div>'; });
-  }
-  function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); getEstimate(); }
-  q.addEventListener('input', function () { links(); $('est-again').style.display = (q.value || '').trim() && q.value.trim() !== priced ? 'inline-block' : 'none'; });
-  $('est-again').addEventListener('click', getEstimate);
+  function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); }
+  q.addEventListener('input', links);
 
-  // Keywords: at least one box filled; all of them are welcome.
-  function keywords() {
-    var out = {};
-    KEYS.forEach(function (k) { var v = ($('k-' + k).value || '').trim(); if (v) out[k] = v; });
-    return out;
-  }
-  function refresh() {
-    var n = Object.keys(keywords()).length;
-    var c = $('count');
-    if (!photo && !n) c.textContent = 'Snap a photo, then fill in at least one box.';
-    else if (!photo) c.textContent = 'Now snap a photo.';
-    else if (!n) c.textContent = 'Fill in at least one box.';
-    else c.textContent = n + (n === 1 ? ' box' : ' boxes') + ' filled. Ready to search.';
-    c.className = 'count' + (photo && n ? ' ok' : '');
-    go.disabled = !(photo && n);
-  }
-  KEYS.forEach(function (k) {
-    $('k-' + k).addEventListener('input', refresh);
-    $('k-' + k).addEventListener('keydown', function (e) { if (e.key === 'Enter' && !go.disabled) go.click(); });
+  $('go2').addEventListener('click', function () {
+    var v = ($('q2').value || '').trim(); if (!v) { $('q2').focus(); return; }
+    showResults(v); results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
-
-  // Google and eBay don't offer a link straight to their cameras (tested Nov 14 2026), so on iPhone these open
-  // the app itself (one tap on its camera icon from there), or the App Store if it isn't installed.
-  var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  function openApp(id, scheme, store) {
-    $(id).addEventListener('click', function (e) {
-      e.preventDefault();
-      var t = setTimeout(function () { if (!document.hidden) location.href = store; }, 1500);
-      document.addEventListener('visibilitychange', function () { if (document.hidden) clearTimeout(t); }, { once: true });
-      location.href = scheme;
-    });
-  }
-  if (isIOS) {
-    openApp('lens', 'google://', 'https://apps.apple.com/app/google/id284815942');
-    openApp('ebaycam', 'ebay://', 'https://apps.apple.com/app/ebay/id282614216');
-  }
+  $('q2').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go2').click(); });
 
   snap.addEventListener('click', function () { fileEl.value = ''; fileEl.click(); });
 
   // Shrink the photo before sending: smaller upload, faster answer, and it stays well under the free limits.
-  // iPhone photos can be 24-48 megapixels; decoding them at full size can make Safari reload the page,
-  // so ask the browser to decode at reduced size when it can, and free every big buffer right away.
   function shrink(file, cb) {
-    var max = 1024;
-    function draw(src, w, h, done) {
-      var k = Math.min(1, max / Math.max(w, h));
-      var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
-      c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function () {
+      var max = 1024, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
+      var c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       var data = c.toDataURL('image/jpeg', 0.8);
-      c.width = c.height = 0;
-      done(data);
-    }
-    function viaImg() {
-      var url = URL.createObjectURL(file), img = new Image();
-      img.onload = function () {
-        var w = img.naturalWidth, h = img.naturalHeight;
-        draw(img, w, h, function (data) { img.src = ''; URL.revokeObjectURL(url); cb(null, data); });
-      };
-      img.onerror = function () { URL.revokeObjectURL(url); cb(new Error('bad image')); };
-      img.src = url;
-    }
-    if (window.createImageBitmap) {
-      createImageBitmap(file, { resizeWidth: max, resizeQuality: 'high' }).then(function (bmp) {
-        var w = bmp.width, h = bmp.height;
-        draw(bmp, w, h, function (data) { if (bmp.close) bmp.close(); cb(null, data); });
-      }).catch(viaImg);
-    } else viaImg();
+      URL.revokeObjectURL(url); cb(null, data);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); cb(new Error('bad image')); };
+    img.src = url;
   }
 
   fileEl.addEventListener('change', function () {
     var f = fileEl.files && fileEl.files[0]; if (!f) return;
-    results.style.display = 'none'; setStatus('');
+    results.style.display = 'none';
     shrink(f, function (err, dataUrl) {
-      if (err) { photo = ''; refresh(); setStatus('That photo would not open. Try another.', true); return; }
-      photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block';
-      snap.innerHTML = '&#128247; Retake Photo';
-      refresh();
-      var first = KEYS.map(function (k) { return $('k-' + k); }).filter(function (el) { return !el.value.trim(); })[0];
-      if (first && !Object.keys(keywords()).length) first.focus();
+      if (err) { setStatus('That photo would not open. Try another, or type the name below.', true); return; }
+      preview.src = dataUrl; preview.style.display = 'block';
+      if (!WORKER_URL) { setStatus('The photo reader is not connected yet. Type what it is below.', true); return; }
+      setStatus('Reading the photo...', false, true);
+      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
+      fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: dataUrl.split(',')[1], mime: 'image/jpeg' }), signal: ctl.signal })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+        .then(function (r) {
+          clearTimeout(timer);
+          if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+          if (r.status === 429) { setStatus("Today's free photo reads are used up. Type what it is below instead.", true); return; }
+          if (r.j && r.j.google_status === 503) { setStatus("Google's photo reader is busy right now. Try the photo again in a minute, or type it below.", true); return; }
+          setStatus('I could not tell what that is. Try a clearer photo, or type it below.' + (r.j && (r.j.detail || r.j.error) ? ' [' + r.status + ': ' + (r.j.google_status ? 'Google ' + r.j.google_status + ' ' : '') + String(r.j.detail || r.j.error).slice(0, 200) + ']' : ' [' + r.status + ']'), true);
+        })
+        .catch(function () { clearTimeout(timer); setStatus('The photo reader did not answer. Type what it is below instead.', true); });
     });
   });
-
-  go.addEventListener('click', function () {
-    var kw = keywords(); lastKw = kw;
-    if (!photo || !Object.keys(kw).length) return;
-    results.style.display = 'none';
-    go.disabled = true;
-    setStatus('Reading the photo...', false, true);
-    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
-    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: photo.split(',')[1], mime: 'image/jpeg', keywords: kw }), signal: ctl.signal })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
-      .then(function (r) {
-        clearTimeout(timer); refresh();
-        if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-        if (r.status === 429) { setStatus("Today's free photo reads are used up. Try Google or eBay Image Search above.", true); return; }
-        if (r.j && r.j.google_status === 503) { setStatus("The photo reader is busy right now. Try again in a minute.", true); return; }
-        setStatus('I could not tell what that is. Try a clearer photo or different keywords.', true);
-      })
-      .catch(function () { clearTimeout(timer); refresh(); setStatus('The photo reader did not answer. Try again in a minute.', true); });
-  });
-
-  refresh();
   links();
 })();
 </script>
-<script src="/menu.js" defer></script>
 </body>
 </html>

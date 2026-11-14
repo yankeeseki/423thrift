@@ -60,6 +60,9 @@ self.addEventListener('fetch', function(e) {
   if (req.mode === 'navigate') {
     e.respondWith(
       fetch(req.url, { cache: 'no-store', credentials: 'same-origin' }).then(function(res) {
+        // v22.3: a page typed without its trailing slash (/itemsearch) gets a redirect from the host. A page request may not be answered with a followed redirect,
+        // so Safari showed 'This webpage was reloaded because a problem occurred' before recovering. Answer with a real redirect to the final address instead.
+        if (res && res.redirected && res.url && new URL(res.url).origin === self.location.origin) return Response.redirect(res.url, 302);
         if (res && res.ok && url.origin === self.location.origin) {
           var copy = res.clone();
           caches.open(SHELL_CACHE).then(function(c) { c.put(req, copy); });
