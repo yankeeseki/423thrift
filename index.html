@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.9-20261114">
+<meta name="ctt-build" content="v22.10-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1231,6 +1231,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     margin: 0 0 10px 0;
   }
   .ctt-route-stat strong { color: #fff; opacity: 1; font-weight: 800; text-shadow: 0 1px 2px rgba(44,36,23,.55); }
+  /* v22.10 (Mod): the little ^ under the big button folds away the instructions beneath it (hint, Directions / Next / Undo row, status text). The choice is remembered in localStorage ('ctt-cta-collapsed') until Reset wipes the device. */
+  .ctt-cta-collapse { display: block; margin: 2px auto 0; padding: 0 18px; height: 20px; line-height: 20px; background: none; border: none; color: var(--ink); font-size: 13px; cursor: pointer; opacity: .75; }
+  .ctt-cta-collapse:hover { opacity: 1; }
+  .ctt-cta-row.ctt-collapsed #ctt-cta-navrow, .ctt-cta-row.ctt-collapsed .ctt-cta-hint, .ctt-cta-row.ctt-collapsed #ctt-cta-status { display: none !important; }
+  .ctt-per-short { display: none; } /* v22.10: '/shop' is only used when the phone is sideways */
   .ctt-nw { white-space: nowrap; } /* v22.3: a line break can only fall between the groups (after a dot), never inside 'min per shop' or at the start of a line */
   .ctt-route-stat, .ctt-status-stat-row { text-wrap: balance; } /* v22.3: if either line has to wrap on a narrow phone, break it evenly instead of leaving one word alone on the second line */
   .ctt-route-stat strong.ctt-stat-date { color: var(--ink); text-shadow: none; } /* v22.3: the date is dark ink, not white (white is only 2.9:1 on the gold) */
@@ -2472,10 +2477,12 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   @media (max-width: 600px) { .ctt-cta-btnwrap .ctt-cta-btn { height: 118px; } }
   /* v22.7/v22.8 (Mod): phone held sideways. The LEFT half is locked in place: big button + numbers on top, map below. The whole rest of the home page (title, banners, Your Route list, footer) scrolls on the RIGHT half. Portrait phones and tablets are untouched (the height limit keeps tablets out). --ctt-cta-h is set by a small script (landscapeFit) to the height of the button box so the map sits right under it. */
   @media (orientation: landscape) and (max-height: 520px) {
-    body { box-sizing: border-box; padding-left: 50%; }
+    :root { --ls-left: 56%; }
+    @media (max-width: 720px) { :root { --ls-left: 53%; } }
+    body { box-sizing: border-box; padding-left: var(--ls-left, 56%); }
     #ctt-thrift-wrap .ctt-layout { display: block; }
-    #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(50% - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
-    #ctt-thrift-wrap .ctt-layout .ctt-map-col { position: fixed; z-index: 10; order: 0; top: calc(var(--ctt-cta-h, 190px) + 12px); bottom: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(50% - 8px - max(8px, env(safe-area-inset-left))); margin: 0; display: flex; flex-direction: column; min-height: 0; }
+    #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
+    #ctt-thrift-wrap .ctt-layout .ctt-map-col { position: fixed; z-index: 10; order: 0; top: calc(var(--ctt-cta-h, 190px) + 12px); bottom: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); margin: 0; display: flex; flex-direction: column; min-height: 0; }
     #ctt-thrift-wrap .ctt-layout .ctt-map-col #ctt-map { position: relative; top: auto; flex: 1 1 auto; height: auto !important; min-height: 0; }
     #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { margin: 0 0 2px; flex: 0 0 auto; }
     #ctt-thrift-wrap .ctt-map-col .ctt-howworks-panel { max-height: 45vh; overflow-y: auto; flex: 0 0 auto; }
@@ -2507,6 +2514,17 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     /* v22.8 (Mod): sideways, also hide Take It With You + Share The Trail, and Browse By Neighborhood with everything below it (newsletter, version, credits, About). The footer link row and tip buttons stay. */
     #ctt-thrift-wrap .ctt-split-row, .ctt-seo, .ctt-news, .ctt-version, .ctt-footer { display: none !important; }
     .ctt-offroute-head .ctt-offroute-note { font-size: 11px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    /* v22.10 (Mod): sideways = 'CTT Lite' for experienced users. Left column is 56% wide (--ls-left). The live numbers are ONE line with no 'Remaining:' and '/shop'. Nothing under the big button (gesture hints, Directions/Next/Undo row, status text). Hidden in the list: the Your Route / Open Now header and the saved-on-this-device / Start Over note, the photo thumbnails, star ratings and shop descriptions. Hidden on the map: the +/- zoom buttons and the Names On/Off toggle. */
+    .ctt-route-stat { white-space: nowrap; overflow: hidden; font-size: 12.5px; }
+    .ctt-st-long, .ctt-per-long { display: none !important; }
+    #ctt-holiday .ctt-hd-side { display: none !important; } /* the flanking emoji would widen the narrower right column */
+    #ctt-holiday, #ctt-holiday * { min-width: 0; max-width: 100%; box-sizing: border-box; }
+    #ctt-holiday .ctt-holiday-btw, #ctt-holiday .ctt-holiday-btw span, #ctt-holiday .ctt-holiday-body { white-space: normal !important; overflow-wrap: anywhere; }
+    .ctt-per-short { display: inline !important; }
+    #ctt-thrift-wrap .ctt-cta-navrow, #ctt-cta-navrow, .ctt-cta-status, #ctt-cta-status, .ctt-cta-collapse { display: none !important; }
+    #ctt-thrift-wrap .ctt-trail-header, #ctt-saved-note { display: none !important; }
+    .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note { display: none !important; }
+    #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle { display: none !important; }
   }
 </style>
 
@@ -2574,6 +2592,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div class="ctt-cta-toast" id="ctt-cta-toast" role="status" aria-live="polite" hidden></div>
         <div class="ctt-cta-navrow" id="ctt-cta-navrow" style="display:none;"><span class="ctt-cta-hint" id="ctt-cta-hint">Control the route with just one button</span><button type="button" class="ctt-cta-undo" id="ctt-nav-dir">Directions <span>long press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-nav-nextbtn">Next <span>quick press</span></button><span class="ctt-nav-sep" aria-hidden="true">|</span><button type="button" class="ctt-cta-undo" id="ctt-cta-undo">Undo <span>double-tap</span></button></div></div>
             <span class="ctt-cta-status" id="ctt-cta-status">Loading today's numbers&hellip;</span>
+            <button type="button" class="ctt-cta-collapse" id="ctt-cta-collapse" aria-expanded="true" aria-label="Hide the big button instructions" title="Hide / show the instructions under the big button">&#9650;</button>
     </div>
   </div>
 
@@ -2763,7 +2782,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.9 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.10 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3805,7 +3824,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     g.push('<strong>' + b.count + ' ' + b.noun + (b.count === 1 ? '' : 's') + '</strong>');
     g.push('<strong>' + b.miles + ' ' + (b.miles === 1 ? 'mile' : 'miles') + '</strong>');
     if (timerParts) { g.push('<strong>' + timerParts.time + '</strong>'); g.push(timerParts.per); }
-    var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + 'Remaining:</span> ';
+    var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + '<span class="ctt-st-long">Remaining:</span></span> ';
     html += g.map(function(x, k) { return '<span class="ctt-nw">' + x + (k < g.length - 1 ? ' <span class="ctt-sep">&middot;</span>' : '') + '</span>'; }).join(' ');
     el.innerHTML = html;
     el.classList.remove('urgency-calm', 'urgency-tight', 'urgency-urgent');
@@ -5248,7 +5267,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var driveMinutes = estimateRemainingDriveMinutes(remaining);
     var browsingMinutes = Math.max(minutesRemaining - driveMinutes, 0);
     var avgPerShop = Math.max(0, Math.floor(browsingMinutes / remaining.length));
-    var fitNote = '<strong>' + avgPerShop + ' min</strong> per ' + (errands.filter(function(e) { return !e.coffee; }).length ? 'stop' : 'shop'); // v22.3 (Mod): no 'About'
+    var fitNote = '<strong>' + avgPerShop + ' min</strong><span class="ctt-per-long"> per ' + (errands.filter(function(e) { return !e.coffee; }).length ? 'stop' : 'shop') + '</span><span class="ctt-per-short">/' + (errands.filter(function(e) { return !e.coffee; }).length ? 'stop' : 'shop') + '</span>'; // v22.3 (Mod): no 'About'
 
     // Urgency ramps up as real time actually runs out - genuine, since
     // shops really are closing, not a manufactured countdown gimmick.
@@ -6877,6 +6896,14 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     add('Get the Web App', function() { var el = document.querySelector('.ctt-homescreen-link'); if (el) el.click(); });
     add('Trail Poster', function() { var el = document.querySelector('.ctt-poster-btn'); if (el) el.click(); });
     add('Maps App', function() { var el = document.getElementById('ctt-maps-open'); if (el) el.click(); });
+  })();
+  // v22.10 (Mod): the ^ / v toggle under the big button; remembered until a full Reset (which clears localStorage).
+  (function() {
+    var row = document.querySelector('.ctt-cta-row'), tg = document.getElementById('ctt-cta-collapse'); if (!row || !tg) return;
+    function apply(c) { row.classList.toggle('ctt-collapsed', c); tg.innerHTML = c ? '&#9660;' : '&#9650;'; tg.setAttribute('aria-expanded', c ? 'false' : 'true'); tg.setAttribute('aria-label', c ? 'Show the big button instructions' : 'Hide the big button instructions'); }
+    var saved = false; try { saved = localStorage.getItem('ctt-cta-collapsed') === '1'; } catch (e) {}
+    apply(saved);
+    tg.addEventListener('click', function() { var c = !row.classList.contains('ctt-collapsed'); apply(c); try { if (c) localStorage.setItem('ctt-cta-collapsed', '1'); else localStorage.removeItem('ctt-cta-collapsed'); } catch (e) {} });
   })();
   // v22.8 (Mod): phone landscape: keep the map right under the locked button box, whatever height that box has (one or two stat lines, the nav row after the first tap).
   (function() {
