@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Item Search | Chattanooga Thrift Trail</title>
+<title>Item Search: What Is My Thrift Find Worth? | Chattanooga Thrift Trail</title>
+<meta name="description" content="Found something at a Chattanooga thrift shop? Search it with Google or eBay image search, or try ThriftiVision to name it and see what it sells for on eBay.">
+<link rel="canonical" href="https://423thrift.com/itemsearch/">
+<meta property="og:title" content="Item Search | Chattanooga Thrift Trail">
+<meta property="og:description" content="Snap a photo of a thrift find and see what it sells for.">
+<meta property="og:url" content="https://423thrift.com/itemsearch/">
+<meta property="og:image" content="https://423thrift.com/og-image.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Hidden test page. Not linked anywhere, not in the sitemap, noindex. */
-  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#ae4c2c; --line:#c9bb99; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
+  /* v22.3: public Item Search page (hamburger + footer link; in sitemap.xml). Sub-page menu and footer come from /menu.js. */
+  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#b5502f; --line:#d8cdb2; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
   .wrap { max-width:520px; margin:0 auto; padding:20px 16px 60px; }
@@ -54,12 +60,24 @@
   .est li { font-size:13.5px; margin:6px 0; }
   .est li a { color:var(--slate); }
   .linkbtn { background:none; border:none; padding:8px 0 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--rust); text-decoration:underline; cursor:pointer; }
+  .topbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px dashed var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
+  .topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}
+  .topbar a.sitetitle:hover{text-decoration:underline}
+  .sm-btn{margin-left:auto;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--rust);cursor:pointer;padding:0}
+  .sm-btn:hover,.sm-btn[aria-expanded=true]{color:var(--ink)}
+  .sm-btn:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+  .sm-btn svg{width:28px;height:28px}
+  .sm-menu{position:fixed;top:58px;right:12px;z-index:50;width:min(260px,calc(100vw - 24px));background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(44,36,23,.22);padding:6px;font-family:system-ui,sans-serif}
+  .sm-menu[hidden]{display:none!important}
+  .sm-menu:not([hidden]){display:block!important}
+  .sm-menu a{display:block!important;width:auto!important;margin:0!important;padding:11px 12px!important;border:none!important;border-radius:8px!important;background:none!important;color:var(--ink)!important;text-decoration:none!important;font-size:15px!important;font-weight:600!important;font-family:system-ui,sans-serif!important;text-align:left!important}
+  .sm-menu a:hover,.sm-menu a:focus-visible{background:var(--paper)!important;color:var(--rust)!important;outline:none}
   @keyframes sp { to { transform:rotate(360deg); } }
 </style>
 </head>
 <body>
+<div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
-  <a class="back" href="/">&larr; Chattanooga Thrift Trail</a>
   <h1>Item Search</h1>
   <p class="sub">Found something? Search it and see what it sells for.</p>
 
@@ -105,7 +123,7 @@
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Please don't photograph people. Nothing is saved by the Trail.</p>
+  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Nothing is saved by the Trail.</p>
 </div>
 
 <script>
@@ -271,5 +289,6 @@
   links();
 })();
 </script>
+<script src="/menu.js" defer></script>
 </body>
 </html>

@@ -48,6 +48,7 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- DONE in v22.3 (Mod, Nov 14 2026): (1) ITEM SEARCH is public: footer link 'Item Search' after Community Calendar (home + menu.js) and hamburger '📷 Item Search' just above Community Calendar (home addLink order + menu.js); itemsearch/index.html loses noindex, gets description/canonical/og, the sub-page topbar + /menu.js, exact site rust #b5502f, and a sitemap.xml entry. Page: Google Image Search (opens the Google app, #1A73E8) and eBay Image Search (opens the eBay app, #E53238) buttons, then ThriftiVision (BETA): photo + at least one of 8 keyword boxes, Cloudflare worker itemsearch.derek-de2.workers.dev (Vision web match, then Gemini), value estimate from the eBay Browse API once Mod's eBay developer keys are added (asking prices only, no shipping; 'No evaluation data available' otherwise). (2) LAYOUT TRIAL (Mod may revert): static #ctt-featured-day now sits just above 'Your Route / Open Now' (inside .ctt-list-outer; on phones that is below the map); the map legend row (.ctt-route-stat-row) and How this works toggle + panel moved out of the page header into a new .ctt-map-col wrapper just above #ctt-map (.ctt-map-col carries the grid order and desktop sticky now). Was: featured line above the holiday banner, legend + How this works in the header. (3) HOW-TO + one-button blog post explain the route flip (draw > or < on the big button) and why you might want it.
 - DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box (just the two centered buttons, no label or note) holding both '+ Add Your Own Stop' and '☕ Add a Coffee Stop' (the coffee panel moved into that box; ids unchanged).
 - DONE in v19.4 (Nov 7 2026): 'Your own stops' box is just two centered buttons (17px, no label or note); Add Your Own Stop help text shortened to one paragraph; Share The Trail buttons on desktop (min-width 781px) are 3 over 2 in equal-width pills (CSS grid on .ctt-share-row), phone layout unchanged; More Shops list is sorted open-now (or closing soon) first, then closed (sortOffRouteByOpen, called after addBackgroundBonus in recalibrate; order inside each group unchanged; no section headings because the height and scroll code treat every child as a shop card).
 - DONE in v19.5 (Nov 7 2026): Add Your Own Stop: button shows the ➕ emoji instead of a plain +; appointment-time field forced inside the box (min-width 0, appearance none, form overflow hidden; written for iPhone Safari, which cannot be tested in the sandbox); suggestions only list places WITH a street address (1,519 of 2,553 in places.json); the 'Enjoying the trail?' tip row removed from this dialog only (other dialogs keep it); More Shops heading + note stay on ONE line on phones (nowrap, smaller text under 480px and 380px; only the longer "All Other Shops" label on a 320px-wide screen clips the note); removed the coffee panel line 'Hours come from Google and can change.'.
@@ -407,7 +408,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.2-20261114">
+<meta name="ctt-build" content="v22.3-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1946,7 +1947,12 @@ LINGERING IDEAS
   }
   .ctt-layout #ctt-map { order: -1; position: relative; height: clamp(320px, 64vh, 540px) !important; }
   .ctt-layout .ctt-list { overflow-y: auto; padding-right: 0; }
+  .ctt-layout .ctt-map-col { order: -1; min-width: 0; }
+  .ctt-map-col .ctt-route-stat-row { margin: 0 0 8px 0; justify-content: center; }
+  .ctt-map-col .ctt-howworks-panel { margin: 0 0 10px 0; }
   @media (min-width: 781px) {
+    .ctt-layout .ctt-map-col { order: 0; position: sticky; top: 12px; }
+    .ctt-layout .ctt-map-col #ctt-map { position: relative; }
     .ctt-layout { grid-template-columns: minmax(0, 610px) 1fr; }
     .ctt-layout #ctt-map { order: 0; position: sticky; top: 12px; height: clamp(460px, 82vh, 780px) !important; }
     .ctt-layout .ctt-list { max-height: none; overflow-y: auto; padding-right: 0; }
@@ -2240,7 +2246,7 @@ LINGERING IDEAS
   .ctt-fd-gold { color: #7f610b; }
   .ctt-fd-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .ctt-fd-link:hover { color: var(--rust); }
-  .ctt-featured-day { margin: 0 0 4px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: var(--ink); }
+  .ctt-featured-day { margin: 0 0 8px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: var(--ink); }
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
   .ctt-holiday-card {
     /* v21.1: emoji and close X are pinned to the edges and vertically centered; side padding is equal (flag side includes the thicker left border) so the text is centered on the whole card, in line with the Featured line above. */
@@ -2850,14 +2856,6 @@ LINGERING IDEAS
     <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
     <h1 class="ctt-title">Chattanooga Thrift Trail</h1>
     <p class="ctt-tagline"><strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
-    <div class="ctt-route-stat-row">
-      <div class="ctt-legend-group">
-        <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
-        <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
-        <span class="ctt-legend-item"><svg class="ctt-legend-starsvg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1.6"/></svg>Featured</span>
-      </div>
-      <button class="ctt-howworks-toggle" id="ctt-howworks-toggle" aria-label="How This Works" aria-expanded="false">&#8505;&#65039;<span class="ctt-hw-t"> How this works</span> <span class="ctt-hw-c">&#9662;</span></button>
-    </div>
   </div>
 
   <div id="ctt-holiday" style="display:none;"></div>
@@ -2902,14 +2900,6 @@ LINGERING IDEAS
     </div>
   </div>
 
-  <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
-    <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
-    <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
-    <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
-    <p><strong>The big button:</strong> Once your route is built, that one button runs the whole trip. Tap it when you reach a shop to be pointed to the next one, tap it twice in a row to step back a shop, press and hold it to open driving directions, or draw a &gt; (or &lt;) on it in one stroke to reverse the stops still ahead. Draw it again to flip back.</p>
-    <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
-    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the Web App</button></div>
-  </div>
 
   <div class="ctt-cta-row">
     <div class="ctt-status-panel">
@@ -2924,12 +2914,15 @@ LINGERING IDEAS
     </div>
   </div>
 
+
   <div class="ctt-resume-banner" id="ctt-resume-banner" style="display:none;"></div>
   <div class="ctt-planning-banner" id="ctt-planning-banner" style="display:none;"></div>
 
 
   <div class="ctt-layout" id="ctt-layout">
     <div class="ctt-list-outer">
+      <!-- v22.3 (Mod, trial): Featured Shop of the Day just above Your Route. renderHolidayBanner() fills it. -->
+      <div id="ctt-featured-day" class="ctt-featured-day" style="display:none;"></div>
       <div class="ctt-trail-header">
         <div class="ctt-title-col"><span class="ctt-trail-title">Your Route<span class="ctt-list-label">Open Now</span></span></div>
         <div class="ctt-custom-order-banner" id="ctt-saved-note" style="display:none;">
@@ -2989,7 +2982,26 @@ LINGERING IDEAS
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
+    <!-- v22.3 (Mod, trial): map legend + How this works sit just above the map (were in the page header). -->
+    <div class="ctt-map-col">
+      <div class="ctt-route-stat-row">
+        <div class="ctt-legend-group">
+          <span class="ctt-legend-item"><span class="ctt-mini-num">1</span>Route</span>
+          <span class="ctt-legend-item"><span class="ctt-mini-diamond"></span>Bonus</span>
+          <span class="ctt-legend-item"><svg class="ctt-legend-starsvg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1.6"/></svg>Featured</span>
+        </div>
+        <button class="ctt-howworks-toggle" id="ctt-howworks-toggle" aria-label="How This Works" aria-expanded="false">&#8505;&#65039;<span class="ctt-hw-t"> How this works</span> <span class="ctt-hw-c">&#9662;</span></button>
+      </div>
+  <div class="ctt-howworks-panel" id="ctt-howworks-panel" style="display:none;">
+    <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
+    <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
+    <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
+    <p><strong>The big button:</strong> Once your route is built, that one button runs the whole trip. Tap it when you reach a shop to be pointed to the next one, tap it twice in a row to step back a shop, press and hold it to open driving directions, or draw a &gt; (or &lt;) on it in one stroke to reverse the stops still ahead. Draw it again to flip back.</p>
+    <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
+    <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the Web App</button></div>
+  </div>
     <div id="ctt-map" class="ctt-labels-off"></div>
+    </div>
   </div>
 
   <div class="ctt-split-row">
@@ -3067,7 +3079,7 @@ LINGERING IDEAS
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-enablers-open" href="enablers/" style="display:none">Enablers</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><a class="ctt-disclaimer-toggle" id="ctt-ig-open" href="https://www.instagram.com/chattanoogathrifttrail/" target="_blank" rel="noopener">Instagram</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-itemsearch-open" href="itemsearch/">Item Search</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-enablers-open" href="enablers/" style="display:none">Enablers</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><a class="ctt-disclaimer-toggle" id="ctt-ig-open" href="https://www.instagram.com/chattanoogathrifttrail/" target="_blank" rel="noopener">Instagram</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -3087,7 +3099,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.2 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.3 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -6806,7 +6818,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu');
     if (!btn || !menu) return;
-    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-enablers-open': '\uD83E\uDD64 ', 'ctt-arcade-open': '\uD83D\uDD79\uFE0F ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
+    var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-itemsearch-open': '\uD83D\uDCF7 ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-enablers-open': '\uD83E\uDD64 ', 'ctt-arcade-open': '\uD83D\uDD79\uFE0F ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
       var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
@@ -6817,7 +6829,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       list.push({ heading: 'Explore' });
       var shopsEl = document.getElementById('ctt-shops-open');
       if (shopsEl) list.push({ label: MENU_EMOJI['ctt-shops-open'] + shopsEl.textContent.trim(), el: shopsEl, scroll: false });
-      addLink('ctt-cal-open'); addLink('ctt-blog-open'); addLink('ctt-enablers-open');
+      addLink('ctt-itemsearch-open'); addLink('ctt-cal-open'); addLink('ctt-blog-open'); addLink('ctt-enablers-open');
       list.push({ heading: 'Use the Trail' });
       list.push({ label: '📲 Get the Web App', el: document.querySelector('#ctt-howworks-panel .ctt-homescreen-link, .ctt-howworks-links .ctt-homescreen-link') || document.querySelector('.ctt-homescreen-link'), scroll: false });
       var poster = document.querySelector('.ctt-poster-btn'); if (poster) list.push({ label: '🖨️ Trail Poster', el: poster, scroll: false });
