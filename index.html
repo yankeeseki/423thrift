@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v23.6-20261114">
+<meta name="ctt-build" content="v23.8-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1868,6 +1868,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-map-col.ctt-map-hidden #ctt-map { display: none !important; }
     .ctt-map-col.ctt-map-hidden .ctt-mapshow-btn { display: block; width: 100%; margin-top: 6px; padding: 10px; font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--olive); background: var(--card); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
     body.ctt-maphid #ctt-backtomap { display: none !important; }
+    .ctt-map-col.ctt-map-hidden .ctt-legend-group { display: none !important; } /* v23.7 (Mod): map hidden = the Route / Bonus / Featured legend hides too (the \2139\FE0F How This Works icon stays) */
   }
   #ctt-map.ctt-labels-off .ctt-map-label { display: none; }
   #ctt-map.ctt-labels-off .ctt-hl .ctt-map-label { display: block; left: 15px !important; top: 3px !important; }
@@ -2221,6 +2222,9 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-lsearch input { width: 100%; box-sizing: border-box; min-height: 48px; padding: 11px 46px 11px 14px; font-size: 16px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); font-family: 'Libre Franklin', sans-serif; -webkit-appearance: none; appearance: none; }
   .ctt-lsearch input:focus { outline: none; border-color: var(--rust); box-shadow: 0 0 0 2px rgba(174,76,44,0.25); }
   .ctt-lsearch-x { position: absolute; top: 2px; right: 2px; width: 44px; height: 44px; border: none; background: none; color: var(--rust); font-size: 26px; line-height: 1; font-weight: 700; cursor: pointer; }
+  .ctt-list-bar .ctt-lsearch { flex: 1 1 auto; min-width: 0; margin: 0; } .ctt-list-bar .ctt-filter-toggle { white-space: nowrap; } /* v23.7 (Mod): upright phones: Search sits on the Filter / Today / Later line */
+  .ctt-list-bar .ctt-lsearch input { min-height: 32px; height: 32px; padding: 3px 30px 3px 12px; font-size: 16px; border-radius: 999px; }
+  .ctt-list-bar .ctt-lsearch-x { top: 0; right: 0; width: 32px; height: 32px; font-size: 20px; }
   .ctt-lsearch-none { font: 400 13px 'Libre Franklin', sans-serif; color: var(--taupe); text-align: center; padding: 10px 0 14px; }
   /* v21.1 BUG FIX: cttAsk() appends its overlay to <body>, OUTSIDE #ctt-thrift-wrap where the colour variables live, so the dialog had no background and its buttons were unstyled (the page showed through). The variables are repeated here (same exact values as #ctt-thrift-wrap above). Keep them in sync. */
   .ctt-ask-dialog { --paper: #f2ead9; --ink: #2c2417; --olive: #4a5a3a; --rust: #ae4c2c; --mustard: #c98a2b; --line: #c9bb99; --card: #fbf6ea; --gold: #a3872f; --taupe: #6b6252; position: relative; width: 100%; max-width: 420px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); margin: auto; padding: 20px 20px 18px; font-family: 'Libre Franklin', sans-serif; color: var(--ink); }
@@ -2525,7 +2529,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   @media (max-width: 600px) { .ctt-cta-btnwrap .ctt-cta-btn { height: 118px; } }
   /* v22.7/v22.8 (Mod): phone held sideways. The LEFT half is locked in place: big button + numbers on top, map below. The whole rest of the home page (title, banners, Your Route list, footer) scrolls on the RIGHT half. Portrait phones and tablets are untouched (the height limit keeps tablets out). --ctt-cta-h is set by a small script (landscapeFit) to the height of the button box so the map sits right under it. */
   @media (orientation: landscape) and (max-height: 520px) {
-    :root { --ls-left: clamp(330px, 40vw, 380px); } /* v23.2 (Mod): the left column is only as wide as the big button needs */
+    :root { --ls-left: max(330px, calc(100vw - 386px - max(10px, env(safe-area-inset-right)))); } /* v23.7 (Mod): the left side is as wide as it can be while the right side keeps ~379px for the list, the narrowest it can go before any shop name gets cut shorter or any line wraps (was clamp(330px, 40vw, 380px)) */ /* v23.2 (Mod): the left column is only as wide as the big button needs */
     body { box-sizing: border-box; padding-left: var(--ls-left, 56%); }
     #ctt-thrift-wrap .ctt-layout { display: block; }
     #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
@@ -2600,15 +2604,62 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-tag-info > .ctt-tag-addr a { display: inline; }
     .ctt-tag-info > .ctt-tag-addr { height: 18px; line-height: 18px; overflow: visible; }
     /* v23.6 (Mod): sideways map: stop circles + numbers 20% smaller with no white outline, shop titles 25% smaller (scaled around their centers so the pins stay put) */
-    #ctt-map .ctt-num-icon { transform: scale(.8); border: 0; box-shadow: none; }
-    #ctt-map .ctt-hl .ctt-num-icon { transform: scale(1.24); box-shadow: 0 0 0 4px rgba(181,80,47,0.35), 0 2px 6px rgba(0,0,0,0.5); }
+    #ctt-map .ctt-num-icon { transform: scale(.64); font-size: 13.75px; border: 0; box-shadow: none; } /* v23.7 (Mod): circles another 20% smaller (.8 -> .64); the number keeps its v23.6 size (13.75 x .64 = 8.8px) */
+    #ctt-map .ctt-hl .ctt-num-icon { transform: scale(.99); box-shadow: 0 0 0 4px rgba(181,80,47,0.35), 0 2px 6px rgba(0,0,0,0.5); }
     #ctt-map .ctt-map-label { transform: scale(.75); transform-origin: left center; left: 13px; }
     .ctt-cta-emoji { display: none !important; } /* v23.6 (Mod): sideways: no emoji on the big button */
     #ctt-thrift-wrap #ctt-map { border: 0 !important; } #ctt-map .ctt-map-label { border: 0; } /* v23.6 (Mod): sideways: no gray outline on the map or the titles (the drop shadows stay) */
     #ctt-thrift-wrap { padding-bottom: 6px !important; } body { padding-bottom: 0 !important; } /* v23.6 (Mod): scrolled to the end, the list's last card ends exactly at the map's bottom edge (map sits 6px above the screen bottom) */
-    .ctt-tag-info > .ctt-tag-addr .ctt-directions-link { display: inline-block !important; font-size: 0; width: 16px; height: 18px; vertical-align: top; border: 0; margin-left: 6px; } .ctt-tag-info > .ctt-tag-addr .ctt-directions-link::after { content: ''; display: block; width: 16px; height: 18px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 18'><path d='M1.5 10.5H13.5M9.5 6L14 10.5L9.5 15' fill='none' stroke='%23ae4c2c' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center 3px; } /* v23.5 (Mod): sideways: just an arrow after the address; it is still the Get Directions link */
+    .ctt-tag-info > .ctt-tag-addr .ctt-directions-link { display: none !important; } /* v23.7 (Mod): sideways: no direction arrow after the address (replaces the v23.5 arrow) */
     .ctt-tag { padding-top: 5px; padding-bottom: 6px; }
+    /* v23.7 (Mod): sideways: each of the 3 card buttons has what it does written under its icon in very tiny letters (Visited / Next Up / Remove, or Add) */
+    .ctt-tag-top .ctt-visited-check, .ctt-tag-controls-col .ctt-start-here, .ctt-tag-controls-col .ctt-toggle-btn { flex-direction: column; gap: 2px; padding: 0 0 13px !important; }
+    .ctt-visited-check .ctt-visited-checkbox { width: 22px; height: 22px; } .ctt-tag-controls-col .ctt-start-here { font-size: 18px; } .ctt-tag-controls-col .ctt-toggle-btn { font-size: 26px; }
+    .ctt-visited-check .ctt-vtext { display: block; } .ctt-tag-top .ctt-visited-check { position: relative; } /* labels all sit on one line, 5px above each button's bottom */
+    .ctt-visited-check .ctt-vtext, .ctt-tag-controls-col .ctt-start-here::after, .ctt-tag-controls-col .ctt-toggle-btn::after, .ctt-tag-controls-col .ctt-toggle-btn:hover::after, .ctt-tag-controls-col .ctt-start-here:hover:not(:disabled)::after { position: absolute !important; transform: none !important; inset: auto 0 5px 0 !important; text-align: center; background: none !important; padding: 0 !important; border-radius: 0 !important; font-family: 'Libre Franklin', sans-serif !important; font-size: 7.5px !important; font-weight: 600 !important; line-height: 1 !important; letter-spacing: 0 !important; white-space: nowrap !important; pointer-events: none; z-index: auto !important; }
+    .ctt-visited-check .ctt-vtext { color: var(--ink); }
+    .ctt-tag-controls-col .ctt-start-here::after { content: 'Next Up'; color: var(--ink) !important; }
+    .ctt-tag-controls-col .ctt-toggle-btn.remove::after { content: 'Remove'; color: #fff !important; }
+    .ctt-tag-controls-col .ctt-toggle-btn.add::after { content: 'Add'; color: #fff !important; }
   }
+  /* v23.8 (Mod, trial): upright phones: shop cards rebuilt on one 3-column grid so everything lines up card to card.
+     Top line = number + title across the whole card. Column 1 (52px) = photo, column 2 = address / directions, column 3 (64px) = Visited, then a 2x2 block: Next Up, Remove / Up, Down.
+     The bottom line (Open until ... Reviews) spans the whole card under all three. */
+  @media (max-width: 600px) and (orientation: portrait) {
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-row { display: grid; grid-template-columns: 52px minmax(0, 1fr) 80px; grid-template-rows: auto auto auto 1fr; column-gap: 12px; row-gap: 0; align-items: start; min-height: 0; }
+    @media (max-width: 375px) { #ctt-thrift-wrap .ctt-tag .ctt-tag-row { grid-template-columns: 48px minmax(0, 1fr) 80px; column-gap: 9px; } #ctt-thrift-wrap .ctt-tag .ctt-tag-photo-fallback, #ctt-thrift-wrap .ctt-tag .ctt-tag-photo-col img { width: 48px; height: 48px; } } /* narrow phones: a little tighter so titles keep their size */
+    @media (max-width: 375px) { #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-directions-link, #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { padding: 0 8px !important; font-size: 11px !important; } #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-tag-bottom-row { gap: 6px !important; } }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-top { display: contents; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name { grid-column: 1 / 3; grid-row: 1; margin: 0 0 2px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(13px, 4vw, 15.5px); } /* v23.8: the title runs across the whole card top, one line only */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num:not(.star):not(.diamond) { display: inline; position: static; width: auto; height: auto; padding: 0; margin: 0 7px 0 0; background: none; border-radius: 0; box-shadow: none; color: #2c3e44; font: inherit; font-weight: 800; } /* the number is part of the title: brand blue, bold */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num:not(.star):not(.diamond)::after { content: '.'; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.star, #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.diamond { display: inline-flex; vertical-align: -4px; margin-right: 7px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-vbadge { display: none !important; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name.ctt-name-short .ctt-ls-long { display: none !important; } #ctt-thrift-wrap .ctt-tag .ctt-tag-name.ctt-name-short .ctt-ls-short { display: inline !important; }
+    #ctt-thrift-wrap .ctt-tag .ctt-visited-check { grid-column: 3; grid-row: 1 / 5; margin-top: 0 !important; justify-self: stretch; align-self: start; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 5px; height: 38px; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: 10px; background: #fffaf0; box-sizing: border-box; } /* Visited is one 30px-tall pill, the same height as the buttons under it */
+    #ctt-thrift-wrap .ctt-tag .ctt-visited-check .ctt-visited-checkbox { width: 20px; height: 20px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-visited-check .ctt-vtext { display: block; font: 700 10.5px/1 'Libre Franklin', sans-serif; color: var(--ink); }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-photo-col { grid-column: 1; grid-row: 2 / 5; align-self: start; margin-top: 6px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-info > *:not(.ctt-tag-top):not(.ctt-tag-bottom-row):not(.ctt-review-section) { grid-column: 2; margin-top: 4px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-tag-addr { grid-row: 2; align-self: start; margin-top: 6px; line-height: 1.3; white-space: nowrap; } /* address on ONE line (a long one shrinks a little, see the fit script) */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-addr > a:first-child { display: inline; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-directions-link { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; height: 38px; box-sizing: border-box; margin: 0; padding: 0 clamp(8px, 3vw, 14px); border: 1.5px solid #2c3e44; border-radius: 999px; font-size: clamp(11px, 3.3vw, 12.5px); font-weight: 700; white-space: nowrap; } /* v23.8 trial: Get Directions moved down to the bottom line, as a brand-blue pill the same height as the buttons on the right (38px) */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-addr .ctt-open-badge { display: table; margin: 8px 0 0; } /* v23.8 trial: Open until moved up under the address */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-row { margin: 0; padding: 0; flex: 0 1 auto; min-width: 0; } #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { max-width: 100%; min-width: 0; overflow: hidden; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 38px; box-sizing: border-box; padding: 0 clamp(8px, 3vw, 14px); border: 1.5px solid var(--olive); border-radius: 999px; background: none; color: var(--olive); font-size: clamp(11px, 3.3vw, 12.5px); font-weight: 700; text-decoration: none; white-space: nowrap; } /* v23.8 trial: Reviews is a pill button too (olive, like its old link colour) */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col { grid-column: 3; grid-row: 1 / 5; contain: none; align-self: start; margin-top: 42px; /* v23.8: the button column is pinned to the card's top-right corner: Visited at the very top, these right under it (38 + 4) */ display: grid; grid-template-columns: 38px 38px; grid-auto-rows: 38px; gap: 4px; justify-content: space-between; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > * { width: 38px !important; height: 38px !important; min-height: 0 !important; margin: 0 !important; flex: none !important; border-radius: 10px; box-sizing: border-box; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-start-here { order: 1; font-size: 18px; color: var(--taupe, #8a7f6a); }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-toggle-btn { order: 2; font-size: 24px; } #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-reorder-up, #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-reorder-down { font-size: 16px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-reorder-up { order: 3; } #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-reorder-down { order: 4; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / 3; grid-row: 3 / 5; align-self: end; justify-self: stretch; box-sizing: border-box; gap: 8px; flex-wrap: nowrap; margin-top: 6px; margin-bottom: 0; padding-top: 0; border-top: 0; } /* Open until ... Reviews sits at the bottom of the card, its bottom level with the bottom of the button column; its width is set so Reviews ends exactly where the address ends */ /* Open until ... Reviews sits under the photo + address, beside the buttons, so the card has no empty gap */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-review-section { grid-column: 1 / -1; grid-row: 41; }
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-controls-col { grid-row: 2 / 5; grid-column: 3; justify-self: end; margin-top: 42px; grid-template-columns: 38px; justify-content: end; } /* visited cards: just the name, the ticked box and Remove under it */
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-info > .ctt-tag-bottom-row { border-top: 0; margin-top: 0; padding-top: 0; }
+  }
+  /* v23.7 (Mod): ticking Visited by hand shows a green check in the box for 2 seconds first, then the shop is marked visited as usual */
+  .ctt-visited-check.ctt-just-checked .ctt-visited-checkbox { accent-color: #1f9d3a; animation: cttCheckPop .35s ease-out; }
+  @keyframes cttCheckPop { 0% { transform: scale(.7); } 60% { transform: scale(1.25); } 100% { transform: scale(1); } }
 </style>
 
 </head>
@@ -2865,7 +2916,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.6 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.8 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -5805,6 +5856,36 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function updateCtaPrompt() { renderNavRow(); }
   function setUndo(a) { if (a) { ctaStack.push(a); if (ctaStack.length > 30) ctaStack.shift(); } else { ctaStack = []; } lastCtaAction = ctaStack.length ? ctaStack[ctaStack.length - 1] : null; renderNavRow(); }
   // v23.3 (Mod): shops ticked Visited BY HAND (the checkbox on a card) now go on the undo stack too, so double-tapping the big button walks back through them one at a time, the same as shops ticked with the button. (Only real user clicks count: isTrusted is false for the ticks the button itself makes.)
+  // v23.7 (Mod): a Visited box ticked BY HAND shows a green check for 2 seconds before anything else happens; then the tick goes through as usual. Unticking it inside those 2 seconds simply cancels it.
+  var cttPendingTicks = new Map();
+  document.addEventListener('change', function(e) {
+    var t = e.target; if (!t || !t.classList || !t.classList.contains('ctt-visited-checkbox') || t._cttReplay) return;
+    if (!e.isTrusted) return;
+    var lbl = t.closest('.ctt-visited-check');
+    if (t.checked) {
+      e.stopImmediatePropagation();
+      if (lbl) lbl.classList.add('ctt-just-checked');
+      var pc = t.closest('.ctt-tag'); t._cttName = pc && pc.getAttribute('data-store-name');
+      var timer = setTimeout(function() {
+        cttPendingTicks.delete(t);
+        if (lbl) lbl.classList.remove('ctt-just-checked');
+        if (!t.checked) return;
+        if (!t.isConnected) { // the list was redrawn during the 2 seconds: tick the same shop's new box
+          var nm0 = t._cttName, nc = nm0 && document.querySelector('.ctt-tag[data-store-name="' + nm0 + '"] .ctt-visited-checkbox');
+          if (!nc || nc.checked) return; nc.checked = true; t = nc;
+        }
+        t._cttReplay = true;
+        try { t.dispatchEvent(new Event('change', { bubbles: true })); } finally { t._cttReplay = false; }
+        var card = t.closest('.ctt-tag'), nm = card && card.getAttribute('data-store-name');
+        if (nm) setUndo({ name: decodeURIComponent(nm) });
+      }, 2000);
+      cttPendingTicks.set(t, timer);
+    } else if (cttPendingTicks.has(t)) {
+      e.stopImmediatePropagation();
+      clearTimeout(cttPendingTicks.get(t)); cttPendingTicks.delete(t);
+      if (lbl) lbl.classList.remove('ctt-just-checked');
+    }
+  }, true);
   document.addEventListener('change', function(e) {
     var t = e.target; if (!e.isTrusted || !t || !t.classList || !t.classList.contains('ctt-visited-checkbox') || !t.checked) return;
     var card = t.closest('.ctt-tag'), nm = card && card.getAttribute('data-store-name'); if (!nm) return;
@@ -6806,6 +6887,80 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     });
     x.addEventListener('click', function() { inp.value = ''; applyShopSearch(); inp.focus(); });
   })();
+  // v23.8 (Mod): phones held upright: each shop title must fit on ONE line. A title that is too long for the card shrinks a little (down to 10px) instead of being cut off.
+  (function() {
+    if (!window.matchMedia) return; var mq = window.matchMedia('(max-width: 600px) and (orientation: portrait)'), raf = 0;
+    // v23.8 trial: upright phones swap Open until and Get Directions: Open until goes under the address, Get Directions joins Reviews on the bottom line. Moved back on other screens.
+    function cttSwapIn(e) {
+      var c = e.closest('.ctt-tag'), ad = c && c.querySelector('.ctt-tag-info > .ctt-tag-addr'), row = c && c.querySelector('.ctt-tag-info > .ctt-tag-bottom-row'); if (!ad || !row) return;
+      var dl = c.querySelector('.ctt-directions-link'), ob = c.querySelector('.ctt-open-badge'), rv = row.querySelector('.ctt-review-toggle-row');
+      if (dl && dl.parentNode !== row) row.insertBefore(dl, rv || null);
+      if (ob && ob.parentNode !== ad) ad.appendChild(ob);
+    }
+    // v23.8 (Mod): upright phones: the photo circle is centred between the bottom of the shop title and the top of the Get Directions / Reviews buttons; the top of the address text lines up with the top of the circle and the bottom of Open until with its bottom.
+    var cttCapCv = null;
+    function cttCapGap(el) { // space between the top of a line's text box and the top of its capital letters
+      try { var cs = getComputedStyle(el); cttCapCv = cttCapCv || document.createElement('canvas'); var x = cttCapCv.getContext('2d'); x.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily; var m = x.measureText('H'); if (m.fontBoundingBoxAscent && m.actualBoundingBoxAscent) return m.fontBoundingBoxAscent - m.actualBoundingBoxAscent; } catch (e) {}
+      return 0;
+    }
+    function cttTextTop(el) {
+      var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n, r = document.createRange();
+      while ((n = w.nextNode())) { if (!/\S/.test(n.textContent)) continue; r.selectNodeContents(n); var rs = r.getClientRects(); if (rs.length) return rs[0].top + cttCapGap(n.parentNode); }
+      return el.getBoundingClientRect().top;
+    }
+    function cttAlignBody(card) {
+      var nm = card.querySelector('.ctt-tag-name'), ph = card.querySelector('.ctt-tag-photo-col'), ad = card.querySelector('.ctt-tag-info > .ctt-tag-addr'), row = card.querySelector('.ctt-tag-info > .ctt-tag-bottom-row');
+      if (!nm || !ph || !ad || !row) return;
+      var ob = ad.querySelector('.ctt-open-badge'), al = ad.querySelector('a');
+      ph.style.marginTop = ''; ad.style.marginTop = ''; if (ob) ob.style.marginTop = '';
+      var pc = ph.firstElementChild || ph;
+      if (!pc.offsetHeight || !ad.offsetHeight || !row.offsetHeight) return;
+      for (var pass = 0; pass < 2; pass++) {
+        var tb = nm.getBoundingClientRect().bottom, rt = row.getBoundingClientRect().top, pr = pc.getBoundingClientRect(), h = pr.height;
+        var want = tb + (rt - tb - h) / 2;
+        ph.style.marginTop = ((parseFloat(getComputedStyle(ph).marginTop) || 0) + want - pr.top) + 'px';
+        if (al) ad.style.marginTop = ((parseFloat(getComputedStyle(ad).marginTop) || 0) + want - cttTextTop(al)) + 'px';
+        if (ob) ob.style.marginTop = ((parseFloat(getComputedStyle(ob).marginTop) || 0) + (want + h) - ob.getBoundingClientRect().bottom) + 'px';
+      }
+    }
+    function cttSwapBack(e) {
+      var c = e.closest('.ctt-tag'), ad = c && c.querySelector('.ctt-tag-info > .ctt-tag-addr'), row = c && c.querySelector('.ctt-tag-info > .ctt-tag-bottom-row'); if (!ad || !row) return;
+      var dl = row.querySelector('.ctt-directions-link'), ob = ad.querySelector('.ctt-open-badge'), meta = row.querySelector('.ctt-tag-meta');
+      if (dl) ad.appendChild(dl); if (ob && meta) { var rw = meta.querySelector('.ctt-tag-rating-wrap'); meta.insertBefore(ob, rw || null); }
+      var sty = ad.style; sty.fontSize = ''; sty.marginTop = ''; row.style.width = ''; var phx = c.querySelector('.ctt-tag-photo-col'); if (phx) phx.style.marginTop = ''; var obx = c.querySelector('.ctt-open-badge'); if (obx) obx.style.marginTop = '';
+    }
+    function fit() {
+      raf = 0; var els = document.querySelectorAll('#ctt-list .ctt-tag-name');
+      for (var i = 0; i < els.length; i++) {
+        var e = els[i]; e.style.fontSize = ''; e.classList.remove('ctt-name-short'); if (!mq.matches) { cttSwapBack(e); continue; } cttSwapIn(e); if (!e.offsetWidth) continue;
+        var fs = parseFloat(getComputedStyle(e).fontSize) || 15, fs0 = fs;
+        while (e.scrollWidth > e.clientWidth + 1 && fs > 10) { fs -= 0.5; e.style.fontSize = fs + 'px'; }
+        if (e.scrollWidth > e.clientWidth + 1 && e.querySelector('.ctt-ls-short')) { // still too long: use the short name (NNH ...) at full size
+          e.classList.add('ctt-name-short'); fs = fs0; e.style.fontSize = '';
+          while (e.scrollWidth > e.clientWidth + 1 && fs > 10) { fs -= 0.5; e.style.fontSize = fs + 'px'; }
+        }
+        // address on one line (shrinks a little if needed), then the Open until / Reviews line is sized so Reviews ends where the address text ends
+        var card = e.closest('.ctt-tag'), ad = card && card.querySelector('.ctt-tag-info > .ctt-tag-addr'), al = ad && ad.querySelector('a'), row = card && card.querySelector('.ctt-tag-info > .ctt-tag-bottom-row');
+        if (ad) { ad.style.fontSize = ''; var af = parseFloat(getComputedStyle(ad).fontSize) || 12; while (ad.scrollWidth > ad.clientWidth + 1 && af > 10) { af -= 0.5; ad.style.fontSize = af + 'px'; } }
+        if (row) { row.style.width = 'max-content'; row.style.justifySelf = 'start'; var nat = row.getBoundingClientRect().width; row.style.width = ''; row.style.justifySelf = ''; if (al && al.offsetWidth) { var w = al.getBoundingClientRect().right - row.getBoundingClientRect().left; if (w >= nat && w <= row.getBoundingClientRect().width) { row.style.width = w + 'px'; row.style.justifySelf = 'start'; } } }
+        if (card) cttAlignBody(card);
+      }
+    }
+    function sched() { if (!raf) raf = requestAnimationFrame(fit); }
+    var list = document.getElementById('ctt-list'); if (list) try { new MutationObserver(sched).observe(list, { childList: true, subtree: true }); } catch (e) {}
+    window.addEventListener('resize', sched); if (mq.addEventListener) mq.addEventListener('change', sched); if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched); sched();
+  })();
+  // v23.7 (Mod): phones held upright: the Search box moves up onto the Filter / Today / Later line, right after Today / Later. Everywhere else it stays where it was.
+  (function() {
+    var box = document.getElementById('ctt-lsearch'), bar = document.getElementById('ctt-list-bar'), inp = document.getElementById('ctt-list-q');
+    if (!box || !bar || !window.matchMedia) return;
+    var home = box.parentNode, after = box.nextSibling, mq = window.matchMedia('(max-width: 600px) and (orientation: portrait)'), ph = inp ? inp.placeholder : '';
+    function place() {
+      if (mq.matches) { var dp = bar.querySelector('.ctt-day-picker'); if (box.parentNode !== bar) bar.insertBefore(box, dp ? dp.nextSibling : null); if (inp) inp.placeholder = 'Search'; }
+      else if (box.parentNode === bar) { home.insertBefore(box, after); if (inp) inp.placeholder = ph; }
+    }
+    place(); if (mq.addEventListener) mq.addEventListener('change', place); else if (mq.addListener) mq.addListener(place);
+  })();
 
   // In-page confirm (never a browser pop-up): title, text, the label of the main button, and what to do on yes.
   function cttAsk(title, body, yesLabel, onYes) {
@@ -6986,12 +7141,43 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var l1 = ctaBtn.querySelector('.ctt-cta-btn-line1'), sub = ctaBtn.querySelector('.ctt-cta-btn-sub');
       if (!l1 || !sub) return;
       l1.style.fontSize = ''; sub.style.fontSize = '';
+      ctaBtn.style.justifyContent = ''; ctaBtn.style.paddingTop = ''; ctaBtn.style.rowGap = ''; l1.style.marginTop = ''; sub.style.marginTop = '';
+      var stEl = document.getElementById('ctt-route-stat'); if (stEl) stEl.style.top = '';
       var cs = getComputedStyle(ctaBtn), pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0), gap = parseFloat(cs.rowGap) || 4;
       function over() { return l1.offsetHeight + sub.offsetHeight + gap + pad > ctaBtn.clientHeight + 0.5 || l1.scrollWidth > l1.clientWidth + 1; }
       var fs = parseFloat(getComputedStyle(l1).fontSize) || 20;
       while (over() && fs > 13) { fs -= 1; l1.style.fontSize = fs + 'px'; }
       if (over()) { var f2 = parseFloat(getComputedStyle(sub).fontSize) || 12; while (over() && f2 > 9) { f2 -= 0.5; sub.style.fontSize = f2 + 'px'; } }
+      evenLs(l1, sub, stEl);
     }
+    // v23.7 (Mod): sideways, the lines on the big button (title, small line, live numbers) are spread out so the space above, between and below them is all the same. Measured on the actual letters, not the line boxes.
+    var lsMq = window.matchMedia ? window.matchMedia('(orientation: landscape) and (max-height: 520px)') : null;
+    function inkBox(el) {
+      if (!el || !el.offsetHeight) return null;
+      var t = Infinity, b = -Infinity, w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n, r = document.createRange();
+      while ((n = w.nextNode())) {
+        if (!/[A-Za-z0-9]/.test(n.textContent)) continue; r.selectNodeContents(n); var rs = r.getClientRects(); // letters and digits only (the big separator dots would throw it off)
+        for (var i = 0; i < rs.length; i++) { if (rs[i].width < 1 || rs[i].height < 1) continue; t = Math.min(t, rs[i].top); b = Math.max(b, rs[i].bottom); }
+      }
+      return t < b ? { top: t, bottom: b } : null;
+    }
+    function evenLs(l1, sub, st) {
+      if (!lsMq || !lsMq.matches || !st) return;
+      try {
+        ctaBtn.style.justifyContent = 'flex-start'; ctaBtn.style.paddingTop = '0px'; ctaBtn.style.rowGap = '0px'; l1.style.marginTop = '0px'; sub.style.marginTop = '0px';
+        var br = ctaBtn.getBoundingClientRect(), H = br.height;
+        var a = inkBox(l1), c = inkBox(sub), d = inkBox(st);
+        if (!a || !d) throw 0;
+        var parts = [a].concat(c ? [c] : []).concat([d]), sum = 0;
+        parts.forEach(function(x) { sum += x.bottom - x.top; });
+        var g = (H - sum) / (parts.length + 1); if (g < 2) throw 0;
+        var m1 = g - (a.top - br.top); l1.style.marginTop = m1 + 'px';
+        if (c) sub.style.marginTop = ((2 * g + (a.bottom - a.top)) - (c.top - br.top + m1)) + 'px';
+        var want = H - g - (d.bottom - d.top), cur = d.top - br.top, top0 = parseFloat(getComputedStyle(st).top) || 0;
+        st.style.top = (top0 + want - cur) + 'px';
+      } catch (e) { ctaBtn.style.justifyContent = ''; ctaBtn.style.paddingTop = ''; ctaBtn.style.rowGap = ''; l1.style.marginTop = ''; sub.style.marginTop = ''; st.style.top = ''; }
+    }
+    if (lsMq) { var lsF = function() { sched(); }; if (lsMq.addEventListener) lsMq.addEventListener('change', lsF); else if (lsMq.addListener) lsMq.addListener(lsF); }
     function sched() { if (!raf) raf = requestAnimationFrame(fitCtaText); }
     try { new MutationObserver(sched).observe(ctaBtn, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class'] }); } catch (e) {}
     window.addEventListener('resize', sched); window.addEventListener('orientationchange', sched);
