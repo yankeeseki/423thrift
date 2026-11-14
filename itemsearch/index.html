@@ -22,6 +22,9 @@
   .btn.alt { background:var(--card); color:var(--rust); }
   .btn.slate { background:var(--slate); border-color:var(--slate); }
   .btn + .btn { margin-top:10px; }
+  /* Brand colors only (no logos): Google blue #1A73E8, eBay red #E53238. */
+  .btn.brand-g { background:#1A73E8; border-color:#1A73E8; color:#fff; }
+  .btn.brand-e { background:#E53238; border-color:#E53238; color:#fff; }
   .btn:focus-visible, input:focus-visible { outline:3px solid var(--olive); outline-offset:2px; }
   #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e8dfc9; margin-bottom:12px; }
   label { display:block; font-weight:700; font-size:14px; margin-bottom:6px; }
@@ -58,23 +61,16 @@
 <div class="wrap">
   <a class="back" href="/">&larr; Chattanooga Thrift Trail</a>
   <h1>Item Search</h1>
-  <p class="sub">Found something? See what it has sold for.</p>
+  <p class="sub">Found something? Search it and see what it sells for.</p>
 
   <div class="card">
-    <h2>Google Image Search</h2>
-    <p class="note" style="margin:0 0 12px">Opens the Google app. Tap the camera icon in its search bar, then point it at the item.</p>
-    <a class="btn alt" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">Open Google Image Search</a>
-  </div>
-
-  <div class="card">
-    <h2>eBay Image Search</h2>
-    <p class="note" style="margin:0 0 12px">Opens the eBay app. Tap the camera icon in its search bar to snap a photo, pick one or scan a barcode.</p>
-    <a class="btn alt" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">Open eBay Image Search</a>
+    <a class="btn brand-g" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">&#128247; Google Image Search</a>
+    <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
   </div>
 
   <div class="card">
     <h2>ThriftiVision <span class="beta">BETA</span></h2>
-    <p class="note" style="margin:0 0 12px">Snap a photo and fill in anything you know about it (at least one box). The more you add, the better the match. We name it, estimate its value and take you to eBay prices.</p>
+    <p class="note" style="margin:0 0 12px">Snap a photo, fill in what you know, and get a name and value.</p>
     <img id="preview" alt="Your photo">
     <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
     <input type="file" id="file" accept="image/*" capture="environment">
@@ -103,8 +99,8 @@
     </div>
     <div style="margin-top:14px">
       <a class="btn" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
-      <a class="btn alt" id="live" target="_blank" rel="noopener">For Sale on eBay</a>
-      <a class="btn alt" id="goog" target="_blank" rel="noopener">Google It</a>
+      <a class="btn alt" id="live" target="_blank" rel="noopener">Live on eBay</a>
+      <a class="btn alt" id="goog" target="_blank" rel="noopener">Check Google</a>
     </div>
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
@@ -266,7 +262,7 @@
         if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
         if (r.status === 429) { setStatus("Today's free photo reads are used up. Try Google or eBay Image Search above.", true); return; }
         if (r.j && r.j.google_status === 503) { setStatus("The photo reader is busy right now. Try again in a minute.", true); return; }
-        setStatus('I could not tell what that is. Try a clearer photo or different keywords.' + (r.j && (r.j.detail || r.j.error) ? ' [' + r.status + ': ' + (r.j.google_status ? 'Google ' + r.j.google_status + ' ' : '') + String(r.j.detail || r.j.error).slice(0, 200) + ']' : ' [' + r.status + ']'), true);
+        setStatus('I could not tell what that is. Try a clearer photo or different keywords.', true);
       })
       .catch(function () { clearTimeout(timer); refresh(); setStatus('The photo reader did not answer. Try again in a minute.', true); });
   });
