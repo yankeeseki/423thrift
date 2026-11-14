@@ -130,7 +130,7 @@
           clearTimeout(timer);
           if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
           if (r.status === 429) { setStatus("Today's free photo reads are used up. Type what it is below instead.", true); return; }
-          setStatus('I could not tell what that is. Try a clearer photo, or type it below.', true);
+          setStatus('I could not tell what that is. Try a clearer photo, or type it below.' + (r.j && (r.j.detail || r.j.error) ? ' [' + r.status + ': ' + (r.j.google_status ? 'Google ' + r.j.google_status + ' ' : '') + String(r.j.detail || r.j.error).slice(0, 200) + ']' : ' [' + r.status + ']'), true);
         })
         .catch(function () { clearTimeout(timer); setStatus('The photo reader did not answer. Type what it is below instead.', true); });
     });
