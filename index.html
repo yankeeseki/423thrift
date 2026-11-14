@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v23.8-20261114">
+<meta name="ctt-build" content="v23.9-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1628,6 +1628,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-trail-header .ctt-custom-order-banner { margin: 0; flex: 1 1 130px; text-align: right; line-height: 1.3; }
   .ctt-list-bar .ctt-day-picker, .ctt-list-bar .ctt-coffee-open { margin: 0; flex: 0 0 auto; }
   .ctt-list-bar .ctt-day-option, .ctt-list-bar .ctt-coffee-open, .ctt-list-bar .ctt-list-count { font-size: 13px; }
+  /* v23.9 (Mod): the dotted outline around the shop-cards section stays visible while the list scrolls: a dashed line under the sticky Filter bar once you have scrolled down, and a dashed line pinned to the bottom edge while more cards are below (both drop away at the very top / very end, where the first / last card's own border shows) */
+  .ctt-list.ctt-scr-top .ctt-list-bar { border-bottom: 1.5px dashed var(--line); }
+  .ctt-list::after { content: ''; display: block; position: sticky; bottom: 0; height: 0; margin-top: -9px; border-bottom: 1.5px dashed var(--line); opacity: 0; pointer-events: none; }
+  .ctt-list.ctt-scr-more::after { opacity: 1; }
   .ctt-list-bar .ctt-list-count { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; white-space: nowrap; }
   .ctt-list-label {
     display: inline-block;
@@ -1810,6 +1814,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-mem-open { font-weight:700; color:#2f5d2a; }
   .ctt-mem-closed { font-weight:700; color:#8a3b1f; }
   .ctt-tag-note { font-size: 12.5px; color: #5c5240; margin-top: 5px; line-height: 1.4; }
+  @media (min-width: 781px) { .ctt-tag-note { max-width: 90%; } } /* v23.9 (Mod): desktop: the shop description is 10% narrower, so a little more of it drops to the next line */
   .ctt-tag-num {
     display: inline-flex; align-items: center; justify-content: center; padding-top: 2px;
     width: 18px; height: 18px; background: #4a5a3a; color: #fbf3e4;
@@ -1868,10 +1873,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-map-col.ctt-map-hidden #ctt-map { display: none !important; }
     .ctt-map-col.ctt-map-hidden .ctt-mapshow-btn { display: block; width: 100%; margin-top: 6px; padding: 10px; font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; color: var(--olive); background: var(--card); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
     body.ctt-maphid #ctt-backtomap { display: none !important; }
-    .ctt-map-col.ctt-map-hidden .ctt-legend-group { display: none !important; } /* v23.7 (Mod): map hidden = the Route / Bonus / Featured legend hides too (the \2139\FE0F How This Works icon stays) */
+    .ctt-map-col.ctt-map-hidden .ctt-legend-group { display: none !important; } .ctt-map-col.ctt-map-hidden .ctt-howworks-toggle, .ctt-map-col.ctt-map-hidden .ctt-howworks-panel { display: none !important; } /* v23.9 (Mod): map hidden = the (i) info square goes too */ /* v23.7 (Mod): map hidden = the Route / Bonus / Featured legend hides too (the \2139\FE0F How This Works icon stays) */
   }
   #ctt-map.ctt-labels-off .ctt-map-label { display: none; }
   #ctt-map.ctt-labels-off .ctt-hl .ctt-map-label { display: block; left: 15px !important; top: 3px !important; }
+  @media (max-width: 600px) and (orientation: portrait) { #ctt-map.ctt-labels-off .ctt-hl .ctt-map-label { display: none !important; } } /* v23.9 (Mod): upright phones: Names Off means no names at all, even for the selected shop (elsewhere the selected shop still shows its name) */
   #ctt-map .ctt-hl .ctt-map-label { z-index: 5; font-size: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
   .ctt-num-icon, .ctt-bonus-icon { transition: transform .15s ease; }
   .ctt-hl .ctt-num-icon { transform: scale(1.55); box-shadow: 0 0 0 4px rgba(181,80,47,0.35), 0 2px 6px rgba(0,0,0,0.5); }
@@ -2529,7 +2535,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   @media (max-width: 600px) { .ctt-cta-btnwrap .ctt-cta-btn { height: 118px; } }
   /* v22.7/v22.8 (Mod): phone held sideways. The LEFT half is locked in place: big button + numbers on top, map below. The whole rest of the home page (title, banners, Your Route list, footer) scrolls on the RIGHT half. Portrait phones and tablets are untouched (the height limit keeps tablets out). --ctt-cta-h is set by a small script (landscapeFit) to the height of the button box so the map sits right under it. */
   @media (orientation: landscape) and (max-height: 520px) {
-    :root { --ls-left: max(330px, calc(100vw - 386px - max(10px, env(safe-area-inset-right)))); } /* v23.7 (Mod): the left side is as wide as it can be while the right side keeps ~379px for the list, the narrowest it can go before any shop name gets cut shorter or any line wraps (was clamp(330px, 40vw, 380px)) */ /* v23.2 (Mod): the left column is only as wide as the big button needs */
+    :root { --ls-btn: 40px; --ls-left: max(330px, calc(100vw - 347px - max(10px, env(safe-area-inset-right)))); } /* v23.7 (Mod): the left side is as wide as it can be while the right side keeps ~379px for the list, the narrowest it can go before any shop name gets cut shorter or any line wraps (was clamp(330px, 40vw, 380px)) */ /* v23.2 (Mod): the left column is only as wide as the big button needs */
+    @media (max-width: 700px) { :root { --ls-btn: 34px; } } /* v23.9: narrow sideways phones: slimmer card buttons so nothing is cut */
     body { box-sizing: border-box; padding-left: var(--ls-left, 56%); }
     #ctt-thrift-wrap .ctt-layout { display: block; }
     #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
@@ -2537,7 +2544,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-layout .ctt-map-col #ctt-map { position: relative; top: auto; flex: 1 1 auto; height: auto !important; min-height: 0; }
     #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { margin: 0 0 2px; flex: 0 0 auto; }
     #ctt-thrift-wrap .ctt-map-col .ctt-howworks-panel { max-height: 45vh; overflow-y: auto; flex: 0 0 auto; }
-    .ctt-route-stat { font-size: 13px; margin: 0 0 3px; }
+    .ctt-route-stat { font-size: 14.3px; margin: 0 0 3px; }
     #ctt-thrift-wrap > .ctt-cta-row .ctt-status-panel { gap: 2px; }
     .ctt-cta-hint { display: none !important; }
     #ctt-thrift-wrap .ctt-cta-navrow { flex-wrap: nowrap; gap: 2px 6px; margin-top: 0; justify-content: center; }
@@ -2551,8 +2558,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap > .ctt-cta-row #ctt-route-stat { position: absolute; left: 0; right: 0; top: 82px; margin: 0; z-index: 3; pointer-events: none; color: #f3e7cf !important; text-shadow: none; animation: none !important; font-weight: 600; }
     #ctt-route-stat strong { color: #fff !important; text-shadow: none !important; }
     #ctt-route-stat .ctt-sep { color: #f3e7cf; }
-    .ctt-cta-btn-line1 { font-size: 24px; }
-    .ctt-cta-btn-line1.is-next { font-size: 17px; }
+    .ctt-cta-btn-line1 { font-size: 26.4px; }
+    .ctt-cta-btn-line1.is-next { font-size: 18.7px; }
     .ctt-cta-navrow { margin-top: 2px; }
     .ctt-backtomap, .ctt-backtomap.show { display: none !important; }
     .ctt-footnav { margin-top: 40px; }
@@ -2577,7 +2584,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-offroute-head .ctt-offroute-note { font-size: 11px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
     /* v23.0 (Mod): sideways = 'CTT Lite' for experienced users. Left column is 56% wide (--ls-left). The live numbers are ONE line with no 'Remaining:' and '/shop'. Nothing under the big button (gesture hints, Directions/Next/Undo row, status text). Hidden in the list: the Your Route / Open Now header and the saved-on-this-device / Start Over note, the photo thumbnails, star ratings and shop descriptions. Hidden on the map: the +/- zoom buttons and the Names On/Off toggle. */
     #ctt-thrift-wrap .ctt-layout .ctt-list, #ctt-list { max-height: none !important; overflow: visible !important; } /* v23.4: the list must not be its own scroll box (it was capped at the map's height, taller than a sideways screen); the whole right side scrolls as one page */
-    .ctt-route-stat { white-space: nowrap; overflow: hidden; font-size: 12.5px; }
+    .ctt-route-stat { white-space: nowrap; overflow: hidden; font-size: 13.75px; }
     .ctt-st-long, .ctt-per-long { display: none !important; }
     .ctt-miles { display: none !important; } /* v23.4 (Mod): no miles in the sideways numbers line */
     #ctt-holiday .ctt-hd-side { display: none !important; } /* the flanking emoji would widen the narrower right column */
@@ -2589,7 +2596,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note, .ctt-review-toggle-row, .ctt-review-section, .ctt-tag .ctt-directions-link, #ctt-list-bar, #ctt-filter-panel, .ctt-visited-drop, .ctt-own-box, .ctt-bottom-row, .ctt-footnav, .ctt-tip-section, .ctt-disclaimer, .ctt-offroute-container, .ctt-tag-bottom-row, .ctt-tag .ctt-reorder-up, .ctt-tag .ctt-reorder-down { display: none !important; } /* v23.2 (Mod): reviews and the per-shop Get Directions link are hidden sideways too */
     #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle { display: none !important; }
     /* v23.5 (Mod): sideways list = a grid. Every card: [name .......] [Visited] [Start here] [Remove], all cells the same size so the icons line up card to card; text lines below share one left edge, one line height, one line each. */
-    #ctt-route-list .ctt-tag-row, #ctt-list .ctt-tag-row { display: grid; grid-template-columns: minmax(0, 1fr) 44px 44px 44px; column-gap: 8px; row-gap: 0; align-items: center; min-height: 0; }
+    #ctt-route-list .ctt-tag-row, #ctt-list .ctt-tag-row { display: grid; grid-template-columns: minmax(0, 1fr) var(--ls-btn, 40px) var(--ls-btn, 40px) var(--ls-btn, 40px); column-gap: 7px; row-gap: 0; align-items: center; min-height: 0; }
     .ctt-tag-info, .ctt-tag-top, .ctt-tag-controls-col { display: contents; }
     .ctt-tag-name { grid-column: 1; grid-row: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 24px; font-size: 13.5px; }
     .ctt-vbadge { display: none !important; }
@@ -2603,6 +2610,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-tag-info > .ctt-opens-in, .ctt-tag-info > .ctt-tag-meta, .ctt-tag-info > .ctt-tag-addr, .ctt-tag-info > .ctt-members { grid-column: 1; grid-row: auto; margin: 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 17px; font-size: 12px; }
     .ctt-tag-info > .ctt-tag-addr a { display: inline; }
     .ctt-tag-info > .ctt-tag-addr { height: 18px; line-height: 18px; overflow: visible; }
+    /* v23.9 (Mod): sideways cards are locked to one height (name line + address line). The extra lines that came and went (Opens in..., Closes at... going here first, shops-at-this-address) are hidden so tapping Next Up can never change a card's size. */
+    .ctt-tag-info > .ctt-opens-in, .ctt-tag-info > .ctt-tag-meta, .ctt-tag-info > .ctt-members, .ctt-tag-info > .ctt-offroute-reason { display: none !important; }
+    #ctt-route-list .ctt-tag .ctt-tag-row { height: 42px; min-height: 42px; max-height: 42px; overflow: visible; }
+    #ctt-route-list > .ctt-tag { box-sizing: border-box; height: 54px; min-height: 54px; max-height: 54px; }
     /* v23.6 (Mod): sideways map: stop circles + numbers 20% smaller with no white outline, shop titles 25% smaller (scaled around their centers so the pins stay put) */
     #ctt-map .ctt-num-icon { transform: scale(.64); font-size: 13.75px; border: 0; box-shadow: none; } /* v23.7 (Mod): circles another 20% smaller (.8 -> .64); the number keeps its v23.6 size (13.75 x .64 = 8.8px) */
     #ctt-map .ctt-hl .ctt-num-icon { transform: scale(.99); box-shadow: 0 0 0 4px rgba(181,80,47,0.35), 0 2px 6px rgba(0,0,0,0.5); }
@@ -2614,11 +2625,12 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-tag { padding-top: 5px; padding-bottom: 6px; }
     /* v23.7 (Mod): sideways: each of the 3 card buttons has what it does written under its icon in very tiny letters (Visited / Next Up / Remove, or Add) */
     .ctt-tag-top .ctt-visited-check, .ctt-tag-controls-col .ctt-start-here, .ctt-tag-controls-col .ctt-toggle-btn { flex-direction: column; gap: 2px; padding: 0 0 13px !important; }
-    .ctt-visited-check .ctt-visited-checkbox { width: 22px; height: 22px; } .ctt-tag-controls-col .ctt-start-here { font-size: 18px; } .ctt-tag-controls-col .ctt-toggle-btn { font-size: 26px; }
+    .ctt-visited-check .ctt-visited-checkbox { width: 22px; height: 22px; } .ctt-tag-controls-col .ctt-start-here { font-size: 22.5px; } /* v23.9 (Mod): sideways play arrow 25% larger (18 -> 22.5) */ .ctt-tag-controls-col .ctt-toggle-btn { font-size: 26px; }
     .ctt-visited-check .ctt-vtext { display: block; } .ctt-tag-top .ctt-visited-check { position: relative; } /* labels all sit on one line, 5px above each button's bottom */
     .ctt-visited-check .ctt-vtext, .ctt-tag-controls-col .ctt-start-here::after, .ctt-tag-controls-col .ctt-toggle-btn::after, .ctt-tag-controls-col .ctt-toggle-btn:hover::after, .ctt-tag-controls-col .ctt-start-here:hover:not(:disabled)::after { position: absolute !important; transform: none !important; inset: auto 0 5px 0 !important; text-align: center; background: none !important; padding: 0 !important; border-radius: 0 !important; font-family: 'Libre Franklin', sans-serif !important; font-size: 7.5px !important; font-weight: 600 !important; line-height: 1 !important; letter-spacing: 0 !important; white-space: nowrap !important; pointer-events: none; z-index: auto !important; }
     .ctt-visited-check .ctt-vtext { color: var(--ink); }
-    .ctt-tag-controls-col .ctt-start-here::after { content: 'Next Up'; color: var(--ink) !important; }
+    .ctt-tag-controls-col .ctt-start-here::after { content: 'Move to\A Top'; white-space: pre !important; font-size: 7px !important; line-height: 7px !important; inset: auto 0 3px 0 !important; color: var(--ink) !important; } /* v23.9 (Mod): the play button is 'Move to Top' */
+    .ctt-tag-controls-col .ctt-start-here { padding: 2px 0 17px !important; line-height: 1; }
     .ctt-tag-controls-col .ctt-toggle-btn.remove::after { content: 'Remove'; color: #fff !important; }
     .ctt-tag-controls-col .ctt-toggle-btn.add::after { content: 'Add'; color: #fff !important; }
   }
@@ -2646,7 +2658,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-directions-link { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; height: 38px; box-sizing: border-box; margin: 0; padding: 0 clamp(8px, 3vw, 14px); border: 1.5px solid #2c3e44; border-radius: 999px; font-size: clamp(11px, 3.3vw, 12.5px); font-weight: 700; white-space: nowrap; } /* v23.8 trial: Get Directions moved down to the bottom line, as a brand-blue pill the same height as the buttons on the right (38px) */
     #ctt-thrift-wrap .ctt-tag .ctt-tag-addr .ctt-open-badge { display: table; margin: 8px 0 0; } /* v23.8 trial: Open until moved up under the address */
     #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-row { margin: 0; padding: 0; flex: 0 1 auto; min-width: 0; } #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { max-width: 100%; min-width: 0; overflow: hidden; }
-    #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 38px; box-sizing: border-box; padding: 0 clamp(8px, 3vw, 14px); border: 1.5px solid var(--olive); border-radius: 999px; background: none; color: var(--olive); font-size: clamp(11px, 3.3vw, 12.5px); font-weight: 700; text-decoration: none; white-space: nowrap; } /* v23.8 trial: Reviews is a pill button too (olive, like its old link colour) */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-bottom-row .ctt-review-toggle-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 38px; box-sizing: border-box; padding: 0 clamp(8px, 3vw, 14px); border: 1.5px solid var(--olive); border-radius: 999px; background: none; color: #000; font-size: clamp(11px, 3.3vw, 12.5px); font-weight: 700; text-decoration: none; white-space: nowrap; } /* v23.8 trial: Reviews is a pill button too (olive, like its old link colour) */
     #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col { grid-column: 3; grid-row: 1 / 5; contain: none; align-self: start; margin-top: 42px; /* v23.8: the button column is pinned to the card's top-right corner: Visited at the very top, these right under it (38 + 4) */ display: grid; grid-template-columns: 38px 38px; grid-auto-rows: 38px; gap: 4px; justify-content: space-between; }
     #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > * { width: 38px !important; height: 38px !important; min-height: 0 !important; margin: 0 !important; flex: none !important; border-radius: 10px; box-sizing: border-box; }
     #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-start-here { order: 1; font-size: 18px; color: var(--taupe, #8a7f6a); }
@@ -2916,7 +2928,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.8 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.9 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3414,7 +3426,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // v23.4 (Mod): sideways, suite / apartment numbers (' #108', ' Ste A') are hidden (.ctt-suite) and 'Chattanooga' reads 'Chatt'.
   function cttSuiteCity(a) { return String(a).replace(/\s+(?:#\w+|(?:Ste|Suite|Apt|Unit)\.?\s+\w+)(?=,)/i, function(m) { return '<span class="ctt-suite">' + m + '</span>'; }).replace(/Chattanooga/, '<span class="ctt-ls-long">Chattanooga</span><span class="ctt-ls-short">Chatt</span>').replace(/(Fort Oglethorpe|East Ridge|East Brainerd)/, function(m) { return '<span class="ctt-ls-long">' + m + '</span><span class="ctt-ls-short">' + m.replace('Fort Oglethorpe', 'Fort O').replace('East Ridge', 'E.Ridge').replace('East Brainerd', 'E.Brainerd') + '</span>'; }); }
   function cttStateZip(a) { return cttSuiteCity(a).replace(/(,\s*[A-Z]{2})(\s+\d{5}(?:-\d{4})?)\s*$/, '<span class="ctt-statezip">$1<span class="ctt-zip">$2</span></span>'); }
-  function cttParen(h) { h = String(h); if (!/^The Thrift/.test(h)) h = h.replace(/(\S)(\s+Thrift(?:\s+(?:Store|Shop))?)(?![A-Za-z])(?!\s+Trail)/, '$1<span class="ctt-thriftword' + (/Room in the Inn/.test(h) ? ' ctt-cr-tw' : '') + '">$2</span>'); h = h.replace(/Northside Neighborhood House/, '<span class="ctt-ls-long">$&</span><span class="ctt-ls-short">NNH</span>').replace(/Chattanooga Room in the Inn/, '<span class="ctt-ls-long"><span class="ctt-cr-full">Chattanooga</span><span class="ctt-cr-phone">Chatt</span> Room in the Inn</span><span class="ctt-ls-short">CRITI</span>'); return h.replace(/\s*\(([^)]*)\)/g, '<span class="ctt-paren"> ($1)</span><span class="ctt-loc"> - $1</span>'); }
+  function cttParen(h) { h = String(h); if (!/^The Thrift/.test(h)) h = h.replace(/(\S)(\s+Thrift(?:\s+(?:Store|Shop))?)(?![A-Za-z])(?!\s+Trail)/, '$1<span class="ctt-thriftword' + (/Room in the Inn/.test(h) ? ' ctt-cr-tw' : '') + '">$2</span>'); h = h.replace(/Northside Neighborhood House/, '<span class="ctt-ls-long">$&</span><span class="ctt-ls-short">NNH</span>').replace(/Electric Crocodile/, '<span class="ctt-ls-long">$&</span><span class="ctt-ls-short">Electric Croc</span>').replace(/Chattanooga Room in the Inn/, '<span class="ctt-ls-long"><span class="ctt-cr-full">Chattanooga</span><span class="ctt-cr-phone">Chatt</span> Room in the Inn</span><span class="ctt-ls-short">CRITI</span>'); return h.replace(/\s*\(([^)]*)\)/g, '<span class="ctt-paren"> ($1)</span><span class="ctt-loc"> - $1</span>'); }
   function dn(n) { return String(n).replace(/Fort Oglethorpe/g, 'Fort O').replace(/^NNH Thrift/, 'Northside Neighborhood House').replace(/^THE REFINDERY on McCallie$/i, 'Refindery').replace(/^Humane Ed\. Soc\./, 'Humane Edu').replace(/^SACs Thrift Avenue/, 'SACs Thrift Ave'); } // on-screen name: 'Fort O'. The full name stays the key for saved data.
   function cttGreet(head) { var n = cttAcct().name; return (n && /^Happy [^!]*!$/.test(head)) ? head.slice(0, -1) + ', ' + cttEsc(n) + '!' : head; }
 
@@ -4384,7 +4396,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       + '<div class="ctt-tag-photo-fallback" style="background:' + color + ';">' + initial + '</div>'
       + '</div>';
     var startHereHtml = onRoute
-      ? '<button type="button" class="ctt-ctrl-btn ctt-start-here" title="Start Here">&#9654;</button>'
+      ? '<button type="button" class="ctt-ctrl-btn ctt-start-here" title="Move to Top">&#9654;</button>'
       : '';
     var upDownHtml = onRoute
       ? '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (routeIndex === 0 ? ' disabled' : '') + '>&#9650;</button>' +
@@ -6631,6 +6643,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     btn.addEventListener('click', function() { on = !on; try { localStorage.setItem('ctt-names', on ? 'on' : 'off'); } catch (e) {} paint(); if (typeof cttTrack === 'function') { try { cttTrack('map_names_' + (on ? 'on' : 'off')); } catch (e) {} } });
     if (window.L && L.DomEvent) { L.DomEvent.disableClickPropagation(btn); }
     mapEl.appendChild(btn); paint();
+  })();
+
+  // ---- v23.9: keeps the dashed outline of the cards section visible while the list scrolls (see .ctt-scr-top / .ctt-scr-more) ----
+  (function() {
+    var l = document.getElementById('ctt-list'); if (!l) return;
+    function upd() { try { l.classList.toggle('ctt-scr-top', l.scrollTop > 1); l.classList.toggle('ctt-scr-more', l.scrollTop + l.clientHeight < l.scrollHeight - 2); } catch (e) {} }
+    l.addEventListener('scroll', upd, { passive: true }); window.addEventListener('resize', upd);
+    try { new MutationObserver(function() { setTimeout(upd, 0); }).observe(l, { childList: true, subtree: true }); } catch (e) {}
+    setTimeout(upd, 300); setInterval(upd, 1500);
   })();
 
   // ---- Hide map / Show map (phones held upright) ----
