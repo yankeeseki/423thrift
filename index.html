@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.7-20261114">
+<meta name="ctt-build" content="v22.8-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1357,6 +1357,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-footnav > *:last-child { padding-right:12px !important; }
   .ctt-footnav .ctt-disclaimer-toggle, .ctt-footnav .ctt-feedback-link-btn { display:inline; margin:0; font-size:15px; font-weight:400; color:#6b6252; background:none; border:none; text-decoration:underline; padding-top:0; padding-bottom:0; cursor:pointer; font-family:'Libre Franklin',sans-serif; }
   /* v22.7: the one live line above the big button carries the urgency colours the line below it used to */
+  .ctt-route-stat .ctt-sep { font-size: 2em; line-height: 0; vertical-align: -0.12em; font-weight: 800; } /* v22.7 (Mod): the dots between the live numbers are twice as big; line-height 0 keeps the line from growing taller */
   .ctt-route-stat.urgency-tight { color: var(--rust); }
   .ctt-route-stat.urgency-urgent { color: #a5281a; font-weight: 700; animation: ctt-urgent-pulse 1.6s ease-in-out infinite; }
   .ctt-cta-status:empty { display: none; }
@@ -2468,24 +2469,37 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-cta-btnwrap .ctt-cta-btn { width: min(100%, 760px); height: 150px; box-sizing: border-box; justify-content: center; overflow: hidden; }
   .ctt-cta-btn-line1, .ctt-cta-btn-sub { max-width: 100%; overflow-wrap: anywhere; }
   @media (max-width: 600px) { .ctt-cta-btnwrap .ctt-cta-btn { height: 118px; } }
-  /* v22.7 (Mod): phone held sideways. Map on the left, route controls (stats, big button, list) on the right. Portrait phones and tablets are untouched (the height limit keeps tablets out). */
+  /* v22.7/v22.8 (Mod): phone held sideways. The LEFT half is locked in place: big button + numbers on top, map below. The whole rest of the home page (title, banners, Your Route list, footer) scrolls on the RIGHT half. Portrait phones and tablets are untouched (the height limit keeps tablets out). --ctt-cta-h is set by a small script (landscapeFit) to the height of the button box so the map sits right under it. */
   @media (orientation: landscape) and (max-height: 520px) {
-    #ctt-thrift-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 14px; align-items: start; }
-    #ctt-thrift-wrap > * { grid-column: 1 / -1; }
-    #ctt-thrift-wrap > .ctt-header, #ctt-thrift-wrap > #ctt-holiday { order: -2; }
-    #ctt-thrift-wrap > .ctt-layout { display: contents; }
-    #ctt-thrift-wrap .ctt-layout .ctt-map-col { order: -1; grid-column: 1; grid-row: span 6; position: sticky; top: 6px; align-self: start; }
-    #ctt-thrift-wrap .ctt-layout #ctt-map { position: relative; top: auto; height: clamp(200px, calc(100vh - 150px), 420px) !important; }
-    #ctt-thrift-wrap > .ctt-cta-row, #ctt-thrift-wrap > .ctt-resume-banner, #ctt-thrift-wrap > .ctt-planning-banner, #ctt-thrift-wrap .ctt-layout > .ctt-list-outer { grid-column: 2; }
-    .ctt-cta-row { padding: 12px 12px; margin-top: 0; }
-    .ctt-route-stat { font-size: 15px; margin-bottom: 6px; }
-    .ctt-cta-btnwrap .ctt-cta-btn { height: 104px; padding: 10px 22px; border-radius: 30px; }
-    .ctt-cta-btn-line1 { font-size: 26px; }
-    .ctt-cta-btn-line1.is-next { font-size: 18px; }
+    body { box-sizing: border-box; padding-left: 50%; }
+    #ctt-thrift-wrap .ctt-layout { display: block; }
+    #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(50% - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
+    #ctt-thrift-wrap .ctt-layout .ctt-map-col { position: fixed; z-index: 10; order: 0; top: calc(var(--ctt-cta-h, 190px) + 12px); bottom: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(50% - 8px - max(8px, env(safe-area-inset-left))); margin: 0; display: flex; flex-direction: column; min-height: 0; }
+    #ctt-thrift-wrap .ctt-layout .ctt-map-col #ctt-map { position: relative; top: auto; flex: 1 1 auto; height: auto !important; min-height: 0; }
+    #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { margin: 0 0 2px; flex: 0 0 auto; }
+    #ctt-thrift-wrap .ctt-map-col .ctt-howworks-panel { max-height: 45vh; overflow-y: auto; flex: 0 0 auto; }
+    .ctt-route-stat { font-size: 13px; margin: 0 0 3px; }
+    #ctt-thrift-wrap > .ctt-cta-row .ctt-status-panel { gap: 2px; }
+    .ctt-cta-hint { display: none !important; }
+    #ctt-thrift-wrap .ctt-cta-navrow { flex-wrap: nowrap; gap: 2px 6px; margin-top: 0; justify-content: center; }
+    #ctt-thrift-wrap .ctt-cta-navrow .ctt-cta-undo { font-size: 11px; white-space: nowrap; }
+    #ctt-thrift-wrap .ctt-cta-navrow .ctt-cta-undo span { font-size: 9px; }
+    #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { flex-wrap: nowrap; justify-content: center; gap: 12px; }
+    #ctt-thrift-wrap .ctt-map-col .ctt-legend-item, #ctt-thrift-wrap .ctt-map-col .ctt-howworks-toggle, #ctt-thrift-wrap .ctt-map-col .ctt-hw-t, #ctt-thrift-wrap .ctt-map-col .ctt-hw-c { font-size: 12px !important; white-space: nowrap; }
+    .ctt-cta-btnwrap .ctt-cta-btn { height: 80px; padding: 6px 16px; border-radius: 26px; }
+    .ctt-cta-btn-line1 { font-size: 24px; }
+    .ctt-cta-btn-line1.is-next { font-size: 17px; }
+    .ctt-cta-navrow { margin-top: 2px; }
+    .ctt-backtomap, .ctt-backtomap.show { display: none !important; }
     .ctt-footnav { margin-top: 40px; }
-    .ctt-title { font-size: 30px; }
+    .ctt-news .ctt-news-text p { white-space: normal; }
+    /* v22.8 (Mod): sideways, the title, its tagline, the legend (Route / Bonus / Featured) and How This Works are hidden to save height. The menu button stays. */
+    #ctt-thrift-wrap .ctt-title, #ctt-thrift-wrap .ctt-tagline { display: none !important; }
+    #ctt-thrift-wrap .ctt-header { justify-content: flex-end; min-height: 52px; margin: 0; }
+    #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row, #ctt-thrift-wrap .ctt-map-col .ctt-howworks-panel { display: none !important; }
+    /* v22.8 (Mod): sideways, also hide Take It With You + Share The Trail, and Browse By Neighborhood with everything below it (newsletter, version, credits, About). The footer link row and tip buttons stay. */
+    #ctt-thrift-wrap .ctt-split-row, .ctt-seo, .ctt-news, .ctt-version, .ctt-footer { display: none !important; }
     .ctt-offroute-head .ctt-offroute-note { font-size: 11px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-    .ctt-tagline { font-size: 12px; margin: 0 0 4px; }
   }
 </style>
 
@@ -2742,7 +2756,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.7 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.8 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3785,7 +3799,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     g.push('<strong>' + b.miles + ' ' + (b.miles === 1 ? 'mile' : 'miles') + '</strong>');
     if (timerParts) { g.push('<strong>' + timerParts.time + '</strong>'); g.push(timerParts.per); }
     var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + 'Remaining:</span> ';
-    html += g.map(function(x, k) { return '<span class="ctt-nw">' + x + (k < g.length - 1 ? ' &middot;' : '') + '</span>'; }).join(' ');
+    html += g.map(function(x, k) { return '<span class="ctt-nw">' + x + (k < g.length - 1 ? ' <span class="ctt-sep">&middot;</span>' : '') + '</span>'; }).join(' ');
     el.innerHTML = html;
     el.classList.remove('urgency-calm', 'urgency-tight', 'urgency-urgent');
     el.classList.add('urgency-' + ((timerParts && timerParts.urgency) || 'calm'));
@@ -6838,6 +6852,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     window.addEventListener('resize', sched); window.addEventListener('orientationchange', sched);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched);
     sched();
+  })();
+  // v22.8 (Mod): phone landscape: keep the map right under the locked button box, whatever height that box has (one or two stat lines, the nav row after the first tap).
+  (function() {
+    var row = document.querySelector('.ctt-cta-row'); if (!row) return;
+    function landscapeFit() { try { document.documentElement.style.setProperty('--ctt-cta-h', Math.ceil(row.getBoundingClientRect().height) + 'px'); } catch (e) {} }
+    try { new MutationObserver(landscapeFit).observe(row, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class', 'style', 'hidden'] }); } catch (e) {}
+    window.addEventListener('resize', landscapeFit); window.addEventListener('orientationchange', landscapeFit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(landscapeFit);
+    landscapeFit(); setTimeout(landscapeFit, 600);
   })();
 </script>
 
