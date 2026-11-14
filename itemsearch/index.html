@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Item Search | Chattanooga Thrift Trail</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* v22.2: hidden test page. Not linked anywhere, not in the sitemap, noindex. */
+  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#ae4c2c; --line:#c9bb99; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
+  .wrap { max-width:520px; margin:0 auto; padding:20px 16px 60px; }
+  h1 { font-family:'Archivo Black',Georgia,serif; font-size:28px; margin:6px 0 4px; line-height:1.1; }
+  .sub { color:var(--taupe); font-size:14px; margin:0 0 18px; }
+  .back { font-size:13px; color:var(--taupe); }
+  .card { background:var(--card); border:1.5px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; }
+  .btn { display:block; width:100%; text-align:center; font-family:inherit; font-weight:700; font-size:16px; padding:14px 16px; border-radius:999px; border:2px solid var(--rust); background:var(--rust); color:#fff; cursor:pointer; text-decoration:none; }
+  .btn.alt { background:var(--card); color:var(--rust); }
+  .btn.slate { background:var(--slate); border-color:var(--slate); }
+  .btn + .btn { margin-top:10px; }
+  .btn:focus-visible, input:focus-visible { outline:3px solid var(--olive); outline-offset:2px; }
+  #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e8dfc9; margin-bottom:12px; }
+  label { display:block; font-weight:700; font-size:14px; margin-bottom:6px; }
+  input[type=text] { width:100%; font-family:inherit; font-size:17px; padding:12px 14px; border:1.5px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+  .status { font-size:14px; color:var(--taupe); margin:10px 0 0; min-height:20px; }
+  .status.err { color:var(--rust); font-weight:600; }
+  .note { font-size:12.5px; color:var(--taupe); margin:12px 0 0; }
+  #results { display:none; }
+  #file { display:none; }
+  .spin { display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--rust); border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-right:6px; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; Chattanooga Thrift Trail</a>
+  <h1>Item Search</h1>
+  <p class="sub">Snap a photo of something you found, then see what it has sold for.</p>
+
+  <div class="card">
+    <img id="preview" alt="Your photo">
+    <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
+    <input type="file" id="file" accept="image/*" capture="environment">
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="card" id="results">
+    <label for="q">What is it? Fix the name if it's off.</label>
+    <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl">
+    <div style="margin-top:14px">
+      <a class="btn" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
+      <a class="btn alt" id="live" target="_blank" rel="noopener">For Sale on eBay</a>
+      <a class="btn alt" id="goog" target="_blank" rel="noopener">Google It</a>
+    </div>
+    <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
+  </div>
+
+  <div class="card" id="typecard">
+    <label for="q2">Or just type what it is</label>
+    <input type="text" id="q2" maxlength="120" autocomplete="off" placeholder="Brand, type, pattern or model">
+    <button type="button" class="btn slate" id="go2" style="margin-top:12px">Search</button>
+  </div>
+
+  <p class="note">Photos are sent to Google's Gemini AI only to name the item. Please don't photograph people. Nothing is saved by the Trail.</p>
+</div>
+
+<script>
+(function () {
+  // Paste your Cloudflare Worker address here after you deploy it (it ends in workers.dev). Leave empty and the page still works with the type box.
+  var WORKER_URL = '';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
+
+  function setStatus(t, err, busy) {
+    statusEl.className = 'status' + (err ? ' err' : '');
+    statusEl.textContent = '';
+    if (busy) { var s = document.createElement('span'); s.className = 'spin'; statusEl.appendChild(s); }
+    statusEl.appendChild(document.createTextNode(t || ''));
+  }
+  function links() {
+    var t = encodeURIComponent((q.value || '').trim());
+    var on = !!t;
+    $('sold').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + '&LH_Sold=1&LH_Complete=1' : '#';
+    $('live').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t : '#';
+    $('goog').href = on ? 'https://www.google.com/search?q=' + t : '#';
+    ['sold', 'live', 'goog'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
+  }
+  function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); }
+  q.addEventListener('input', links);
+
+  $('go2').addEventListener('click', function () {
+    var v = ($('q2').value || '').trim(); if (!v) { $('q2').focus(); return; }
+    showResults(v); results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  $('q2').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go2').click(); });
+
+  snap.addEventListener('click', function () { fileEl.value = ''; fileEl.click(); });
+
+  // Shrink the photo before sending: smaller upload, faster answer, and it stays well under the free limits.
+  function shrink(file, cb) {
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function () {
+      var max = 1024, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
+      var c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      var data = c.toDataURL('image/jpeg', 0.8);
+      URL.revokeObjectURL(url); cb(null, data);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); cb(new Error('bad image')); };
+    img.src = url;
+  }
+
+  fileEl.addEventListener('change', function () {
+    var f = fileEl.files && fileEl.files[0]; if (!f) return;
+    results.style.display = 'none';
+    shrink(f, function (err, dataUrl) {
+      if (err) { setStatus('That photo would not open. Try another, or type the name below.', true); return; }
+      preview.src = dataUrl; preview.style.display = 'block';
+      if (!WORKER_URL) { setStatus('The photo reader is not connected yet. Type what it is below.', true); return; }
+      setStatus('Reading the photo...', false, true);
+      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 25000);
+      fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: dataUrl.split(',')[1], mime: 'image/jpeg' }), signal: ctl.signal })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+        .then(function (r) {
+          clearTimeout(timer);
+          if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+          if (r.status === 429) { setStatus("Today's free photo reads are used up. Type what it is below instead.", true); return; }
+          setStatus('I could not tell what that is. Try a clearer photo, or type it below.', true);
+        })
+        .catch(function () { clearTimeout(timer); setStatus('The photo reader did not answer. Type what it is below instead.', true); });
+    });
+  });
+  links();
+})();
+</script>
+</body>
+</html>
