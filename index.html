@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.8-20261114">
+<meta name="ctt-build" content="v22.9-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1354,6 +1354,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-footnav { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin-top:86px; font-size:15px; row-gap:6px; }
   .ctt-footnav > * { padding:6px 12px !important; border-left:1px solid #6b6252 !important; line-height:1.2; }
   .ctt-footnav > *:first-child { border-left:none !important; }
+  .ctt-footnav > .ctt-ls-extra { display:none !important; } /* v22.8: only shown when the phone is sideways */
   .ctt-footnav > *:last-child { padding-right:12px !important; }
   .ctt-footnav .ctt-disclaimer-toggle, .ctt-footnav .ctt-feedback-link-btn { display:inline; margin:0; font-size:15px; font-weight:400; color:#6b6252; background:none; border:none; text-decoration:underline; padding-top:0; padding-bottom:0; cursor:pointer; font-family:'Libre Franklin',sans-serif; }
   /* v22.7: the one live line above the big button carries the urgency colours the line below it used to */
@@ -2495,7 +2496,13 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-news .ctt-news-text p { white-space: normal; }
     /* v22.8 (Mod): sideways, the title, its tagline, the legend (Route / Bonus / Featured) and How This Works are hidden to save height. The menu button stays. */
     #ctt-thrift-wrap .ctt-title, #ctt-thrift-wrap .ctt-tagline { display: none !important; }
-    #ctt-thrift-wrap .ctt-header { justify-content: flex-end; min-height: 52px; margin: 0; }
+    /* v22.8 (Mod): sideways there is no hamburger. Its extra items (Account, Get the Web App, Trail Poster, Maps App) are added to the footer link row instead (.ctt-ls-extra, hidden everywhere else). The Account panel opens as a small fixed window. */
+    #ctt-thrift-wrap .ctt-header { min-height: 0; height: 0; margin: 0; padding: 0; }
+    #ctt-menu-btn { display: none !important; }
+    #ctt-lsearch, #ctt-featured-day, .ctt-featured-day { display: none !important; } /* v22.9 (Mod): sideways, the Search Shops By Name box and the Featured Shop of the Day line are hidden */
+    .ctt-footnav > .ctt-ls-extra { display: inline !important; }
+    .ctt-menu { position: fixed; top: 6px; right: 8px; max-height: calc(100vh - 12px); }
+    .ctt-menu.ctt-menu-wide { width: min(460px, calc(100vw - 16px)); }
     #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row, #ctt-thrift-wrap .ctt-map-col .ctt-howworks-panel { display: none !important; }
     /* v22.8 (Mod): sideways, also hide Take It With You + Share The Trail, and Browse By Neighborhood with everything below it (newsletter, version, credits, About). The footer link row and tip buttons stay. */
     #ctt-thrift-wrap .ctt-split-row, .ctt-seo, .ctt-news, .ctt-version, .ctt-footer { display: none !important; }
@@ -2756,7 +2763,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.8 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.9 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -6852,6 +6859,24 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     window.addEventListener('resize', sched); window.addEventListener('orientationchange', sched);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched);
     sched();
+  })();
+  // v22.8 (Mod): phone sideways: no hamburger, so its extra items go into the footer link row (shown by CSS only in landscape).
+  (function() {
+    var nav = document.querySelector('.ctt-footnav'); if (!nav) return;
+    function add(label, fn) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'ctt-disclaimer-toggle ctt-ls-extra'; b.textContent = label;
+      b.addEventListener('click', function(e) { e.stopPropagation(); fn(); }); nav.appendChild(b);
+    }
+    add('Account', function() {
+      var btn = document.getElementById('ctt-menu-btn'), menu = document.getElementById('ctt-menu'); if (!btn || !menu) return;
+      btn.click();
+      var kids = Array.prototype.slice.call(menu.children), acct = null;
+      kids.forEach(function(k) { if (k.classList.contains('ctt-menu-x') || k.classList.contains('ctt-menu-acct')) return; if (!acct && k.tagName === 'BUTTON') { acct = k; return; } k.style.display = 'none'; });
+      if (acct) acct.click();
+    });
+    add('Get the Web App', function() { var el = document.querySelector('.ctt-homescreen-link'); if (el) el.click(); });
+    add('Trail Poster', function() { var el = document.querySelector('.ctt-poster-btn'); if (el) el.click(); });
+    add('Maps App', function() { var el = document.getElementById('ctt-maps-open'); if (el) el.click(); });
   })();
   // v22.8 (Mod): phone landscape: keep the map right under the locked button box, whatever height that box has (one or two stat lines, the nav row after the first tap).
   (function() {
