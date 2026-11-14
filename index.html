@@ -48,6 +48,9 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- DONE in v22.4 (Mod, Nov 14 2026): the Featured Shop of the Day line, the map legend (Route / Bonus / Featured) and the How this works toggle all use Libre Franklin 17px (one override rule at the end of the main style block). Weights unchanged (featured bold, legend regular, toggle semibold).
+- DONE in v22.4 (Mod): Featured Shop of the Day line has the gold star on both sides (second star after the shop name, same .ctt-fd-gold color, aria-hidden).
+- DONE in v22.4 (Mod): How this works 'The big button' paragraph now says why to flip ('handy for a change of scenery or to reach shops you missed last time'; Mod's reasons).
 - DONE in v22.3 (Mod, Nov 14 2026): (1) ITEM SEARCH is public: footer link 'Item Search' after Community Calendar (home + menu.js) and hamburger '📷 Item Search' just above Community Calendar (home addLink order + menu.js); itemsearch/index.html loses noindex, gets description/canonical/og, the sub-page topbar + /menu.js, exact site rust #b5502f, and a sitemap.xml entry. Page: Google Image Search (opens the Google app, #1A73E8) and eBay Image Search (opens the eBay app, #E53238) buttons, then ThriftiVision (BETA): photo + at least one of 8 keyword boxes, Cloudflare worker itemsearch.derek-de2.workers.dev (Vision web match, then Gemini), value estimate from the eBay Browse API once Mod's eBay developer keys are added (asking prices only, no shipping; 'No evaluation data available' otherwise). (2) LAYOUT TRIAL (Mod may revert): static #ctt-featured-day now sits just above 'Your Route / Open Now' (inside .ctt-list-outer; on phones that is below the map); the map legend row (.ctt-route-stat-row) and How this works toggle + panel moved out of the page header into a new .ctt-map-col wrapper just above #ctt-map (.ctt-map-col carries the grid order and desktop sticky now). Was: featured line above the holiday banner, legend + How this works in the header. (3) HOW-TO + one-button blog post explain the route flip (draw > or < on the big button) and why you might want it.
 - DONE in v19.3 (Nov 7 2026): Add Your Own Stop suggestions say 'N mi away' (no vague 'Chattanooga area'); 12th icon (paw, Pet) in two rows of six; stop placement is automatic (placeErrand: by appointment time, else least added driving) and the 'Where in your trail?' menu is gone; name label is 'Where to?'; More Shops is a heavier solid-bordered box (19px title) and is separate from a new 'Your own stops' box (just the two centered buttons, no label or note) holding both '+ Add Your Own Stop' and '☕ Add a Coffee Stop' (the coffee panel moved into that box; ids unchanged).
 - DONE in v19.4 (Nov 7 2026): 'Your own stops' box is just two centered buttons (17px, no label or note); Add Your Own Stop help text shortened to one paragraph; Share The Trail buttons on desktop (min-width 781px) are 3 over 2 in equal-width pills (CSS grid on .ctt-share-row), phone layout unchanged; More Shops list is sorted open-now (or closing soon) first, then closed (sortOffRouteByOpen, called after addBackgroundBonus in recalibrate; order inside each group unchanged; no section headings because the height and scroll code treat every child as a shop card).
@@ -408,7 +411,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.3-20261114">
+<meta name="ctt-build" content="v22.4-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2845,6 +2848,11 @@ LINGERING IDEAS
   .ctt-list-bar .ctt-day-option{padding-left:9px;padding-right:9px}
   .ctt-list-bar .ctt-coffee-open{padding-left:9px;padding-right:9px}
 }
+  /* v22.4 (Mod): Featured Shop line, map legend and How this works all share one font and size. */
+  #ctt-thrift-wrap .ctt-featured-day, #ctt-thrift-wrap .ctt-featured-day .ctt-fd-gold, #ctt-thrift-wrap .ctt-featured-day .ctt-fd-link,
+  #ctt-thrift-wrap .ctt-map-col .ctt-legend-item, #ctt-thrift-wrap .ctt-map-col .ctt-howworks-toggle, #ctt-thrift-wrap .ctt-map-col .ctt-hw-t, #ctt-thrift-wrap .ctt-map-col .ctt-hw-c {
+    font-family: 'Libre Franklin', sans-serif !important; font-size: 17px !important; line-height: 1.3;
+  }
 </style>
 
 </head>
@@ -2996,7 +3004,7 @@ LINGERING IDEAS
     <p style="font-weight:700; color:var(--ink);">Your Customizable and Automatically Optimized Thrift Store Treasure Map!</p>
     <p><strong>The route:</strong> A loop through Southside, Rossville, Fort O, Brainerd, East Brainerd, Hamilton Place, Hixson, Red Bank &amp; North Shore &mdash; join wherever you are, and it carries you back to your start.</p>
     <p><strong>How it works:</strong> Tap Let's Go Thrifting! to build today's plan from wherever you are. Closed shops are set aside automatically, and you can add or remove any shop yourself.</p>
-    <p><strong>The big button:</strong> Once your route is built, that one button runs the whole trip. Tap it when you reach a shop to be pointed to the next one, tap it twice in a row to step back a shop, press and hold it to open driving directions, or draw a &gt; (or &lt;) on it in one stroke to reverse the stops still ahead. Draw it again to flip back.</p>
+    <p><strong>The big button:</strong> Once your route is built, that one button runs the whole trip. Tap it when you reach a shop to be pointed to the next one, tap it twice in a row to step back a shop, press and hold it to open driving directions, or draw a &gt; (or &lt;) on it in one stroke to reverse the stops still ahead, handy for a change of scenery or to reach shops you missed last time. Draw it again to flip back.</p>
     <p><strong>Bonus shops:</strong> Gold diamonds are bonus shops worth a visit, off the main loop. Tap + Add to Route to bring any of them into today's plan.</p>
     <div class="ctt-howworks-links"><a class="ctt-fullguide-link" href="how-to/">&#128214; Read the full how-to guide &rarr;</a><button type="button" class="ctt-homescreen-link">&#128242; Get the Web App</button></div>
   </div>
@@ -3099,7 +3107,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.3 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.4 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3707,7 +3715,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!el) return;
     var fd = document.getElementById('ctt-featured-day');
     if (!fd) { fd = document.createElement('div'); fd.id = 'ctt-featured-day'; fd.className = 'ctt-featured-day'; el.parentNode.insertBefore(fd, el); }
-    var fdl = featuredDayLabel(); fd.innerHTML = fdl ? '<span class="ctt-fd-gold">\u2605 Featured Shop of the Day:</span> <a class="ctt-fd-link" href="' + featuredShopLink() + '">' + cttEsc(fdl) + '</a>.' : ''; fd.style.display = fdl ? 'block' : 'none';
+    var fdl = featuredDayLabel(); fd.innerHTML = fdl ? '<span class="ctt-fd-gold">\u2605 Featured Shop of the Day:</span> <a class="ctt-fd-link" href="' + featuredShopLink() + '">' + cttEsc(fdl) + '</a>. <span class="ctt-fd-gold" aria-hidden="true">\u2605</span>' : ''; fd.style.display = fdl ? 'block' : 'none';
     var ds = getEasternNow().dateStr, b = holidayFor(ds);
     var popAll = POP_FUN[ds.slice(5)] || [];
     // Up to 4 facts under the special day on the small banner, up to 3 inside the big holiday cards. More than that rotates by year.
