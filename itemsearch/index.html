@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* v22.2: hidden test page. Not linked anywhere, not in the sitemap, noindex. */
+  /* Hidden test page. Not linked anywhere, not in the sitemap, noindex. */
   :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#ae4c2c; --line:#c9bb99; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
@@ -32,6 +32,16 @@
   #results { display:none; }
   #file { display:none; }
   .spin { display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--rust); border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-right:6px; }
+  .btn[disabled] { opacity:.45; cursor:default; }
+  .kw { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0 4px; }
+  .kw input[type=text] { font-size:16px; padding:10px 12px; }
+  .kw input:disabled { background:#efe8d8; }
+  .kw .wide { grid-column:1 / -1; }
+  .count { font-size:12.5px; color:var(--taupe); margin:4px 0 12px; }
+  .count.ok { color:var(--olive); font-weight:600; }
+  .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
+  h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
+  .card > .note:first-of-type { margin-top:0; }
   @keyframes sp { to { transform:rotate(360deg); } }
 </style>
 </head>
@@ -39,12 +49,36 @@
 <div class="wrap">
   <a class="back" href="/">&larr; Chattanooga Thrift Trail</a>
   <h1>Item Search</h1>
-  <p class="sub">Snap a photo of something you found, then see what it has sold for.</p>
+  <p class="sub">Found something? See what it has sold for.</p>
 
   <div class="card">
+    <h2>Google Image Search</h2>
+    <p class="note" style="margin:0 0 12px">Opens the Google app. Tap the camera icon in its search bar, then point it at the item.</p>
+    <a class="btn alt" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">Open Google Image Search</a>
+  </div>
+
+  <div class="card">
+    <h2>eBay Image Search</h2>
+    <p class="note" style="margin:0 0 12px">Opens the eBay app. Tap the camera icon in its search bar to snap a photo, pick one or scan a barcode.</p>
+    <a class="btn alt" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">Open eBay Image Search</a>
+  </div>
+
+  <div class="card">
+    <h2>Thrift-a-Vision <span class="beta">BETA</span></h2>
+    <p class="note" style="margin:0 0 12px">Snap a photo and add 1 to 3 things you know about it. We name it and take you to eBay prices.</p>
     <img id="preview" alt="Your photo">
     <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
     <input type="file" id="file" accept="image/*" capture="environment">
+    <div class="kw" id="kw">
+      <input type="text" id="k-brand" maxlength="40" autocomplete="off" placeholder="Brand or maker" aria-label="Brand or maker">
+      <input type="text" id="k-title" maxlength="60" autocomplete="off" placeholder="Title, model or pattern" aria-label="Title, model or pattern">
+      <input type="text" id="k-size" maxlength="20" autocomplete="off" placeholder="Size" aria-label="Size">
+      <input type="text" id="k-color" maxlength="30" autocomplete="off" placeholder="Color" aria-label="Color">
+      <input type="text" id="k-material" maxlength="30" autocomplete="off" placeholder="Material" aria-label="Material">
+      <input type="text" id="k-other" maxlength="40" autocomplete="off" placeholder="Other (era, type...)" aria-label="Other">
+    </div>
+    <p class="count" id="count">Add 1 to 3 keywords.</p>
+    <button type="button" class="btn slate" id="go" disabled>Search</button>
     <p class="status" id="status" role="status" aria-live="polite"></p>
   </div>
 
@@ -59,29 +93,17 @@
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <div class="card" id="apps">
-    <label>Or search with another app's camera</label>
-    <p class="note" style="margin:0 0 12px">These open the app. Tap the camera icon in its search bar, then snap the item.</p>
-    <a class="btn alt" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">Google Lens</a>
-    <a class="btn alt" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">eBay Camera Search</a>
-  </div>
-
-  <div class="card" id="typecard">
-    <label for="q2">Or just type what it is</label>
-    <input type="text" id="q2" maxlength="120" autocomplete="off" placeholder="Brand, type, pattern or model">
-    <button type="button" class="btn slate" id="go2" style="margin-top:12px">Search</button>
-  </div>
-
-  <p class="note">Photos are sent to Google's Gemini AI only to name the item. Please don't photograph people. Nothing is saved by the Trail.</p>
+  <p class="note">Thrift-a-Vision sends your photo and keywords to Google only to name the item. Please don't photograph people. Nothing is saved by the Trail.</p>
 </div>
 
 <script>
 (function () {
-  // Paste your Cloudflare Worker address here after you deploy it (it ends in workers.dev). Leave empty and the page still works with the type box.
   var WORKER_URL = 'https://itemsearch.derek-de2.workers.dev/';
+  var KEYS = ['brand', 'title', 'size', 'color', 'material', 'other'], MAX_KW = 3;
 
   var $ = function (id) { return document.getElementById(id); };
-  var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
+  var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q'), go = $('go');
+  var photo = '';
 
   function setStatus(t, err, busy) {
     statusEl.className = 'status' + (err ? ' err' : '');
@@ -100,14 +122,30 @@
   function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); }
   q.addEventListener('input', links);
 
-  $('go2').addEventListener('click', function () {
-    var v = ($('q2').value || '').trim(); if (!v) { $('q2').focus(); return; }
-    showResults(v); results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Keywords: at least 1, at most 3. Once 3 boxes are filled, the rest lock until one is cleared.
+  function keywords() {
+    var out = {};
+    KEYS.forEach(function (k) { var v = ($('k-' + k).value || '').trim(); if (v) out[k] = v; });
+    return out;
+  }
+  function refresh() {
+    var n = Object.keys(keywords()).length;
+    KEYS.forEach(function (k) { var el = $('k-' + k); el.disabled = n >= MAX_KW && !el.value.trim(); });
+    var c = $('count');
+    if (!photo && !n) c.textContent = 'Snap a photo, then add 1 to 3 keywords.';
+    else if (!photo) c.textContent = 'Now snap a photo.';
+    else if (!n) c.textContent = 'Add 1 to 3 keywords.';
+    else c.textContent = n + ' of 3 keywords' + (n >= MAX_KW ? ' (max)' : '') + '. Ready to search.';
+    c.className = 'count' + (photo && n ? ' ok' : '');
+    go.disabled = !(photo && n);
+  }
+  KEYS.forEach(function (k) {
+    $('k-' + k).addEventListener('input', refresh);
+    $('k-' + k).addEventListener('keydown', function (e) { if (e.key === 'Enter' && !go.disabled) go.click(); });
   });
-  $('q2').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go2').click(); });
 
-  // Neither app offers a link straight to its camera (tested Nov 14 2026), so on iPhone these open the app itself
-  // (one tap on its camera icon from there), or the App Store if it isn't installed. Elsewhere the web links are used.
+  // Google and eBay don't offer a link straight to their cameras (tested Nov 14 2026), so on iPhone these open
+  // the app itself (one tap on its camera icon from there), or the App Store if it isn't installed.
   var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   function openApp(id, scheme, store) {
     $(id).addEventListener('click', function (e) {
@@ -156,25 +194,37 @@
 
   fileEl.addEventListener('change', function () {
     var f = fileEl.files && fileEl.files[0]; if (!f) return;
-    results.style.display = 'none';
+    results.style.display = 'none'; setStatus('');
     shrink(f, function (err, dataUrl) {
-      if (err) { setStatus('That photo would not open. Try another, or type the name below.', true); return; }
-      preview.src = dataUrl; preview.style.display = 'block';
-      if (!WORKER_URL) { setStatus('The photo reader is not connected yet. Type what it is below.', true); return; }
-      setStatus('Reading the photo...', false, true);
-      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
-      fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: dataUrl.split(',')[1], mime: 'image/jpeg' }), signal: ctl.signal })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
-        .then(function (r) {
-          clearTimeout(timer);
-          if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-          if (r.status === 429) { setStatus("Today's free photo reads are used up. Type what it is below instead.", true); return; }
-          if (r.j && r.j.google_status === 503) { setStatus("Google's photo reader is busy right now. Try the photo again in a minute, or type it below.", true); return; }
-          setStatus('I could not tell what that is. Try a clearer photo, or type it below.' + (r.j && (r.j.detail || r.j.error) ? ' [' + r.status + ': ' + (r.j.google_status ? 'Google ' + r.j.google_status + ' ' : '') + String(r.j.detail || r.j.error).slice(0, 200) + ']' : ' [' + r.status + ']'), true);
-        })
-        .catch(function () { clearTimeout(timer); setStatus('The photo reader did not answer. Type what it is below instead.', true); });
+      if (err) { photo = ''; refresh(); setStatus('That photo would not open. Try another.', true); return; }
+      photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block';
+      snap.innerHTML = '&#128247; Retake Photo';
+      refresh();
+      var first = KEYS.map(function (k) { return $('k-' + k); }).filter(function (el) { return !el.value.trim(); })[0];
+      if (first && !Object.keys(keywords()).length) first.focus();
     });
   });
+
+  go.addEventListener('click', function () {
+    var kw = keywords();
+    if (!photo || !Object.keys(kw).length) return;
+    results.style.display = 'none';
+    go.disabled = true;
+    setStatus('Reading the photo...', false, true);
+    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
+    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: photo.split(',')[1], mime: 'image/jpeg', keywords: kw }), signal: ctl.signal })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+      .then(function (r) {
+        clearTimeout(timer); refresh();
+        if (r.ok && r.j && r.j.query) { setStatus('Here is my best guess. Fix it if it is off, then pick a search.'); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if (r.status === 429) { setStatus("Today's free photo reads are used up. Try Google or eBay Image Search above.", true); return; }
+        if (r.j && r.j.google_status === 503) { setStatus("The photo reader is busy right now. Try again in a minute.", true); return; }
+        setStatus('I could not tell what that is. Try a clearer photo or different keywords.' + (r.j && (r.j.detail || r.j.error) ? ' [' + r.status + ': ' + (r.j.google_status ? 'Google ' + r.j.google_status + ' ' : '') + String(r.j.detail || r.j.error).slice(0, 200) + ']' : ' [' + r.status + ']'), true);
+      })
+      .catch(function () { clearTimeout(timer); refresh(); setStatus('The photo reader did not answer. Try again in a minute.', true); });
+  });
+
+  refresh();
   links();
 })();
 </script>
