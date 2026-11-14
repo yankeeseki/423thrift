@@ -48,6 +48,7 @@ FILTERS: subtle 'Filter' text link under 'Your Route', panel opens under the ora
 Keep the "All shops" access subtle and near the bottom ("Shops & Charities").
 
 STILL TO DO / IDEAS
+- DONE in v22.5 (Mod, Nov 14 2026): only ONE bar near Your Route: 'Your changes are saved · Start Over' (it already shows for custom order/flip too, and Start Over clears visited, adds/removes, custom order and pinned start). The 'Custom order · Reset' bar is hidden for good (#ctt-custom-order-banner kept in the HTML, always display none). Full Reset stays in the footer only. how-to wording updated.
 - DONE in v22.4 (Mod, Nov 14 2026): the Featured Shop of the Day line, the map legend (Route / Bonus / Featured) and the How this works toggle all use Libre Franklin 17px (one override rule at the end of the main style block). Weights unchanged (featured bold, legend regular, toggle semibold).
 - DONE in v22.4 (Mod): Featured Shop of the Day line has the gold star on both sides (second star after the shop name, same .ctt-fd-gold color, aria-hidden).
 - DONE in v22.4 (Mod): How this works 'The big button' paragraph now says why to flip ('handy for a change of scenery or to reach shops you missed last time'; Mod's reasons).
@@ -411,7 +412,7 @@ LINGERING IDEAS
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v22.4-20261114">
+<meta name="ctt-build" content="v22.5-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -3107,7 +3108,7 @@ LINGERING IDEAS
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.4 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v22.5 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -5103,7 +5104,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     offRouteListEl.style.display = offRouteExpanded ? 'flex' : 'none';
     refreshOffRouteLabel();
     var customOrderBanner = document.getElementById('ctt-custom-order-banner');
-    if (customOrderBanner) customOrderBanner.style.display = manualOrderNames ? 'block' : 'none';
+    if (customOrderBanner) customOrderBanner.style.display = 'none'; // v22.5 (Mod): one bar only; 'Your changes are saved · Start Over' also covers custom order.
     drawRoadRoute(optimized);
     layoutLabels();
     updateSavedNote();
