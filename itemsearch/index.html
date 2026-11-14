@@ -42,6 +42,15 @@
   .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
   h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
   .card > .note:first-of-type { margin-top:0; }
+  .est { margin-top:14px; padding:12px 14px; border-radius:10px; background:#f3ecdb; border:1.5px solid var(--line); }
+  .est-head { font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--olive); margin-bottom:4px; }
+  .est-range { font-family:'Archivo Black',Georgia,serif; font-size:26px; line-height:1.15; }
+  .est-sub { font-size:13px; color:var(--taupe); margin-top:2px; }
+  .est-none { font-size:15px; font-weight:600; color:var(--taupe); }
+  .est ul { list-style:none; padding:0; margin:10px 0 0; }
+  .est li { font-size:13.5px; margin:6px 0; }
+  .est li a { color:var(--slate); }
+  .linkbtn { background:none; border:none; padding:8px 0 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--rust); text-decoration:underline; cursor:pointer; }
   @keyframes sp { to { transform:rotate(360deg); } }
 </style>
 </head>
@@ -64,20 +73,22 @@
   </div>
 
   <div class="card">
-    <h2>Thrift-a-Vision <span class="beta">BETA</span></h2>
-    <p class="note" style="margin:0 0 12px">Snap a photo and add 1 to 3 things you know about it. We name it and take you to eBay prices.</p>
+    <h2>ThriftiVision <span class="beta">BETA</span></h2>
+    <p class="note" style="margin:0 0 12px">Snap a photo and fill in anything you know about it (at least one box). The more you add, the better the match. We name it, estimate its value and take you to eBay prices.</p>
     <img id="preview" alt="Your photo">
     <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
     <input type="file" id="file" accept="image/*" capture="environment">
     <div class="kw" id="kw">
       <input type="text" id="k-brand" maxlength="40" autocomplete="off" placeholder="Brand or maker" aria-label="Brand or maker">
       <input type="text" id="k-title" maxlength="60" autocomplete="off" placeholder="Title, model or pattern" aria-label="Title, model or pattern">
-      <input type="text" id="k-size" maxlength="20" autocomplete="off" placeholder="Size" aria-label="Size">
+      <input type="text" id="k-year" maxlength="20" autocomplete="off" placeholder="Year or era" aria-label="Year or era">
       <input type="text" id="k-color" maxlength="30" autocomplete="off" placeholder="Color" aria-label="Color">
+      <input type="text" id="k-size" maxlength="20" autocomplete="off" placeholder="Size" aria-label="Size">
       <input type="text" id="k-material" maxlength="30" autocomplete="off" placeholder="Material" aria-label="Material">
-      <input type="text" id="k-other" maxlength="40" autocomplete="off" placeholder="Other (era, type...)" aria-label="Other">
+      <input type="text" id="k-country" maxlength="30" autocomplete="off" placeholder="Made in (country)" aria-label="Country of origin">
+      <input type="text" id="k-other" maxlength="40" autocomplete="off" placeholder="Other (type, features...)" aria-label="Other">
     </div>
-    <p class="count" id="count">Add 1 to 3 keywords.</p>
+    <p class="count" id="count">Fill in at least one box.</p>
     <button type="button" class="btn slate" id="go" disabled>Search</button>
     <p class="status" id="status" role="status" aria-live="polite"></p>
   </div>
@@ -85,6 +96,11 @@
   <div class="card" id="results">
     <label for="q">What is it? Fix the name if it's off.</label>
     <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl">
+    <div class="est" id="est">
+      <div class="est-head">Estimated Value</div>
+      <div id="est-body"></div>
+      <button type="button" class="linkbtn" id="est-again" style="display:none">Update Estimate For This Name</button>
+    </div>
     <div style="margin-top:14px">
       <a class="btn" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
       <a class="btn alt" id="live" target="_blank" rel="noopener">For Sale on eBay</a>
@@ -93,13 +109,13 @@
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <p class="note">Thrift-a-Vision sends your photo and keywords to Google only to name the item. Please don't photograph people. Nothing is saved by the Trail.</p>
+  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Please don't photograph people. Nothing is saved by the Trail.</p>
 </div>
 
 <script>
 (function () {
   var WORKER_URL = 'https://itemsearch.derek-de2.workers.dev/';
-  var KEYS = ['brand', 'title', 'size', 'color', 'material', 'other'], MAX_KW = 3;
+  var KEYS = ['brand', 'title', 'year', 'color', 'size', 'material', 'country', 'other'];
 
   var $ = function (id) { return document.getElementById(id); };
   var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q'), go = $('go');
@@ -119,10 +135,42 @@
     $('goog').href = on ? 'https://www.google.com/search?q=' + t : '#';
     ['sold', 'live', 'goog'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
   }
-  function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); }
-  q.addEventListener('input', links);
+  var lastKw = {}, priced = '';
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function fmt(n) { return '$' + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2).replace(/\.00$/, '')); }
+  function getEstimate() {
+    var name = (q.value || '').trim(), body = $('est-body');
+    $('est-again').style.display = 'none';
+    if (!name) { body.innerHTML = '<div class="est-none">No evaluation data available</div>'; return; }
+    priced = name;
+    body.innerHTML = '<div class="est-sub"><span class="spin"></span>Checking eBay...</div>';
+    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 20000);
+    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ price: name, keywords: lastKw }), signal: ctl.signal })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        clearTimeout(timer);
+        if (priced !== name) return;
+        var e = j && j.estimate;
+        if (!e) { body.innerHTML = '<div class="est-none">No evaluation data available</div>'; return; }
+        var range = e.low === e.high ? fmt(e.low) : fmt(e.low) + ' &ndash; ' + fmt(e.high);
+        var conf = { good: 'Good match', fair: 'Fair match', low: 'Rough guess' }[e.confidence] || '';
+        var h = '<div class="est-range">' + range + '</div>'
+          + '<div class="est-sub">' + conf + ': ' + e.count + ' matching eBay listing' + (e.count === 1 ? '' : 's') + (e.count > 1 ? ', middle ' + fmt(e.median) : '') + '.</div>'
+          + '<div class="est-sub">' + esc(j.note || '') + '</div>';
+        if (j.listings && j.listings.length) {
+          h += '<ul>' + j.listings.map(function (l) {
+            return '<li><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a> &middot; ' + fmt(l.price) + (l.condition ? ' &middot; ' + esc(l.condition) : '') + '</li>';
+          }).join('') + '</ul>';
+        }
+        body.innerHTML = h;
+      })
+      .catch(function () { clearTimeout(timer); if (priced === name) body.innerHTML = '<div class="est-none">No evaluation data available</div>'; });
+  }
+  function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); getEstimate(); }
+  q.addEventListener('input', function () { links(); $('est-again').style.display = (q.value || '').trim() && q.value.trim() !== priced ? 'inline-block' : 'none'; });
+  $('est-again').addEventListener('click', getEstimate);
 
-  // Keywords: at least 1, at most 3. Once 3 boxes are filled, the rest lock until one is cleared.
+  // Keywords: at least one box filled; all of them are welcome.
   function keywords() {
     var out = {};
     KEYS.forEach(function (k) { var v = ($('k-' + k).value || '').trim(); if (v) out[k] = v; });
@@ -130,12 +178,11 @@
   }
   function refresh() {
     var n = Object.keys(keywords()).length;
-    KEYS.forEach(function (k) { var el = $('k-' + k); el.disabled = n >= MAX_KW && !el.value.trim(); });
     var c = $('count');
-    if (!photo && !n) c.textContent = 'Snap a photo, then add 1 to 3 keywords.';
+    if (!photo && !n) c.textContent = 'Snap a photo, then fill in at least one box.';
     else if (!photo) c.textContent = 'Now snap a photo.';
-    else if (!n) c.textContent = 'Add 1 to 3 keywords.';
-    else c.textContent = n + ' of 3 keywords' + (n >= MAX_KW ? ' (max)' : '') + '. Ready to search.';
+    else if (!n) c.textContent = 'Fill in at least one box.';
+    else c.textContent = n + (n === 1 ? ' box' : ' boxes') + ' filled. Ready to search.';
     c.className = 'count' + (photo && n ? ' ok' : '');
     go.disabled = !(photo && n);
   }
@@ -206,7 +253,7 @@
   });
 
   go.addEventListener('click', function () {
-    var kw = keywords();
+    var kw = keywords(); lastKw = kw;
     if (!photo || !Object.keys(kw).length) return;
     results.style.display = 'none';
     go.disabled = true;
