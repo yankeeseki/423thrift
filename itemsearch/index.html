@@ -59,6 +59,13 @@
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
+  <div class="card" id="apps">
+    <label>Or search with another app's camera</label>
+    <p class="note" style="margin:0 0 12px">These open the app. Tap the camera icon in its search bar, then snap the item.</p>
+    <a class="btn alt" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">Google Lens</a>
+    <a class="btn alt" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">eBay Camera Search</a>
+  </div>
+
   <div class="card" id="typecard">
     <label for="q2">Or just type what it is</label>
     <input type="text" id="q2" maxlength="120" autocomplete="off" placeholder="Brand, type, pattern or model">
@@ -99,20 +106,52 @@
   });
   $('q2').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go2').click(); });
 
+  // Neither app offers a link straight to its camera (tested Nov 14 2026), so on iPhone these open the app itself
+  // (one tap on its camera icon from there), or the App Store if it isn't installed. Elsewhere the web links are used.
+  var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function openApp(id, scheme, store) {
+    $(id).addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = setTimeout(function () { if (!document.hidden) location.href = store; }, 1500);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) clearTimeout(t); }, { once: true });
+      location.href = scheme;
+    });
+  }
+  if (isIOS) {
+    openApp('lens', 'google://', 'https://apps.apple.com/app/google/id284815942');
+    openApp('ebaycam', 'ebay://', 'https://apps.apple.com/app/ebay/id282614216');
+  }
+
   snap.addEventListener('click', function () { fileEl.value = ''; fileEl.click(); });
 
   // Shrink the photo before sending: smaller upload, faster answer, and it stays well under the free limits.
+  // iPhone photos can be 24-48 megapixels; decoding them at full size can make Safari reload the page,
+  // so ask the browser to decode at reduced size when it can, and free every big buffer right away.
   function shrink(file, cb) {
-    var url = URL.createObjectURL(file), img = new Image();
-    img.onload = function () {
-      var max = 1024, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
-      var c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
-      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    var max = 1024;
+    function draw(src, w, h, done) {
+      var k = Math.min(1, max / Math.max(w, h));
+      var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+      c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
       var data = c.toDataURL('image/jpeg', 0.8);
-      URL.revokeObjectURL(url); cb(null, data);
-    };
-    img.onerror = function () { URL.revokeObjectURL(url); cb(new Error('bad image')); };
-    img.src = url;
+      c.width = c.height = 0;
+      done(data);
+    }
+    function viaImg() {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        draw(img, w, h, function (data) { img.src = ''; URL.revokeObjectURL(url); cb(null, data); });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); cb(new Error('bad image')); };
+      img.src = url;
+    }
+    if (window.createImageBitmap) {
+      createImageBitmap(file, { resizeWidth: max, resizeQuality: 'high' }).then(function (bmp) {
+        var w = bmp.width, h = bmp.height;
+        draw(bmp, w, h, function (data) { if (bmp.close) bmp.close(); cb(null, data); });
+      }).catch(viaImg);
+    } else viaImg();
   }
 
   fileEl.addEventListener('change', function () {
