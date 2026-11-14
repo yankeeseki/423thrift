@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v23.4-20261114">
+<meta name="ctt-build" content="v23.5-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2250,6 +2250,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .ctt-bg-hit { position: relative; }
   .ctt-bg-hit .ctt-bonus-icon { opacity: .75; }
+  .ctt-bg-hit .ctt-bg-star { opacity: .6; transition: transform .15s ease; }
+  .ctt-hl .ctt-bg-hit .ctt-bg-star { opacity: 1; transform: scale(1.5); }
   .ctt-bg-name { display: none; position: absolute; left: 26px; top: 7px; z-index: 5; white-space: nowrap; font: 600 12px/16px 'Libre Franklin', sans-serif; color: var(--ink); background: var(--paper); border: 1px solid var(--gold); border-radius: 3px; padding: 0 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
   .ctt-hl .ctt-bg-name { display: block; }
   .ctt-hl .ctt-bg-hit .ctt-bonus-icon { opacity: 1; transform: rotate(45deg) scale(1.9); box-shadow: 0 0 0 4px rgba(201,150,44,0.45), 0 2px 6px rgba(0,0,0,0.5); }
@@ -2464,17 +2466,20 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   /* v23.3 (Mod): phones: a shop description longer than 2 lines is cut to 2 lines and gets a small v / ^ button (like the ^ under the big button) to open and close the rest. */
   /* The red/play/arrow buttons column is 120px tall; without this it forced the extra height into empty grid rows (a blank gap above the bottom row once a description is clamped). contain:block-size takes its HEIGHT out of the row sizing (width still counts); min-height keeps the card tall enough to hold it. */
   .ctt-tag-controls-col { contain: block-size; align-self: stretch; }
-  .ctt-tag-info ~ .ctt-tag-controls-col, .ctt-tag-controls-col { grid-row: 1 / span 5; } .ctt-tag-photo-col { grid-row: 2 / span 4; } /* short spans so any extra height lands on the real rows, not on 26 empty ones */
+  .ctt-tag-info ~ .ctt-tag-controls-col, .ctt-tag-controls-col { grid-row: 1 / 41; } /* v23.5 (Mod): the controls column runs all the way down to the card's bottom; Start here / up / down share the height so nothing sits below the down arrow */
+  .ctt-tag-controls-col > .ctt-ctrl-btn { flex: 1 1 0; min-height: 26px; width: 30px; } .ctt-tag-photo-col { grid-row: 2 / span 4; } /* short spans so any extra height lands on the real rows, not on 26 empty ones */
   .ctt-tag-row { min-height: 126px; }
   /* v23.4 (Mod): phones: the description lives inside the Reviews drop-down now (.ctt-review-desc), so the card hides it (this replaces the v23.3 two-line clamp + v button, whose script is now idle because there is nothing to measure). */
   .ctt-tag-note { display: none !important; }
   .ctt-review-desc { display: block; margin: 0 0 10px; font-size: 13px; line-height: 1.45; color: #5c5240; text-align: left; }
   .ctt-note-clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .ctt-note-toggle { display: flex; align-items: center; justify-content: center; width: min(50%, 160px); height: 16px; margin: 3px auto 0; padding: 0; background: rgba(107,98,82,.16); border: none; border-radius: 8px; color: var(--ink); font-size: 12px; line-height: 1; cursor: pointer; }
-  .ctt-statezip { display: none; } /* v23.3 (Mod): no state or zip code in the phone cards (sideways hides them too); desktop/tablet keep the full address */
+  .ctt-statezip { display: none; }
+  .ctt-tag-meta .ctt-badge { display: none !important; } /* v23.5 (Mod): phones: no category tag (Thrift Shop / Vintage Shop) on the cards; desktop keeps it */
+  .ctt-tag-addr .ctt-ls-long { display: none; } .ctt-tag-addr .ctt-ls-short { display: inline; } .ctt-tag-addr .ctt-suite { display: none; } /* v23.5 (Mod): vertical phone view: short city names (Chatt, Fort O, E.Ridge, E.Brainerd) and no suite/apt numbers in the shown address; the Get Directions / maps links still use the full address. */ /* v23.3 (Mod): no state or zip code in the phone cards (sideways hides them too); desktop/tablet keep the full address */
   .ctt-tag-info > *, .ctt-tag-row > * { min-width: 0; } .ctt-review-section { max-width: 100%; box-sizing: border-box; } .ctt-review-section input, .ctt-review-section textarea { max-width: 100%; box-sizing: border-box; } /* v23.2: an open Reviews drop-down must not push the card wider than the screen */
   /* v23.3 (Mod): the bottom row (category, Open until, Reviews) spans the WHOLE card width, under the thumbnail, spread out equally. The thumbnail only spans the rows above it (the bottom row is pinned far down the grid, the 30-row photo span stops above it). */
-  .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / -1; grid-row: 40; margin-top: 8px; }
+  .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / 3; grid-row: 40; margin-top: 8px; }
   .ctt-tag-info > .ctt-review-section { grid-column: 1 / -1; grid-row: 41; }
   .ctt-tag-bottom-row { flex-wrap: nowrap; justify-content: space-between; gap: 6px; white-space: nowrap; align-items: center; }
   .ctt-tag-bottom-row .ctt-badge { font-size: clamp(8.5px, 2.7vw, 11px); letter-spacing: .03em; padding: 3px 6px 1px; }
@@ -2569,6 +2574,19 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-trail-header, #ctt-saved-note { display: none !important; }
     .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note, .ctt-review-toggle-row, .ctt-review-section, .ctt-tag .ctt-directions-link, #ctt-list-bar, #ctt-filter-panel, .ctt-visited-drop, .ctt-own-box, .ctt-bottom-row, .ctt-footnav, .ctt-tip-section, .ctt-disclaimer, .ctt-offroute-container, .ctt-tag-bottom-row, .ctt-tag .ctt-reorder-up, .ctt-tag .ctt-reorder-down { display: none !important; } /* v23.2 (Mod): reviews and the per-shop Get Directions link are hidden sideways too */
     #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle { display: none !important; }
+    /* v23.5 (Mod): sideways list = a grid. Every card: [name .......] [Visited] [Start here] [Remove], all cells the same size so the icons line up card to card; text lines below share one left edge, one line height, one line each. */
+    #ctt-route-list .ctt-tag-row, #ctt-list .ctt-tag-row { display: grid; grid-template-columns: minmax(0, 1fr) 32px 32px 32px; column-gap: 4px; row-gap: 0; align-items: center; min-height: 0; }
+    .ctt-tag-info, .ctt-tag-top, .ctt-tag-controls-col { display: contents; }
+    .ctt-tag-name { grid-column: 1; grid-row: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 30px; font-size: 13.5px; }
+    .ctt-vbadge { display: none !important; }
+    .ctt-tag-top .ctt-visited-check { grid-column: 2; grid-row: 1; margin: 0; padding: 0; justify-self: center; align-self: center; gap: 0; }
+    .ctt-visited-check .ctt-vtext { display: none; }
+    .ctt-tag-controls-col .ctt-start-here { grid-column: 3; grid-row: 1; justify-self: center; align-self: center; }
+    .ctt-tag-controls-col .ctt-toggle-btn { grid-column: 4; grid-row: 1; justify-self: center; align-self: center; }
+    .ctt-tag-info > .ctt-opens-in, .ctt-tag-info > .ctt-tag-meta, .ctt-tag-info > .ctt-tag-addr, .ctt-tag-info > .ctt-members { grid-column: 1 / -1; grid-row: auto; margin: 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 17px; font-size: 12px; }
+    .ctt-tag-info > .ctt-tag-addr a { display: inline; }
+    .ctt-tag-info > .ctt-tag-addr .ctt-directions-link { display: inline-block !important; font-size: 0; line-height: 17px; height: 17px; vertical-align: top; border: 0; margin-left: 6px; } .ctt-tag-info > .ctt-tag-addr .ctt-directions-link::after { content: '\2192'; font-size: 15px; line-height: 17px; font-weight: 800; color: var(--rust); } /* v23.5 (Mod): sideways: just an arrow after the address; it is still the Get Directions link */
+    .ctt-tag { padding-top: 5px; padding-bottom: 6px; }
   }
 </style>
 
@@ -2826,7 +2844,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.4 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v23.5 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3322,7 +3340,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // v23.2 (Mod): the word 'Thrift' (and a 'Store' / 'Shop' right after it) is wrapped too (.ctt-thriftword) so the sideways view can hide it: 'Lookout Thrift' -> 'Lookout'. Not touched: 'The Thrift Stop', 'Nifty Thrifty', 'Chattanooga Thrift Trail'.
   // v23.2 (Mod): the ', TN 37408' at the end of an address is wrapped (.ctt-statezip) so the sideways view can hide it.
   // v23.4 (Mod): sideways, suite / apartment numbers (' #108', ' Ste A') are hidden (.ctt-suite) and 'Chattanooga' reads 'Chatt'.
-  function cttSuiteCity(a) { return String(a).replace(/\s+(?:#\w+|(?:Ste|Suite|Apt|Unit)\.?\s+\w+)(?=,)/i, function(m) { return '<span class="ctt-suite">' + m + '</span>'; }).replace(/Chattanooga/, '<span class="ctt-ls-long">Chattanooga</span><span class="ctt-ls-short">Chatt</span>'); }
+  function cttSuiteCity(a) { return String(a).replace(/\s+(?:#\w+|(?:Ste|Suite|Apt|Unit)\.?\s+\w+)(?=,)/i, function(m) { return '<span class="ctt-suite">' + m + '</span>'; }).replace(/Chattanooga/, '<span class="ctt-ls-long">Chattanooga</span><span class="ctt-ls-short">Chatt</span>').replace(/(Fort Oglethorpe|East Ridge|East Brainerd)/, function(m) { return '<span class="ctt-ls-long">' + m + '</span><span class="ctt-ls-short">' + m.replace('Fort Oglethorpe', 'Fort O').replace('East Ridge', 'E.Ridge').replace('East Brainerd', 'E.Brainerd') + '</span>'; }); }
   function cttStateZip(a) { return cttSuiteCity(a).replace(/(,\s*[A-Z]{2})(\s+\d{5}(?:-\d{4})?)\s*$/, '<span class="ctt-statezip">$1<span class="ctt-zip">$2</span></span>'); }
   function cttParen(h) { h = String(h); if (!/^The Thrift/.test(h)) h = h.replace(/(\S)(\s+Thrift(?:\s+(?:Store|Shop))?)(?![A-Za-z])(?!\s+Trail)/, '$1<span class="ctt-thriftword">$2</span>'); h = h.replace(/Northside Neighborhood House/, '<span class="ctt-ls-long">$&</span><span class="ctt-ls-short">NNH</span>').replace(/Chattanooga Room in the Inn/, '<span class="ctt-ls-long">$&</span><span class="ctt-ls-short">CRITI</span>'); return h.replace(/\s*\(([^)]*)\)/g, '<span class="ctt-paren"> ($1)</span><span class="ctt-loc"> - $1</span>'); }
   function dn(n) { return String(n).replace(/Fort Oglethorpe/g, 'Fort O').replace(/^NNH Thrift/, 'Northside Neighborhood House').replace(/^THE REFINDERY on McCallie$/i, 'Refindery').replace(/^Humane Ed\. Soc\./, 'Humane Edu'); } // on-screen name: 'Fort O'. The full name stays the key for saved data.
@@ -4020,7 +4038,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // Short names for the map tags (full names stay in the list and popups).
   var SHORT_NAMES = [
     [/^Goodwill/, 'Goodwill'], [/^Vinterest/, 'Vinterest'], [/^Northside Neighborhood House/, 'NNH'], [/^Humane/, 'Humane'],
-    [/^Chambliss/, 'Chambliss'], [/^America's/, "America's"], [/^Providence/, 'Providence'], [/^Electric Crocodile/, 'Electric Crocodile'],
+    [/^Chambliss/, 'Chambliss'], [/^America's/, "America's"], [/^Providence/, 'Providence'], [/^Electric Crocodile/, 'Electric Croc'],
     [/^Hunts/, 'Hunts'], [/^Lookout/, 'Lookout'], [/^SACs/, 'SACs'], [/^Ladies of Charity/, 'Ladies of Charity'], [/^Bethel/, 'Bethel'],
     [/^Friends and Family/, 'Friends & Family'], [/^Pop's/, "Pop's & Granny's"], [/^Archive/, 'Archive'], [/^Habitat/, 'ReStore'],
     [/^Chattanooga Room in the Inn/, 'Room in the Inn'], [/^THE REFINDERY/i, 'Refindery'], [/^Vintage & More/, 'Vintage & More'],
@@ -4305,7 +4323,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : ' diamond') + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
-          cttParen(dn(store.name)) +
+          cttParen(dn(store.name).replace(/East Brainerd/g, 'E.Brainerd')) + /* v23.5 (Mod): list view shows E.Brainerd */
         '</div>' + visitedHtml +
       '</div>' +
       (onRoute ? opensInHtml(store) : '') +
@@ -4593,8 +4611,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   }
 
   // ---- Every shop that is not on the loop shows in the background of the map as a faded gold diamond; tap one to add it to the route ----
-  function bgBonusIcon(name) {
-    return L.divIcon({ html: '<div class="ctt-bg-hit"><div class="ctt-bonus-icon"><span></span></div><span class="ctt-bg-name">' + escapeHtmlText(name ? shortName(dn(name)) : '') + '</span></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -12] });
+  function bgBonusIcon(name, featured) {
+    // v23.4 (Mod): today's Featured shop keeps its STAR on the map even when it is off the route (closed / ruled out): a faded star instead of the faded diamond.
+    var glyph = featured
+      ? '<svg class="ctt-bg-star" width="30" height="30" viewBox="0 0 24 24" style="overflow:visible"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z" fill="#eddcac" stroke="#a3872f" stroke-width="1"/></svg>'
+      : '<div class="ctt-bonus-icon"><span></span></div>';
+    return L.divIcon({ html: '<div class="ctt-bg-hit">' + glyph + '<span class="ctt-bg-name">' + escapeHtmlText(name ? shortName(dn(name)) : '') + '</span></div>', className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -12] });
   }
   function addBonusFromMap(shop) {
     map.closePopup();
@@ -4635,7 +4657,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     allLocations.forEach(function(s) {
       if (showing[s.name]) return;   // already a numbered or lettered icon
       if (s.closesAfter && now.dateStr > s.closesAfter) return;
-      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name), zIndexOffset: -2000 }).addTo(map);
+      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name, isFeaturedToday(s)), zIndexOffset: isFeaturedToday(s) ? -1000 : -2000 }).addTo(map);
       m.bindPopup(bonusPopupNode(s), { maxWidth: 220 });
       bgBonusMarkers.push(m);
       // The same shop also gets a card in More Shops, so the list matches what the map shows.
