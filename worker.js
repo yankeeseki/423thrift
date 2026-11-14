@@ -2,10 +2,11 @@
 // Takes one photo from https://423thrift.com/itemsearch and returns a short search name for it.
 // The Google key lives ONLY in the secret GEMINI_API_KEY (Settings > Variables and Secrets). Never paste a key into this file.
 // Optional variable GEMINI_MODEL to force one model. Otherwise it tries the models below in order,
-// moving on only when Google says a model is retired or missing (404), so one retirement can't break the page.
+// moving on when a model is retired (404), overloaded (500/503) or stalls, so one bad model can't break the page.
 
 const ALLOWED = ['https://423thrift.com', 'https://www.423thrift.com'];
-const MODELS = ['gemini-flash-latest', 'gemini-3.8-flash', 'gemini-flash-lite-latest'];
+const MODELS = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-flash-lite-latest'];
+const PER_MODEL_MS = 9000;        // give up on a stalled model after 9s and try the next (page waits 30s total)
 const MAX_BYTES = 1500000;        // base64 text length; the page sends a ~1024px JPEG, far smaller
 const SOFT_LIMIT_PER_MIN = 6;     // best-effort, per Worker instance; Google's own free limit is the real ceiling
 
@@ -43,22 +44,25 @@ export default {
       generationConfig: { temperature: 0.2, maxOutputTokens: 1024, responseMimeType: 'application/json' }
     });
 
-    let r, lastStatus = 0, lastDetail = '';
+    let r = null, lastStatus = 0, lastDetail = '';
     for (const model of models) {
+      const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), PER_MODEL_MS);
       try {
         r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-          body: payload
+          body: payload,
+          signal: ctl.signal
         });
-      } catch (e) { return json({ error: 'Upstream down' }, 502, origin); }
+      } catch (e) { clearTimeout(timer); r = null; lastStatus = 504; lastDetail = model + ' did not answer in time'; continue; }
+      clearTimeout(timer);
       if (r.ok) break;
       lastStatus = r.status;
-      lastDetail = (await r.text().catch(() => '')).slice(0, 300);
-      if (r.status !== 404) break;   // only skip ahead when the model itself is gone
+      lastDetail = model + ': ' + (await r.text().catch(() => '')).slice(0, 300);
+      if (![404, 500, 503].includes(r.status)) break;   // retired, broken or overloaded: try the next model
     }
 
-    if (!r.ok) {
+    if (!r || !r.ok) {
       if (lastStatus === 429) return json({ error: 'Daily free limit reached' }, 429, origin);
       return json({ error: 'Upstream error', google_status: lastStatus, detail: lastDetail }, 502, origin);
     }
