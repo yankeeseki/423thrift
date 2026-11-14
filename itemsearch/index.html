@@ -123,7 +123,7 @@
       preview.src = dataUrl; preview.style.display = 'block';
       if (!WORKER_URL) { setStatus('The photo reader is not connected yet. Type what it is below.', true); return; }
       setStatus('Reading the photo...', false, true);
-      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 25000);
+      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
       fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: dataUrl.split(',')[1], mime: 'image/jpeg' }), signal: ctl.signal })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
         .then(function (r) {
