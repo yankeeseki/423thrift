@@ -114,7 +114,6 @@
 
   <div class="card" id="tiv">
     <h2>ThriftiVision <span class="beta">BETA</span></h2>
-    <p class="note" style="margin:0 0 12px">Snap a photo and get a name and value.</p>
     <img id="preview" alt="Your photo">
     <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
     <input type="file" id="file" accept="image/*">
@@ -131,7 +130,6 @@
         <div class="est-head">Profit Check</div>
         <div class="calc-row">
           <label>Shop price $<input type="text" id="c-price" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
-          <label>Sells for $<input type="text" id="c-sell" inputmode="decimal" autocomplete="off" placeholder="0"></label>
           <label>Selling fee %<input type="text" id="c-fee" inputmode="decimal" autocomplete="off" placeholder="13"></label>
         </div>
         <div class="calc-row calc-ex">
@@ -152,10 +150,8 @@
   </div>
 
   <div class="card" id="lookup">
-    <h2>Check It Yourself</h2>
+    <h2>See What It Sold For</h2>
     <a class="btn alt" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
-    <a class="btn alt" id="live" target="_blank" rel="noopener">Live on eBay</a>
-    <a class="btn alt" id="goog" target="_blank" rel="noopener">Check Google</a>
   </div>
 
 </div>
@@ -181,9 +177,7 @@
     var on = !!t;
     var ec = '&LH_ItemCondition=' + cond.map(function (c) { return EBAY_COND[c]; }).join('|').replace(/\|/g, '%7C');
     $('sold').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + '&LH_Sold=1&LH_Complete=1' + ec : '#';
-    $('live').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + ec : '#';
-    $('goog').href = on ? 'https://www.google.com/search?q=' + t : '#';
-    ['sold', 'live', 'goog'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
+    ['sold'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
   }
   var cond = ['good'], EBAY_COND = { 'new': '1000', like: '1500|1750|2750', good: '2000|2010|2020|2030|2500|3000|4000|5000', fair: '6000', poor: '7000' }; /* v26.1 (Mod): condition (New / Used / For Parts, Used by default) narrows the estimate and the eBay links */
   var lastKw = {}, priced = '', approx = 0;
@@ -213,7 +207,7 @@
         var e = j && j.estimate;
         if (!e) { approx = 0; calc(); body.innerHTML = '<div class="est-none">No evaluation data available</div>' + (/[?&]debug/.test(location.search) && j && j.why ? '<div class="est-sub">Why: ' + esc(j.why) + '</div>' : ''); return; }
         /* v26.4 (Mod): one number. Approx = the Worker's average (extremes trimmed when there are 5+ listings), else the middle price. The range stays as a small line. */
-        var one = e.average > 0 ? e.average : e.median; approx = one; $('c-sell').value = String(Math.max(1, Math.round(one))); calc(); /* Sells For fills in from Approx; edit it if you expect a different price */
+        var one = e.average > 0 ? e.average : e.median; approx = one; calc();
         var range = e.low === e.high ? fmt(e.low) : fmt(e.low) + ' &ndash; ' + fmt(e.high);
         var h = '<div class="est-range">Approx $' + Math.max(1, Math.round(one)).toLocaleString() + '</div>'
           + '<div class="est-sub">' + e.count + ' eBay listing' + (e.count === 1 ? '' : 's') + (e.count > 1 ? ', ' + range : '') + '</div>';
@@ -226,7 +220,7 @@
   function calc() {
     var box = $('calc'), out = $('c-out');
     box.style.display = approx > 0 ? 'block' : 'none';
-    var price = num('c-price'), sell = num('c-sell') > 0 ? num('c-sell') : approx;
+    var price = num('c-price'), sell = approx; /* what it sells for = the Approx value (it follows the condition you pick) */
     var ex = $('c-exempt').getAttribute('aria-pressed') === 'true', st = $('c-ga').getAttribute('aria-pressed') === 'true' ? 'GA' : $('c-tn').getAttribute('aria-pressed') === 'true' ? 'TN' : '';
     var dflt = st === 'GA' ? 8 : st === 'TN' ? 9.25 : 0;
     $('c-tax').placeholder = ex ? '0' : String(dflt);
@@ -250,7 +244,7 @@
   try { var ss = localStorage.getItem('tivSt'); if (ss === 'GA' || ss === 'TN') $(ss === 'GA' ? 'c-ga' : 'c-tn').setAttribute('aria-pressed', 'true'); else if (ss === null) $('c-tn').setAttribute('aria-pressed', 'true'); } catch (e) {}
   $('c-exempt').addEventListener('click', function () { this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); calc(); });
   ['c-tn', 'c-ga'].forEach(function (id) { $(id).addEventListener('click', function () { var was = $(id).getAttribute('aria-pressed') === 'true'; $('c-tn').setAttribute('aria-pressed', 'false'); $('c-ga').setAttribute('aria-pressed', 'false'); if (!was) $(id).setAttribute('aria-pressed', 'true'); $('c-tax').value = ''; calc(); }); }); /* tap the lit state again and the tax goes away until you pick one */
-  ['c-price', 'c-sell', 'c-fee', 'c-tax', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
+  ['c-price', 'c-fee', 'c-tax', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
   function showResults(name) { q.value = name || ''; setRes(true); links(); getEstimate(); }
   var qTimer = null; /* v26.2 (Mod): the estimate updates by itself about a second after you stop typing the name (no button to tap) */
   q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = (q.value || '').trim(); if (v && v !== priced) getEstimate(); }, 1000); });
