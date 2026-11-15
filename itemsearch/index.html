@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="/itemsearch/apple-touch-icon.png">
 <link rel="manifest" href="/itemsearch/manifest.webmanifest">
 <meta name="theme-color" content="#f2ead9">
-<script>try { if ((window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone) document.documentElement.classList.add("tiv-app"); } catch (e) {}</script>
+<script>/* v27.3 (Mod): the app look is ONLY for the stand-alone ThriftiVision app. That app opens at /itemsearch/?app=1 (see manifest start_url); the window remembers it. The Trail website, and the Trail app's own Image Search page, stay as they were. */try { var tivStand = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone; if (tivStand && /[?&]app=1\b/.test(location.search)) sessionStorage.setItem("tivApp", "1"); if (tivStand && sessionStorage.getItem("tivApp") === "1") document.documentElement.classList.add("tiv-app"); } catch (e) {}</script>
 <meta name="apple-mobile-web-app-title" content="ThriftiVision">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">

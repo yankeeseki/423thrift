@@ -3,7 +3,7 @@
   "name": "ThriftiVision",
   "short_name": "ThriftiVision",
   "description": "Take a photo of a thrift find and see what it sells for on eBay.",
-  "start_url": "/itemsearch/",
+  "start_url": "/itemsearch/?app=1",
   "scope": "/itemsearch/",
   "display": "standalone",
   "background_color": "#faf3e0",
