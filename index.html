@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.3-20261114">
+<meta name="ctt-build" content="v24.4-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1221,9 +1221,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
   }
     /* v24.1 (Mod): the title is now the logo artwork. The h1 stays, and the image carries the same words as its alt text, so search engines and screen readers still read "Chattanooga Thrift Trail". Wide artwork on desktop/tablet, stacked artwork on phones (2 lines). */
-  .ctt-title .ctt-title-img { display: block; height: auto; width: 500px; max-width: calc(100vw - 100px); }
+  .ctt-title .ctt-title-img { display: block; height: auto; width: 500px; max-width: calc(100vw - 100px); margin-bottom: 7px; } /* v24.4 (Mod): a little more space between the logo and the tagline */
   @media (max-width: 600px) { .ctt-header .ctt-title .ctt-title-img { width: 290px; max-width: calc(100vw - 100px); aspect-ratio: 900 / 217; } .ctt-menu-btn { top: 8px !important; } }
   .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: -1px 0 8px; max-width: 640px; }
+  .ctt-tagline { white-space: nowrap; max-width: 100%; font-size: min(14px, calc((100vw - 50px) / 28)); } /* v24.4 (Mod): the tagline stays on one line; on narrow screens it shrinks just enough to fit */
   .ctt-title {
     font-family: 'Archivo Black', sans-serif;
     font-size: 48px;
@@ -1256,7 +1257,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   @media (max-width: 600px) and (orientation: portrait) {
     .ctt-cta-collapse { font-size: 0; }
     /* v24.3 (Mod): the - and + are drawn as shapes (not font glyphs) so they sit exactly in the middle of the pill on every phone, and the pill sits midway between the bottom of the big button and the bottom of the rust box. */
-    .ctt-cta-collapse { margin: 7.5px auto -6.5px; }
+    .ctt-cta-collapse { margin: 1.5px auto -6.5px; } /* v24.4 (Mod): the pill is now 7.5px from the big button and 7.5px from the bottom of the rust box (was 13.5 each) */
+    #ctt-thrift-wrap > .ctt-cta-row { padding: 8px 24px 14px; } /* v24.4 (Mod): the rust box is 10% shorter (about 24px); the big button and the text are untouched */
     .ctt-cta-collapse::after { content: ''; display: block; width: 12px; height: 12px; background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat; }
     .ctt-cta-row.ctt-collapsed .ctt-cta-collapse::after { background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 2.5px 12px no-repeat; }
   }
@@ -1266,7 +1268,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-per-short { display: none; }
   .ctt-cr-phone { display: none; }
   .ctt-ls-short { display: none; } /* shown only sideways, see the landscape block */
-  .ctt-slash { font-size: 67%; font-weight: 800; } /* v23.2 (Mod): the / in '/shop' is a third smaller */ /* v23.0: '/shop' is only used when the phone is sideways */
+  .ctt-slash { font-size: 67%; font-weight: 800; }
+  .ctt-per-short, .ctt-per-long { font-size: 67%; } .ctt-per-short .ctt-slash { font-size: 100%; } /* v24.4 (Mod): 'shop' (and 'per shop') is the same small size as the / */ /* v23.2 (Mod): the / in '/shop' is a third smaller */ /* v23.0: '/shop' is only used when the phone is sideways */
   .ctt-nw { white-space: nowrap; } /* v22.3: a line break can only fall between the groups (after a dot), never inside 'min per shop' or at the start of a line */
   .ctt-route-stat, .ctt-status-stat-row { text-wrap: balance; } /* v22.3: if either line has to wrap on a narrow phone, break it evenly instead of leaving one word alone on the second line */
   .ctt-route-stat strong.ctt-stat-date { color: var(--ink); text-shadow: none; } /* v22.3: the date is dark ink, not white (white is only 2.9:1 on the gold) */
@@ -1414,8 +1417,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   }
   @media (max-width: 600px) {
     .ctt-cta-btn { padding: 14px 32px; border-radius: 32px; }
-    .ctt-cta-btn-line1 { font-size: 24px; }
-    .ctt-cta-btn-line1.is-next { font-size: 20px; }
+    .ctt-cta-btn-line1 { font-size: 28.8px; }
+    .ctt-cta-btn-line1.is-next { font-size: 24px; } /* v24.4 (Mod): vertical phones: the top line of the big button is 20% larger (was 24 / 20px); the fit script still shrinks it if a long shop name needs the room */
     .ctt-legend { font-size: 11px; gap: 8px; }
     .ctt-legend-item { white-space: nowrap; }
     .ctt-feedback-row-simple { text-align: center; }
@@ -1765,7 +1768,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;
   }
   .ctt-ctrl-btn:hover:not(:disabled) { color: var(--rust); border-color: var(--rust); }
-  .ctt-ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+  .ctt-ctrl-btn:disabled { opacity: 0.3; cursor: default; } .ctt-ctrl-btn:disabled:hover { background: inherit; color: inherit; }
   #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-ctrl-btn:not(:disabled) { color: var(--taupe, #8a7f6a); } /* v24.0 (Mod): Move to Top, Up and Down are ONE colour; the only other look is the faded one when a direction is not possible */
   #ctt-thrift-wrap .ctt-tag .ctt-tag-controls-col > .ctt-ctrl-btn:hover:not(:disabled) { color: var(--rust); }
   @media (hover: hover) and (pointer: fine) {
@@ -2650,10 +2653,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-trail-header, #ctt-saved-note { display: none !important; }
     .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note, .ctt-review-toggle-row, .ctt-review-section, .ctt-tag .ctt-directions-link, #ctt-list-bar, #ctt-filter-panel, .ctt-visited-drop, .ctt-own-box, .ctt-bottom-row, .ctt-footnav, .ctt-tip-section, .ctt-disclaimer, .ctt-offroute-container, .ctt-tag-bottom-row, .ctt-tag .ctt-reorder-up, .ctt-tag .ctt-reorder-down { display: none !important; } /* v23.2 (Mod): reviews and the per-shop Get Directions link are hidden sideways too */
     #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle { display: none !important; }
-    html.ctt-few-left .ctt-ls-tips { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 14px 0 6px; padding: 14px 10px; }
-    .ctt-ls-tips-label { font: 700 15px 'Libre Franklin', sans-serif; color: var(--ink); }
+    html.ctt-few-left .ctt-ls-tips { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 14px 0 6px; padding: 4px 10px; }
+    .ctt-ls-tips-label { font: 700 14px 'Libre Franklin', sans-serif; color: var(--ink); }
     .ctt-ls-tips-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-    .ctt-ls-tips .ctt-tip-btn { font-size: 14px; padding: 9px 16px; border-width: 1.5px; border-radius: 20px; }
+    .ctt-ls-tips .ctt-tip-btn { font-size: 13px; padding: 6px 14px; border-width: 1.5px; border-radius: 20px; }
     /* v23.5 (Mod): sideways list = a grid. Every card: [name .......] [Visited] [Start here] [Remove], all cells the same size so the icons line up card to card; text lines below share one left edge, one line height, one line each. */
     #ctt-route-list .ctt-tag-row, #ctt-list .ctt-tag-row { display: grid; grid-template-columns: minmax(0, 1fr) var(--ls-btn, 40px) var(--ls-btn, 40px) var(--ls-btn, 40px); column-gap: 7px; row-gap: 0; align-items: center; min-height: 0; }
     .ctt-tag-info, .ctt-tag-top, .ctt-tag-controls-col { display: contents; }
@@ -3002,7 +3005,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.3 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.4 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4086,7 +4089,44 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     el.innerHTML = html;
     el.classList.remove('urgency-calm', 'urgency-tight', 'urgency-urgent');
     el.classList.add('urgency-' + ((timerParts && timerParts.urgency) || 'calm'));
+    cttFixStatBullets();
   }
+  // v24.4 (Mod): when the live line wraps, a line never ends with a bullet: a bullet that is not between two things on the same line is hidden.
+  var cttBulletBusy = false;
+  function cttFixStatBullets() {
+    var el = document.getElementById('ctt-route-stat'); if (!el || cttBulletBusy) return; cttBulletBusy = true;
+    try {
+      var seps = el.querySelectorAll('.ctt-sep'), i, k;
+      for (i = 0; i < seps.length; i++) seps[i].style.display = '';
+      var items = Array.prototype.filter.call(el.querySelectorAll('.ctt-nw'), function(x) { return x.offsetWidth > 0; });
+      // measure the items without their bullets, plus what one bullet costs, then lay the line out the way the browser will (bullets only between neighbours on one line)
+      var full = items.map(function(x) { return x.getBoundingClientRect().width; });
+      for (i = 0; i < seps.length; i++) seps[i].style.display = 'none';
+      var bare = items.map(function(x) { return x.getBoundingClientRect().width; });
+      var sw = 0; for (k = 0; k < items.length; k++) { if (items[k].querySelector('.ctt-sep')) { sw = Math.max(sw, full[k] - bare[k]); } }
+      var W = el.clientWidth, sp = 4, used = 0, first = true;
+      for (k = 0; k < items.length; k++) {
+        var sepEl = items[k].querySelector('.ctt-sep'), w = bare[k];
+        var nextW = k + 1 < items.length ? bare[k + 1] : 0;
+        used += (first ? 0 : sp) + w; first = false;
+        if (k + 1 < items.length && sepEl) {
+          // does the next item still fit on this line after this item plus its bullet?
+          if (used + sw + sp + nextW <= W + 0.5) { sepEl.style.display = ''; used += sw; }
+          else { used = 0; first = true; }
+        } else if (k + 1 < items.length) { if (used + sp + nextW > W + 0.5) { used = 0; first = true; } }
+      }
+      // final pass against the real layout, one gap at a time: two neighbours that share a line get their bullet; a bullet that would end a line goes
+      function wrapped(n) { return items[n + 1].getBoundingClientRect().top > items[n].getBoundingClientRect().top + 3; }
+      for (i = 0; i < seps.length; i++) seps[i].style.display = 'none';
+      for (k = 0; k < items.length - 1; k++) {
+        var s2 = items[k].querySelector('.ctt-sep'); if (!s2) continue;
+        if (!wrapped(k)) { s2.style.display = ''; if (wrapped(k)) s2.style.display = 'none'; }
+      }
+      for (k = 0; k < items.length - 1; k++) { var s3 = items[k].querySelector('.ctt-sep'); if (s3 && s3.style.display !== 'none' && wrapped(k)) s3.style.display = 'none'; }
+    } catch (e) {}
+    cttBulletBusy = false;
+  }
+  (function() { var t = 0; function go() { t = 0; cttFixStatBullets(); } window.addEventListener('resize', function() { if (!t) t = requestAnimationFrame(go); }); if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); })();
   function updateRouteStat(count, miles) {
     updateListCount();
     lastRouteMiles = miles;
@@ -4500,7 +4540,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       + '<div class="ctt-tag-photo-fallback" style="background:' + color + ';">' + initial + '</div>'
       + '</div>';
     var startHereHtml = onRoute
-      ? '<button type="button" class="ctt-ctrl-btn ctt-start-here" title="Move to Top">&#9654;</button>'
+      ? '<button type="button" class="ctt-ctrl-btn ctt-start-here" title="Move to Top"' + (routeIndex === 0 ? ' disabled aria-disabled="true"' : '') + '>&#9654;</button>' /* v24.4 (Mod): already at the top = grayed out */
       : '';
     var upDownHtml = onRoute
       ? '<button type="button" class="ctt-ctrl-btn ctt-reorder-up" title="Move Up"' + (routeIndex === 0 ? ' disabled' : '') + '>&#9650;</button>' +
@@ -7117,6 +7157,25 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     place(); if (mq.addEventListener) mq.addEventListener('change', place); else if (mq.addListener) mq.addListener(place);
   })();
 
+  // v24.4 (Mod): sideways, when the Leave a tip block is showing (3 or fewer shops left) it is centred between the bottom of the last shop card and the bottom of the screen.
+  (function() {
+    var tips = document.getElementById('ctt-ls-tips'), list = document.getElementById('ctt-route-list'); if (!tips || !list) return;
+    var raf = 0;
+    function place() {
+      raf = 0; tips.style.marginTop = ''; tips.style.marginBottom = '';
+      if (!tips.offsetHeight) return;
+      var cards = list.querySelectorAll('.ctt-tag'), last = null;
+      for (var i = cards.length - 1; i >= 0; i--) { if (cards[i].offsetHeight) { last = cards[i]; break; } }
+      if (!last) return;
+      var bottom = last.getBoundingClientRect().bottom + (window.pageYOffset || 0), extra = Math.max(0, tips.getBoundingClientRect().top + (window.pageYOffset || 0) - bottom), avail = window.innerHeight - bottom - extra, m = Math.max(2, Math.floor((avail - tips.offsetHeight) / 2));
+      tips.style.marginTop = m + 'px'; tips.style.marginBottom = m + 'px';
+    }
+    function sched() { if (!raf) raf = requestAnimationFrame(place); }
+    window.addEventListener('resize', sched); window.addEventListener('orientationchange', sched);
+    try { new MutationObserver(sched).observe(list, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); new MutationObserver(sched).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); } catch (e) {}
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched); sched();
+  })();
+
   // In-page confirm (never a browser pop-up): title, text, the label of the main button, and what to do on yes.
   function cttAsk(title, body, yesLabel, onYes) {
     var ov = document.createElement('div');
@@ -7301,6 +7360,9 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var cs = getComputedStyle(ctaBtn), pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0), gap = parseFloat(cs.rowGap) || 4;
       function over() { return l1.offsetHeight + sub.offsetHeight + gap + pad > ctaBtn.clientHeight + 0.5 || l1.scrollWidth > l1.clientWidth + 1; }
       var fs = parseFloat(getComputedStyle(l1).fontSize) || 20;
+      // v24.4 (Mod): the headline (top line) grows to the largest size that still fits the button, then the old shrink-to-fit check below runs as before
+      var maxFs = (lsMq && lsMq.matches) ? 52 : 60;
+      if (!over()) { while (fs < maxFs) { l1.style.fontSize = (fs + 1) + 'px'; if (over()) { l1.style.fontSize = fs + 'px'; break; } fs += 1; } }
       while (over() && fs > 13) { fs -= 1; l1.style.fontSize = fs + 'px'; }
       if (over()) { var f2 = parseFloat(getComputedStyle(sub).fontSize) || 12; while (over() && f2 > 9) { f2 -= 0.5; sub.style.fontSize = f2 + 'px'; } }
       evenLs(l1, sub, stEl);
