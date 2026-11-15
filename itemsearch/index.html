@@ -66,6 +66,10 @@
   .est ul { list-style:none; padding:0; margin:10px 0 0; }
   .est li { font-size:13.5px; margin:6px 0; }
   .est li a { color:var(--slate); }
+  .cond { display:inline-flex; gap:6px; margin:12px 0 0; flex-wrap:nowrap; }
+  .cond button { font-family:inherit; font-size:14px; font-weight:700; padding:7px 11px; border-radius:999px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; white-space:nowrap; }
+  .cond button[aria-pressed=true] { background:#2c3e44; border-color:#2c3e44; color:#fff; }
+  .cond button:hover { border-color:#2c3e44; }
   .linkbtn { background:none; border:none; padding:8px 0 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--rust); text-decoration:underline; cursor:pointer; }
   .topbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px dashed var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
   .topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}
@@ -117,6 +121,7 @@
   <div class="card" id="results">
     <label for="q">What is it? Fix the name if it's off.</label>
     <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl">
+    <div class="cond" id="cond" role="group" aria-label="Condition"><button type="button" data-c="new" aria-pressed="false">New</button><button type="button" data-c="like" aria-pressed="false">Like New</button><button type="button" data-c="used" aria-pressed="true">Used</button><button type="button" data-c="parts" aria-pressed="false">For Parts</button></div>
     <div class="est" id="est">
       <div class="est-head">Estimated Value</div>
       <div id="est-body"></div>
@@ -127,10 +132,8 @@
       <a class="btn alt" id="live" target="_blank" rel="noopener">Live on eBay</a>
       <a class="btn alt" id="goog" target="_blank" rel="noopener">Check Google</a>
     </div>
-    <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Nothing is saved.</p>
 </div>
 
 <script>
@@ -151,21 +154,25 @@
   function links() {
     var t = encodeURIComponent((q.value || '').trim());
     var on = !!t;
-    $('sold').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + '&LH_Sold=1&LH_Complete=1' : '#';
-    $('live').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t : '#';
+    var ec = '&LH_ItemCondition=' + cond.map(function (c) { return EBAY_COND[c]; }).join('|').replace(/\|/g, '%7C');
+    $('sold').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + '&LH_Sold=1&LH_Complete=1' + ec : '#';
+    $('live').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + ec : '#';
     $('goog').href = on ? 'https://www.google.com/search?q=' + t : '#';
     ['sold', 'live', 'goog'].forEach(function (id) { $(id).style.opacity = on ? '1' : '.5'; $(id).style.pointerEvents = on ? '' : 'none'; });
   }
+  var cond = ['used'], EBAY_COND = { 'new': '1000', like: '1500|2750', used: '3000|4000|5000|6000', parts: '7000' }; /* v26.1 (Mod): condition (New / Used / For Parts, Used by default) narrows the estimate and the eBay links */
   var lastKw = {}, priced = '';
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   function fmt(n) { return '$' + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2).replace(/\.00$/, '')); }
   function avgLine(j) {
     /* v25.8 (Mod): with three or more listings, show an average LISTED price (asking prices, shipping never included). With five or more, the single highest and lowest are left out so one odd listing does not skew it. Fewer than three: no average, just the range. */
+    var e0 = j && j.estimate;
+    if (e0 && e0.average > 0 && e0.count >= 3) return '<div class="est-sub"><strong>Average listed price: ' + fmt(e0.average) + '</strong> (' + e0.count + ' eBay listings)</div>'; /* v26.1: the Worker averages every matching listing, not just the 12 it sends back */
     var p = ((j && j.listings) || []).map(function (l) { return Number(l.price); }).filter(function (n) { return n > 0; }).sort(function (x, y) { return x - y; });
-    if (p.length < 3) return '<div class="est-sub">Asking prices only, shipping not included.</div>';
+    if (p.length < 3) return '';
     var use = p.length >= 5 ? p.slice(1, -1) : p, sum = 0;
     use.forEach(function (n) { sum += n; });
-    return '<div class="est-sub"><strong>Average listed price: ' + fmt(sum / use.length) + '</strong> (' + p.length + ' eBay listings, asking prices, shipping not included).</div>';
+    return '<div class="est-sub"><strong>Average listed price: ' + fmt(sum / use.length) + '</strong> (' + p.length + ' eBay listings)</div>';
   }
   function getEstimate() {
     var name = (q.value || '').trim(), body = $('est-body');
@@ -174,7 +181,7 @@
     priced = name;
     body.innerHTML = '<div class="est-sub"><span class="spin"></span>Checking eBay...</div>';
     var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 20000);
-    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ price: name, keywords: lastKw }), signal: ctl.signal })
+    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ price: name, keywords: lastKw, condition: cond.join(',') }), signal: ctl.signal })
       .then(function (r) { return r.json(); })
       .then(function (j) {
         clearTimeout(timer);
@@ -186,7 +193,7 @@
         var h = '<div class="est-range">' + range + '</div>'
           + '<div class="est-sub">' + conf + ': ' + e.count + ' matching eBay listing' + (e.count === 1 ? '' : 's') + (e.count > 1 ? ', middle ' + fmt(e.median) : '') + '.</div>'
           + avgLine(j)
-          + '<div class="est-sub">' + esc(j.note || '') + '</div>';
+          + '';
         if (j.listings && j.listings.length) {
           h += '<ul>' + j.listings.slice(0, 3).map(function (l) {
             return '<li><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.title) + '</a> &middot; ' + fmt(l.price) + (l.condition ? ' &middot; ' + esc(l.condition) : '') + '</li>';
@@ -197,8 +204,18 @@
       .catch(function () { clearTimeout(timer); if (priced === name) body.innerHTML = '<div class="est-none">No evaluation data available</div>'; });
   }
   function showResults(name) { q.value = name || ''; results.style.display = 'block'; links(); getEstimate(); }
-  q.addEventListener('input', function () { links(); $('est-again').style.display = (q.value || '').trim() && q.value.trim() !== priced ? 'inline-block' : 'none'; });
+  var qTimer = null; /* v26.2 (Mod): the estimate updates by itself about a second after you stop typing the name (no button to tap) */
+  q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = (q.value || '').trim(); if (v && v !== priced) getEstimate(); }, 1000); });
   $('est-again').addEventListener('click', getEstimate);
+  Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (b) {
+    b.addEventListener('click', function () {
+      var c = b.getAttribute('data-c'), i = cond.indexOf(c); /* v26.3 (Mod): pick more than one condition; at least one stays on */
+      if (i > -1) { if (cond.length > 1) cond.splice(i, 1); } else cond.push(c);
+      Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); });
+      links();
+      if ((q.value || '').trim()) getEstimate();
+    });
+  });
 
   // Keywords: all optional. v26 (Mod): a photo alone is enough; the boxes only sharpen the guess.
   function keywords() {
@@ -209,9 +226,8 @@
   function refresh() {
     var n = Object.keys(keywords()).length;
     var c = $('count');
-    if (!photo) c.textContent = '';
-    else c.textContent = n ? n + (n === 1 ? ' detail' : ' details') + ' added.' : 'Optional: add a brand or other details, then tap Search again.';
-    c.className = 'count' + (photo && n ? ' ok' : '');
+    c.textContent = '';
+    c.className = 'count';
     go.disabled = !photo;
   }
   KEYS.forEach(function (k) {
