@@ -33,6 +33,7 @@
   /* Brand colors only (no logos): Google blue #1A73E8, eBay red #E53238. */
   .btn.brand-g { background:#1A73E8; border-color:#1A73E8; color:#fff; }
   .btn.brand-e { background:#E53238; border-color:#E53238; color:#fff; }
+  .btn.brand-s { background:#86B817; border-color:#86B817; color:#2c2417; } /* eBay logo green; dark text because white is hard to read on it */
   .btn:focus-visible, input:focus-visible { outline:3px solid var(--olive); outline-offset:2px; }
   #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e7dec5; margin-bottom:12px; }
   label { display:block; font-weight:700; font-size:14px; margin-bottom:6px; }
@@ -44,6 +45,10 @@
   #file { display:none; }
   .spin { display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--rust); border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-right:6px; }
   .btn[disabled] { opacity:.45; cursor:default; }
+  .two { border:1.5px solid var(--line); border-radius:10px; background:#fff; overflow:hidden; }
+  .two input[type=text] { border:0; border-radius:0; margin:0; }
+  .two input + input { border-top:1.5px dashed var(--line); }
+  .two #d::placeholder { color:#a39879; }
   .kw { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0 4px; }
   .kw input[type=text] { font-size:16px; padding:10px 12px; }
   .kw input:disabled { background:#f2ead9; }
@@ -115,8 +120,11 @@
     <input type="file" id="file" accept="image/*">
     <p class="status" id="status" role="status" aria-live="polite"></p>
     <div id="results">
-      <label for="q">What is it? Fix the name if it's off.</label>
-      <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl">
+      <label for="q">What is it? Fix the name or add details.</label>
+      <div class="two">
+        <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl" aria-label="Item name">
+        <input type="text" id="d" maxlength="80" autocomplete="off" placeholder="Add brand, year, color, size" aria-label="More details">
+      </div>
       <div class="cond" id="cond" role="group" aria-label="Condition"><button type="button" data-c="new" aria-pressed="false">New</button><button type="button" data-c="like" aria-pressed="false">Like New</button><button type="button" data-c="good" aria-pressed="true">Good</button><button type="button" data-c="fair" aria-pressed="false">Fair</button><button type="button" data-c="poor" aria-pressed="false">Poor</button></div>
       <div class="est" id="est">
         <div class="est-head">Estimated Value</div>
@@ -125,7 +133,7 @@
       <div class="calc" id="calc">
         <div class="est-head">Profit Check</div>
         <div class="calc-row">
-          <label>Shop price $<input type="text" id="c-price" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
+          <label>Tag Price $<input type="text" id="c-price" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
           <label>Storefront %<input type="text" id="c-fee" inputmode="decimal" autocomplete="off" placeholder="10"></label>
           <label>Card fee %<input type="text" id="c-card" inputmode="decimal" autocomplete="off" placeholder="3"></label>
         </div>
@@ -138,6 +146,7 @@
           <div class="calc-msg" id="c-msg"></div>
           <div class="calc-bar"><div class="calc-fill" id="c-fill"></div></div>
           <div class="calc-sub" id="c-sub"></div>
+          <div class="calc-sub"><strong>Remember:</strong> You still have to clean, tag, and display this.</div>
         </div>
       </div>
     </div>
@@ -146,7 +155,7 @@
   <div class="card" id="lookup">
     <a class="btn brand-g" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">&#128247; Google Image Search</a>
     <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
-    <a class="btn alt" id="sold" target="_blank" rel="noopener" style="display:none">Sold on eBay</a>
+    <a class="btn brand-s" id="sold" target="_blank" rel="noopener" style="display:none">&#128269; eBay Sold Search</a>
   </div>
 
 </div>
@@ -159,6 +168,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
   var photo = '';
+  function full() { return ((q.value || '').trim() + ' ' + (($('d') && $('d').value) || '').trim()).trim(); } /* v26.8 (Mod): line 1 = the name from the photo (editable), line 2 = your extra details; the price search uses both */
 
   function setRes(on) { results.style.display = on ? 'block' : 'none'; $('sold').style.display = on ? 'block' : 'none'; }
   function setStatus(t, err, busy) {
@@ -168,7 +178,7 @@
     statusEl.appendChild(document.createTextNode(t || ''));
   }
   function links() {
-    var t = encodeURIComponent((q.value || '').trim());
+    var t = encodeURIComponent(full());
     var on = !!t;
     var ec = '&LH_ItemCondition=' + cond.map(function (c) { return EBAY_COND[c]; }).join('|').replace(/\|/g, '%7C');
     $('sold').href = on ? 'https://www.ebay.com/sch/i.html?_nkw=' + t + '&LH_Sold=1&LH_Complete=1' + ec : '#';
@@ -189,7 +199,7 @@
     return '<div class="est-sub"><strong>Average listed price: ' + fmt(sum / use.length) + '</strong> (' + p.length + ' eBay listings)</div>';
   }
   function getEstimate() {
-    var name = (q.value || '').trim(), body = $('est-body');
+    var name = full(), body = $('est-body');
     if (!name) { body.innerHTML = '<div class="est-none">No evaluation data available</div>'; return; }
     priced = name;
     body.innerHTML = '<div class="est-sub"><span class="spin"></span>Checking eBay...</div>';
@@ -240,16 +250,17 @@
   $('c-exempt').addEventListener('click', function () { this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); calc(); });
   ['c-tn', 'c-ga'].forEach(function (id) { $(id).addEventListener('click', function () { var was = $(id).getAttribute('aria-pressed') === 'true'; $('c-tn').setAttribute('aria-pressed', 'false'); $('c-ga').setAttribute('aria-pressed', 'false'); if (!was) $(id).setAttribute('aria-pressed', 'true'); calc(); }); }); /* tap the lit state again and the tax goes away until you pick one */
   ['c-price', 'c-fee', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
-  function showResults(name) { q.value = name || ''; setRes(true); links(); getEstimate(); }
+  function showResults(name) { q.value = name || ''; $('d').value = ''; setRes(true); links(); getEstimate(); }
   var qTimer = null; /* v26.2 (Mod): the estimate updates by itself about a second after you stop typing the name (no button to tap) */
-  q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = (q.value || '').trim(); if (v && v !== priced) getEstimate(); }, 1000); });
+  q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = full(); if (v && v !== priced) getEstimate(); }, 1000); });
+  $('d').addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = full(); if (v && v !== priced) getEstimate(); }, 1000); });
   Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (b) {
     b.addEventListener('click', function () {
       cond = [b.getAttribute('data-c')]; /* v26.7 (Mod): one condition at a time */
       Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); });
       try { localStorage.setItem('tivCond', cond.join(',')); } catch (e) {}
       links();
-      if ((q.value || '').trim()) getEstimate();
+      if (full()) getEstimate();
     });
   });
   try { var sc = (localStorage.getItem('tivCond') || '').split(',').filter(function (c) { return EBAY_COND[c]; }); if (sc.length) { cond = [sc[0]]; Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); }); links(); } } catch (e) {} /* v26.4: remembers your condition picks */
