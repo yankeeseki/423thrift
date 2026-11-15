@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Item Search: What Is My Thrift Find Worth? | Chattanooga Thrift Trail</title>
+<title>Image Search: What Is My Thrift Find Worth? | Chattanooga Thrift Trail</title>
 <meta name="description" content="Found something at a Chattanooga thrift shop? Search it with Google or eBay image search, or try ThriftiVision to name it and see what it sells for on eBay.">
 <link rel="canonical" href="https://423thrift.com/itemsearch/">
-<meta property="og:title" content="Item Search | Chattanooga Thrift Trail">
+<meta property="og:title" content="Image Search | Chattanooga Thrift Trail">
 <meta property="og:description" content="Snap a photo of a thrift find and see what it sells for.">
 <meta property="og:url" content="https://423thrift.com/itemsearch/">
 <meta property="og:image" content="https://423thrift.com/og-image.png">
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* v22.3: public Item Search page (hamburger + footer link; in sitemap.xml). Sub-page menu and footer come from /menu.js. */
+  /* v22.3: public Image Search page (renamed from Item Search; URL stays /itemsearch/) (hamburger + footer link; in sitemap.xml). Sub-page menu and footer come from /menu.js. */
   :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#b5502f; --line:#d8cdb2; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
@@ -76,9 +76,9 @@
 </style>
 </head>
 <body>
-<div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
+<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
-  <h1>Item Search</h1>
+  <h1>Image Search</h1>
   <p class="sub">Found something? Search it and see what it sells for.</p>
 
   <div class="card">
