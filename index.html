@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.7-20261114">
+<meta name="ctt-build" content="v24.8-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1174,12 +1174,12 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-fp-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed var(--line); padding-top: 8px; font-size: 13px; color: #5c5240; }
   .ctt-fp-done { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff; background: var(--olive); border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; }
   .ctt-header { margin-bottom: 10px; position: relative; }
-  .ctt-header .ctt-title { padding-right: 56px; }
-  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-header .ctt-title { padding-right: 68px; }
+  .ctt-menu-btn { position: absolute; top: 0; right: 0; z-index: 30; width: 66px; height: 66px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
   .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: none; color: var(--ink); }
   .ctt-menu-btn:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-menu-btn svg { width: 36px; height: 36px; }
-  .ctt-menu { position: absolute; top: 60px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
+  .ctt-menu-btn svg { width: 43px; height: 43px; } /* v24.8 (Mod): hamburger 20% larger (55->66, 36->43) */
+  .ctt-menu { position: absolute; top: 72px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu .ctt-menu-x { display: none; }
   @media (min-width: 781px) {
@@ -1814,7 +1814,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     margin: 0 0 12px 0; padding: 12px 16px; background: #fbf1d4; border: 1.5px solid #c9a93a; border-left-width: 6px;
     border-radius: 6px; font-family: 'Libre Franklin', sans-serif; font-size: 13px; line-height: 1.5; color: #5c5240;
   }
-  .ctt-featured-panel h3 { font-family: 'Archivo Black', sans-serif; font-size: 16px; color: var(--ink); margin: 0 0 4px 0; }
+  .ctt-featured-panel h3 { font-family: 'Archivo Black', sans-serif; font-size: 16px; color: var(--rust); margin: 0 0 4px 0; }
   .ctt-featured-panel p { margin: 0 0 8px 0; }
   .ctt-featured-item { padding: 8px 0; border-top: 1px dashed #d8c27a; }
   .ctt-featured-item strong { color: var(--ink); font-size: 14px; }
@@ -2123,8 +2123,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
   #ctt-map { height: 100%; width: 100%; border-radius: 4px; border: 1px solid var(--line); filter: sepia(8%) saturate(85%); }
   .ctt-seo { margin: 28px 0 6px; padding-top: 22px; border-top: 1.5px dashed var(--line); font-family: 'Libre Franklin', sans-serif; font-size: 12px; line-height: 1.5; color: #6f6450; }
-  .ctt-seo h2 { font-size: 14px; color: var(--ink); margin: 0 0 6px; }
-  .ctt-seo h3 { font-size: 12px; color: var(--ink); margin: 12px 0 4px; }
+  .ctt-seo h2 { font-size: 14px; color: var(--rust); margin: 0 0 6px; }
+  .ctt-seo h3 { font-size: 12px; color: var(--rust); margin: 12px 0 4px; }
   .ctt-seo p { margin: 0 0 6px; }
   .ctt-seo summary { cursor: pointer; font-weight: 700; color: var(--ink); margin: 10px 0 4px; }
   .ctt-seo { color: #5c5343; font-size: 13.5px; line-height: 1.6; }
@@ -2151,7 +2151,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   #ctt-news-overlay .ctt-shops-top { text-align: center; padding-left: 52px; padding-right: 52px; }
   .ctt-news .ctt-news-text p { white-space: nowrap; font-size: clamp(10.5px, 3.3vw, 13.5px); }
   .ctt-news-act { flex: 1 1 240px; min-width: 0; max-width: 100%; }
-  .ctt-news h2 { font-size: 16px; color: var(--ink); margin: 0 0 2px; }
+  .ctt-news h2 { font-size: 16px; color: var(--rust); margin: 0 0 2px; }
   .ctt-news p { font-size: 13.5px; color: var(--ink); margin: 0; }
   .ctt-news form { display: flex; flex-wrap: nowrap; gap: 8px; }
   .ctt-news-lab { position: absolute; left: -9999px; }
@@ -2312,14 +2312,14 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-lsearch-none { font: 400 13px 'Libre Franklin', sans-serif; color: var(--taupe); text-align: center; padding: 10px 0 14px; }
   /* v21.1 BUG FIX: cttAsk() appends its overlay to <body>, OUTSIDE #ctt-thrift-wrap where the colour variables live, so the dialog had no background and its buttons were unstyled (the page showed through). The variables are repeated here (same exact values as #ctt-thrift-wrap above). Keep them in sync. */
   .ctt-ask-dialog { --paper: #f2ead9; --ink: #2c2417; --olive: #4a5a3a; --rust: #ae4c2c; --mustard: #c98a2b; --line: #c9bb99; --card: #fbf6ea; --gold: #a3872f; --taupe: #6b6252; position: relative; width: 100%; max-width: 420px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); margin: auto; padding: 20px 20px 18px; font-family: 'Libre Franklin', sans-serif; color: var(--ink); }
-  .ctt-ask-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.1; margin: 0 0 8px; }
+  .ctt-ask-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.1; margin: 0 0 8px; color: var(--rust); }
   .ctt-ask-body { font-size: 14px; line-height: 1.45; margin: 0 0 16px; }
   .ctt-ask-row { display: flex; gap: 10px; flex-wrap: wrap; }
   .ctt-ask-row button { flex: 1 1 140px; min-height: 48px; font: 700 15px 'Libre Franklin', sans-serif; border-radius: 8px; cursor: pointer; border: 2px solid var(--ink); background: var(--card); color: var(--ink); padding: 10px 14px; }
   .ctt-ask-row button.ctt-ask-yes { background: var(--rust); border-color: var(--rust); color: var(--paper); }
   .ctt-shops-dialog { position: relative; width: 100%; max-width: 760px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); margin: 0 auto 16px; }
   .ctt-shops-top { position: sticky; top: 0; z-index: 2; background: var(--paper); border-bottom: 1.5px dashed var(--line); border-radius: 8px 8px 0 0; padding: 14px 64px 12px 20px; }
-  .ctt-shops-title { font-family: 'Archivo Black', sans-serif; font-size: 32px; line-height: 1.05; color: var(--ink); margin: 0 0 4px 0; }
+  .ctt-shops-title { font-family: 'Archivo Black', sans-serif; font-size: 32px; line-height: 1.05; color: var(--rust); margin: 0 0 4px 0; }
   .ctt-shops-sub { font-family: 'Libre Franklin', sans-serif; font-size: 13px; color: var(--taupe, #5c5240); margin: 0; }
   .ctt-shops-close { position: absolute; top: 10px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink); background: var(--card); color: var(--ink); font-size: 26px; line-height: 1; font-weight: 700; cursor: pointer; }
   .ctt-shops-close:hover { background: var(--ink); color: var(--paper); }
@@ -2331,7 +2331,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-shops-hood { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--ink); margin: 26px 0 10px; padding-bottom: 4px; border-bottom: 1.5px dashed var(--line); scroll-margin-top: 110px; }
   .ctt-shops-hood span { font-family: 'Libre Franklin', sans-serif; font-weight: 400; font-size: 14px; color: #6b6252; }
   .ctt-shop-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 15px; margin: 0 0 10px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
-  .ctt-shop-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 18px; margin: 0 0 3px; color: var(--ink); }
+  .ctt-shop-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 18px; margin: 0 0 3px; color: var(--rust); }
   .ctt-shop-card p { margin: 3px 0; }
   .ctt-shop-card .ctt-shop-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--olive); border: 1px solid var(--olive); border-radius: 10px; padding: 0 7px; margin-right: 4px; }
   .ctt-shop-card .ctt-shop-closing { color: var(--rust); font-weight: 700; }
@@ -2345,9 +2345,9 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-own-btn:hover { background: var(--rust); color: #fff; }
   /* v24.0 (Mod): Add Your Own Stop / Add a Coffee Stop are two large circles side by side */
   .ctt-own-btns { flex-wrap: nowrap; gap: 32px; }
-  .ctt-own-btns .ctt-own-btn { flex: 0 1 172px; min-width: 0; aspect-ratio: 1; width: auto; height: auto; border-radius: 50%; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 17px; line-height: 1.2; } /* v24.3 (Mod): 15% larger (150 -> 172px) and more space between; on narrow phones they shrink just enough to stay side by side */
+  .ctt-own-btns .ctt-own-btn { flex: 0 1 172px; min-width: 0; aspect-ratio: 1; width: auto; height: auto; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 17px; line-height: 1.2; } /* v24.3 (Mod): 15% larger (150 -> 172px) and more space between; on narrow phones they shrink just enough to stay side by side */
   .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 46px; line-height: 1; }
-  .ctt-own-btns .ctt-own-btn::after { inset: 0; border-radius: 50%; }
+  .ctt-own-btns .ctt-own-btn::after { inset: 0; border-radius: 22px; }
   @media (max-width: 440px) { .ctt-own-btns { gap: 20px; } .ctt-own-btns .ctt-own-btn { font-size: 15px; } .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 40px; } }
   .ctt-own-btn::after { content: ""; position: absolute; inset: -6px -4px; }
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -2414,7 +2414,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-gi-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .ctt-gi-status { font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--rust); margin-top: 10px; min-height: 18px; }
   .ctt-gi-thanks { text-align: center; font-family: 'Libre Franklin', sans-serif; color: var(--ink); padding: 10px 0; }
-  .ctt-gi-thanks h3 { font-family: 'Archivo Black', sans-serif; font-size: 24px; margin: 6px 0; }
+  .ctt-gi-thanks h3 { font-family: 'Archivo Black', sans-serif; font-size: 24px; margin: 6px 0; color: var(--rust); }
   .ctt-gi-share { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0; }
   .ctt-gi-share a, .ctt-gi-share button { font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 700; color: var(--olive); background: var(--card); border: 1px solid var(--olive); border-radius: 16px; padding: 8px 14px; text-decoration: none; cursor: pointer; }
   .ctt-gi-note { font-family: 'Libre Franklin', sans-serif; font-size: 13px; background: #f3ecd2; border-left: 3px solid var(--gold, #c98a2b); padding: 8px 10px; border-radius: 3px; color: #5c5240; margin: 0 0 4px; }
@@ -2426,7 +2426,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-cal-sub { font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
   .ctt-cal-add { display: block; width: 100%; margin: 4px 0 10px; padding: 13px; font-family: 'Libre Franklin', sans-serif; font-size: 15px; font-weight: 700; background: var(--olive); color: var(--paper); border: none; border-radius: 6px; cursor: pointer; }
   .ctt-cal-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 15px; margin: 0 0 10px; font-family: 'Libre Franklin', sans-serif; font-size: 14px; color: var(--ink); }
-  .ctt-cal-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 17px; margin: 0 0 3px; }
+  .ctt-cal-card h4 { font-family: 'Archivo Black', sans-serif; font-size: 17px; margin: 0 0 3px; color: var(--rust); }
   .ctt-cal-card p { margin: 3px 0; }
   .ctt-cal-date { font-weight: 700; color: var(--rust); }
   .ctt-cal-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px 0 8px; font-family: 'Libre Franklin', sans-serif; }
@@ -2505,7 +2505,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     border: 1.5px dashed var(--line); border-radius: 6px;
     font-size: 13px; line-height: 1.55; color: #5c5240;
   }
-  .ctt-homescreen-panel h3 { font-family: 'Archivo Black', sans-serif; font-size: 18px; color: var(--ink); margin: 0 0 6px 0; }
+  .ctt-homescreen-panel h3 { font-family: 'Archivo Black', sans-serif; font-size: 18px; color: var(--rust); margin: 0 0 6px 0; }
   .ctt-homescreen-panel p { margin: 0 0 10px 0; }
   .ctt-homescreen-panel strong { color: var(--ink); }
   .ctt-homescreen-cols { display: flex; gap: 22px; flex-wrap: wrap; }
@@ -3048,7 +3048,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.7 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.8 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4242,14 +4242,15 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function offRouteLabel() { return typeMode() === 'wide' ? 'All Other Shops' : 'More Shops'; }
   function refreshOffRouteLabel() { var b = document.getElementById('ctt-offroute-toggle'); if (b) b.innerHTML = offRouteLabel() + ' ' + (offRouteExpanded ? '&#9652;' : '&#9662;'); }
   var offRouteExpanded = false;
-  var LIST_VISIBLE = 6; // how many shops show before the list scrolls inside its own box
+  var LIST_VISIBLE = 6; // how many shops show before the list scrolls inside its own box (v24.8 (Mod): desktop shows 5, see listVisible())
+  function listVisible() { try { return window.matchMedia('(min-width: 781px) and (min-height: 521px)').matches ? 5 : 6; } catch (e) { return LIST_VISIBLE; } }
   function heightForFirstFive(cardsParent) {
-    var cards = cardsParent.children;
-    if (cards.length <= LIST_VISIBLE) return null;
+    var LIST_N = listVisible(), cards = cardsParent.children;
+    if (cards.length <= LIST_N) return null;
     var gap = 9, total = 0;
-    for (var i = 0; i < LIST_VISIBLE; i++) {
+    for (var i = 0; i < LIST_N; i++) {
       total += cards[i].offsetHeight;
-      if (i < LIST_VISIBLE - 1) total += gap;
+      if (i < LIST_N - 1) total += gap;
     }
     return total;
   }
