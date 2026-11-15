@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v26.8-20261115">
+<meta name="ctt-build" content="v26.9-20261115">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1650,6 +1650,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     align-items: start;
   }
   .ctt-layout #ctt-map { order: -1; position: relative; height: clamp(320px, 64vh, 540px) !important; }
+  @media (max-width: 600px) and (orientation: portrait) { .ctt-layout #ctt-map { height: clamp(288px, 57.6vh, 486px) !important; } } /* v26.9 (Mod): upright phones: the map starts 10% shorter (was clamp(320px, 64vh, 540px)) */
   .ctt-layout .ctt-list { overflow-y: auto; padding-right: 0; }
   .ctt-layout .ctt-map-col { order: -1; min-width: 0; }
   .ctt-map-col .ctt-route-stat-row { margin: 0 0 8px 0; justify-content: center; }
@@ -2608,7 +2609,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-tag-bottom-row > .ctt-tag-meta{display:contents}
   .ctt-tag-bottom-row .ctt-review-toggle-row{margin-left:0;margin-right:0;padding-left:0}
   /* v23.2 (Mod): phone portrait: the category, Open until and Reviews button all sit on ONE line (the stars moved into the Reviews drop-down). Sizes scale with the screen width (vw) so they still fit on narrow phones. */
-  .ctt-featured-day { background: #f5e2bc; border: 1.5px solid #d4a72c; border-radius: 14px; padding: 8px 10px; margin-bottom: 12px; } /* v23.3 (Mod): phones: Featured Shop of the Day sits in its own rounded box (cream fill, gold edge, the same colours the Featured card and Check Hours badge already use) */
+  .ctt-featured-day { background: #7f610b; border: 1.5px solid #f5e2bc; border-radius: 14px; padding: 8px 10px; margin-bottom: 12px; } .ctt-featured-day .ctt-fd-gold { color: #f5e2bc; } /* v26.9 (Mod, trial): colours reversed: dark gold container (#7f610b), cream outline and text (#f5e2bc); the shop name stays the light blue (#a9c1cb). Was: cream fill, gold edge, dark-gold text. */ /* v23.3 (Mod): phones: Featured Shop of the Day sits in its own rounded box (cream fill, gold edge, the same colours the Featured card and Check Hours badge already use) */
   /* v23.3 (Mod): phones: a shop description longer than 2 lines is cut to 2 lines and gets a small v / ^ button (like the ^ under the big button) to open and close the rest. */
   /* The red/play/arrow buttons column is 120px tall; without this it forced the extra height into empty grid rows (a blank gap above the bottom row once a description is clamped). contain:block-size takes its HEIGHT out of the row sizing (width still counts); min-height keeps the card tall enough to hold it. */
   .ctt-tag-controls-col { contain: block-size; align-self: stretch; }
@@ -3084,7 +3085,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v26.8 &mdash; November 15, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v26.9 &mdash; November 15, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
