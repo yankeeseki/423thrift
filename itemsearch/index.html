@@ -51,6 +51,10 @@
   .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
   h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
   .card > .note:first-of-type { margin-top:0; }
+  /* v24.10 (Mod): no dead space on wide screens - cards stop at 820px, and notes use the full card width so text never wraps early */
+  .wrap>.card { max-width:820px; margin-left:auto; margin-right:auto; }
+  .wrap .card p, .wrap .card .note { max-width:none; }
+  .wrap>.note { max-width:820px; margin-left:auto; margin-right:auto; }
   .est { margin-top:14px; padding:12px 14px; border-radius:10px; background:#f2ead9; border:1.5px solid var(--line); }
   .est-head { font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--olive); margin-bottom:4px; }
   .est-range { font-family:'Archivo Black',Georgia,serif; font-size:26px; line-height:1.15; }
@@ -76,7 +80,7 @@
 </style>
 </head>
 <body>
-<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
+<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
   <h1>Image Search</h1>
   <p class="sub">Found something? Search it and see what it sells for.</p>
@@ -123,7 +127,7 @@
     <p class="note">Sold prices are what shoppers actually paid. Compare condition, size and whether it is the exact same item before you trust a number.</p>
   </div>
 
-  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Nothing is saved by the Trail.</p>
+  <p class="note">ThriftiVision sends your photo and keywords to Google only to name the item, then checks eBay for prices. Nothing is saved.</p>
 </div>
 
 <script>
