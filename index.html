@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.1-20261114">
+<meta name="ctt-build" content="v24.3-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1255,8 +1255,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   /* v24.0 (Mod, trial): upright phones: the hide / show control under the big button is a − (instructions showing, tap to hide) and a + (hidden, tap to show) instead of the arrows. Other views keep the arrows. */
   @media (max-width: 600px) and (orientation: portrait) {
     .ctt-cta-collapse { font-size: 0; }
-    .ctt-cta-collapse::after { content: '\2212'; font-size: 24px; font-weight: 800; line-height: 1; }
-    .ctt-cta-row.ctt-collapsed .ctt-cta-collapse::after { content: '+'; }
+    /* v24.3 (Mod): the - and + are drawn as shapes (not font glyphs) so they sit exactly in the middle of the pill on every phone, and the pill sits midway between the bottom of the big button and the bottom of the rust box. */
+    .ctt-cta-collapse { margin: 7.5px auto -6.5px; }
+    .ctt-cta-collapse::after { content: ''; display: block; width: 12px; height: 12px; background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat; }
+    .ctt-cta-row.ctt-collapsed .ctt-cta-collapse::after { background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 2.5px 12px no-repeat; }
   }
   .ctt-cta-row.ctt-collapsed #ctt-cta-navrow, .ctt-cta-row.ctt-collapsed .ctt-cta-hint, .ctt-cta-row.ctt-collapsed #ctt-cta-status { display: none !important; }
   .ctt-note-toggle { display: none; } /* shown only on phones, see the max-width:600px block */
@@ -1856,6 +1858,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     padding-top: 0; border: 1.5px solid var(--paper); box-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
   .ctt-tag-num-inner { display: block; transform: rotate(-45deg); }
+  /* v24.3 (Mod): More Shops diamonds are plain, solid, uncropped shapes: cut with clip-path (no rotation, so nothing pokes outside the box and gets clipped), no border, no inner symbol (it made a hole). */
+  .ctt-tag-num.diamond { transform: none; border: 0; box-shadow: none; border-radius: 0; background: var(--gold); width: 20px; height: 20px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+  .ctt-tag-num.diamond .ctt-tag-num-inner { display: none; }
+  @media (orientation: landscape) and (max-height: 520px) { .ctt-tag .ctt-featured-ribbon { display: none !important; } #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.star { width: 22px; height: 22px; padding-top: 2px; font-size: 10px; margin-right: 5px; } } /* v24.3: sideways cards are locked to two lines, so the Featured Shop label is dropped (the star already marks it) and the star is shrunk to fit the title line */
   .ctt-tag-link {
     display: inline-block; margin-top: 6px; font-size: 12px; color: var(--rust);
     text-decoration: none; border-bottom: 1px solid var(--rust);
@@ -1914,7 +1920,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-fd-gold { color: #7f610b; }
   .ctt-fd-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .ctt-fd-link:hover { color: var(--rust); }
-  .ctt-featured-day { margin: 0 0 8px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: var(--ink); white-space: nowrap; overflow: hidden; }
+  .ctt-featured-day { margin: 0 0 8px 0; text-align: center; font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 800; color: #2c3e44; white-space: nowrap; overflow: hidden; } /* v24.3 (Mod): the dark text of the Featured Shop of the Day line is the brand blue (#2c3e44); the gold stars stay */
   .ctt-holiday-small { margin: 0 0 8px 0; font-family: 'Libre Franklin', sans-serif; font-size: 11px; color: var(--taupe); text-align: center; }
   .ctt-holiday-card {
     /* v21.1: emoji and close X are pinned to the edges and vertically centered; side padding is equal (flag side includes the thicker left border) so the text is centered on the whole card, in line with the Featured line above. */
@@ -2156,6 +2162,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     padding: 5px 12px; text-decoration: none;
   }
   .ctt-tip-btn:hover { background: var(--olive); color: var(--paper); }
+  .ctt-ls-tips { display: none; } /* v24.3 (Mod): sideways phones only, when 3 or fewer shops are left: Leave a tip buttons fill the space under the list */
 
   .ctt-num-icon {
     position: relative; z-index: 1;
@@ -2291,16 +2298,16 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-holiday-btw { font-size: 12px; margin-top: 5px; opacity: .85; }
 
   /* Your own stops (errands, lunch, appointments) */
-  .ctt-own-box { margin-top: 26px; padding: 14px; border: 1.5px dashed var(--line); border-radius: 6px; background: transparent; }
+  .ctt-own-box { margin-top: 26px; padding: 14px 0; border: 0; border-radius: 0; background: transparent; } /* v24.3 (Mod): the dotted box around Add Your Own Stop / Add a Coffee Stop is gone */
   .ctt-own-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
   .ctt-own-btn { margin: 0; font-family: 'Libre Franklin', sans-serif; font-size: 17px; font-weight: 700; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 26px; padding: 9px 18px; cursor: pointer; position: relative; }
   .ctt-own-btn:hover { background: var(--rust); color: #fff; }
   /* v24.0 (Mod): Add Your Own Stop / Add a Coffee Stop are two large circles side by side */
-  .ctt-own-btns { flex-wrap: nowrap; gap: 16px; }
-  .ctt-own-btns .ctt-own-btn { flex: 0 0 auto; width: 150px; height: 150px; border-radius: 50%; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; font-size: 15px; line-height: 1.2; }
-  .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 40px; line-height: 1; }
+  .ctt-own-btns { flex-wrap: nowrap; gap: 32px; }
+  .ctt-own-btns .ctt-own-btn { flex: 0 1 172px; min-width: 0; aspect-ratio: 1; width: auto; height: auto; border-radius: 50%; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 17px; line-height: 1.2; } /* v24.3 (Mod): 15% larger (150 -> 172px) and more space between; on narrow phones they shrink just enough to stay side by side */
+  .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 46px; line-height: 1; }
   .ctt-own-btns .ctt-own-btn::after { inset: 0; border-radius: 50%; }
-  @media (max-width: 400px) { .ctt-own-btns { gap: 10px; } .ctt-own-btns .ctt-own-btn { width: 140px; height: 140px; font-size: 14px; } }
+  @media (max-width: 440px) { .ctt-own-btns { gap: 20px; } .ctt-own-btns .ctt-own-btn { font-size: 15px; } .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 40px; } }
   .ctt-own-btn::after { content: ""; position: absolute; inset: -6px -4px; }
   .ctt-bg-hit { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .ctt-bg-hit { position: relative; }
@@ -2443,10 +2450,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-row-break { flex: 0 0 100%; height: 0; display: none; } /* v24.0 (Mod): desktop: Send To My Phone drops to its own second row (break only shows when that button is visible) */
   .ctt-pdf-btnrow:has(#ctt-sendphone-btn:not([style*="display: none"]):not([style*="display:none"])) .ctt-row-break { display: block; }
   @media (max-width: 600px) and (orientation: portrait) { /* v24.0 (Mod): upright phone: Take It With You buttons sit side by side */
-    .ctt-pdf-section .ctt-pdf-btnrow { flex-wrap: nowrap; }
-    .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { flex: 1 1 0; min-width: 0; padding: 8px 6px; }
+    .ctt-pdf-section { padding-left: 12px; padding-right: 12px; align-self: stretch; } .ctt-pdf-section .ctt-pdf-btnrow { flex-wrap: nowrap; width: 100%; gap: 6px; } /* v24.3: the row fills the box so both buttons have room and their text stays inside */
+    .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { flex: 1 1 0; min-width: 0; padding: 8px 4px; font-size: 12px; overflow: hidden; }
     .ctt-row-break { display: none !important; }
   }
+  @media (max-width: 340px) and (orientation: portrait) { .ctt-pdf-section .ctt-pdf-btnrow .ctt-pdf-btn, .ctt-pdf-section .ctt-pdf-btnrow .ctt-homescreen-link { font-size: 11px; } }
   .ctt-homescreen-row .ctt-homescreen-link { font-size: 14.5px; }
   .ctt-howworks-panel .ctt-homescreen-link { margin-top: 4px; font-size: inherit; line-height: inherit; }
   .ctt-howworks-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; margin: 8px 0 0; }
@@ -2581,8 +2589,12 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     :root { --ls-btn: 40px; --ls-left: max(330px, calc(100vw - 347px - max(10px, env(safe-area-inset-right)))); } /* v23.7 (Mod): the left side is as wide as it can be while the right side keeps ~379px for the list, the narrowest it can go before any shop name gets cut shorter or any line wraps (was clamp(330px, 40vw, 380px)) */ /* v23.2 (Mod): the left column is only as wide as the big button needs */
     @media (max-width: 700px) { :root { --ls-btn: 34px; } } /* v23.9: narrow sideways phones: slimmer card buttons so nothing is cut */
     body { box-sizing: border-box; padding-left: var(--ls-left, 56%); }
+    /* v24.3 (Mod, trial): sideways: the big button spans the whole top. Under it, the map is on the left and the Your Route list on the right, both starting at the same height (the banners that used to sit above the list now follow it). */
+    body { padding-top: calc(var(--ctt-cta-h, 190px) + 2px); }
+    #ctt-thrift-wrap { display: flex; flex-direction: column; }
+    #ctt-thrift-wrap > .ctt-layout { order: -1; }
     #ctt-thrift-wrap .ctt-layout { display: block; }
-    #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
+    #ctt-thrift-wrap > .ctt-cta-row { position: fixed; z-index: 20; top: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(100vw - max(8px, env(safe-area-inset-left)) - max(8px, env(safe-area-inset-right))); box-sizing: border-box; margin: 0; padding: 8px 10px; max-height: calc(100vh - 12px); overflow: hidden; }
     #ctt-thrift-wrap .ctt-layout .ctt-map-col { position: fixed; z-index: 10; order: 0; top: calc(var(--ctt-cta-h, 190px) + 12px); bottom: 6px; left: max(8px, env(safe-area-inset-left)); width: calc(var(--ls-left, 56%) - 8px - max(8px, env(safe-area-inset-left))); margin: 0; display: flex; flex-direction: column; min-height: 0; }
     #ctt-thrift-wrap .ctt-layout .ctt-map-col #ctt-map { position: relative; top: auto; flex: 1 1 auto; height: auto !important; min-height: 0; }
     #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { margin: 0 0 2px; flex: 0 0 auto; }
@@ -2596,13 +2608,13 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-map-col .ctt-route-stat-row { flex-wrap: nowrap; justify-content: center; gap: 12px; }
     #ctt-thrift-wrap .ctt-map-col .ctt-legend-item, #ctt-thrift-wrap .ctt-map-col .ctt-howworks-toggle, #ctt-thrift-wrap .ctt-map-col .ctt-hw-t, #ctt-thrift-wrap .ctt-map-col .ctt-hw-c { font-size: 12px !important; white-space: nowrap; }
     /* v23.2 (Mod): sideways, the live numbers sit ON the big button, always along its bottom edge. The button is 24px taller with 26px of bottom padding reserved for them (fitCtaText already counts padding); the numbers line is taken out of the flow and laid over that strip. Taps pass through it to the button. */
-    .ctt-cta-btnwrap .ctt-cta-btn { height: 104px; padding: 6px 16px 26px; border-radius: 26px; }
+    .ctt-cta-btnwrap .ctt-cta-btn { height: 116px; padding: 6px 16px 26px; border-radius: 26px; }
     #ctt-thrift-wrap > .ctt-cta-row .ctt-status-panel { position: relative; }
-    #ctt-thrift-wrap > .ctt-cta-row #ctt-route-stat { position: absolute; left: 0; right: 0; top: 82px; margin: 0; z-index: 3; pointer-events: none; color: #f3e7cf !important; text-shadow: none; animation: none !important; font-weight: 600; }
+    #ctt-thrift-wrap > .ctt-cta-row #ctt-route-stat { position: absolute; left: 0; right: 0; top: 94px; margin: 0; z-index: 3; pointer-events: none; color: #f3e7cf !important; text-shadow: none; animation: none !important; font-weight: 600; }
     #ctt-route-stat strong { color: #fff !important; text-shadow: none !important; }
     #ctt-route-stat .ctt-sep, #ctt-route-stat .ctt-per-short { color: var(--rust) !important; } /* v24.0 (Mod): sideways: the bullets and '/shop' match the middle (rust) line */
-    .ctt-cta-btn-line1 { font-size: 31.7px; }
-    .ctt-cta-btn-line1.is-next { font-size: 22.4px; } /* v24.0 (Mod): first line +20% */
+    .ctt-cta-btn-line1 { font-size: 39.6px; } /* v24.2 (Mod): sideways top line +25% */
+    .ctt-cta-btn-line1.is-next { font-size: 28px; } /* v24.2: +25% more (was 22.4 after v24.0 +20%) */
     .ctt-cta-navrow { margin-top: 2px; }
     .ctt-backtomap, .ctt-backtomap.show { display: none !important; }
     .ctt-footnav { margin-top: 40px; }
@@ -2638,6 +2650,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-trail-header, #ctt-saved-note { display: none !important; }
     .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note, .ctt-review-toggle-row, .ctt-review-section, .ctt-tag .ctt-directions-link, #ctt-list-bar, #ctt-filter-panel, .ctt-visited-drop, .ctt-own-box, .ctt-bottom-row, .ctt-footnav, .ctt-tip-section, .ctt-disclaimer, .ctt-offroute-container, .ctt-tag-bottom-row, .ctt-tag .ctt-reorder-up, .ctt-tag .ctt-reorder-down { display: none !important; } /* v23.2 (Mod): reviews and the per-shop Get Directions link are hidden sideways too */
     #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle { display: none !important; }
+    html.ctt-few-left .ctt-ls-tips { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 14px 0 6px; padding: 14px 10px; }
+    .ctt-ls-tips-label { font: 700 15px 'Libre Franklin', sans-serif; color: var(--ink); }
+    .ctt-ls-tips-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .ctt-ls-tips .ctt-tip-btn { font-size: 14px; padding: 9px 16px; border-width: 1.5px; border-radius: 20px; }
     /* v23.5 (Mod): sideways list = a grid. Every card: [name .......] [Visited] [Start here] [Remove], all cells the same size so the icons line up card to card; text lines below share one left edge, one line height, one line each. */
     #ctt-route-list .ctt-tag-row, #ctt-list .ctt-tag-row { display: grid; grid-template-columns: minmax(0, 1fr) var(--ls-btn, 40px) var(--ls-btn, 40px) var(--ls-btn, 40px); column-gap: 7px; row-gap: 0; align-items: center; min-height: 0; }
     .ctt-tag-info, .ctt-tag-top, .ctt-tag-controls-col { display: contents; }
@@ -2689,6 +2705,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num:not(.star):not(.diamond) { display: inline; position: static; width: auto; height: auto; padding: 0; margin: 0 7px 0 0; background: none; border-radius: 0; box-shadow: none; color: #2c3e44; font: inherit; font-weight: 800; } /* the number is part of the title: brand blue, bold */
     #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num:not(.star):not(.diamond)::after { content: '.'; }
     #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.star, #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.diamond { display: inline-flex; vertical-align: -4px; margin-right: 7px; }
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-featured-ribbon { grid-column: 1 / 3; grid-row: 6; margin: 2px 0 0; align-self: start; } /* v24.3: the Featured Shop label always sits under the buttons, never over the title */
+    #ctt-thrift-wrap .ctt-tag .ctt-tag-name .ctt-tag-num.star { width: 24px; height: 24px; padding-top: 2px; font-size: 10.5px; margin-right: 5px; }
     #ctt-thrift-wrap .ctt-tag .ctt-vbadge { display: none !important; }
     #ctt-thrift-wrap .ctt-tag .ctt-tag-name.ctt-name-short .ctt-ls-long { display: none !important; } #ctt-thrift-wrap .ctt-tag .ctt-tag-name.ctt-name-short .ctt-ls-short { display: inline !important; }
     #ctt-thrift-wrap .ctt-tag .ctt-visited-check { grid-column: 3; grid-row: 1 / 5; margin-top: 0 !important; justify-self: stretch; align-self: start; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 5px; height: 38px; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: 10px; background: #fffaf0; box-sizing: border-box; } /* Visited is one 30px-tall pill, the same height as the buttons under it */
@@ -2710,7 +2728,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / 3; grid-row: 3 / 5; align-self: end; justify-self: stretch; box-sizing: border-box; gap: 8px; flex-wrap: nowrap; margin-top: 6px; margin-bottom: 0; padding-top: 0; border-top: 0; } /* Open until ... Reviews sits at the bottom of the card, its bottom level with the bottom of the button column; its width is set so Reviews ends exactly where the address ends */ /* Open until ... Reviews sits under the photo + address, beside the buttons, so the card has no empty gap */
     #ctt-thrift-wrap .ctt-tag .ctt-tag-info > .ctt-review-section { grid-column: 1 / -1; grid-row: 41; }
     /* v24.0 (Mod): upright phones: More Shops cards (closed, removed, not on today's route) get a clean version of the same grid: title; thumbnail | address + status pill | Add button; the reason line (Closed today ...) under the address; Get Directions + Reviews across the full bottom. */
-    #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-row { min-height: 150px; }
+    #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-row { min-height: 138px; }
+  .ctt-offroute-container { padding: 10px 6px; } /* v24.3: cards inside More Shops are as wide as the route cards */
+  .ctt-tag:hover, .ctt-tag.active { transform: none; } /* v24.3: no sideways nudge on phones (it clipped the Featured card's right edge) */
+  #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-controls-col { width: 100%; grid-template-columns: 1fr; }
     #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-controls-col { grid-row: 1 / 3; grid-column: 3; margin-top: 0; justify-self: stretch; }
     #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-controls-col > .ctt-toggle-btn { width: 100% !important; height: 38px !important; border-radius: 10px; } /* the Add button sits where Visited sits on a route card */
     #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-photo-col { grid-row: 2 / 4; }
@@ -2733,7 +2754,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     <button type="button" class="ctt-menu-btn" id="ctt-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="ctt-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button>
     <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
     <h1 class="ctt-title"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" fetchpriority="high" decoding="async"></picture></h1>
-    <p class="ctt-tagline"><strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
+    <p class="ctt-tagline"><strong>Optimize Your Thrift Experience.</strong> More Shops, Less Driving.</p>
   </div>
 
   <div id="ctt-holiday" style="display:none;"></div>
@@ -2850,6 +2871,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div class="ctt-lsearch" id="ctt-lsearch"><input type="text" id="ctt-list-q" inputmode="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search shops by name" aria-label="Search shops by name"><button type="button" class="ctt-lsearch-x" id="ctt-list-q-x" aria-label="Clear search" hidden>&times;</button></div>
         <div class="ctt-lsearch-none" id="ctt-lsearch-none" hidden>No shops match that search.</div>
         <div id="ctt-route-list"></div>
+        <div class="ctt-ls-tips" id="ctt-ls-tips"><span class="ctt-ls-tips-label">Enjoying the trail? Leave a tip</span><span class="ctt-ls-tips-btns"><a class="ctt-tip-btn ctt-ls-tip" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a class="ctt-tip-btn ctt-ls-tip" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></span></div>
       </div>
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
@@ -2857,7 +2879,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div id="ctt-offroute-enablers" class="ctt-en-more" hidden></div>
       </div>
       <div class="ctt-own-box">
-        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#10133;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button></div>
+        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#128205;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button></div>
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
@@ -2980,7 +3002,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.1 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.3 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4011,7 +4033,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     function ok(t) { return !(t && t.closest && t.closest('.leaflet-marker-icon, .leaflet-control, .leaflet-popup, button, a, .ctt-names-toggle, .ctt-maphide-btn')); }
     function refit() {
       var now = Date.now(); if (now - lastFit < 600) return; lastFit = now;
-      try { keepZoomOnce = false; fitRouteView(activeRoute); } catch (e) {}
+      try { keepZoomOnce = false; var rem = (activeRoute || []).filter(function(x) { return !visitedStores[x.name]; }); fitRouteView(rem.length ? rem : activeRoute); } catch (e) {} // v24.3: frames only the stops still ahead (all of them if none are left)
     }
     try { map.doubleClickZoom.disable(); } catch (e) {}
     map.on('dblclick', function(e) { if (ok(e.originalEvent && e.originalEvent.target)) refit(); });
@@ -4054,11 +4076,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   function renderStatLine() {
     var el = document.getElementById('ctt-route-stat'), b = statBase;
     if (!el || !b) return;
+    try { document.documentElement.classList.toggle('ctt-few-left', b.count <= 3); } catch (e) {} // v24.3: 3 or fewer shops left -> sideways phones show Leave a tip under the list
     var g = [];
-    g.push('<strong>' + b.count + ' ' + b.noun + (b.count === 1 ? '' : 's') + '</strong>');
+    g.push('<strong>' + b.count + ' ' + b.noun + (b.count === 1 ? '' : 's') + '</strong> to go'); // v24.3 (Mod): 'to go' replaces the 'Remaining:' lead word
     g.push('<strong>' + b.miles + ' ' + (b.miles === 1 ? 'mile' : 'miles') + '</strong>');
     if (timerParts) { g.push('<strong>' + timerParts.time + '</strong>'); g.push(timerParts.per); }
-    var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + '<span class="ctt-st-long">Remaining:</span></span> ';
+    var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + '</span> ';
     html += g.map(function(x, k) { return '<span class="ctt-nw' + (k === 1 ? ' ctt-miles' : '') + '">' + x + (k < g.length - 1 ? ' <span class="ctt-sep">&middot;</span>' : '') + '</span>'; }).join(' ');
     el.innerHTML = html;
     el.classList.remove('urgency-calm', 'urgency-tight', 'urgency-urgent');
@@ -6893,7 +6916,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         var el = document.getElementById(id);
         if (el) list.push({ label: MENU_EMOJI[id] + el.textContent.trim(), el: el, scroll: false });
       });
-      var tips = document.querySelectorAll('.ctt-tip-btn');
+      var tips = document.querySelectorAll('.ctt-tip-btn:not(.ctt-ls-tip)');
       if (tips.length) { list.push({ heading: 'Enjoying the trail?' }); Array.prototype.forEach.call(tips, function(t) { list.push({ label: (/venmo/i.test(t.textContent) ? '💸 ' : '💵 ') + t.textContent.trim(), el: t, scroll: false }); }); }
       return list;
     }
@@ -7082,11 +7105,11 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var list = document.getElementById('ctt-list'); if (list) try { new MutationObserver(sched).observe(list, { childList: true, subtree: true }); } catch (e) {} var list2 = document.getElementById('ctt-offroute-list'); if (list2) try { new MutationObserver(sched).observe(list2, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); } catch (e) {} /* v24.0: More Shops cards get the same layout pass */
     window.addEventListener('resize', sched); if (mq.addEventListener) mq.addEventListener('change', sched); if (document.fonts && document.fonts.ready) document.fonts.ready.then(sched); sched();
   })();
-  // v23.7 (Mod): phones held upright: the Search box moves up onto the Filter / Today / Later line, right after Today / Later. Everywhere else it stays where it was.
+  // v24.2 (Mod): desktop too: same move now applies at every width. // v23.7 (Mod): phones held upright: the Search box moves up onto the Filter / Today / Later line, right after Today / Later. Everywhere else it stays where it was.
   (function() {
     var box = document.getElementById('ctt-lsearch'), bar = document.getElementById('ctt-list-bar'), inp = document.getElementById('ctt-list-q');
     if (!box || !bar || !window.matchMedia) return;
-    var home = box.parentNode, after = box.nextSibling, mq = window.matchMedia('(max-width: 600px) and (orientation: portrait)'), ph = inp ? inp.placeholder : '';
+    var home = box.parentNode, after = box.nextSibling, mq = window.matchMedia('(min-width: 0px)'), ph = inp ? inp.placeholder : '';
     function place() {
       if (mq.matches) { var dp = bar.querySelector('.ctt-day-picker'); if (box.parentNode !== bar) bar.insertBefore(box, dp ? dp.nextSibling : null); if (inp) { inp.placeholder = 'Search shops'; try { if (inp.getBoundingClientRect().width < 118) inp.placeholder = 'Search'; } catch (e) {} } }
       else if (box.parentNode === bar) { home.insertBefore(box, after); if (inp) inp.placeholder = ph; }
