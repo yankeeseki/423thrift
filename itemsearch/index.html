@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   /* v22.3: public Image Search page (renamed from Item Search; URL stays /itemsearch/) (hamburger + footer link; in sitemap.xml). Sub-page menu and footer come from /menu.js. */
-  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#b5502f; --line:#d8cdb2; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
+  :root { --paper:#f2ead9; --ink:#2c2417; --olive:#4a5a3a; --rust:#ae4c2c; --line:#c9bb99; --card:#fbf6ea; --taupe:#6b6252; --slate:#2c3e44; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:'Libre Franklin',sans-serif; line-height:1.5; }
   .wrap { max-width:520px; margin:0 auto; padding:20px 16px 60px; }
@@ -32,7 +32,7 @@
   .btn.brand-g { background:#1A73E8; border-color:#1A73E8; color:#fff; }
   .btn.brand-e { background:#E53238; border-color:#E53238; color:#fff; }
   .btn:focus-visible, input:focus-visible { outline:3px solid var(--olive); outline-offset:2px; }
-  #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e8dfc9; margin-bottom:12px; }
+  #preview { display:none; width:100%; max-height:300px; object-fit:contain; border-radius:10px; background:#e7dec5; margin-bottom:12px; }
   label { display:block; font-weight:700; font-size:14px; margin-bottom:6px; }
   input[type=text] { width:100%; font-family:inherit; font-size:17px; padding:12px 14px; border:1.5px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
   .status { font-size:14px; color:var(--taupe); margin:10px 0 0; min-height:20px; }
@@ -44,14 +44,14 @@
   .btn[disabled] { opacity:.45; cursor:default; }
   .kw { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0 4px; }
   .kw input[type=text] { font-size:16px; padding:10px 12px; }
-  .kw input:disabled { background:#efe8d8; }
+  .kw input:disabled { background:#f2ead9; }
   .kw .wide { grid-column:1 / -1; }
   .count { font-size:12.5px; color:var(--taupe); margin:4px 0 12px; }
   .count.ok { color:var(--olive); font-weight:600; }
   .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
   h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
   .card > .note:first-of-type { margin-top:0; }
-  .est { margin-top:14px; padding:12px 14px; border-radius:10px; background:#f3ecdb; border:1.5px solid var(--line); }
+  .est { margin-top:14px; padding:12px 14px; border-radius:10px; background:#f2ead9; border:1.5px solid var(--line); }
   .est-head { font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--olive); margin-bottom:4px; }
   .est-range { font-family:'Archivo Black',Georgia,serif; font-size:26px; line-height:1.15; }
   .est-sub { font-size:13px; color:var(--taupe); margin-top:2px; }
