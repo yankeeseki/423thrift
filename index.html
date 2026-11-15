@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.5-20261114">
+<meta name="ctt-build" content="v24.6-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1221,7 +1221,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
   }
     /* v24.1 (Mod): the title is now the logo artwork. The h1 stays, and the image carries the same words as its alt text, so search engines and screen readers still read "Chattanooga Thrift Trail". Wide artwork on desktop/tablet, stacked artwork on phones (2 lines). */
-  .ctt-title .ctt-title-img { display: block; height: auto; width: 500px; max-width: calc(100vw - 100px); margin-bottom: 7px; } /* v24.4 (Mod): a little more space between the logo and the tagline */
+  .ctt-title .ctt-title-img { display: block; height: auto; width: 600px; max-width: calc(100vw - 100px); margin-bottom: 7px; } /* v24.4 (Mod): a little more space between the logo and the tagline */
   @media (max-width: 600px) { .ctt-header .ctt-title .ctt-title-img { width: 290px; max-width: calc(100vw - 100px); aspect-ratio: 900 / 217; } .ctt-menu-btn { top: 8px !important; } }
   .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: -1px 0 8px; max-width: 640px; }
   .ctt-tagline { white-space: nowrap; max-width: 100%; font-size: min(14px, calc((100vw - 50px) / 28)); } /* v24.4 (Mod): the tagline stays on one line; on narrow screens it shrinks just enough to fit */
@@ -1231,7 +1231,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     .ctt-title .ctt-title-img { margin-bottom: 0; }
     .ctt-header .ctt-tagline { flex: 1 1 0; min-width: 0; text-align: center; margin: 0 71px 2px 0; line-height: 1.1; font-size: 14px; }
   }
-  @media (min-width: 781px) and (max-width: 1010px) { /* too narrow to fit beside the logo: the tagline goes back under it */
+  @media (min-width: 781px) and (max-width: 1110px) { /* too narrow to fit beside the logo: the tagline goes back under it */
     .ctt-header { flex-wrap: wrap; align-items: flex-start; }
     .ctt-header .ctt-title { padding-right: 56px; }
     .ctt-title .ctt-title-img { margin-bottom: 7px; }
@@ -1277,7 +1277,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-cta-row.ctt-collapsed #ctt-cta-navrow, .ctt-cta-row.ctt-collapsed .ctt-cta-hint, .ctt-cta-row.ctt-collapsed #ctt-cta-status { display: none !important; }
   .ctt-note-toggle { display: none; } /* shown only on phones, see the max-width:600px block */
   .ctt-loc { display: none; } /* the ' - Red Bank' form of a (parenthetical): shown only on the big button when the phone is sideways */
-  .ctt-per-short { display: none; }
+  .ctt-per-short { display: inline; } .ctt-per-long { display: none; } /* v24.6 (Mod): the rust box always says /shop (or /stop), never "per shop" */
   .ctt-cr-phone { display: none; }
   .ctt-ls-short { display: none; } /* shown only sideways, see the landscape block */
   .ctt-slash { font-size: 67%; font-weight: 800; }
@@ -1629,8 +1629,10 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   /* v24.5 (Mod, trial): desktop: Add Your Own Stop / Add a Coffee Stop sit under the map, with their bottom edge level with the bottom of the trail cards. The map block stays sticky; the circles ride at the bottom of the (stretched) map column. */
   @media (min-width: 781px) {
     .ctt-layout .ctt-map-col.ctt-has-own { position: static; align-self: stretch; display: flex; flex-direction: column; }
-    .ctt-map-col.ctt-has-own > .ctt-map-sticky { position: sticky; top: 12px; }
-    .ctt-map-col.ctt-has-own > .ctt-own-box { margin-top: auto; padding: 18px 0 0; }
+    .ctt-map-col.ctt-has-own > .ctt-map-region { flex: 1 1 auto; min-height: 0; } /* v24.6 (Mod): the sticky map can only slide within this region, so it never goes behind the Add Your Own Stop / Coffee circles */
+    .ctt-map-region > .ctt-map-sticky { position: sticky; top: 12px; }
+    .ctt-layout .ctt-map-col.ctt-has-own #ctt-map { position: relative; top: auto; }
+    .ctt-map-col.ctt-has-own > .ctt-own-box { flex: 0 0 auto; margin-top: 0; padding: 18px 0 0; }
   }
   .ctt-backtomap {
     display: none; position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 900;
@@ -1907,6 +1909,16 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-tag.visited { opacity: 0.75; }
   .ctt-tag.visited .ctt-tag-photo-col, .ctt-tag.visited .ctt-tag-note, .ctt-tag.visited .ctt-tag-addr, .ctt-tag.visited .ctt-tag-bottom-row .ctt-tag-meta, .ctt-tag.visited .ctt-review-toggle-btn, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-up, .ctt-tag.visited .ctt-tag-controls-col .ctt-reorder-down, .ctt-tag.visited .ctt-start-here { display: none; }
   .ctt-vbadge { display: none; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); border: 1.5px solid var(--olive); border-radius: 12px; padding: 1px 9px; }
+  .ctt-tag.visited .ctt-directions-link, .ctt-tag.visited .ctt-tag-controls-col .ctt-toggle-btn { display: none !important; } /* v24.6 (Mod): a visited card has no Get Directions and no Remove */
+  @media (min-width: 601px) and (min-height: 521px) { /* v24.6 (Mod): desktop / tablet: visited card = line 1 the title, line 2 Reviews on the left and the Visited box on the right */
+    .ctt-tag.visited .ctt-tag-info { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 10px; }
+    .ctt-tag.visited .ctt-tag-top { display: contents; }
+    .ctt-tag.visited .ctt-tag-name { grid-column: 1 / -1; grid-row: 1; }
+    .ctt-tag.visited .ctt-tag-top .ctt-visited-check { grid-column: 2; grid-row: 2; justify-self: end; }
+    .ctt-tag.visited .ctt-tag-bottom-row { grid-column: 1; grid-row: 2; margin-top: 0; padding-top: 0; border-top: 0; justify-content: flex-start; }
+    .ctt-tag.visited .ctt-review-toggle-row { margin: 0; justify-content: flex-start; }
+    .ctt-tag.visited .ctt-review-toggle-btn { display: inline-flex !important; }
+  }
   .ctt-tag.visited .ctt-vbadge { display: inline-block; }
   .ctt-visited-check { font-family: 'Libre Franklin', sans-serif; font-size: 9.75px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px; }
   .ctt-visited-checkbox { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--olive); }
@@ -2769,6 +2781,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-tag.offroute .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / -1; grid-row: 4; align-self: end; }
     #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-controls-col { grid-row: 2 / 5; grid-column: 3; justify-self: end; margin-top: 42px; grid-template-columns: 38px; justify-content: end; } /* visited cards: just the name, the ticked box and Remove under it */
     #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-info > .ctt-tag-bottom-row { border-top: 0; margin-top: 0; padding-top: 0; }
+    /* v24.6 (Mod): upright phones: a visited (struck-through) card is two lines: the title, then the Visited box and Reviews. No Get Directions, no Remove. */
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-name { grid-column: 1 / -1; }
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-top .ctt-visited-check { grid-row: 2; grid-column: 3; align-self: center; justify-self: end; width: auto; white-space: nowrap; gap: 4px; padding: 3px 6px; }
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-info > .ctt-tag-bottom-row { grid-column: 1 / 3; grid-row: 2; align-self: center; }
+    #ctt-thrift-wrap .ctt-tag.visited .ctt-tag-row { min-height: 0; }
   }
   /* v23.7 (Mod): ticking Visited by hand shows a green check in the box for 2 seconds first, then the shop is marked visited as usual */
   .ctt-visited-check.ctt-just-checked .ctt-visited-checkbox { accent-color: #1f9d3a; animation: cttCheckPop .35s ease-out; }
@@ -2900,7 +2917,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div class="ctt-lsearch" id="ctt-lsearch"><input type="text" id="ctt-list-q" inputmode="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search shops by name" aria-label="Search shops by name"><button type="button" class="ctt-lsearch-x" id="ctt-list-q-x" aria-label="Clear search" hidden>&times;</button></div>
         <div class="ctt-lsearch-none" id="ctt-lsearch-none" hidden>No shops match that search.</div>
         <div id="ctt-route-list"></div>
-        <div class="ctt-ls-tips" id="ctt-ls-tips"><span class="ctt-ls-tips-label">Enjoying the trail? Leave a tip</span><span class="ctt-ls-tips-btns"><a class="ctt-tip-btn ctt-ls-tip" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a class="ctt-tip-btn ctt-ls-tip" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></span></div>
+        <div class="ctt-ls-tips" id="ctt-ls-tips"><span class="ctt-ls-tips-label">Enjoying the trail?</span><span class="ctt-ls-tips-btns"><a class="ctt-tip-btn ctt-ls-tip" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a><a class="ctt-tip-btn ctt-ls-tip" href="https://cash.app/$derekp" target="_blank" rel="noopener">Tip via Cash App</a></span></div>
       </div>
       <div class="ctt-offroute-container">
         <div class="ctt-offroute-head"><button class="ctt-offroute-toggle" id="ctt-offroute-toggle">More Shops &#9662;</button><span class="ctt-offroute-note">closed, removed, and other shops</span></div>
@@ -3031,7 +3048,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.5 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.6 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4108,7 +4125,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     try { document.documentElement.classList.toggle('ctt-few-left', b.count <= 3); } catch (e) {} // v24.3: 3 or fewer shops left -> sideways phones show Leave a tip under the list
     var g = [];
     g.push('<strong>' + b.count + ' ' + b.noun + (b.count === 1 ? '' : 's') + '</strong> to go'); // v24.3 (Mod): 'to go' replaces the 'Remaining:' lead word
-    g.push('<strong>' + b.miles + ' ' + (b.miles === 1 ? 'mile' : 'miles') + '</strong>');
+    g.push('<strong>' + b.miles + ' mi</strong>'); // v24.6 (Mod): 'mi' (not 'miles', not 'm' which reads as minutes)
     if (timerParts) { g.push('<strong>' + timerParts.time + '</strong>'); g.push(timerParts.per); }
     var html = (SHOW_STAT_DATE && b.date ? '<span class="ctt-nw"><strong class="ctt-stat-date">' + b.date + '</strong> &middot;</span> ' : '') + '<span class="ctt-nw">' + (timerParts && timerParts.lead ? timerParts.lead : '') + '</span> ';
     html += g.map(function(x, k) { return '<span class="ctt-nw' + (k === 1 ? ' ctt-miles' : '') + '">' + x + (k < g.length - 1 ? ' <span class="ctt-sep">&middot;</span>' : '') + '</span>'; }).join(' ');
@@ -7205,19 +7222,37 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   // v24.5 (Mod, trial): on desktop the Add Your Own Stop / Add a Coffee Stop circles move under the map (bottom level with the trail cards); everywhere else they stay under the list.
   (function() {
     var own = document.querySelector('.ctt-own-box'), col = document.querySelector('.ctt-map-col'); if (!own || !col || !window.matchMedia) return;
-    var homeParent = own.parentNode, homeNext = own.nextSibling, mq = window.matchMedia('(min-width: 781px) and (min-height: 521px)'), wrap = null;
+    var homeParent = own.parentNode, homeNext = own.nextSibling, mq = window.matchMedia('(min-width: 781px) and (min-height: 521px)'), wrap = null, region = null;
     function place() {
       if (mq.matches) {
-        if (!wrap) { wrap = document.createElement('div'); wrap.className = 'ctt-map-sticky'; while (col.firstChild) wrap.appendChild(col.firstChild); col.appendChild(wrap); }
+        if (!wrap) { wrap = document.createElement('div'); wrap.className = 'ctt-map-sticky'; region = document.createElement('div'); region.className = 'ctt-map-region'; while (col.firstChild) wrap.appendChild(col.firstChild); region.appendChild(wrap); col.appendChild(region); }
         col.classList.add('ctt-has-own'); if (own.parentNode !== col) col.appendChild(own);
       } else {
         if (own.parentNode === col) homeParent.insertBefore(own, homeNext && homeNext.parentNode === homeParent ? homeNext : null);
-        if (wrap) { while (wrap.firstChild) col.appendChild(wrap.firstChild); col.removeChild(wrap); wrap = null; }
+        if (wrap) { while (wrap.firstChild) col.appendChild(wrap.firstChild); col.removeChild(region); wrap = null; region = null; }
         col.classList.remove('ctt-has-own');
       }
       try { if (window.map && map.invalidateSize) setTimeout(function() { map.invalidateSize(); }, 50); } catch (e) {}
     }
     place(); if (mq.addEventListener) mq.addEventListener('change', place); else if (mq.addListener) mq.addListener(place);
+    // v24.5: if the map block + the circles would be taller than the trail cards / More Shops column, the map is shortened (never below 380px) so the circles' bottom edge lands level with the bottom of that column
+    var outer = document.querySelector('.ctt-list-outer'), mapEl = document.getElementById('ctt-map'), fitRaf = 0;
+    function fitMap() {
+      fitRaf = 0; if (!mapEl || !outer) return;
+      mapEl.style.removeProperty('height');
+      if (!wrap || !mq.matches) { try { map.invalidateSize(); } catch (e) {} return; }
+      var L = outer.getBoundingClientRect().height, cs = getComputedStyle(own);
+      var ownH = own.getBoundingClientRect().height + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
+      var others = wrap.getBoundingClientRect().height - mapEl.getBoundingClientRect().height;
+      var target = Math.floor(L - others - ownH), natural = mapEl.getBoundingClientRect().height;
+      if (target < natural) mapEl.style.setProperty('height', Math.max(380, target) + 'px', 'important');
+      try { map.invalidateSize(); } catch (e) {}
+    }
+    function schedFit() { if (!fitRaf) fitRaf = requestAnimationFrame(fitMap); }
+    window.addEventListener('resize', schedFit);
+    try { if (window.ResizeObserver) { var ro = new ResizeObserver(schedFit); ro.observe(outer); ro.observe(own); } } catch (e) {}
+    if (mq.addEventListener) mq.addEventListener('change', schedFit);
+    setTimeout(schedFit, 300); if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedFit);
   })();
 
   // In-page confirm (never a browser pop-up): title, text, the label of the main button, and what to do on yes.
