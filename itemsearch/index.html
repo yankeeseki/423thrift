@@ -10,7 +10,11 @@
 <meta property="og:description" content="Snap a photo of a thrift find and see what it sells for.">
 <meta property="og:url" content="https://423thrift.com/itemsearch/">
 <meta property="og:image" content="https://423thrift.com/og-image.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/itemsearch/apple-touch-icon.png">
+<link rel="manifest" href="/itemsearch/manifest.webmanifest">
+<meta name="theme-color" content="#f2ead9">
+<script>try { if ((window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone) document.documentElement.classList.add("tiv-app"); } catch (e) {}</script>
+<meta name="apple-mobile-web-app-title" content="ThriftiVision">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
@@ -85,6 +89,14 @@
   .calc-out[hidden] { display:none; }
   #lookup { margin-top:26px; }
   .status:empty { display:none; }
+  /* v27.2 (Mod): installed ThriftiVision app only (the normal website is unchanged): ThriftiVision logo in the header, no Image Search title/sub-text, no ThriftiVision heading or BETA pill */
+  html.tiv-app .sitetitle .ctt-title-img { content: url(/itemsearch/tiv-logo.png); width: auto !important; height: 84px !important; max-width: none !important; aspect-ratio: auto !important; }
+  .tiv-pres { display: none; }
+  html.tiv-app .topbar, html.tiv-app .wrap > header.sitehead { flex-wrap: wrap !important; align-items: flex-start !important; }
+  html.tiv-app .tiv-pres { display: block; order: 2; flex: 0 0 100%; margin: -2px 0 0; font-family: 'Libre Franklin', system-ui, sans-serif; font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--taupe); text-decoration: none; }
+  html.tiv-app .tiv-pres:hover { color: var(--rust); text-decoration: underline; }
+  html.tiv-app .wrap > h1, html.tiv-app .wrap > .sub, html.tiv-app #tiv > h2 { display: none; }
+  html.tiv-app .topbar .sm-btn, html.tiv-app .sitehead .sm-btn { top: 32px !important; } html.tiv-app .sm-menu { top: 112px !important; } @media (min-width: 1111px) { html.tiv-app .topbar .sm-btn { top: 29px !important; } html.tiv-app .sm-menu { top: 109px !important; } } /* hamburger centred on the taller ThriftiVision logo */
   .tiv-disc { margin:0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27.1 (Mod): the disclaimer sits in its own container below the three search buttons */
   .calc-out { margin-top:14px; }
   .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
@@ -110,7 +122,7 @@
 </style>
 </head>
 <body>
-<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
+<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><a class="tiv-pres" href="/">Presented By Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
   <h1>Image Search</h1>
   <p class="sub">Found something? Search it and see what it sells for.</p>
@@ -164,6 +176,8 @@
 </div>
 
 <script>
+/* v27.2 (Mod): ThriftiVision can be installed as its own app (own manifest and icon); the Trail's background file keeps it installable */
+if ('serviceWorker' in navigator && location.protocol === 'https:') { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }
 (function () {
   var WORKER_URL = 'https://itemsearch.derek-de2.workers.dev/';
   var KEYS = [];

@@ -1,0 +1,16 @@
+{
+  "id": "/itemsearch/",
+  "name": "ThriftiVision",
+  "short_name": "ThriftiVision",
+  "description": "Take a photo of a thrift find and see what it sells for on eBay.",
+  "start_url": "/itemsearch/",
+  "scope": "/itemsearch/",
+  "display": "standalone",
+  "background_color": "#faf3e0",
+  "theme_color": "#f2ead9",
+  "icons": [
+    { "src": "/itemsearch/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/itemsearch/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/itemsearch/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
