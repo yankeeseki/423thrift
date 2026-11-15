@@ -28,6 +28,7 @@
   .btn.alt { background:var(--card); color:var(--rust); }
   .btn.slate { background:var(--slate); border-color:var(--slate); }
   .btn + .btn { margin-top:10px; }
+  .btnrow { display:flex; gap:10px; width:min(100%,300px); margin:0 auto; } .btnrow.wide { width:100%; } .btnrow .btn { margin:0; width:auto; flex:1 1 auto; min-width:0; white-space:nowrap; } .btnrow .btn.alt { flex:0 0 auto; } .btnrow [hidden] { display:none; } /* v27.1 (Mod): Try Again sits beside New Photo once a photo is loaded */
   /* v24.11 (Mod): on desktop the Google and eBay buttons sit side by side */
   @media (min-width:781px) { .card:has(#lens) { display:flex; justify-content:center; gap:16px; } .card:has(#lens) .btn { margin:0; flex:0 1 300px; } }
   /* Brand colors only (no logos): Google blue #1A73E8, eBay red #E53238. */
@@ -77,14 +78,14 @@
   .cond button:hover { border-color:#2c3e44; }
   .calc { margin-top:12px; padding:12px 14px; border-radius:10px; background:var(--card); border:1.5px solid var(--line); display:none; }
   .calc-row { display:flex; gap:8px; margin-top:6px; }
-  .calc-row label { flex:1 1 0; min-width:0; font-size:12.5px; font-weight:700; color:var(--taupe); }
+  .calc-row label { flex:1 1 0; min-width:0; font-size:12.5px; font-weight:700; color:var(--taupe); } @media (max-width:380px) { .calc-row label { font-size:11.5px; letter-spacing:-.2px; } } /* v27.1: labels stay on one line on small phones */
   .calc-row input { width:100%; font-size:16px; padding:9px 10px; margin-top:3px; }
   .calc-ex button { flex:1 1 0; min-width:0; font-family:inherit; font-size:12px; font-weight:700; padding:9px 2px; border-radius:999px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; white-space:nowrap; }
   .calc-ex button[aria-pressed=true] { background:#2c3e44; border-color:#2c3e44; color:#fff; }
   .calc-out[hidden] { display:none; }
   #lookup { margin-top:26px; }
   .status:empty { display:none; }
-  .tiv-disc { margin:56px 0 0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27 (Mod): disclaimer at the bottom of ThriftiVision, set well apart from the results so it is not distracting */
+  .tiv-disc { margin:0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27.1 (Mod): the disclaimer sits in its own container below the three search buttons */
   .calc-out { margin-top:14px; }
   .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
   .calc-bar { height:12px; border-radius:999px; background:#e6dcc2; margin-top:8px; overflow:hidden; }
@@ -117,7 +118,7 @@
   <div class="card" id="tiv">
     <h2>ThriftiVision <span class="beta">BETA</span></h2>
     <img id="preview" alt="Your photo">
-    <button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button>
+    <div class="btnrow" id="tivbtns"><button type="button" class="btn" id="snap">&#128247; Take or Choose a Photo</button><button type="button" class="btn alt" id="retry" hidden>&#8635; Try Again</button></div>
     <input type="file" id="file" accept="image/*">
     <p class="status" id="status" role="status" aria-live="polite"></p>
     <div id="results">
@@ -149,7 +150,6 @@
           <div class="calc-sub" id="c-sub"></div>
         </div>
       </div>
-      <p class="tiv-disc">ThriftiVision values are educated guesses based on current eBay listings. They are not appraisals or guarantees, and real prices can differ. Use your own judgment before you buy or sell. The Chattanooga Thrift Trail is not responsible for buying or resale decisions.</p>
     </div>
   </div>
 
@@ -158,6 +158,8 @@
     <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
     <a class="btn brand-s" id="sold" target="_blank" rel="noopener" style="display:none">&#128269; eBay Sold Search</a>
   </div>
+
+  <div class="card" id="disc"><p class="tiv-disc">ThriftiVision values are educated guesses based on current eBay listings. They are not appraisals or guarantees, and real prices can differ. Use your own judgment before you buy or sell. The Chattanooga Thrift Trail is not responsible for buying or resale decisions.</p></div>
 
 </div>
 
@@ -259,7 +261,7 @@
   $('c-exempt').addEventListener('click', function () { this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); calc(); });
   ['c-tn', 'c-ga'].forEach(function (id) { $(id).addEventListener('click', function () { var was = $(id).getAttribute('aria-pressed') === 'true'; $('c-tn').setAttribute('aria-pressed', 'false'); $('c-ga').setAttribute('aria-pressed', 'false'); if (!was) $(id).setAttribute('aria-pressed', 'true'); calc(); }); }); /* tap the lit state again and the tax goes away until you pick one */
   ['c-price', 'c-fee', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
-  function showResults(name) { q.value = name || ''; $('d').value = ''; setRes(true); links(); getEstimate(); }
+  function showResults(name, keep) { q.value = name || ''; if (!keep) $('d').value = ''; setRes(true); links(); getEstimate(); }
   var qTimer = null; /* v26.2 (Mod): the estimate updates by itself about a second after you stop typing the name (no button to tap) */
   q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = full(); if (v && v !== priced) getEstimate(); }, 1000); });
   $('d').addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = full(); if (v && v !== priced) getEstimate(); }, 1000); });
@@ -299,6 +301,7 @@
   }
 
   snap.addEventListener('click', function () { fileEl.value = ''; fileEl.click(); });
+  $('retry').addEventListener('click', function () { if (!lastName && q.value) lastName = q.value; readPhoto(true); }); /* v27.1 (Mod): Try Again reads the same photo again and tells the reader the first name was wrong */
 
   // Shrink the photo before sending: smaller upload, faster answer, and it stays well under the free limits.
   // iPhone photos can be 24-48 megapixels; decoding them at full size can make Safari reload the page,
@@ -336,26 +339,28 @@
     shrink(f, function (err, dataUrl) {
       if (err) { photo = ''; refresh(); setStatus('That photo would not open. Try another.', true); return; }
       photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block';
-      snap.innerHTML = '&#128247; New Photo';
+      snap.innerHTML = '&#128247; New Photo'; $('retry').hidden = false; $("tivbtns").className = 'btnrow wide';
       refresh();
       readPhoto(); // reads the photo right away
     });
   });
 
-  function readPhoto() {
+  var lastName = '';
+  function readPhoto(again) {
     var kw = keywords(); lastKw = kw;
     if (!photo) return;
+    if (!again) lastName = '';
     setRes(false);
     setStatus('Reading the photo...', false, true);
     var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000);
-    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: photo.split(',')[1], mime: 'image/jpeg', keywords: kw }), signal: ctl.signal })
+    fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: photo.split(',')[1], mime: 'image/jpeg', keywords: kw, avoid: again ? lastName : '' }), signal: ctl.signal })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
       .then(function (r) {
         clearTimeout(timer);
-        if (r.ok && r.j && r.j.query) { setStatus('' + (/[?&]debug/.test(location.search) && r.j.why ? ' [debug: ' + r.j.why + ']' : '')); showResults(r.j.query); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if (r.ok && r.j && r.j.query) { setStatus('' + (/[?&]debug/.test(location.search) && r.j.why ? ' [debug: ' + r.j.why + ']' : '')); lastName = r.j.query; showResults(r.j.query, again); results.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
         if (r.status === 429) { setStatus("Today's free photo reads are used up. Try Google or eBay Image Search above.", true); return; }
         if (r.j && r.j.google_status === 503) { setStatus("The photo reader is busy right now. Try again in a minute.", true); return; }
-        setStatus('I could not tell what that is. Type its name below.', true); setRes(true); q.value = ''; q.focus(); links();
+        setStatus('I could not tell what that is. Type its name below.', true); setRes(true); if (!again) q.value = ''; q.focus(); links();
       })
       .catch(function () { clearTimeout(timer); setStatus('The photo reader did not answer. Try again in a minute.', true); });
   }
