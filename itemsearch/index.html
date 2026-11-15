@@ -77,14 +77,15 @@
   .calc-ex button { flex:1 1 0; min-width:0; font-family:inherit; font-size:12px; font-weight:700; padding:9px 2px; border-radius:999px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; white-space:nowrap; }
   .calc-ex button[aria-pressed=true] { background:#2c3e44; border-color:#2c3e44; color:#fff; }
   .calc-out[hidden] { display:none; }
-  #lookup { margin-top:26px; display:none; }
-  #lookup h2 { margin-bottom:10px; }
-  .calc-out { margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
-  .calc-big { font-family:'Archivo Black',sans-serif; font-size:22px; color:var(--ink); line-height:1.15; }
-  .calc-sub { font-size:13px; color:var(--taupe); margin-top:2px; }
-  .calc-verdict { flex:none; font-weight:700; font-size:15px; padding:8px 14px; border-radius:999px; color:#fff; background:#4a5a3a; }
-  .calc-verdict.maybe { background:#c98a2b; color:#2c2417; }
-  .calc-verdict.pass { background:#ae4c2c; }
+  #lookup { margin-top:26px; }
+  .status:empty { display:none; }
+  .calc-out { margin-top:14px; }
+  .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
+  .calc-bar { height:12px; border-radius:999px; background:#e6dcc2; margin-top:8px; overflow:hidden; }
+  .calc-fill { height:100%; width:0; border-radius:999px; background:#4a5a3a; transition:width .25s; }
+  .calc-fill.thin { background:#c98a2b; }
+  .calc-fill.pass { background:#ae4c2c; }
+  .calc-sub { font-size:13px; color:var(--taupe); margin-top:6px; }
   .linkbtn { background:none; border:none; padding:8px 0 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--rust); text-decoration:underline; cursor:pointer; }
   .topbar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px dashed var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
   .topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}
@@ -107,11 +108,6 @@
   <h1>Image Search</h1>
   <p class="sub">Found something? Search it and see what it sells for.</p>
 
-  <div class="card">
-    <a class="btn brand-g" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">&#128247; Google Image Search</a>
-    <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
-  </div>
-
   <div class="card" id="tiv">
     <h2>ThriftiVision <span class="beta">BETA</span></h2>
     <img id="preview" alt="Your photo">
@@ -130,28 +126,27 @@
         <div class="est-head">Profit Check</div>
         <div class="calc-row">
           <label>Shop price $<input type="text" id="c-price" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
-          <label>Selling fee %<input type="text" id="c-fee" inputmode="decimal" autocomplete="off" placeholder="13"></label>
-        </div>
-        <div class="calc-row calc-ex">
-          <button type="button" id="c-tn" data-st="TN" aria-pressed="false">Tennessee</button>
-          <button type="button" id="c-ga" data-st="GA" aria-pressed="false">Georgia</button>
-          <button type="button" id="c-exempt" aria-pressed="false">Tax Exempt</button>
-        </div>
-        <div class="calc-row">
-          <label>Sales tax %<input type="text" id="c-tax" inputmode="decimal" autocomplete="off" placeholder="9.25"></label>
+          <label>Storefront %<input type="text" id="c-fee" inputmode="decimal" autocomplete="off" placeholder="10"></label>
           <label>Card fee %<input type="text" id="c-card" inputmode="decimal" autocomplete="off" placeholder="3"></label>
         </div>
+        <div class="calc-row calc-ex">
+          <button type="button" id="c-tn" data-st="TN" aria-pressed="false">TN 9.25%</button>
+          <button type="button" id="c-ga" data-st="GA" aria-pressed="false">GA 8%</button>
+          <button type="button" id="c-exempt" aria-pressed="false">Tax Exempt</button>
+        </div>
         <div class="calc-out" id="c-out" hidden>
-          <div><div class="calc-big" id="c-big"></div><div class="calc-sub" id="c-sub"></div></div>
-          <div class="calc-verdict" id="c-verdict"></div>
+          <div class="calc-msg" id="c-msg"></div>
+          <div class="calc-bar"><div class="calc-fill" id="c-fill"></div></div>
+          <div class="calc-sub" id="c-sub"></div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="card" id="lookup">
-    <h2>See What It Sold For</h2>
-    <a class="btn alt" id="sold" target="_blank" rel="noopener">Sold on eBay</a>
+    <a class="btn brand-g" id="lens" href="https://lens.google.com/" target="_blank" rel="noopener">&#128247; Google Image Search</a>
+    <a class="btn brand-e" id="ebaycam" href="https://www.ebay.com/" target="_blank" rel="noopener">&#128247; eBay Image Search</a>
+    <a class="btn alt" id="sold" target="_blank" rel="noopener" style="display:none">Sold on eBay</a>
   </div>
 
 </div>
@@ -165,7 +160,7 @@
   var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
   var photo = '';
 
-  function setRes(on) { results.style.display = on ? 'block' : 'none'; $('lookup').style.display = on ? 'block' : 'none'; }
+  function setRes(on) { results.style.display = on ? 'block' : 'none'; $('sold').style.display = on ? 'block' : 'none'; }
   function setStatus(t, err, busy) {
     statusEl.className = 'status' + (err ? ' err' : '');
     statusEl.textContent = '';
@@ -217,48 +212,47 @@
   }
   /* v26.4 (Mod): Profit Check. You pay the shop price, sell at the Approx price, minus your selling fee % and shipping. Shows profit, the multiple (money back per $1 spent) and a Buy It / Maybe / Pass call. */
   function num(id) { var v = parseFloat(String($(id).value || '').replace(/[^0-9.]/g, '')); return isFinite(v) ? v : 0; }
+  /* v26.7 (Mod): Profit Check. You buy at the shop price (+ sales tax unless exempt). You sell at the Approx value, minus the storefront's cut (10% default) and the card fee (3% default). The bar shows how many times your money comes back (full bar = 5x). */
   function calc() {
     var box = $('calc'), out = $('c-out');
     box.style.display = approx > 0 ? 'block' : 'none';
-    var price = num('c-price'), sell = approx; /* what it sells for = the Approx value (it follows the condition you pick) */
+    var price = num('c-price');
     var ex = $('c-exempt').getAttribute('aria-pressed') === 'true', st = $('c-ga').getAttribute('aria-pressed') === 'true' ? 'GA' : $('c-tn').getAttribute('aria-pressed') === 'true' ? 'TN' : '';
-    var dflt = st === 'GA' ? 8 : st === 'TN' ? 9.25 : 0;
-    $('c-tax').placeholder = ex ? '0' : String(dflt);
-    try { localStorage.setItem('tivFee', $('c-fee').value); localStorage.setItem('tivTax', $('c-tax').value); localStorage.setItem('tivCard', $('c-card').value); localStorage.setItem('tivEx', ex ? '1' : ''); localStorage.setItem('tivSt', st || 'none'); } catch (e) {}
-    $('c-tax').disabled = ex; /* tax exempt (resale certificate): no sales tax on what you buy */
+    try { localStorage.setItem('tivStore', $('c-fee').value); localStorage.setItem('tivCc', $('c-card').value); localStorage.setItem('tivEx', ex ? '1' : ''); localStorage.setItem('tivSt', st || 'none'); } catch (e) {}
     if (!(approx > 0) || !(price > 0)) { out.hidden = true; return; }
-    var fee = $('c-fee').value.trim() === '' ? 13 : num('c-fee');
-    var tax = ex ? 0 : ($('c-tax').value.trim() === '' ? dflt : num('c-tax')), card = $('c-card').value.trim() === '' ? 3 : num('c-card');
-    var cost = price * (1 + tax / 100) * (1 + card / 100); /* shop price + sales tax, then the card fee on the total */
-    var net = sell * (1 - fee / 100), profit = net - cost, x = net / cost;
-    var xs = x >= 10 ? Math.round(x) + 'x' : (Math.round(x * 10) / 10) + 'x';
-    var v = $('c-verdict');
-    if (x >= 2 && profit >= 5) { v.className = 'calc-verdict'; v.textContent = 'Buy It'; }
-    else if (profit > 0 && x >= 1.3) { v.className = 'calc-verdict maybe'; v.textContent = 'Maybe'; }
-    else { v.className = 'calc-verdict pass'; v.textContent = 'Pass'; }
-    $('c-big').textContent = (profit < 0 ? '-$' : '$') + Math.abs(profit).toFixed(2) + ' profit';
-    $('c-sub').textContent = profit > 0 ? xs + ' back · cost $' + cost.toFixed(2) : 'Not worth it at that price';
+    var store = $('c-fee').value.trim() === '' ? 10 : num('c-fee'), cc = $('c-card').value.trim() === '' ? 3 : num('c-card');
+    var tax = ex ? 0 : st === 'GA' ? 8 : st === 'TN' ? 9.25 : 0;
+    var cost = price * (1 + tax / 100);
+    var net = approx * (1 - (store + cc) / 100), profit = net - cost, x = net / cost;
+    x = x >= 10 ? Math.round(x) : Math.round(x * 10) / 10; var xs = x + 'x'; /* judged on the number shown */
+    var kind, msg;
+    if (x >= 2 && profit >= 5) { kind = ''; msg = 'Good Buy: ' + xs + ' your money'; }
+    else if (profit > 0 && x >= 1.3) { kind = 'thin'; msg = 'Maybe Pass: ' + (x < 2 ? 'only ' + xs : 'only $' + profit.toFixed(0) + ' profit'); }
+    else { kind = 'pass'; msg = 'Pass: ' + (profit > 0 ? 'only ' + xs : 'you would lose money'); }
+    $('c-msg').textContent = msg;
+    $('c-fill').className = 'calc-fill' + (kind ? ' ' + kind : '');
+    $('c-fill').style.width = Math.max(3, Math.min(100, x / 5 * 100)) + '%';
+    $('c-sub').textContent = (profit < 0 ? '-$' : '$') + Math.abs(profit).toFixed(2) + ' profit on $' + cost.toFixed(2) + ' cost';
     out.hidden = false;
   }
-  try { $('c-fee').value = localStorage.getItem('tivFee') || ''; $('c-tax').value = localStorage.getItem('tivTax') || ''; $('c-card').value = localStorage.getItem('tivCard') || ''; if (localStorage.getItem('tivEx')) $('c-exempt').setAttribute('aria-pressed', 'true'); } catch (e) {}
+  try { $('c-fee').value = localStorage.getItem('tivStore') || ''; $('c-card').value = localStorage.getItem('tivCc') || ''; if (localStorage.getItem('tivEx')) $('c-exempt').setAttribute('aria-pressed', 'true'); } catch (e) {}
   try { var ss = localStorage.getItem('tivSt'); if (ss === 'GA' || ss === 'TN') $(ss === 'GA' ? 'c-ga' : 'c-tn').setAttribute('aria-pressed', 'true'); else if (ss === null) $('c-tn').setAttribute('aria-pressed', 'true'); } catch (e) {}
   $('c-exempt').addEventListener('click', function () { this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); calc(); });
-  ['c-tn', 'c-ga'].forEach(function (id) { $(id).addEventListener('click', function () { var was = $(id).getAttribute('aria-pressed') === 'true'; $('c-tn').setAttribute('aria-pressed', 'false'); $('c-ga').setAttribute('aria-pressed', 'false'); if (!was) $(id).setAttribute('aria-pressed', 'true'); $('c-tax').value = ''; calc(); }); }); /* tap the lit state again and the tax goes away until you pick one */
-  ['c-price', 'c-fee', 'c-tax', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
+  ['c-tn', 'c-ga'].forEach(function (id) { $(id).addEventListener('click', function () { var was = $(id).getAttribute('aria-pressed') === 'true'; $('c-tn').setAttribute('aria-pressed', 'false'); $('c-ga').setAttribute('aria-pressed', 'false'); if (!was) $(id).setAttribute('aria-pressed', 'true'); calc(); }); }); /* tap the lit state again and the tax goes away until you pick one */
+  ['c-price', 'c-fee', 'c-card'].forEach(function (id) { $(id).addEventListener('input', calc); });
   function showResults(name) { q.value = name || ''; setRes(true); links(); getEstimate(); }
   var qTimer = null; /* v26.2 (Mod): the estimate updates by itself about a second after you stop typing the name (no button to tap) */
   q.addEventListener('input', function () { links(); clearTimeout(qTimer); qTimer = setTimeout(function () { var v = (q.value || '').trim(); if (v && v !== priced) getEstimate(); }, 1000); });
   Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (b) {
     b.addEventListener('click', function () {
-      var c = b.getAttribute('data-c'), i = cond.indexOf(c); /* v26.3 (Mod): pick more than one condition; at least one stays on */
-      if (i > -1) { if (cond.length > 1) cond.splice(i, 1); } else cond.push(c);
+      cond = [b.getAttribute('data-c')]; /* v26.7 (Mod): one condition at a time */
       Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); });
       try { localStorage.setItem('tivCond', cond.join(',')); } catch (e) {}
       links();
       if ((q.value || '').trim()) getEstimate();
     });
   });
-  try { var sc = (localStorage.getItem('tivCond') || '').split(',').filter(function (c) { return EBAY_COND[c]; }); if (sc.length) { cond = sc; Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); }); links(); } } catch (e) {} /* v26.4: remembers your condition picks */
+  try { var sc = (localStorage.getItem('tivCond') || '').split(',').filter(function (c) { return EBAY_COND[c]; }); if (sc.length) { cond = [sc[0]]; Array.prototype.forEach.call(document.querySelectorAll('#cond button'), function (x) { x.setAttribute('aria-pressed', cond.indexOf(x.getAttribute('data-c')) > -1 ? 'true' : 'false'); }); links(); } } catch (e) {} /* v26.4: remembers your condition picks */
 
   // Keywords: all optional. v26 (Mod): a photo alone is enough; the boxes only sharpen the guess.
   function keywords() {
@@ -322,7 +316,7 @@
     shrink(f, function (err, dataUrl) {
       if (err) { photo = ''; refresh(); setStatus('That photo would not open. Try another.', true); return; }
       photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block';
-      snap.innerHTML = '&#128247; Retake Photo';
+      snap.innerHTML = '&#128247; New Photo';
       refresh();
       readPhoto(); // reads the photo right away
     });
