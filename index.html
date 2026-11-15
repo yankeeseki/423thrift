@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v25.9-20261114">
+<meta name="ctt-build" content="v26-20261115">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1176,11 +1176,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   html { scrollbar-gutter: stable; } /* v24.11: page-to-page the layout (and the hamburger) never shifts when a scrollbar appears */
   .ctt-header { margin-bottom: 10px; position: relative; }
   .ctt-header .ctt-title { padding-right: 68px; }
-  .ctt-menu-btn { position: absolute; top: 0; right: -14px; z-index: 30; width: 73px; height: 73px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-menu-btn { position: absolute; top: -3px; right: -17px; z-index: 30; width: 79px; height: 79px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
   .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: none; color: var(--ink); }
   .ctt-menu-btn:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-menu-btn svg { width: 47px; height: 47px; } /* v24.11: another 10% (43->47) */ /* v24.8 (Mod): hamburger 20% larger (55->66, 36->43) */
-  .ctt-menu { position: absolute; top: 79px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
+  .ctt-menu-btn svg { width: 51px; height: 51px; } /* v26 (Mod): hamburger a little larger again (73->79px box, 47->51px icon), nudged so the icon keeps the same center */ /* v24.11: another 10% (43->47) */ /* v24.8 (Mod): hamburger 20% larger (55->66, 36->43) */
+  .ctt-menu { position: absolute; top: 82px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu .ctt-menu-x { display: none; }
   @media (min-width: 781px) {
@@ -1234,7 +1234,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   }
     /* v24.1 (Mod): the title is now the logo artwork. The h1 stays, and the image carries the same words as its alt text, so search engines and screen readers still read "Chattanooga Thrift Trail". Wide artwork on desktop/tablet, stacked artwork on phones (2 lines). */
   .ctt-title .ctt-title-img { display: block; height: auto; width: 600px; max-width: calc(100vw - 100px); margin-bottom: 7px; } /* v24.4 (Mod): a little more space between the logo and the tagline */
-  @media (max-width: 600px) { .ctt-header .ctt-title .ctt-title-img { width: 290px; max-width: calc(100vw - 100px); aspect-ratio: 900 / 217; } .ctt-menu-btn { top: 8px !important; } }
+  @media (max-width: 600px) { .ctt-header .ctt-title .ctt-title-img { width: 290px; max-width: calc(100vw - 100px); aspect-ratio: 900 / 217; } .ctt-menu-btn { top: 5px !important; } }
   .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: -1px 0 8px; max-width: 640px; }
   .ctt-tagline { white-space: nowrap; max-width: 100%; font-size: min(14px, calc((100vw - 50px) / 28)); } /* v24.4 (Mod): the tagline stays on one line; on narrow screens it shrinks just enough to fit */
   @media (min-width: 781px) { /* v24.5 (Mod): desktop: the tagline sits on the bottom edge of the logo and is centred in the space between the logo and the menu button */
@@ -2575,7 +2575,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 @media (max-width:600px){
   #ctt-thrift-wrap{padding-left:22px;padding-right:22px}
   .ctt-header .ctt-title{font-size:min(48px,11vw)}
-  .ctt-menu-btn{top:calc(min(48px,11vw)*1.05 - 3px)}
+  .ctt-menu-btn{top:calc(min(48px,11vw)*1.05 - 6px)}
   .ctt-tag-row{display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:0;align-items:start}
   .ctt-tag-info{display:contents}
   .ctt-tag-top{grid-column:1 / -1;grid-row:1}
@@ -2682,6 +2682,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap { padding-left: 7px !important; padding-right: max(10px, env(safe-area-inset-right)) !important; } /* v23.2 (Mod): gap down the middle halved (28px -> 14px) and the right edge trimmed 20px -> 10px, so the right column is ~24px wider */
     #ctt-thrift-wrap { padding-top: 10px !important; } /* v23.2 (Mod): Filter / Today / Later (and everything under it) moves up half-way to the top of the screen: 20px of top space -> 10px */
     #ctt-menu-btn { display: none !important; }
+    #ctt-holiday, .ctt-holiday-small, .ctt-holiday-card { display: none !important; } /* v26 (Mod): sideways, the Thrift Spotlight / special-of-the-day banner is hidden too */
     #ctt-lsearch, #ctt-featured-day, .ctt-featured-day { display: none !important; } /* v22.9 (Mod): sideways, the Search Shops By Name box and the Featured Shop of the Day line are hidden */
     .ctt-footnav > .ctt-ls-extra { display: inline !important; }
     .ctt-menu { position: fixed; top: 6px; right: 8px; max-height: calc(100vh - 12px); }
@@ -3063,7 +3064,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.9 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v26 &mdash; November 15, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3494,6 +3495,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (now.dayIdx === 6) return 'Poor Taste';
     if (now.dayIdx === 0) return 'Chattanooga Room in the Inn';
     if (now.dayIdx === 2) return 'Nifty Thrifty in Fort O';
+    if (now.dayIdx === 4) return 'Ladies of Charity Thrift'; /* v26 (Mod): Thursdays */
     return now.dateStr >= '2026-12-28' ? 'Vinterest in Hixson' : 'Vinterest on the Southside';
   }
   // v21.8 (Mod): the Featured line links to that shop's entry on /shops/ (articles there get id="shop-<slug of name>").
@@ -3502,6 +3504,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (now.dayIdx === 6) nm = 'Poor Taste';
     else if (now.dayIdx === 0) nm = 'Chattanooga Room in the Inn Thrift Store';
     else if (now.dayIdx === 2) nm = 'Nifty Thrifty';
+    else if (now.dayIdx === 4) nm = 'Ladies of Charity Thrift';
     else nm = now.dateStr >= '2026-12-28' ? 'Vinterest (Hixson)' : 'Vinterest (Southside)';
     return '/shops/#shop-' + nm.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
@@ -3510,6 +3513,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (now.dayIdx === 6) return store.name === 'Poor Taste';
     if (now.dayIdx === 0) return store.name === 'Chattanooga Room in the Inn Thrift Store';
     if (now.dayIdx === 2) return store.name === 'Nifty Thrifty';
+    if (now.dayIdx === 4) return store.name === 'Ladies of Charity Thrift';
     return store.name === (now.dateStr >= '2026-12-28' ? 'Vinterest (Hixson)' : 'Vinterest (Southside)');
   }
 
