@@ -159,6 +159,14 @@
   var lastKw = {}, priced = '';
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   function fmt(n) { return '$' + (n >= 100 ? Math.round(n).toLocaleString() : n.toFixed(2).replace(/\.00$/, '')); }
+  function avgLine(j) {
+    /* v25.8 (Mod): with three or more listings, show an average LISTED price (asking prices, shipping never included). With five or more, the single highest and lowest are left out so one odd listing does not skew it. Fewer than three: no average, just the range. */
+    var p = ((j && j.listings) || []).map(function (l) { return Number(l.price); }).filter(function (n) { return n > 0; }).sort(function (x, y) { return x - y; });
+    if (p.length < 3) return '<div class="est-sub">Asking prices only, shipping not included.</div>';
+    var use = p.length >= 5 ? p.slice(1, -1) : p, sum = 0;
+    use.forEach(function (n) { sum += n; });
+    return '<div class="est-sub"><strong>Average listed price: ' + fmt(sum / use.length) + '</strong> (' + p.length + ' eBay listings, asking prices, shipping not included).</div>';
+  }
   function getEstimate() {
     var name = (q.value || '').trim(), body = $('est-body');
     $('est-again').style.display = 'none';
@@ -177,6 +185,7 @@
         var conf = { good: 'Good match', fair: 'Fair match', low: 'Rough guess' }[e.confidence] || '';
         var h = '<div class="est-range">' + range + '</div>'
           + '<div class="est-sub">' + conf + ': ' + e.count + ' matching eBay listing' + (e.count === 1 ? '' : 's') + (e.count > 1 ? ', middle ' + fmt(e.median) : '') + '.</div>'
+          + avgLine(j)
           + '<div class="est-sub">' + esc(j.note || '') + '</div>';
         if (j.listings && j.listings.length) {
           h += '<ul>' + j.listings.map(function (l) {

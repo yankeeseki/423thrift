@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v25.7-20261114">
+<meta name="ctt-build" content="v25.8-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -3063,7 +3063,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.7 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.8 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4185,6 +4185,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     cttBulletBusy = false;
   }
   (function() { var t = 0; function go() { t = 0; cttFixStatBullets(); } window.addEventListener('resize', function() { if (!t) t = requestAnimationFrame(go); }); if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); })();
+  var lastRoadRatio = 1.35;
   function updateRouteStat(count, miles) {
     updateListCount();
     lastRouteMiles = miles;
@@ -4201,6 +4202,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     for (var i = 0; i < remaining.length - 1; i++) {
       milesRemaining += haversineMiles(remaining[i].lat, remaining[i].lng, remaining[i + 1].lat, remaining[i + 1].lng);
     }
+    // v25.8 (Mod): straight-line miles run low, so they are scaled by how much longer the real road route is than the straight line (measured on the whole loop from the road route when it loaded, else a typical 1.35 for this area).
+    milesRemaining *= lastRoadRatio;
     // v21.3 (owner): the route line starts with the date, MM/DD/YY (the day being planned: the Later date if one is set, else today in Eastern time).
     var dsx = (effectiveNow().dateStr || '').split('-'), dateTxt = dsx.length === 3 ? dsx[1] + '/' + dsx[2] + '/' + dsx[0].slice(2) : '';
     // v22.3 (Mod): copy reworked. Date stays MM/DD/YY but in dark ink (not white); no 'About' (the how-to explains these are estimates); miles are a whole number.
@@ -4216,6 +4219,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     routePolyline = L.polyline(coords, { color: '#ae4c2c', weight: 2.5, opacity: 0.6, dashArray: '6, 8' }).addTo(map);
     var approxMiles = 0;
     for (var i = 0; i < points.length; i++) approxMiles += haversineMiles(points[i].lat, points[i].lng, points[(i+1) % points.length].lat, points[(i+1) % points.length].lng);
+    lastRoadRatio = 1.35;
     updateRouteStat(points.length, approxMiles);
   }
   var routeCache = {};
@@ -4234,6 +4238,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         totalDriveMinutes = Math.round(data.routes[0].duration / 60);
         var roadLatLngs = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
         routePolyline = L.polyline(roadLatLngs, { color: '#ae4c2c', weight: 3, opacity: 0.7 }).addTo(map);
+        try { var straightLoop = 0; for (var q = 0; q < points.length; q++) { var nx = points[(q + 1) % points.length]; straightLoop += haversineMiles(points[q].lat, points[q].lng, nx.lat, nx.lng); } var rr = (data.routes[0].distance / 1609.34) / straightLoop; lastRoadRatio = (rr >= 1.15 && rr <= 1.9) ? rr : 1.35; } catch (e) { lastRoadRatio = 1.35; }
         updateRouteStat(points.length, data.routes[0].distance / 1609.34);
       } else { drawStraightFallback(points); }
     }

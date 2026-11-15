@@ -15,11 +15,13 @@
 .topbar{flex-wrap:wrap;gap:4px 12px}.topbar a.sitetitle{font-family:'Archivo Black',Georgia,serif;font-weight:400;font-size:clamp(18px,5.2vw,26px);line-height:1.1;color:var(--rust);text-decoration:none}.topbar a.sitetitle:hover{text-decoration:underline}
 .topbar a.logo{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--ink);text-decoration:none}
 
-:root{--paper:#f2ead9;--card:#fbf6ea;--ink:#2c2417;--olive:#4a5a3a;--rust:#ae4c2c;--line:#d8cdb2;--taupe:#6b6252}
+:root{--paper:#f2ead9;--card:#fbf6ea;--ink:#2c2417;--olive:#4a5a3a;--rust:#ae4c2c;--line:#c9bb99;--taupe:#6b6252}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
 .wrap{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+/* v25.8 (Mod): one centered column so the intro, headings and boxes share the same edges */
+.en-col{max-width:760px;margin:0 auto}.en-col p,.en-col .en-intro p{max-width:none!important;margin-left:0!important;margin-right:0!important}.en-col .en-intro{max-width:none;margin:0}
 header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
 header img{width:56px;height:56px;border-radius:12px}
 header a{color:var(--olive);font-weight:700;text-decoration:none;font-family:system-ui,sans-serif}
@@ -94,8 +96,9 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .en-links a{font:700 14px 'Libre Franklin',sans-serif;color:var(--rust);border:1.5px solid var(--rust);border-radius:20px;padding:8px 16px;text-decoration:none;background:none}
 .en-links a:hover{background:var(--rust);color:#fff}
 .en-empty{font:15px system-ui,sans-serif;color:var(--taupe);text-align:center;border:1.5px dashed var(--line);border-radius:10px;padding:18px;margin:22px 0 0}
-</style></head><body><div class="topbar"><a class="sitetitle" href="/">Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 7h18M4 13h18M4 19h18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
+</style></head><body><div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
 <h1>Thrift Addiction Enablers</h1>
+<div class="en-col">
 <div class="en-intro">
 <p>Let&rsquo;s be honest: nobody needs to drive across town to dig through a bin of mystery crockery. We do it because we can&rsquo;t stop. The Trail exists to feed the habit, and these local businesses decided to feed it right along with us.</p>
 <p>A good friend would stage an intervention. An Enabler hands you a coffee at 9 a.m. so you&rsquo;re awake when the Goodwill opens, then a sandwich at 1 so you can make it to the antique mall before it closes. They have never once asked how many lamps you own. That is why we call them Enablers, and why we are so grateful.</p>
@@ -103,6 +106,16 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 </div>
 <div id="en-grid" class="en-grid" aria-live="polite"></div>
 <div id="en-empty" class="en-empty" hidden>Our first Enablers are on their way. Check back soon.</div>
+<h2>What An Enabler Does</h2>
+<p>Every thrifter knows the three stages of a Trail day: the thrill of the hunt, the crash around two o&rsquo;clock, and the sudden need for a pastry. Enablers cover all three. Coffee before the doors open. Lunch between the antique malls. Something sweet for the drive home with a trunk full of lamps.</p>
+<p>In return, the Trail gives each Enabler a spot of its own: a banner on the map page, a listing under More Shops, and first place when someone adds a stop to their route. When a thrifter needs fuel, the Enabler is already on the map.</p>
+<h2>One Enabler Per Category</h2>
+<p>To keep things fair, each category has a single Enabler at a time: coffee, restaurant or food, bar or brewery, bakery or sweets, and a few others. It means every Enabler gets the spotlight, and thrifters get one trusted recommendation instead of a wall of choices.</p>
+<h2>Think You Can Enable Us?</h2>
+<p>If your small business has a storefront near the Trail and a soft spot for people who can&rsquo;t walk past a donation bin, we would love to hear from you. The moderators will walk you through the details, and nothing is charged before you say yes.</p>
+<p><a class="cta" href="/sponsors/">Become An Enabler</a></p>
+<p class="det">Enablers are local small businesses that support the Trail. Every shop and Enabler is listed because the moderators chose it, never because of a rating.</p>
+</div>
 </div>
 <p class="sm-foot"><a href="/">Back To The Trail Map</a></p>
 <script src="/menu.js" defer></script>
