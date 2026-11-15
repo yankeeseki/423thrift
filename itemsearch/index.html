@@ -91,21 +91,22 @@
   #lookup { margin-top:26px; }
   .status:empty { display:none; }
   /* v27.2 (Mod): installed ThriftiVision app only (the normal website is unchanged): ThriftiVision logo in the header, no Image Search title/sub-text, no ThriftiVision heading */
-  html.tiv-app .sitetitle .ctt-title-img { content: url(/itemsearch/tiv-logo.png); width: auto !important; height: 84px !important; max-width: none !important; aspect-ratio: auto !important; }
+  html.tiv-app .sitetitle .ctt-title-img { content: url(/itemsearch/tiv-logo.png); width: auto !important; height: 92px !important; max-width: none !important; aspect-ratio: auto !important; }
   .tiv-pres { display: none; }
   html.tiv-app .topbar, html.tiv-app .wrap > header.sitehead { flex-wrap: wrap !important; align-items: flex-start !important; }
   html.tiv-app .tiv-pres { display: block; order: 2; flex: 0 0 100%; margin: -2px 0 0; font-family: 'Libre Franklin', system-ui, sans-serif; font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--taupe); text-decoration: none; }
   html.tiv-app .tiv-pres:hover { color: var(--rust); text-decoration: underline; }
-  html.tiv-app .wrap > h1, html.tiv-app .wrap > .sub, html.tiv-app #tiv > h2 { display: none; }
-  html.tiv-app .topbar .sm-btn, html.tiv-app .sitehead .sm-btn { top: 32px !important; } html.tiv-app .sm-menu { top: 112px !important; } @media (min-width: 1111px) { html.tiv-app .topbar .sm-btn { top: 29px !important; } html.tiv-app .sm-menu { top: 109px !important; } } /* hamburger centred on the taller ThriftiVision logo */
+  html.tiv-app .wrap > h1, html.tiv-app #tiv > h2 { display: none; }
+  html.tiv-app .topbar .sm-btn, html.tiv-app .sitehead .sm-btn { top: 36px !important; } html.tiv-app .sm-menu { top: 116px !important; } @media (min-width: 1111px) { html.tiv-app .topbar .sm-btn { top: 33px !important; } html.tiv-app .sm-menu { top: 113px !important; } } /* hamburger centred on the taller ThriftiVision logo */
   /* v27.7 (Mod): the ThriftiVision logo, hidden "Image Search" heading, rounder softer cards and centred sub-text now apply on phones too (not in the installed app, which has the logo in its header) */
   body .wrap > h1 { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .tiv-hero { display: flex; justify-content: center; align-items: flex-start; margin: 12px auto 2px; }
   .tiv-hero img { width: min(230px, 62vw); height: auto; display: block; }
   html.tiv-app .tiv-hero { display: none; }
-  @media (max-width: 999px) { html.tiv-photo .tiv-hero, html.tiv-photo body .wrap > .sub { display: none; } } /* v27.8 (Mod): on phones, once a photo has been taken the logo and its line step aside so the result is higher on the screen */
-  html.tiv-app #tiv { margin-top: 16px; } /* v27.8 (Mod): a little more room between the Presented by line and the photo card in the installed app */
-  #lookup { margin-bottom: 42px; } /* v27.8 (Mod): three times the space (14 -> 42) between the search buttons and the values disclaimer */
+  @media (max-width: 999px) { html.tiv-photo:not(.tiv-app) .tiv-hero, html.tiv-photo:not(.tiv-app) body .wrap > .sub { display: none; } } /* v27.8 (Mod): on phones, once a photo has been taken the logo and its line step aside so the result is higher on the screen */
+  html.tiv-app .wrap > .sub { display: block; margin: 18px auto 14px; } html.tiv-app #tiv { margin-top: 0; } /* v27.9 (Mod): in the installed app the supporting text sits above the photo card; room between the Presented by line and it */
+  html.tiv-app .topbar { justify-content: center !important; } html.tiv-app .topbar > a.sitetitle { padding-right: 0 !important; } html.tiv-app .tiv-pres { text-align: center; } /* v27.9 (Mod): app header logo + Presented by line centred */
+  #lookup { margin-bottom: 90px; } /* v27.9 (Mod): the values disclaimer sits even lower (was 42, v27.8; 14 before that) */
   body .wrap > .sub { text-align: center; margin: 0 auto 18px; font-size: clamp(10.5px, 3.2vw, 15px); max-width: none; white-space: nowrap; }
   #tiv > h2 { display: none; }
   .card { border-radius: 18px; box-shadow: 0 8px 22px rgba(44, 36, 23, .07); }
@@ -155,7 +156,7 @@
 <div class="wrap">
   <h1>Image Search</h1>
   <div class="tiv-hero" aria-hidden="true"><img src="/itemsearch/tiv-logo.png" alt="" width="640" height="307"></div>
-  <p class="sub">Found something? Search it and see what it sells for.</p>
+  <p class="sub">Find some treasure? Let&rsquo;s see what it&rsquo;s worth!</p>
 
   <div class="card" id="tiv">
     <h2>ThriftiVision</h2>
