@@ -28,6 +28,8 @@
   .btn.alt { background:var(--card); color:var(--rust); }
   .btn.slate { background:var(--slate); border-color:var(--slate); }
   .btn + .btn { margin-top:10px; }
+  /* v24.11 (Mod): on desktop the Google and eBay buttons sit side by side */
+  @media (min-width:781px) { .card:has(#lens) { display:flex; justify-content:center; gap:16px; } .card:has(#lens) .btn { margin:0; flex:0 1 300px; } }
   /* Brand colors only (no logos): Google blue #1A73E8, eBay red #E53238. */
   .btn.brand-g { background:#1A73E8; border-color:#1A73E8; color:#fff; }
   .btn.brand-e { background:#E53238; border-color:#E53238; color:#fff; }
@@ -47,6 +49,7 @@
   .kw input:disabled { background:#f2ead9; }
   .kw .wide { grid-column:1 / -1; }
   .count { font-size:12.5px; color:var(--taupe); margin:4px 0 12px; }
+  .count:empty { display:none; }
   .count.ok { color:var(--olive); font-weight:600; }
   .beta { font-family:'Libre Franklin',sans-serif; font-size:11px; font-weight:700; color:#fff; background:var(--olive); border-radius:999px; padding:2px 8px; vertical-align:3px; margin-left:4px; }
   h2 { font-family:'Archivo Black',Georgia,serif; font-size:19px; margin:0 0 4px; line-height:1.2; }
@@ -106,7 +109,7 @@
       <input type="text" id="k-country" maxlength="30" autocomplete="off" placeholder="Made in (country)" aria-label="Country of origin">
       <input type="text" id="k-other" maxlength="40" autocomplete="off" placeholder="Other (type, features...)" aria-label="Other">
     </div>
-    <p class="count" id="count">Fill in at least one box.</p>
+    <p class="count" id="count"></p>
     <button type="button" class="btn slate" id="go" disabled>Search</button>
     <p class="status" id="status" role="status" aria-live="polite"></p>
   </div>
@@ -197,7 +200,7 @@
   function refresh() {
     var n = Object.keys(keywords()).length;
     var c = $('count');
-    if (!photo && !n) c.textContent = 'Snap a photo, then fill in at least one box.';
+    if (!photo && !n) c.textContent = '';
     else if (!photo) c.textContent = 'Now snap a photo.';
     else if (!n) c.textContent = 'Fill in at least one box.';
     else c.textContent = n + (n === 1 ? ' box' : ' boxes') + ' filled. Ready to search.';
