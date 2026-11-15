@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="/itemsearch/apple-touch-icon.png">
 <link rel="manifest" href="/itemsearch/manifest.webmanifest">
 <meta name="theme-color" content="#f2ead9">
-<script>/* v27.3 (Mod): the app look is ONLY for the stand-alone ThriftiVision app. That app opens at /itemsearch/?app=1 (see manifest start_url); the window remembers it. The Trail website, and the Trail app's own Image Search page, stay as they were. */try { var tivStand = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone; if (tivStand && /[?&]app=1\b/.test(location.search)) sessionStorage.setItem("tivApp", "1"); if (tivStand && sessionStorage.getItem("tivApp") === "1") document.documentElement.classList.add("tiv-app"); } catch (e) {}</script>
+<script>/* v27.3 (Mod): the app look is ONLY for the stand-alone ThriftiVision app. That app opens at /itemsearch/?app=1 (see manifest start_url), or, from an iPhone home-screen shortcut, straight at /itemsearch/ with no page before it; the window remembers it. A trip from the Trail app arrives from a Trail page, so it is not the app. The Trail website, and the Trail app's own Image Search page, stay as they were. */try { var tivStand = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone; if (tivStand && (/[?&]app=1\b/.test(location.search) || (document.referrer === "" && /^\/itemsearch/.test(location.pathname)))) sessionStorage.setItem("tivApp", "1"); if (tivStand && sessionStorage.getItem("tivApp") === "1") document.documentElement.classList.add("tiv-app"); } catch (e) {}</script>
 <meta name="apple-mobile-web-app-title" content="ThriftiVision">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -177,6 +177,15 @@
 
 <script>
 /* v27.2 (Mod): ThriftiVision can be installed as its own app (own manifest and icon); the Trail's background file keeps it installable */
+/* v27.4 (Mod): on a computer, the installed ThriftiVision app opens as a compact, phone-shaped window (about 480 x 820) instead of full size. Once per launch, so a window you resize yourself stays as you set it. */
+try {
+  if (document.documentElement.classList.contains('tiv-app') && window.matchMedia && matchMedia('(pointer: fine)').matches && window.innerWidth > 700 && !sessionStorage.getItem('tivSized')) {
+    sessionStorage.setItem('tivSized', '1');
+    var tw = 480 + (window.outerWidth - window.innerWidth), th = Math.min(820, (screen.availHeight || 900) - 40) + (window.outerHeight - window.innerHeight);
+    th = Math.min(th, screen.availHeight || th);
+    window.resizeTo(tw, th); window.moveTo(Math.max(0, Math.round(((screen.availWidth || tw) - tw) / 2)), Math.max(0, Math.round(((screen.availHeight || th) - th) / 3)));
+  }
+} catch (e) {}
 if ('serviceWorker' in navigator && location.protocol === 'https:') { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }
 (function () {
   var WORKER_URL = 'https://itemsearch.derek-de2.workers.dev/';
