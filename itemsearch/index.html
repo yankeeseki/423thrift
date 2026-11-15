@@ -48,7 +48,7 @@
   .two { border:1.5px solid var(--line); border-radius:10px; background:#fff; overflow:hidden; }
   .two input[type=text] { border:0; border-radius:0; margin:0; }
   .two input + input { border-top:1.5px dashed var(--line); }
-  .two #d::placeholder { color:#a39879; }
+  .two #d::placeholder { color:#a39879; font-size:var(--ph, 17px); }
   .kw { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0 4px; }
   .kw input[type=text] { font-size:16px; padding:10px 12px; }
   .kw input:disabled { background:#f2ead9; }
@@ -84,6 +84,7 @@
   .calc-out[hidden] { display:none; }
   #lookup { margin-top:26px; }
   .status:empty { display:none; }
+  .tiv-disc { margin:56px 0 0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27 (Mod): disclaimer at the bottom of ThriftiVision, set well apart from the results so it is not distracting */
   .calc-out { margin-top:14px; }
   .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
   .calc-bar { height:12px; border-radius:999px; background:#e6dcc2; margin-top:8px; overflow:hidden; }
@@ -120,10 +121,10 @@
     <input type="file" id="file" accept="image/*">
     <p class="status" id="status" role="status" aria-live="polite"></p>
     <div id="results">
-      <label for="q">What is it? Fix the name or add details.</label>
+      <label for="q">We think it is this. Add accurate details.</label>
       <div class="two">
         <input type="text" id="q" maxlength="120" autocomplete="off" placeholder="Example: turquoise Pyrex 444 mixing bowl" aria-label="Item name">
-        <input type="text" id="d" maxlength="80" autocomplete="off" placeholder="Add brand, year, color, size" aria-label="More details">
+        <input type="text" id="d" maxlength="80" autocomplete="off" placeholder="Brand, year, color, material, origin, etc." aria-label="More details">
       </div>
       <div class="cond" id="cond" role="group" aria-label="Condition"><button type="button" data-c="new" aria-pressed="false">New</button><button type="button" data-c="like" aria-pressed="false">Like New</button><button type="button" data-c="good" aria-pressed="true">Good</button><button type="button" data-c="fair" aria-pressed="false">Fair</button><button type="button" data-c="poor" aria-pressed="false">Poor</button></div>
       <div class="est" id="est">
@@ -146,9 +147,9 @@
           <div class="calc-msg" id="c-msg"></div>
           <div class="calc-bar"><div class="calc-fill" id="c-fill"></div></div>
           <div class="calc-sub" id="c-sub"></div>
-          <div class="calc-sub"><strong>Remember:</strong> You still have to clean, tag, and display this.</div>
         </div>
       </div>
+      <p class="tiv-disc">ThriftiVision values are educated guesses based on current eBay listings. They are not appraisals or guarantees, and real prices can differ. Use your own judgment before you buy or sell. The Chattanooga Thrift Trail is not responsible for buying or resale decisions.</p>
     </div>
   </div>
 
@@ -170,7 +171,15 @@
   var photo = '';
   function full() { return ((q.value || '').trim() + ' ' + (($('d') && $('d').value) || '').trim()).trim(); } /* v26.8 (Mod): line 1 = the name from the photo (editable), line 2 = your extra details; the price search uses both */
 
-  function setRes(on) { results.style.display = on ? 'block' : 'none'; $('sold').style.display = on ? 'block' : 'none'; }
+  /* v27 (Mod): the gray hint in the details line stays on ONE line: it shrinks (never below 12px) until it fits the box; typed text keeps its normal size */
+  function fitHint() {
+    var d = $('d'); if (!d || !d.clientWidth) return;
+    var cs = getComputedStyle(d), c = document.createElement('canvas').getContext('2d'), room = d.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 2, fs = 17;
+    for (; fs > 12; fs -= 0.5) { c.font = '400 ' + fs + 'px ' + cs.fontFamily; if (c.measureText(d.placeholder).width <= room) break; }
+    d.style.setProperty('--ph', fs + 'px');
+  }
+  window.addEventListener('resize', fitHint);
+  function setRes(on) { results.style.display = on ? 'block' : 'none'; if (on) fitHint(); $('sold').style.display = on ? 'block' : 'none'; }
   function setStatus(t, err, busy) {
     statusEl.className = 'status' + (err ? ' err' : '');
     statusEl.textContent = '';
