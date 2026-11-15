@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.0-20261114">
+<meta name="ctt-build" content="v24.1-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1218,8 +1218,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
       flex-wrap: wrap;
       gap: 0 16px;
     }
-    .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
+  .ctt-route-stat-row { margin-top: 0; justify-content: flex-end; }
   }
+    /* v24.1 (Mod): the title is now the logo artwork. The h1 stays, and the image carries the same words as its alt text, so search engines and screen readers still read "Chattanooga Thrift Trail". Wide artwork on desktop/tablet, stacked artwork on phones (2 lines). */
+  .ctt-title .ctt-title-img { display: block; height: auto; width: 500px; max-width: calc(100vw - 100px); }
+  @media (max-width: 600px) { .ctt-header .ctt-title .ctt-title-img { width: 290px; max-width: calc(100vw - 100px); aspect-ratio: 900 / 217; } .ctt-menu-btn { top: 8px !important; } }
   .ctt-tagline { font-family: 'Libre Franklin', sans-serif; font-size: 14px; line-height: 1.4; color: var(--ink); margin: -1px 0 8px; max-width: 640px; }
   .ctt-title {
     font-family: 'Archivo Black', sans-serif;
@@ -2729,7 +2732,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   <div class="ctt-header">
     <button type="button" class="ctt-menu-btn" id="ctt-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="ctt-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button>
     <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
-    <h1 class="ctt-title">Chattanooga Thrift Trail</h1>
+    <h1 class="ctt-title"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" fetchpriority="high" decoding="async"></picture></h1>
     <p class="ctt-tagline"><strong>Optimize your thrift experience.</strong> Maximum shops, minimum driving, across the Chattanooga area.</p>
   </div>
 
@@ -2977,7 +2980,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.0 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.1 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
