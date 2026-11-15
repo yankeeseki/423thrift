@@ -97,6 +97,23 @@
   html.tiv-app .tiv-pres:hover { color: var(--rust); text-decoration: underline; }
   html.tiv-app .wrap > h1, html.tiv-app .wrap > .sub, html.tiv-app #tiv > h2 { display: none; }
   html.tiv-app .topbar .sm-btn, html.tiv-app .sitehead .sm-btn { top: 32px !important; } html.tiv-app .sm-menu { top: 112px !important; } @media (min-width: 1111px) { html.tiv-app .topbar .sm-btn { top: 29px !important; } html.tiv-app .sm-menu { top: 109px !important; } } /* hamburger centred on the taller ThriftiVision logo */
+  /* v27.5 (Mod): desktop Image Search layout (1000px and wider; phones and the compact app window are unchanged). Before a photo: one tidy centred card. After a photo: photo and buttons on the left, name, condition, value and Profit Check on the right; the search buttons and disclaimer run across the bottom. */
+  @media (min-width: 1000px) {
+    body .wrap { max-width: 1080px; }
+    body .wrap > h1 { font-size: 34px; margin-top: 26px; text-align: center; }
+    body .wrap > .sub { text-align: center; margin: 0 auto 22px; font-size: 15px; }
+    #tiv { max-width: 600px; margin-left: auto; margin-right: auto; padding: 22px 24px; }
+    #tiv:has(#results[style*="block"]) { max-width: none; display: grid; grid-template-columns: minmax(340px, .85fr) minmax(0, 1.15fr); column-gap: 36px; align-items: start; padding: 26px 32px 30px; }
+    #tiv:has(#results[style*="block"]) > h2 { grid-column: 1; grid-row: 1; margin-top: 0; }
+    #tiv:has(#results[style*="block"]) > #preview { grid-column: 1; grid-row: 2; max-height: 420px; margin-bottom: 14px; }
+    #tiv:has(#results[style*="block"]) > #tivbtns { grid-column: 1; grid-row: 3; width: 100%; }
+    #tiv:has(#results[style*="block"]) > #status { grid-column: 1; grid-row: 4; }
+    #tiv:has(#results[style*="block"]) > #results { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; padding-top: 6px; }
+    #tiv:has(#results[style*="block"]) #cond { margin-top: 14px; }
+    #lookup { max-width: 600px; margin-left: auto; margin-right: auto; }
+    .wrap:has(#results[style*="block"]) > #lookup, .wrap:has(#results[style*="block"]) > #disc { max-width: 880px; }
+    #disc { max-width: 600px; margin-left: auto; margin-right: auto; text-align: center; }
+  }
   .tiv-disc { margin:0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27.1 (Mod): the disclaimer sits in its own container below the three search buttons */
   .calc-out { margin-top:14px; }
   .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
