@@ -103,6 +103,9 @@
   .tiv-hero { display: flex; justify-content: center; align-items: flex-start; margin: 12px auto 2px; }
   .tiv-hero img { width: min(230px, 62vw); height: auto; display: block; }
   html.tiv-app .tiv-hero { display: none; }
+  @media (max-width: 999px) { html.tiv-photo .tiv-hero, html.tiv-photo body .wrap > .sub { display: none; } } /* v27.8 (Mod): on phones, once a photo has been taken the logo and its line step aside so the result is higher on the screen */
+  html.tiv-app #tiv { margin-top: 16px; } /* v27.8 (Mod): a little more room between the Presented by line and the photo card in the installed app */
+  #lookup { margin-bottom: 42px; } /* v27.8 (Mod): three times the space (14 -> 42) between the search buttons and the values disclaimer */
   body .wrap > .sub { text-align: center; margin: 0 auto 18px; font-size: clamp(10.5px, 3.2vw, 15px); max-width: none; white-space: nowrap; }
   #tiv > h2 { display: none; }
   .card { border-radius: 18px; box-shadow: 0 8px 22px rgba(44, 36, 23, .07); }
@@ -148,7 +151,7 @@
 </style>
 </head>
 <body>
-<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><a class="tiv-pres" href="/">Presented By Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
+<div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><a class="tiv-pres" href="/">Presented by Chattanooga Thrift Trail</a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/itemsearch/">📷 Item Search</a><a href="/calendar/">📅 Community Calendar</a><a href="/blog/">📝 Blog</a></nav></div>
 <div class="wrap">
   <h1>Image Search</h1>
   <div class="tiv-hero" aria-hidden="true"><img src="/itemsearch/tiv-logo.png" alt="" width="640" height="307"></div>
@@ -388,7 +391,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') { window.add
     setRes(false); setStatus('');
     shrink(f, function (err, dataUrl) {
       if (err) { photo = ''; refresh(); setStatus('That photo would not open. Try another.', true); return; }
-      photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block';
+      photo = dataUrl; preview.src = dataUrl; preview.style.display = 'block'; document.documentElement.classList.add('tiv-photo');
       snap.innerHTML = '&#128247; New Photo'; $('retry').hidden = false; $("tivbtns").className = 'btnrow wide';
       refresh();
       readPhoto(); // reads the photo right away
