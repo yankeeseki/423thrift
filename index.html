@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v24.10-20261114">
+<meta name="ctt-build" content="v25.2-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1173,13 +1173,14 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-fp-link { font-family: inherit; font-size: 12.5px; color: var(--rust); background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0 6px; }
   .ctt-fp-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed var(--line); padding-top: 8px; font-size: 13px; color: #6b6252; }
   .ctt-fp-done { font-family: inherit; font-size: 13px; font-weight: 700; color: #fff; background: var(--olive); border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; }
+  html { scrollbar-gutter: stable; } /* v24.11: page-to-page the layout (and the hamburger) never shifts when a scrollbar appears */
   .ctt-header { margin-bottom: 10px; position: relative; }
   .ctt-header .ctt-title { padding-right: 68px; }
-  .ctt-menu-btn { position: absolute; top: 0; right: -14px; z-index: 30; width: 66px; height: 66px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+  .ctt-menu-btn { position: absolute; top: 0; right: -14px; z-index: 30; width: 73px; height: 73px; display: flex; align-items: center; justify-content: center; background: none; color: var(--rust); border: none; border-radius: 12px; cursor: pointer; padding: 0; }
   .ctt-menu-btn:hover, .ctt-menu-btn[aria-expanded="true"] { background: none; color: var(--ink); }
   .ctt-menu-btn:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
-  .ctt-menu-btn svg { width: 43px; height: 43px; } /* v24.8 (Mod): hamburger 20% larger (55->66, 36->43) */
-  .ctt-menu { position: absolute; top: 72px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
+  .ctt-menu-btn svg { width: 47px; height: 47px; } /* v24.11: another 10% (43->47) */ /* v24.8 (Mod): hamburger 20% larger (55->66, 36->43) */
+  .ctt-menu { position: absolute; top: 79px; right: 0; z-index: 30; min-width: 250px; max-width: calc(100vw - 32px); background: var(--card); border: 2px solid var(--rust); border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; }
   .ctt-menu[hidden] { display: none; }
   .ctt-menu .ctt-menu-x { display: none; }
   @media (min-width: 781px) {
@@ -1266,8 +1267,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-cta-collapse { display: flex; align-items: center; justify-content: center; width: min(60%, 240px); margin: 1px auto 0; padding: 0; height: 15px; line-height: 1; background: rgba(255,255,255,.28); border: none; border-radius: 8px; color: var(--ink); font-size: 19px; cursor: pointer; opacity: .85; } /* v23.1: wider, bigger arrow, centred; row 25% shorter (was 20px) */
   .ctt-cta-collapse:hover { opacity: 1; }
   /* v24.0 (Mod, trial): upright phones: the hide / show control under the big button is a − (instructions showing, tap to hide) and a + (hidden, tap to show) instead of the arrows. Other views keep the arrows. */
+  /* v24.11 (Mod): the - / + drawn control is now on every view (desktop too), not just phones */
+  .ctt-cta-collapse { font-size: 0; }
+  .ctt-cta-collapse::after { content: ''; display: block; width: 12px; height: 12px; background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat; }
+  .ctt-cta-row.ctt-collapsed .ctt-cta-collapse::after { background: linear-gradient(var(--ink), var(--ink)) center / 12px 2.5px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 2.5px 12px no-repeat; }
   @media (max-width: 600px) and (orientation: portrait) {
-    .ctt-cta-collapse { font-size: 0; }
     /* v24.3 (Mod): the - and + are drawn as shapes (not font glyphs) so they sit exactly in the middle of the pill on every phone, and the pill sits midway between the bottom of the big button and the bottom of the rust box. */
     .ctt-cta-collapse { margin: 1.5px auto -6.5px; } /* v24.4 (Mod): the pill is now 7.5px from the big button and 7.5px from the bottom of the rust box (was 13.5 each) */
     #ctt-thrift-wrap > .ctt-cta-row { padding: 8px 24px 14px; } /* v24.4 (Mod): the rust box is 10% shorter (about 24px); the big button and the text are untouched */
@@ -2345,7 +2349,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-own-btn:hover { background: var(--rust); color: #fff; }
   /* v24.0 (Mod): Add Your Own Stop / Add a Coffee Stop are two large circles side by side */
   .ctt-own-btns { flex-wrap: nowrap; gap: 32px; }
-  .ctt-own-btns .ctt-own-btn { flex: 0 1 228px; min-width: 0; aspect-ratio: 228 / 124; /* v24.10 (Mod): another 15% wider and 15% shorter (v24.9: 198x146; v24.3: 172 square) */ width: auto; height: auto; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 17px; line-height: 1.2; } /* v24.3 (Mod): 15% larger (150 -> 172px) and more space between; on narrow phones they shrink just enough to stay side by side */
+  .ctt-own-btns .ctt-own-btn { flex: 0 1 262px; min-width: 0; aspect-ratio: 262 / 105; /* v24.11 (Mod): another 15% wider and 15% shorter (v24.10: 228x124; v24.9: 198x146; v24.3: 172 square) */ width: auto; height: auto; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 17px; line-height: 1.2; } /* v24.3 (Mod): 15% larger (150 -> 172px) and more space between; on narrow phones they shrink just enough to stay side by side */
   .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 46px; line-height: 1; }
   .ctt-own-btns .ctt-own-btn::after { inset: 0; border-radius: 22px; }
   @media (max-width: 440px) { .ctt-own-btns { gap: 20px; } .ctt-own-btns .ctt-own-btn { font-size: 15px; } .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 40px; } }
@@ -3048,7 +3052,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v24.10 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.2 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
