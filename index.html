@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v25.2-20261114">
+<meta name="ctt-build" content="v25.6-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -1207,6 +1207,17 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-menu .ctt-acct-row button, .ctt-menu .ctt-acct-row button:hover, .ctt-menu .ctt-acct-row button:focus-visible { background: var(--rust) !important; color: #fff !important; }
   .ctt-menu .ctt-acct-row button.ghost, .ctt-menu .ctt-acct-row button.ghost:hover, .ctt-menu .ctt-acct-row button.ghost:focus-visible { background: var(--card) !important; color: var(--rust) !important; }
   .ctt-menu .ctt-menu-divide { border-top: 1px solid var(--line); margin-top: 6px; border-radius: 0 0 8px 8px; }
+  /* v25.6 (Mod): Account popup */
+  .ctt-acct-dialog { max-width: 460px; }
+  .ctt-acct-dialog .ctt-acct-x { position: absolute; top: 8px; right: 10px; width: 40px; height: 40px; padding: 0; font-size: 30px; line-height: 1; background: none; border: none; color: var(--rust); cursor: pointer; }
+  .ctt-acct-dialog .ctt-menu-acct { border-bottom: none; padding: 0; }
+  .ctt-acct-dialog .ctt-icon-pick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  @media (min-width: 601px) { .ctt-acct-dialog .ctt-icon-pick { grid-template-columns: repeat(11, 1fr); } }
+  .ctt-acct-dialog .ctt-icon-pick .ctt-icon-opt { width: 100%; height: 38px; padding: 0 !important; font-size: 19px; line-height: 1; border-radius: 8px !important; background: var(--card) !important; color: inherit !important; border: 2px solid var(--line) !important; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .ctt-acct-dialog .ctt-icon-pick .ctt-icon-opt[aria-checked="true"] { border-color: var(--rust) !important; background: #f3dccf !important; }
+  .ctt-acct-dialog .ctt-acct-row button { background: var(--rust) !important; color: #fff !important; }
+  .ctt-acct-dialog .ctt-menu-status { padding: 0; margin-top: 8px; font-weight: 700; color: var(--olive); }
+  .ctt-acct-dialog .ctt-acct-row button.ghost { background: var(--card) !important; color: var(--rust) !important; }
   .ctt-menu-head { font-family: 'Libre Franklin', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--rust); padding: 12px 12px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
   .ctt-menu-status { font-family: 'Libre Franklin', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); padding: 6px 12px 8px; }
   .ctt-menu { max-height: calc(100vh - 80px); overflow-y: auto; }
@@ -3052,7 +3063,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.2 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.6 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -7025,8 +7036,20 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
             + '<div class="ctt-icon-label">Your icon on the map</div><div class="ctt-icon-pick" id="ctt-acct-icons" role="radiogroup" aria-label="Your icon on the map">' + CTT_ICONS.map(function(o) { return '<button type="button" role="radio" class="ctt-icon-opt" data-icon="' + o[0] + '" aria-label="' + o[1] + '" aria-checked="' + (o[0] === cttIconGlyph() ? 'true' : 'false') + '" title="' + o[1] + '">' + o[0] + '</button>'; }).join('') + '</div>'
             + '<div class="ctt-acct-row"><button type="button" id="ctt-acct-save">Save</button>' + (a0.name || a0.email || a0.icon ? '<button type="button" id="ctt-acct-clear" class="ghost">Clear From This Device</button>' : '') + '</div>'
             + '<div class="ctt-menu-status" id="ctt-acct-msg" role="status"></div>';
-          ab.addEventListener('click', function() { ap.hidden = !ap.hidden; menu.classList.toggle('ctt-menu-wide', !ap.hidden); ab.setAttribute('aria-expanded', ap.hidden ? 'false' : 'true'); if (!ap.hidden) { var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus(); } });
-          menu.appendChild(ab); menu.appendChild(ap);
+          // v25.6 (Mod): Account opens as a popup (not inside the hamburger).
+          ab.addEventListener('click', function() {
+            close(); ap.hidden = false;
+            var ov = document.createElement('div'); ov.className = 'ctt-shops-overlay open'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.style.alignItems = 'center';
+            ov.innerHTML = '<div class="ctt-ask-dialog ctt-acct-dialog"><button type="button" class="ctt-acct-x" aria-label="Close">&times;</button><h2 class="ctt-ask-title">Account</h2></div>';
+            ov.querySelector('.ctt-acct-dialog').appendChild(ap);
+            function shut() { document.removeEventListener('keydown', esc); if (ov.parentNode) ov.parentNode.removeChild(ov); document.body.style.overflow = ''; }
+            function esc(e) { if (e.key === 'Escape') shut(); }
+            ov.querySelector('.ctt-acct-x').addEventListener('click', shut);
+            ov.addEventListener('click', function(e) { if (e.target === ov) shut(); });
+            document.addEventListener('keydown', esc);
+            document.body.appendChild(ov); var f = ap.querySelector('#ctt-acct-name'); if (f) f.focus();
+          });
+          menu.appendChild(ab);
           var pickedIcon = cttIconGlyph();
           Array.prototype.forEach.call(ap.querySelectorAll('.ctt-icon-opt'), function(ob) {
             ob.addEventListener('click', function() {
