@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v25.8-20261114">
+<meta name="ctt-build" content="v25.9-20261114">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 49 local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -3063,7 +3063,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.8 &mdash; November 14, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v25.9 &mdash; November 14, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -7035,7 +7035,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           var ab = document.createElement('button'); ab.type = 'button'; ab.textContent = it.label; ab.setAttribute('aria-expanded', 'false');
           var ap = document.createElement('div'); ap.className = 'ctt-menu-acct'; ap.hidden = true;
           var a0 = cttAcct();
-          ap.innerHTML = '<p class="ctt-acct-note">Optional. Saved on this device only, so the Trail can say hello and fill in your name on reviews. No password needed.</p>'
+          ap.innerHTML = ''
             + '<label>What should we call you?<input type="text" id="ctt-acct-name" maxlength="40" autocomplete="nickname" value="' + cttEsc(a0.name || '') + '"></label>'
             + '<label>Email<input type="email" id="ctt-acct-email" maxlength="80" autocomplete="email" value="' + cttEsc(a0.email || '') + '"></label>'
             + '<div class="ctt-icon-label">Your icon on the map</div><div class="ctt-icon-pick" id="ctt-acct-icons" role="radiogroup" aria-label="Your icon on the map">' + CTT_ICONS.map(function(o) { return '<button type="button" role="radio" class="ctt-icon-opt" data-icon="' + o[0] + '" aria-label="' + o[1] + '" aria-checked="' + (o[0] === cttIconGlyph() ? 'true' : 'false') + '" title="' + o[1] + '">' + o[0] + '</button>'; }).join('') + '</div>'
