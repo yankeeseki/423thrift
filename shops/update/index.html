@@ -104,6 +104,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 </fieldset>
 <fieldset><legend>Anything else?</legend>
 <label for="mf-charity">If your shop supports a charity or cause, tell us more about the charity or charities you support</label><textarea id="mf-charity" placeholder="Who benefits, how the money is used, and a website if you have one..."></textarea>
+<label for="mf-social">Social media accounts</label><input type="text" id="mf-social" maxlength="200" placeholder="Instagram, TikTok, YouTube, etc.">
 <label for="mf-note">What should shoppers know about your shop?</label><textarea id="mf-note" placeholder="Parking, donation hours, what you&rsquo;re known for..."></textarea>
 </fieldset>
 <label class="optin" id="featured" for="mf-featured"><input type="checkbox" id="mf-featured"> <span>I&rsquo;d like to learn how my shop can become a featured shop.</span></label>
@@ -132,7 +133,7 @@ f.addEventListener('submit',function(e){
   var min=r('cmin'); if(min==='Other')min='Other: '+v('mf-minamt');
   var data={access_key:KEY,subject:'Thrift Trail: Shop listing update ('+shop+')',from_name:'Chattanooga Thrift Trail',name:name,email:email,
     shop:shop,confirmed_storefront_within_20_miles:'Yes',featured_shop_interest:(document.getElementById('mf-featured').checked?'Yes':'No'),discount_card_interest:(document.getElementById('mf-card').checked?'Yes':'No'),role:r('role'),hours:v('mf-hours'),sale_days:c('sd'),sale_details:v('mf-sales'),best_days_for_new_items:c('rd'),restock_details:v('mf-restock'),rewards:v('mf-rewards'),
-    restrooms:r('rest'),card_minimum:min,payment_types:pay,wheelchair:r('wc'),free_wifi:r('wifi'),charities_supported:v('mf-charity'),notes:v('mf-note')};
+    restrooms:r('rest'),card_minimum:min,payment_types:pay,wheelchair:r('wc'),free_wifi:r('wifi'),charities_supported:v('mf-charity'),social_media:v('mf-social'),notes:v('mf-note')};
   btn.disabled=true;st.style.color='';st.textContent='Sending...';
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
    .then(function(r){return r.json();})
