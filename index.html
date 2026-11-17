@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v28.4-20261117">
+<meta name="ctt-build" content="v28.5-20261117">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 50+ local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2848,7 +2848,22 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     <button type="button" class="ctt-menu-btn" id="ctt-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="ctt-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button>
     <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
     <h1 class="ctt-title"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" fetchpriority="high" decoding="async"></picture></h1>
-    <p class="ctt-tagline"><strong>Optimize Your Thrift Experience.</strong> More Shops, Less Driving.</p>
+    <p class="ctt-tagline" id="ctt-tagline"><strong>Optimize Your Thrift Experience.</strong> More Shops, Less Driving.</p>
+    <script>/* v28.3 (Mod): the second half of the tagline is picked at random from 23 (never the same one twice in a row on this device). The page itself ships with the first one, so search engines and no-script visitors see "More Shops, Less Driving." */
+    (function() {
+      var T = ['More Shops, Less Driving.', 'More Treasure, Less Trunk Space.', 'More Junk in Your Trunk.', 'Finders Keepers, Losers Weepers.', 'One Route. A Hundred Rabbit Holes.', 'The Early Bird Gets the Vintage.', 'One Man\'s Trash Is Your Treasure.', 'Thrift Happens.', 'Somebody\'s Junk Is Your New Favorite Thing.', 'The Hunt Is Half the Fun.', 'Less Mileage. More Vintage.', 'Your GPS Just Found Its Calling.', 'The Best Things in Life Are Secondhand.', 'Warning: May Cause Excessive Thrifting.', 'Good Things Come to Those Who Thrift.', 'Keep Your Friends Close and Your Thrift Shops Closer.', 'May the Thrift Be With You.', 'Secondhand Shopping. First-Class Adventures.', 'More Thrifting, Less Adulting.', 'The More You Look, the More You Find.', 'Leave No Thrift Store Behind.', 'Thrift and Let Thrift.', 'Born to Thrift. Forced to Work.'];
+      var el = document.getElementById('ctt-tagline'), last = -1, i;
+      try { last = parseInt(localStorage.getItem('ctt-tagline'), 10); if (isNaN(last)) last = -1; } catch (e) {}
+      do { i = Math.floor(Math.random() * T.length); } while (i === last && T.length > 1);
+      try { localStorage.setItem('ctt-tagline', String(i)); } catch (e) {}
+      el.lastChild.nodeValue = ' ' + T[i];
+      /* keeps it on one line: it shrinks a little if it must (never below 10.5px); if a long one still will not fit beside "Optimize Your Thrift Experience." that bold line steps aside for it */
+      var lead = el.querySelector('strong');
+      function shrink(min) { var fs = parseFloat(getComputedStyle(el).fontSize); while (el.scrollWidth > el.clientWidth + 1 && fs > min) { fs -= 0.25; el.style.fontSize = fs + 'px'; } return el.scrollWidth <= el.clientWidth + 1; }
+      function fit() { el.style.fontSize = ''; lead.style.display = ''; if (!shrink(10.5)) { lead.style.display = 'none'; el.style.fontSize = ''; shrink(7); } }
+      fit(); window.addEventListener('load', fit); window.addEventListener('resize', fit);
+    })();
+    </script>
   </div>
 
   <div id="ctt-holiday" style="display:none;"></div>
@@ -3096,7 +3111,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.4 &mdash; November 17, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.5 &mdash; November 17, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
