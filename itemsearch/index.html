@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{if(localStorage.getItem('tiv-disc-closed')==='1')document.documentElement.classList.add('tiv-disc-closed');}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Image Search: What Is My Thrift Find Worth? | Chattanooga Thrift Trail</title>
@@ -127,6 +128,12 @@
     .wrap:has(#results[style*="block"]) > #lookup, .wrap:has(#results[style*="block"]) > #disc { max-width: 880px; }
     #disc { max-width: 600px; margin-left: auto; margin-right: auto; text-align: center; }
   }
+  /* v28.2 (Mod): more breathing room on the landing screen so the disclaimer is below the fold (a script adds whatever extra space a tall screen needs); the disclaimer has a close button and stays closed until the app is reset (Reset clears saved data) */
+  .wrap { padding-top: 28px; } .sub { margin-bottom: 30px; } .tiv-hero { margin-top: 22px; margin-bottom: 8px; } .card { margin-bottom: 22px; } #lookup { padding-top: 20px; padding-bottom: 20px; }
+  #disc { position: relative; } #disc .tiv-disc { padding: 0 26px; }
+  .tiv-disc-x { position: absolute; top: 2px; right: 2px; width: 34px; height: 34px; margin: 0; padding: 0; border: 0; background: none; color: #8c826c; font-size: 22px; line-height: 1; cursor: pointer; font-family: 'Libre Franklin', sans-serif; }
+  .tiv-disc-x:hover { color: var(--ink); }
+  html.tiv-disc-closed #disc { display: none; }
   .tiv-disc { margin:0; font-size:12px; line-height:1.5; color:#8c826c; } /* v27.1 (Mod): the disclaimer sits in its own container below the three search buttons */
   .calc-out { margin-top:14px; }
   .calc-msg { font-family:'Archivo Black',sans-serif; font-size:15px; white-space:nowrap; line-height:1.2; color:var(--ink); }
@@ -202,7 +209,7 @@
     <a class="btn brand-s" id="sold" target="_blank" rel="noopener" style="display:none">&#128269; eBay Sold Search</a>
   </div>
 
-  <div class="card" id="disc"><p class="tiv-disc">ThriftiVision values are educated guesses based on current eBay listings. They are not appraisals or guarantees, and real prices can differ. Use your own judgment before you buy or sell. The Chattanooga Thrift Trail is not responsible for buying or resale decisions.</p></div>
+  <div class="card" id="disc"><button type="button" class="tiv-disc-x" id="discx" aria-label="Close disclaimer">&times;</button><p class="tiv-disc">ThriftiVision values are educated guesses based on current eBay listings. They are not appraisals or guarantees, and real prices can differ. Use your own judgment before you buy or sell. The Chattanooga Thrift Trail is not responsible for buying or resale decisions.</p></div>
 
 </div>
 
@@ -226,6 +233,19 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') { window.add
   var fileEl = $('file'), snap = $('snap'), preview = $('preview'), statusEl = $('status'), results = $('results'), q = $('q');
   var photo = '';
   function full() { return ((q.value || '').trim() + ' ' + (($('d') && $('d').value) || '').trim()).trim(); } /* v26.8 (Mod): line 1 = the name from the photo (editable), line 2 = your extra details; the price search uses both */
+
+  (function() {
+    var lk = $('lookup'), dc = $('disc'), dx = $('discx'), tv = $('tiv'), BASE = 90;
+    if (dx) dx.addEventListener('click', function() { try { localStorage.setItem('tiv-disc-closed', '1'); } catch (e) {} document.documentElement.classList.add('tiv-disc-closed'); lk.style.marginBottom = ''; });
+    function space() {
+      if (!lk || !dc || document.documentElement.classList.contains('tiv-disc-closed')) return;
+      lk.style.marginBottom = BASE + 'px';
+      var top = dc.getBoundingClientRect().top + (window.pageYOffset || 0), need = window.innerHeight + 24;
+      lk.style.marginBottom = (top < need ? BASE + (need - top) : BASE) + 'px';
+    }
+    space(); window.addEventListener('load', space); window.addEventListener('resize', space);
+    try { if (window.ResizeObserver) { var ro = new ResizeObserver(space); ro.observe(tv); ro.observe(document.body); } } catch (e) {}
+  })();
 
   /* v27 (Mod): the gray hint in the details line stays on ONE line: it shrinks (never below 12px) until it fits the box; typed text keeps its normal size */
   function fitHint() {
