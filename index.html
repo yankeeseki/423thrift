@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v29-20261118">
+<meta name="ctt-build" content="v29.1-20261118">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 50+ local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -2270,6 +2270,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
   .ctt-newsband { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; box-sizing: border-box; width: 100%; margin: 14px 0; padding: 12px 18px; background: var(--card); border: 1.5px solid var(--line); border-left: 6px solid var(--rust); border-radius: 10px; } /* v29 (Mod): full-width Trail News teaser under Take It With You / Share The Trail */
   .ctt-newsband[hidden] { display: none; }
+  .ctt-nb-img { flex: 0 0 auto; width: clamp(84px, 22vw, 124px); aspect-ratio: 1200 / 630; object-fit: cover; border: 1px solid var(--line); border-radius: 6px; display: block; } .ctt-nb-img[hidden] { display: none; } /* v29.1 (Mod): teaser photo when the story has one */
   .ctt-nb-text { flex: 1 1 320px; min-width: 0; }
   .ctt-nb-kick { margin: 0 0 2px; font-family: 'Libre Franklin', sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--rust); }
   .ctt-nb-title { margin: 0; font-family: 'Archivo Black', Georgia, serif; font-weight: 400; font-size: clamp(17px, 4.4vw, 22px); line-height: 1.15; color: var(--ink); }
@@ -3052,6 +3053,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   </div>
 
   <section class="ctt-newsband" id="ctt-newsband" aria-label="Trail News" hidden>
+    <img class="ctt-nb-img" id="ctt-nb-img" alt="" hidden>
     <div class="ctt-nb-text"><p class="ctt-nb-kick" id="ctt-nb-kick"></p><p class="ctt-nb-title" id="ctt-nb-title"></p><p class="ctt-nb-sum" id="ctt-nb-sum"></p></div>
     <a class="ctt-nb-btn" href="news/">Read Trail News &rarr;</a>
   </section>
@@ -3064,6 +3066,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
       document.getElementById('ctt-nb-kick').innerHTML = n.pin ? 'Trail News &middot; Big News' : 'Trail News';
       var tt = document.getElementById('ctt-nb-title'); tt.textContent = ''; if (n.link) { var a = document.createElement('a'); a.href = n.link; a.textContent = n.title; a.className = 'ctt-nb-tl'; if (/^https?:/.test(n.link)) { a.target = '_blank'; a.rel = 'noopener'; } tt.appendChild(a); } else { tt.textContent = n.title; }
       document.getElementById('ctt-nb-sum').textContent = s;
+      var im = document.getElementById('ctt-nb-img'); if (n.img) { im.referrerPolicy = 'no-referrer'; im.style.objectPosition = n.imgPos || '50% 50%'; if (n.imgFallback) { im.onerror = function () { im.onerror = null; im.src = n.imgFallback; }; } im.src = n.img; im.hidden = false; }
       document.getElementById('ctt-newsband').hidden = false;
     }).catch(function () {});
   })();
@@ -3138,7 +3141,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v29 &mdash; November 18, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v29.1 &mdash; November 18, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
