@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v28.5-20261117">
+<meta name="ctt-build" content="v28.6-20261118">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 50+ local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -3111,7 +3111,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.5 &mdash; November 17, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.6 &mdash; November 18, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -4317,7 +4317,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   var LIST_VISIBLE = 6; // how many shops show before the list scrolls inside its own box (v24.8 (Mod): desktop shows 5, see listVisible())
   function listVisible() { try { return window.matchMedia('(min-width: 781px) and (min-height: 521px)').matches ? 5 : 6; } catch (e) { return LIST_VISIBLE; } }
   function heightForFirstFive(cardsParent) {
-    var LIST_N = listVisible(), cards = cardsParent.children;
+    var LIST_N = listVisible(), cards = Array.prototype.filter.call(cardsParent.children, function(c) { return c.style.display !== 'none' && c.offsetHeight > 0; }); /* v28.6 (Mod): only the cards you can actually see count (searching hides cards, and the hidden ones used to measure 0, which shrank the lists to a sliver) */
     if (cards.length <= LIST_N) return null;
     var gap = 9, total = 0;
     for (var i = 0; i < LIST_N; i++) {
@@ -7217,6 +7217,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       var any = d.querySelector('.ctt-tag[data-shop]:not([style*="display: none"])'); d.style.display = (qw.length && !any) ? 'none' : ''; if (qw.length && any) d.open = true;
     });
     document.getElementById('ctt-lsearch-none').hidden = !(qw.length && !shown);
+    try { equalizeListHeights(); } catch (e) {} /* v28.6 (Mod): re-measure the lists after every search change */
   }
   (function() {
     var inp = document.getElementById('ctt-list-q'), x = document.getElementById('ctt-list-q-x'); if (!inp) return;
@@ -8159,6 +8160,52 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
 <script>
 (function(){function fix(){var n=document.querySelector('.ctt-footnav');if(!n)return;var prev=null,top=null;Array.prototype.forEach.call(n.children,function(c){c.style.removeProperty('border-left');});Array.prototype.forEach.call(n.children,function(c){if(c.offsetParent===null&&getComputedStyle(c).position!=='fixed')return;var t=c.offsetTop;if(prev===null||t!==top){c.style.setProperty('border-left','none','important');}prev=c;top=t;});}
 window.cttFootFix=fix;window.addEventListener('resize',fix);window.addEventListener('load',fix);setTimeout(fix,300);setTimeout(fix,1500);})();
+</script>
+<script>
+(function() {
+  /* v28.6 (Mod): pull down on the whole page (from the very top) to refresh it, on phones and tablets. Not on the map, inside open pop-ups, text boxes or scrolling lists, or on the Image Search page once a photo is loaded. */
+  try {
+    if (!window.matchMedia || !window.matchMedia('(pointer: coarse)').matches) return;
+    var de = document.documentElement, startY = 0, startX = 0, dy = 0, on = false, armed = false, bar = null, GO = 110;
+    var st = document.createElement('style');
+    st.textContent = 'html{overscroll-behavior-y:none}#ctt-ptr{position:fixed;left:50%;top:0;z-index:99999;transform:translate(-50%,-70px);display:flex;align-items:center;gap:8px;padding:8px 16px;background:#fbf6ea;color:#ae4c2c;border:1.5px solid #ae4c2c;border-radius:12px;font:700 14px "Libre Franklin",sans-serif;box-shadow:0 4px 14px rgba(44,36,23,.18);pointer-events:none;white-space:nowrap;opacity:0}#ctt-ptr .i{display:inline-block;font-size:18px;line-height:1;transition:transform .15s}#ctt-ptr.spin .i{animation:ctt-ptr-spin .8s linear infinite}@keyframes ctt-ptr-spin{to{transform:rotate(360deg)}}';
+    (document.head || de).appendChild(st);
+    function mk() { if (bar) return bar; bar = document.createElement('div'); bar.id = 'ctt-ptr'; bar.setAttribute('aria-hidden', 'true'); bar.innerHTML = '<span class="i">&#8635;</span><span class="t">Pull to Refresh</span>'; document.body.appendChild(bar); return bar; }
+    function blocked(t) {
+      if (de.classList.contains('tiv-photo') || (document.body.style.overflow === 'hidden')) return true;
+      for (var e = t; e && e !== document.body && e.nodeType === 1; e = e.parentNode) {
+        if (e.id === 'ctt-map' || (e.classList && (e.classList.contains('leaflet-container') || e.classList.contains('ctt-cal-grid')))) return true;
+        var tag = e.tagName; if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+        if (e.scrollHeight > e.clientHeight + 1 && e.scrollTop > 0) { var o = getComputedStyle(e).overflowY; if (o === 'auto' || o === 'scroll') return true; }
+      }
+      return false;
+    }
+    function top() { return (window.pageYOffset || de.scrollTop || 0) <= 0; }
+    function reset() { on = false; armed = false; if (bar) { bar.style.opacity = '0'; bar.style.transform = 'translate(-50%,-70px)'; bar.classList.remove('spin'); } }
+    document.addEventListener('touchstart', function(e) {
+      on = false; armed = false;
+      if (e.touches.length !== 1 || !top() || blocked(e.target)) return;
+      startY = e.touches[0].clientY; startX = e.touches[0].clientX; dy = 0; on = true;
+    }, { passive: true });
+    document.addEventListener('touchmove', function(e) {
+      if (!on) return;
+      var t = e.touches[0]; dy = t.clientY - startY;
+      if (e.touches.length !== 1 || !top() || Math.abs(t.clientX - startX) > Math.abs(dy) || dy < 0) { if (dy < 0 || !top()) { reset(); } return; }
+      if (dy < 12) return;
+      var b = mk(), pull = Math.min(dy * 0.5, 80); armed = dy >= GO;
+      b.style.opacity = String(Math.min(1, dy / 70)); b.style.transform = 'translate(-50%,' + (pull - 56 + (parseInt(getComputedStyle(de).getPropertyValue('--sat'), 10) || 0)) + 'px)';
+      b.querySelector('.t').textContent = armed ? 'Release to Refresh' : 'Pull to Refresh';
+      b.querySelector('.i').style.transform = 'rotate(' + Math.min(dy * 2, 180) + 'deg)';
+    }, { passive: true });
+    function end() {
+      if (!on) return;
+      if (armed && bar) { bar.classList.add('spin'); bar.querySelector('.t').textContent = 'Refreshing...'; bar.style.transform = 'translate(-50%,16px)'; setTimeout(function() { location.reload(); }, 250); on = false; return; }
+      reset();
+    }
+    document.addEventListener('touchend', end, { passive: true });
+    document.addEventListener('touchcancel', reset, { passive: true });
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
