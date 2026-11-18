@@ -123,6 +123,7 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 .np-card a.more:hover,.np-lead a.more:hover{text-decoration:underline}
 .np-press{background:var(--ink);color:var(--paper);border-radius:6px;padding:14px 16px;margin:0 0 18px}
 .np-press .np-kick{color:#d4a72c}.np-press h3{color:var(--paper);margin:0 0 4px}.np-press p{margin:0 0 8px;font-size:15.5px}.np-press a{color:#f5e2bc}
+.np-tl{color:inherit;text-decoration:none}.np-tl:hover{text-decoration:underline}.np-press .np-tl{color:var(--paper)}
 .np-sec{font-size:20px;margin:22px 0 10px;border-bottom:1.5px solid var(--ink);padding-bottom:3px;text-transform:uppercase;letter-spacing:.03em}
 @media(max-width:620px){.np-lead{grid-template-columns:1fr}.np-grid{grid-template-columns:1fr}}
 </style></head><body><div class="topbar"><a class="sitetitle" href="/"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" style="display:block;height:auto;max-width:100%"></picture></a><button type="button" class="sm-btn" id="sm-btn" aria-label="Menu" aria-expanded="false" aria-controls="sm-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button><nav class="sm-menu" id="sm-menu" aria-label="Menu" hidden><a href="/">🗺️ Trail Map</a><a href="/shops/">🛍️ Shops &amp; Charities</a><a href="/calendar/">📅 Community Calendar</a><a href="/how-to/">📖 How It Works</a><a href="/blog/">📝 Blog</a><a href="/#ctt-news">📬 Newsletter</a></nav></div><div class="wrap">
@@ -133,24 +134,21 @@ footer{margin-top:28px;font-family:system-ui,sans-serif;font-size:12.5px;color:v
 </div>
 <p class="sm-foot">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener">Thrifty Flea</a></p><script src="/menu.js" defer></script>
 <script>
-/* Trail News. pin:true = the one full-width Big News story at the top (otherwise the newest story is used); the rest run in two columns, newest first. kind: "press" = a feature about the Trail (shows in the dark Thank You band), "trail" or "shop" = a story card.
-   Fields: date (YYYY-MM-DD), kind, kicker, title, text, img (optional photo path), link (optional), linkText (optional), by (optional source line). */
-var NEWS = [
-  { date: "2026-11-18", kind: "trail", pin: true, kicker: "Big News &middot; In The Chattanoogan", title: "New Chattanooga Thrift Trail Website Is \u201cLabor Of Love\u201d", text: "The Chattanoogan has featured the Thrift Trail: a new website that maps more than 50 thrift shops, vintage shops and antique malls across Chattanooga and nearby North Georgia. Enter your location, pick a route, and get a driving plan built around shop hours, with no app or account needed. Thank you to The Chattanoogan for sharing the Trail with the community.", img: "/og-image.png", link: "https://www.chattanoogan.com/2026/11/18/526296/New-Chattanooga-Thrift-Trail-Website.aspx", linkText: "Read It In The Chattanoogan", by: "The Chattanoogan" },
-  { date: "2026-11-18", kind: "trail", kicker: "On the Trail", title: "Every Shop Now Links to Its Google Listing", text: "Tap Google Listing on any shop card, on the map or on the Shops & Charities page, to see its hours, photos and reviews right on Google Maps. Social links are being added shop by shop.", link: "/shops/", linkText: "See the Shops", by: "From the Mod" },
-  { date: "2026-11-18", kind: "trail", kicker: "On the Trail", title: "Trail News Has Opened", text: "Shop sales, new small businesses, events and every time the Thrift Trail makes the news will land here. Have news from your shop? Send it through the shop update form.", link: "/shops/update/", linkText: "Send Shop News", by: "From the Mod" }
-];
+/* Trail News. Stories live in /news.json (edit that file; newest first). pin:true = the one full-width Big News story (otherwise the newest is used); the rest run in two columns. kind "press" shows in the dark Thank You band. Fields: date, kind, pin, kicker, title, text, img, link, linkText, by. */
 (function(){
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  fetch('/news.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(j){render((j&&j.news)||[]);}).catch(function(){});
+  function render(NEWS){  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function pretty(d){var p=d.split('-'),m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[+p[1]-1]+' '+(+p[2])+', '+p[0];}
   try{document.getElementById('np-date').textContent=new Date().toLocaleDateString('en-US',{timeZone:'America/New_York',weekday:'long',month:'long',day:'numeric',year:'numeric'});}catch(e){}
   NEWS.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0;});
   var press=NEWS.filter(function(n){return n.kind==='press';}), stories=NEWS.filter(function(n){return n.kind!=='press';});
+  function ttl(n){var s=esc(n.title);return n.link?'<a class="np-tl" href="'+esc(n.link)+'"'+(/^https?:/.test(n.link)?' target="_blank" rel="noopener"':'')+'>'+s+'</a>':s;}
   function more(n){return n.link?'<a class="more" href="'+esc(n.link)+'"'+(/^https?:/.test(n.link)?' target="_blank" rel="noopener"':'')+'>'+esc(n.linkText||'Read More')+' &rarr;</a>':'';}
-  document.getElementById('np-press').innerHTML=press.map(function(n){return '<div class="np-press"><p class="np-kick">Thank You</p><h3>'+esc(n.title)+'</h3><p>'+esc(n.text)+'</p>'+more(n)+'</div>';}).join('');
+  document.getElementById('np-press').innerHTML=press.map(function(n){return '<div class="np-press"><p class="np-kick">Thank You</p><h3>'+ttl(n)+'</h3><p>'+esc(n.text)+'</p>'+more(n)+'</div>';}).join('');
   var lead=stories.filter(function(n){return n.pin;})[0]||stories[0], rest=stories.filter(function(n){return n!==lead;});
-  if(lead)document.getElementById('np-lead').innerHTML='<article class="np-lead">'+(lead.img?'<img src="'+esc(lead.img)+'" alt="" width="1200" height="630">':'')+'<div><p class="np-kick">'+(lead.kicker||'')+'</p><h2>'+esc(lead.title)+'</h2><p>'+esc(lead.text)+'</p><p class="np-by">'+esc(lead.by||'')+' &middot; '+pretty(lead.date)+'</p>'+more(lead)+'</div></article>';
-  document.getElementById('np-grid').innerHTML=rest.map(function(n){return '<article class="np-card">'+(n.img?'<img src="'+esc(n.img)+'" alt="" loading="lazy">':'')+'<p class="np-kick">'+esc(n.kicker||'')+'</p><h3>'+esc(n.title)+'</h3><p>'+esc(n.text)+'</p><p class="np-by">'+esc(n.by||'')+' &middot; '+pretty(n.date)+'</p>'+more(n)+'</article>';}).join('');
+  if(lead)document.getElementById('np-lead').innerHTML='<article class="np-lead">'+(lead.img?'<img src="'+esc(lead.img)+'" alt="" width="1200" height="630">':'')+'<div><p class="np-kick">'+(lead.kicker||'')+'</p><h2>'+ttl(lead)+'</h2><p>'+esc(lead.text)+'</p><p class="np-by">'+esc(lead.by||'')+' &middot; '+pretty(lead.date)+'</p>'+more(lead)+'</div></article>';
+  document.getElementById('np-grid').innerHTML=rest.map(function(n){return '<article class="np-card">'+(n.img?'<img src="'+esc(n.img)+'" alt="" loading="lazy">':'')+'<p class="np-kick">'+esc(n.kicker||'')+'</p><h3>'+ttl(n)+'</h3><p>'+esc(n.text)+'</p><p class="np-by">'+esc(n.by||'')+' &middot; '+pretty(n.date)+'</p>'+more(n)+'</article>';}).join('');
+  }
 })();
 </script>
 </body></html>

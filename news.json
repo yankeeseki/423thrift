@@ -1,0 +1,36 @@
+{
+ "news": [
+  {
+   "date": "2026-11-18",
+   "kind": "trail",
+   "pin": true,
+   "kicker": "Big News &middot; In The Chattanoogan",
+   "title": "New Chattanooga Thrift Trail Website Is “Labor Of Love”",
+   "text": "The Chattanoogan has featured the Thrift Trail: a new website that maps more than 50 thrift shops, vintage shops and antique malls across Chattanooga and nearby North Georgia. Enter your location, pick a route, and get a driving plan built around shop hours, with no app or account needed. Thank you to The Chattanoogan for sharing the Trail with the community.",
+   "img": "/og-image.png",
+   "link": "https://www.chattanoogan.com/2026/11/18/526296/New-Chattanooga-Thrift-Trail-Website.aspx",
+   "linkText": "Read It In The Chattanoogan",
+   "by": "The Chattanoogan"
+  },
+  {
+   "date": "2026-11-18",
+   "kind": "trail",
+   "kicker": "On the Trail",
+   "title": "The Thrift Trail Is Now On Instagram",
+   "text": "Follow @chattanoogathrifttrail for new shops, sales and finds from all around the Trail.",
+   "link": "https://www.instagram.com/chattanoogathrifttrail/",
+   "linkText": "Follow On Instagram",
+   "by": "From the Mod"
+  },
+  {
+   "date": "2026-11-18",
+   "kind": "trail",
+   "kicker": "On the Trail",
+   "title": "Trail News Has Opened",
+   "text": "Shop sales, new small businesses, events and every time the Thrift Trail makes the news will land here. Have news from your shop? Send it through the shop update form.",
+   "link": "/shops/update/",
+   "linkText": "Send Shop News",
+   "by": "From the Mod"
+  }
+ ]
+}
