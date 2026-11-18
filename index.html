@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v28.7-20261118">
+<meta name="ctt-build" content="v28.8-20261118">
 <title>Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops</title>
 <meta name="description" content="Plan a thrifting day in Chattanooga. See which of 50+ local thrift, vintage and antique shops are open, then follow a driving route from shop to shop.">
 <meta property="og:title" content="Chattanooga Thrift Trail: Map &amp; Route for Local Second-Hand Shops">
@@ -3111,7 +3111,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.7 &mdash; November 18, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v28.8 &mdash; November 18, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3253,6 +3253,39 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   ];
   var AREA_CHIP_SKIP = ['Ooltewah', 'Signal Mountain'];
 
+  // v28.8: extra social links per shop, read from each shop's own website (Nov 18 2026). fb / ig / tt.
+  var SHOP_SOCIAL = {
+    "Lookout Thrift": { fb: "https://www.facebook.com/profile.php?id=61581411846338" },
+    "SACs Thrift Avenue": { fb: "https://www.facebook.com/sacsthriftavefto", ig: "https://www.instagram.com/savacenterga", tt: "https://www.tiktok.com/@savacenterga" },
+    "Goodwill (Fort Oglethorpe)": { fb: "https://www.facebook.com/GoodwillChattanooga/", ig: "https://www.instagram.com/goodwill.chattanooga/", tt: "https://www.tiktok.com/@goodwillchatt" },
+    "Goodwill (East Brainerd)":   { fb: "https://www.facebook.com/GoodwillChattanooga/", ig: "https://www.instagram.com/goodwill.chattanooga/", tt: "https://www.tiktok.com/@goodwillchatt" },
+    "Goodwill (Hwy 58)":          { fb: "https://www.facebook.com/GoodwillChattanooga/", ig: "https://www.instagram.com/goodwill.chattanooga/", tt: "https://www.tiktok.com/@goodwillchatt" },
+    "Goodwill (Hixson)":          { fb: "https://www.facebook.com/GoodwillChattanooga/", ig: "https://www.instagram.com/goodwill.chattanooga/", tt: "https://www.tiktok.com/@goodwillchatt" },
+    "Goodwill (East Ridge)":      { fb: "https://www.facebook.com/GoodwillChattanooga/", ig: "https://www.instagram.com/goodwill.chattanooga/", tt: "https://www.tiktok.com/@goodwillchatt" },
+    "America's Thrift (Brainerd)":  { fb: "https://www.facebook.com/americasthrift", ig: "https://www.instagram.com/americasthrift" },
+    "America's Thrift (Northgate)": { fb: "https://www.facebook.com/americasthrift", ig: "https://www.instagram.com/americasthrift" },
+    "Humane Ed. Soc. Thrift": { fb: "https://www.facebook.com/heschatt", ig: "https://www.instagram.com/heschatt" },
+    "Bethel Thrift": { fb: "https://www.facebook.com/bethelbiblevillage", ig: "https://www.instagram.com/bethelbiblevillage_/" },
+    "NNH Thrift (Red Bank)": { fb: "https://www.facebook.com/nnhthrifts", ig: "https://www.instagram.com/nnhthrifts/" },
+    "NNH Thrift (N. Shore)": { fb: "https://www.facebook.com/nnhthrifts", ig: "https://www.instagram.com/nnhthrifts/" },
+    "Chattanooga Room in the Inn Thrift Store": { fb: "https://www.facebook.com/critithrift", ig: "https://www.instagram.com/criti.thrift" },
+    "Edith's Emporium": { fb: "https://www.facebook.com/101611908089175", ig: "https://www.instagram.com/edithsemporium", tt: "https://www.tiktok.com/@edithsemporium" },
+    "Collective Clothing": { ig: "https://www.instagram.com/collectiveclothing" },
+    "Electric Crocodile (N. Shore)":   { fb: "https://www.facebook.com/people/The-Electric-Crocodile/100067897880600/", ig: "https://www.instagram.com/electriccrocodile/", tt: "https://www.tiktok.com/@electriccrocodile" },
+    "Electric Crocodile (Southside)":  { fb: "https://www.facebook.com/people/The-Electric-Crocodile/100067897880600/", ig: "https://www.instagram.com/electriccrocodile/", tt: "https://www.tiktok.com/@electriccrocodile" },
+    "Mercantile at the Ridge": { fb: "https://www.facebook.com/mercantileattheridge/", ig: "https://www.instagram.com/mercantileattheridge/" },
+    "Dirty Jane's Antiques": { fb: "https://www.facebook.com/dirtyjaneschattanooga", ig: "https://www.instagram.com/dirtyjanesantiques" },
+    "Samaritan Center": { fb: "https://www.facebook.com/thesamaritancenter/", ig: "https://www.instagram.com/thesamaritancenter/" },
+    "THE REFINDERY on McCallie": { fb: "https://www.facebook.com/therefinderyonmccallie", ig: "https://www.instagram.com/therefindery" },
+    "Vintage & More On The Blvd": { fb: "https://www.facebook.com/vintageandmoreontheblvd/" },
+    "Habitat For Humanity": { fb: "https://www.facebook.com/habichatt", ig: "https://www.instagram.com/habichatt" },
+    "Crafter's Emporium & Book Exchange": { fb: "https://www.facebook.com/craftersemp/", ig: "https://www.instagram.com/crafterschattanooga/" },
+    "Crazy Daisy Antiques": { fb: "https://www.facebook.com/profile.php?id=100057704040001", ig: "https://www.instagram.com/crazydaisyofchattanooga/" },
+    "St. Timothy's Thrift Shop": { fb: "https://www.facebook.com/sttimothysepiscopal", ig: "https://www.instagram.com/signalsttims/" },
+    "The Clothes House on Signal Mountain": { fb: "https://www.facebook.com/ClothesHouseofSignalMountain/", ig: "https://www.instagram.com/smsocialservices/" },
+    "Bachman Bargain Barn": { fb: "https://www.facebook.com/profile.php?id=61579488995010", ig: "https://www.instagram.com/bachmancc/" },
+    "Rusted Rooster Antiques & Decor": { fb: "https://www.facebook.com/profile.php?id=61590579490639", ig: "https://www.instagram.com/rusted.rooster6511" }
+  };
   var SHOP_DETAILS = {"Creative ReSupply": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "r": "No", "m": "$5", "f": 1}, "Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No", "rw": "Punch card"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "rw": "Punch card"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"w": 1, "p": "Cash, checks, Venmo", "x": "$$", "r": "Yes", "s": "Various sales Wed-Sat"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program", "s": "Sun: college students &middot; Mon: seniors 65+ &middot; Tue: military &amp; first responders. 20% off with ID."}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "rw": "Punch card"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "m": "$5"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No", "s": "Half off daily: Mon furniture &middot; Tue select clothing &middot; Wed art &middot; Thu media &middot; Fri shoes &middot; Sat glassware"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program", "s": "Sun: college students &middot; Mon: seniors 65+ &middot; Tue: military &amp; first responders. 20% off with ID."}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun 50-90% off &middot; Mon 50% off select items &middot; Tue-Thu 75% off select items &middot; Wed also 10% off for seniors and veterans &middot; Sat 90% off items"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
@@ -3443,9 +3476,30 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     openDirections(a.href);
   }, true);
   function directionsLink(address) { return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ownSpot(address)) + '&travelmode=driving'; }
+  // v28.8: a url that is a Facebook / Instagram / TikTok / Linktree page is labelled as such instead of "Website".
+  function cttLinkKind(u) {
+    if (/facebook\.com|fb\.com/i.test(u)) return 'fb';
+    if (/instagram\.com/i.test(u)) return 'ig';
+    if (/tiktok\.com/i.test(u)) return 'tt';
+    if (/linktr\.ee/i.test(u)) return 'lt';
+    return 'web';
+  }
+  var CTT_LINK_LABEL = { fb: 'Facebook', ig: 'Instagram', tt: 'TikTok', lt: 'Linktree', web: 'Website' };
+  function cttLinkLabel(u) { return CTT_LINK_LABEL[cttLinkKind(u)]; }
+  // Website (or its social label) followed by the extra SHOP_SOCIAL links, skipping any kind already shown.
+  function cttSiteLinks(name, url, extraAttr) {
+    var out = [], seen = {}, ex = extraAttr || '';
+    if (url) { var k = cttLinkKind(url); seen[k] = 1; out.push('<a href="' + url + '" target="_blank" rel="noopener"' + ex + '>' + CTT_LINK_LABEL[k] + '</a>'); }
+    var so = SHOP_SOCIAL[name] || {};
+    ['fb', 'ig', 'tt'].forEach(function(k) { if (so[k] && !seen[k]) out.push('<a href="' + so[k] + '" target="_blank" rel="noopener"' + ex + '>' + CTT_LINK_LABEL[k] + '</a>'); });
+    return out.join(' &middot; ');
+  }
+  function googleListingLink(store) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(dn(store.name) + ', ' + store.address); }
   function popupLinksHtml(store) {
     var h = '<div class="ctt-pop-links"><a href="' + directionsLink(store.address) + '" target="_blank" rel="noopener">Get Directions</a>';
-    if (store.url) h += ' &middot; <a href="' + store.url + '" target="_blank" rel="noopener">' + 'Website' + '</a>';
+    h += ' &middot; <a href="' + googleListingLink(store) + '" target="_blank" rel="noopener">Google Listing</a>';
+    var sl = cttSiteLinks(store.name, store.url);
+    if (sl) h += ' &middot; ' + sl;
     return h + '</div>';
   }
   function shopPopupHtml(store, prefix) {
@@ -4628,7 +4682,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     if (!store.members || !store.members.length) return '';
     return '<div class="ctt-members"><div class="ctt-members-head">' + store.members.length + ' shops at this address</div>' + store.members.map(function(m) {
       var st = getOpenStatus(m.h), cls = (st.state === 'open' || st.state === 'soon') ? 'ctt-mem-open' : 'ctt-mem-closed';
-      return '<div class="ctt-mem"><div class="ctt-mem-name">' + cttEsc(m.n) + '</div><div class="ctt-mem-hours">' + m.h + ' &middot; <span class="' + cls + '">' + (cls === 'ctt-mem-open' ? cttEsc(st.text) : 'Closed now') + '</span> &middot; <a href="' + m.u + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Website</a></div></div>';
+      return '<div class="ctt-mem"><div class="ctt-mem-name">' + cttEsc(m.n) + '</div><div class="ctt-mem-hours">' + m.h + ' &middot; <span class="' + cls + '">' + (cls === 'ctt-mem-open' ? cttEsc(st.text) : 'Closed now') + '</span> &middot; ' + cttSiteLinks(m.n, m.u, ' onclick="event.stopPropagation()"') + '</div></div>';
     }).join('') + '</div>';
   }
   function buildCard(store, label, color, onRoute, routeIndex, routeTotal) {
