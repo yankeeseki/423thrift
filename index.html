@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v30-20261119">
+<meta name="ctt-build" content="v30.1-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -1674,7 +1674,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   @media (min-width: 781px) and (min-height: 521px) {
     .ctt-layout .ctt-map-col, .ctt-layout #ctt-map, .ctt-map-region > .ctt-map-sticky { position: relative !important; top: auto !important; }
     .ctt-map-col.ctt-has-own .ctt-own-btns .ctt-own-btn { height: var(--ctt-more-h, 55px); flex-direction: row; gap: 8px; padding: 0 12px; white-space: nowrap; }
-    .ctt-map-col.ctt-has-own .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 22px; }
+    .ctt-map-col.ctt-has-own .ctt-own-btns .ctt-own-btn { font-size: 14px; gap: 6px; padding: 0 8px; } /* v30.1 (Mod): three buttons share the row, so the text and icon are a little smaller */
+    .ctt-map-col.ctt-has-own .ctt-own-btns .ctt-own-btn .ctt-own-ico { font-size: 18px; }
   }
   .ctt-backtomap {
     display: none; position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 900;
@@ -2398,6 +2399,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   /* Your own stops (errands, lunch, appointments) */
   .ctt-own-box { margin-top: 0; padding: 5px 0 0; border: 0; border-radius: 0; background: transparent; } /* v24.3 (Mod): the dotted box around Add Your Own Stop / Add a Coffee Stop is gone */
   .ctt-own-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  a.ctt-own-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; box-sizing: border-box; } /* v30.1 (Mod): Beyond The Trail is a link styled like the other two buttons */
   .ctt-own-btn { margin: 0; font-family: 'Libre Franklin', sans-serif; font-size: 17px; font-weight: 700; color: var(--rust); background: var(--card); border: 2px solid var(--rust); border-radius: 26px; padding: 9px 18px; cursor: pointer; position: relative; }
   .ctt-own-btn:hover { background: var(--rust); color: #fff; }
   /* v24.0 (Mod): Add Your Own Stop / Add a Coffee Stop are two large circles side by side */
@@ -3004,7 +3006,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div id="ctt-offroute-enablers" class="ctt-en-more" hidden></div>
       </div>
       <div class="ctt-own-box">
-        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#128205;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button></div>
+        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#128205;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button><a class="ctt-own-btn" href="/beyond/" id="ctt-beyond-open"><span class="ctt-own-ico">&#129517;</span><span>Beyond The Trail</span></a></div>
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
@@ -3147,7 +3149,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.1 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
