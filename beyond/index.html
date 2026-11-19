@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _t=localStorage.getItem('beyond-title');if(_t)document.addEventListener('DOMContentLoaded',function(){var e=document.getElementById('ctt-x-title');if(e)e.textContent=_t;});}catch(e){}</script>
 <script>/* Beyond The Trail keeps its own route, filters and errands, separate from the main Trail. */
 (function(){var K={'ctt-progress':1,'ctt-filters':1,'ctt-filters-ver':1,'ctt-errands':1,'ctt-pending-resume':1,'ctt-arrived':1,'ctt-cta-collapsed':1,'ctt-has-located':1};var P=Storage.prototype,g=P.getItem,st=P.setItem,r=P.removeItem;function m(k){return K[k]?'beyond-'+k:k;}P.getItem=function(k){return g.call(this,m(k));};P.setItem=function(k,v){return st.call(this,m(k),v);};P.removeItem=function(k){return r.call(this,m(k));};})();
 </script>
@@ -13,7 +14,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v30.3-20261119">
+<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v30.4-20261119">
 <title>Beyond The Trail: Thrift, Vintage &amp; Antique Shops Near Chattanooga | Thrift Trail</title>
 <meta name="description" content="Day trips beyond the Chattanooga Thrift Trail: thrift, vintage and antique shops in Chattanooga, Cleveland, Dalton, Dayton, Chickamauga, Rock Spring, Whitwell, Dunlap, Ringgold, Soddy-Daisy and Tunnel Hill.">
 <meta name="robots" content="noindex,nofollow">
@@ -1808,6 +1809,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   /* v23.7 (Mod): ticking Visited by hand shows a green check in the box for 2 seconds first, then the shop is marked visited as usual */
   .ctt-visited-check.ctt-just-checked .ctt-visited-checkbox { accent-color: #4a5a3a; animation: cttCheckPop .35s ease-out; }
   @keyframes cttCheckPop { 0% { transform: scale(.7); } 60% { transform: scale(1.25); } 100% { transform: scale(1); } }
+  #ctt-x-title { display: block; white-space: nowrap; font-size: min(36px, calc((100vw - 100px) / 17)); line-height: 1.1; }
 </style>
 
 <style>#ctt-featured-day,.ctt-featured-day{display:none!important}</style>
@@ -1818,7 +1820,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   <div class="ctt-header">
     <button type="button" class="ctt-menu-btn" id="ctt-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="ctt-menu"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 6h20M3 13h20M3 20h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg></button>
     <nav class="ctt-menu" id="ctt-menu" aria-label="Menu" hidden></nav>
-    <h1 class="ctt-title"><picture><source media="(max-width: 600px)" srcset="/ctt-title-stacked.webp"><img class="ctt-title-img" src="/ctt-title-wide.webp" alt="Chattanooga Thrift Trail" width="1400" height="134" fetchpriority="high" decoding="async"></picture></h1>
+    <h1 class="ctt-title"><span id="ctt-x-title">SE TN &amp; N.GA Thrift Trail</span></h1>
     <p class="ctt-tagline" id="ctt-tagline"><strong>Beyond The Trail.</strong> Day Trips Worth the Drive.</p>
     
   </div>
@@ -2086,7 +2088,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.3 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.4 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -2380,7 +2382,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   } catch (e) {}
   (function() { var t = filters.types; try { if (localStorage.getItem('ctt-filters-ver') !== '3') { if (!t.curated && !t.antique && !t.top25 && !t.top20) filters.types = { thrift: false, curated: false, antique: false, top25: true, top20: false }; localStorage.setItem('ctt-filters-ver', '3'); } } catch (e) {} if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
-  window.cttBeyondNearest = function(lat, lng) { if (window.cttBeyondDone) return; window.cttBeyondDone = true; var best = -1, bd = 1e9, k = Math.cos(lat * Math.PI / 180); allLocations.forEach(function(l, i) { var dy = l.lat - lat, dx = (l.lng - lng) * k, d = dy * dy + dx * dx; if (d < bd) { bd = d; best = i; } }); if (best < 0) return; filters.areas = [areaGroupOf(allLocations[best])]; filters.xareas = []; if (window.cttFilterApply) window.cttFilterApply('nearest-town'); };
+  window.cttBeyondNearest = function(lat, lng) { if (window.cttBeyondDone) return; window.cttBeyondDone = true; var best = -1, bd = 1e9, k = Math.cos(lat * Math.PI / 180); allLocations.forEach(function(l, i) { var dy = l.lat - lat, dx = (l.lng - lng) * k, d = dy * dy + dx * dx; if (d < bd) { bd = d; best = i; } }); if (best < 0) return; filters.areas = [areaGroupOf(allLocations[best])]; var tt = allLocations[best].area + ' Thrift Trail', te = document.getElementById('ctt-x-title'); if (te) te.textContent = tt; try { localStorage.setItem('beyond-title', tt); } catch (e) {} filters.xareas = []; if (window.cttFilterApply) window.cttFilterApply('nearest-town'); };
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
   //   (nothing checked behaves like 'thrift': the default trail)
