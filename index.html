@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v31.4-20261119">
+<meta name="ctt-build" content="v31.6-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -1936,6 +1936,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-bg-hit .ctt-beyond-icon { opacity: .9; transition: transform .15s ease; }
   .ctt-hl .ctt-bg-hit .ctt-beyond-icon { opacity: 1; transform: scale(1.9); }
   .ctt-tag-num.diamond.beyond { background: #2c3e44; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+.ctt-beyond-ring-label { background: none; border: none; box-shadow: none; color: #ae4c2c; font-weight: 700; font-size: 13px; }
+  .ctt-beyond-ring-label:before { display: none; }
   .ctt-mini-hex { display: inline-block; width: 11px; height: 11px; background: #2c3e44; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
   .ctt-tag-num-inner { display: block; transform: rotate(-45deg); }
   /* v24.3 (Mod): More Shops diamonds are plain, solid, uncropped shapes: cut with clip-path (no rotation, so nothing pokes outside the box and gets clipped), no border, no inner symbol (it made a hole). */
@@ -3011,7 +3013,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div id="ctt-offroute-enablers" class="ctt-en-more" hidden></div>
       </div>
       <div class="ctt-own-box">
-        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#128205;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button><a class="ctt-own-btn" href="/beyond/" id="ctt-beyond-open"><span class="ctt-own-ico">&#129517;</span><span>Beyond The Trail</span></a></div>
+        <div class="ctt-own-btns"><button type="button" class="ctt-own-btn" id="ctt-addstop-open"><span class="ctt-own-ico">&#128205;</span><span>Add Your Own Stop</span></button><button type="button" class="ctt-own-btn ctt-coffee-open" id="ctt-coffee-open"><span class="ctt-own-ico">&#9749;</span><span>Add a Coffee Stop</span></button></div>
         <div class="ctt-coffee-panel" id="ctt-coffee-panel" role="region" aria-label="Coffee stop options"></div>
       </div>
     </div>
@@ -3135,7 +3137,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   <div class="ctt-bottom-row">
 
     <div class="ctt-bottom-right">
-      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-news-open" href="news/">Trail News</a><a class="ctt-disclaimer-toggle" id="ctt-itemsearch-open" href="itemsearch/">Image Search</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-enablers-open" href="enablers/" style="display:none">Enablers</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><a class="ctt-disclaimer-toggle" id="ctt-ig-open" href="https://www.instagram.com/chattanoogathrifttrail/" target="_blank" rel="noopener">Instagram</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
+      <nav class="ctt-footnav" aria-label="Site links"><a class="ctt-disclaimer-toggle" id="ctt-shops-open" href="shops/">Shops &amp; Charities</a><a class="ctt-disclaimer-toggle" id="ctt-xshops-open" href="/beyond/shops/">Neighboring Town Shops</a><a class="ctt-disclaimer-toggle" id="ctt-cal-open" href="calendar/">Community Calendar</a><a class="ctt-disclaimer-toggle" id="ctt-news-open" href="news/">Trail News</a><a class="ctt-disclaimer-toggle" id="ctt-itemsearch-open" href="itemsearch/">Image Search</a><a class="ctt-disclaimer-toggle" id="ctt-gi-open" href="#get-involved" style="display:none">Get Involved</a><a class="ctt-disclaimer-toggle" id="ctt-blog-open" href="blog/">Blog</a><a class="ctt-disclaimer-toggle" id="ctt-enablers-open" href="enablers/" style="display:none">Enablers</a><a class="ctt-disclaimer-toggle" id="ctt-arcade-open" href="arcade/">Arcade</a><a class="ctt-disclaimer-toggle" id="ctt-ig-open" href="https://www.instagram.com/chattanoogathrifttrail/" target="_blank" rel="noopener">Instagram</a><button class="ctt-feedback-link-btn" id="ctt-feedback-toggle">Send Feedback</button><a class="ctt-disclaimer-toggle" id="ctt-mgr-open" href="shops/update/">Shop Managers</a><button class="ctt-disclaimer-toggle" id="ctt-disclaimer-toggle">Disclaimer</button><button class="ctt-disclaimer-toggle" id="ctt-fullreset-open" type="button">Reset</button></nav>
     <div class="ctt-tip-section">
       <span class="ctt-tip-label">Enjoying the trail?</span>
       <a class="ctt-tip-btn" href="https://venmo.com/derekp13" target="_blank" rel="noopener">Tip via Venmo</a>
@@ -3155,7 +3157,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.4 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.6 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3482,6 +3484,17 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   filters.xareas = [];
   filters.open = false; filters.late = false; filters.charity = false; /* v30.7: the Also show only options were removed; clear any saved ones */
   try { var _sf = JSON.parse(localStorage.getItem('ctt-filters') || '{}'); filters.beyond = !!_sf.beyond; filters.incChatt = !!_sf.incChatt; } catch (e) { filters.beyond = false; filters.incChatt = false; }
+  /* v31.6 (Mod): links from the neighboring-town pages and the old /beyond/ address open the trail with Beyond ticked (?beyond=1), and with that one town picked and nothing else (&town=Dalton) */
+  try {
+    var _qs = new URLSearchParams(location.search);
+    if (_qs.get('beyond') === '1') {
+      filters.beyond = true;
+      var _tw = (_qs.get('town') || '').toLowerCase();
+      XGROUP_NAMES.forEach(function(nm) { if (_tw && nm.toLowerCase() === _tw) { filters.areas = [nm]; filters.types = { thrift: false, curated: false, antique: false, top25: false, top20: false }; } });
+      try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {}
+      if (history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+    }
+  } catch (e) {}
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
@@ -3521,6 +3534,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   // v31.0 (Mod): pick only neighboring towns and each town is its own little trail: those shops become the numbered route, Chattanooga steps aside unless Include Chattanooga is ticked.
   function beyondTowns() { return filters.areas.filter(function(a) { return XGROUP_NAMES.indexOf(a) !== -1; }); }
   function beyondPicked(loc) { return !!filters.beyond && filters.areas.indexOf(areaGroupOf(loc)) !== -1; } /* v31.2: a town you pick joins the route like any Chattanooga shop */
+  function beyondOverview() { return !!filters.beyond && beyondTowns().length === 0; } /* v31.5: Beyond ticked, no town picked: zoom out to see every neighboring shop, Chattanooga drawn as one simple ring */
+  var beyondRing = null;
   function beyondOnly() { return !!filters.beyond && beyondTowns().length > 0 && beyondTowns().length === filters.areas.length && typeMode() === 'none'; } /* v31.1: Chattanooga is in whenever a loop or shop type is ticked; untick them all and a town stands alone */
   // Does this shop survive the filters (shown on the map and in the lists at all)?
   function isVisible(loc, now) {
@@ -5500,6 +5515,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     updateSavedNote();
     setTimeout(function() {
       map.invalidateSize();
+      if (beyondRing) { try { map.removeLayer(beyondRing); } catch (e) {} beyondRing = null; }
+      if (beyondOverview()) {
+        try {
+          var nowO = effectiveNow(), ptsO = [[35.0456, -85.3097]];
+          allLocations.forEach(function(l) { if (l.xregion && isVisible(l, nowO)) ptsO.push([l.lat, l.lng]); });
+          if (ptsO.length > 1 && !window.cttMapLocked) { keepZoomOnce = false; map.invalidateSize(); map.fitBounds(L.latLngBounds(ptsO), { padding: [30, 30], maxZoom: 11 }); }
+          beyondRing = L.circle([35.0456, -85.3097], { radius: 9000, color: '#ae4c2c', weight: 2, dashArray: '6 6', fillColor: '#ae4c2c', fillOpacity: 0.08, interactive: false }).addTo(map);
+          beyondRing.bindTooltip('Chattanooga', { permanent: true, direction: 'center', className: 'ctt-beyond-ring-label' });
+        } catch (e) {}
+      } else
       fitRouteView(optimized.length ? optimized : (beyondOnly() ? allLocations.filter(function(l) { return l.xregion && isVisible(l, effectiveNow()); }) : optimized)); /* v31.0: frame the picked town even when its shops are closed today */
       layoutLabels();
     }, 50);
@@ -5774,7 +5799,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       saveFilters(); sync();
       if (typeof cttTrack === 'function') cttTrack('filter_change', { what: what, active: filtersActiveCount() });
       recalibrate(0);
-      if ((what === 'area' || what === 'beyond') && !window.cttMapLocked) setTimeout(function() { try { keepZoomOnce = false; fitRouteView(activeRoute); } catch (e) {} }, 150); /* v31.3: picking a town reframes the map to the whole route, Dalton included */
+      if ((what === 'area' || what === 'beyond') && !window.cttMapLocked && !beyondOverview()) setTimeout(function() { try { keepZoomOnce = false; fitRouteView(activeRoute); } catch (e) {} }, 150); /* v31.3: picking a town reframes the map to the whole route, Dalton included */
     }
     toggle.addEventListener('click', function() {
       var open = panel.style.display === 'none';
