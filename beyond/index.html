@@ -14,7 +14,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v30.4-20261119">
+<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v30.5-20261119">
 <title>Beyond The Trail: Thrift, Vintage &amp; Antique Shops Near Chattanooga | Thrift Trail</title>
 <meta name="description" content="Day trips beyond the Chattanooga Thrift Trail: thrift, vintage and antique shops in Chattanooga, Cleveland, Dalton, Dayton, Chickamauga, Rock Spring, Whitwell, Dunlap, Ringgold, Soddy-Daisy and Tunnel Hill.">
 <meta name="robots" content="noindex,nofollow">
@@ -1925,8 +1925,8 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="curated"> Vintage shops</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-xtype="antique"> Antique shops</label>
         </div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">3. Only These Areas</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Skip These Areas</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">3. These Areas</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
+        <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Not These Areas</div><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">5. Also show only</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="open"> Open today</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="late"> Open late</label>
@@ -2088,7 +2088,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.4 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.5 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -2382,7 +2382,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   } catch (e) {}
   (function() { var t = filters.types; try { if (localStorage.getItem('ctt-filters-ver') !== '3') { if (!t.curated && !t.antique && !t.top25 && !t.top20) filters.types = { thrift: false, curated: false, antique: false, top25: true, top20: false }; localStorage.setItem('ctt-filters-ver', '3'); } } catch (e) {} if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
-  window.cttBeyondNearest = function(lat, lng) { if (window.cttBeyondDone) return; window.cttBeyondDone = true; var best = -1, bd = 1e9, k = Math.cos(lat * Math.PI / 180); allLocations.forEach(function(l, i) { var dy = l.lat - lat, dx = (l.lng - lng) * k, d = dy * dy + dx * dx; if (d < bd) { bd = d; best = i; } }); if (best < 0) return; filters.areas = [areaGroupOf(allLocations[best])]; var tt = allLocations[best].area + ' Thrift Trail', te = document.getElementById('ctt-x-title'); if (te) te.textContent = tt; try { localStorage.setItem('beyond-title', tt); } catch (e) {} filters.xareas = []; if (window.cttFilterApply) window.cttFilterApply('nearest-town'); };
+  window.cttBeyondNearest = function(lat, lng) { if (window.cttBeyondDone) return; window.cttBeyondDone = true; var best = -1, bd = 1e9, k = Math.cos(lat * Math.PI / 180); allLocations.forEach(function(l, i) { var dy = l.lat - lat, dx = (l.lng - lng) * k, d = dy * dy + dx * dx; if (d < bd) { bd = d; best = i; } }); if (best < 0) return; filters.areas = [areaGroupOf(allLocations[best])]; var ar = allLocations[best].area, tt = ar === 'Chattanooga' ? 'SE TN & N.GA Thrift Trail' : ar + ' Thrift Trail', te = document.getElementById('ctt-x-title'); if (te) te.textContent = tt; try { if (ar === 'Chattanooga') localStorage.removeItem('beyond-title'); else localStorage.setItem('beyond-title', tt); } catch (e) {} filters.xareas = []; if (window.cttFilterApply) window.cttFilterApply('nearest-town'); };
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
   //   (nothing checked behaves like 'thrift': the default trail)
@@ -3751,7 +3751,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           '<span class="ctt-tag-rating-wrap" style="cursor:pointer" title="Tap to see and write reviews" data-review-toggle="' + encodeURIComponent(store.name) + '" data-rating-display="' + encodeURIComponent(store.name) + '" data-seed-rating="' + (store.myRating === null || store.myRating === undefined ? '' : store.myRating) + '">' + renderStars(store.myRating) + '</span>' +
         '</div>' +
         '<div class="ctt-review-toggle-row">' +
-          '<button class="ctt-review-toggle-btn" data-review-toggle="' + encodeURIComponent(store.name) + '">Reviews<span data-review-count="' + encodeURIComponent(store.name) + '"></span> <span data-review-arrow="' + encodeURIComponent(store.name) + '">&#9662;</span></button>' +
+          '<a class="ctt-review-toggle-btn" href="' + googleListingLink(store) + '" target="_blank" rel="noopener">Google</a>' +
         '</div>' +
       '</div>' +
       '<div class="ctt-review-section" data-review-section="' + encodeURIComponent(store.name) + '" style="display:none;"></div>' +
@@ -6141,7 +6141,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var MENU_EMOJI = { 'ctt-shops-open': '\uD83D\uDECD\uFE0F ', 'ctt-itemsearch-open': '\uD83D\uDCF7 ', 'ctt-cal-open': '\uD83D\uDCC5 ', 'ctt-news-open': '\uD83D\uDCF0 ', 'ctt-gi-open': '\uD83E\uDD1D ', 'ctt-blog-open': '\uD83D\uDCDD ', 'ctt-enablers-open': '\uD83E\uDD64 ', 'ctt-arcade-open': '\uD83D\uDD79\uFE0F ', 'ctt-feedback-toggle': '\uD83D\uDCAC ', 'ctt-mgr-open': '\uD83C\uDFEA ', 'ctt-disclaimer-toggle': '\uD83D\uDCCB ' };
     function items() {
       var acct = cttAcct();
-      var list = [{ account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
+      var list = [{ label: '\uD83D\uDDFA\uFE0F Chatt Thrift Trail', el: { tagName: 'A', getAttribute: function() { return null; }, click: function() { window.location.href = '/'; } }, scroll: false }, { account: true, label: acct.name ? '\uD83D\uDC64 Hi, ' + acct.name : '\uD83D\uDC64 Account' }];
       function addLink(id) {
         var el = document.getElementById(id);
         if (el && el.style.display !== 'none') list.push({ label: (MENU_EMOJI[id] || '') + el.textContent.trim(), el: el, scroll: el.tagName === 'BUTTON' });
@@ -7285,5 +7285,6 @@ window.cttFootFix=fix;window.addEventListener('resize',fix);window.addEventListe
   } catch (e) {}
 })();
 </script>
+<script>(function(){function add(){document.querySelectorAll('.ctt-footnav').forEach(function(n){if(n.querySelector('.ctt-x-home'))return;var a=document.createElement('a');a.className='ctt-disclaimer-toggle ctt-x-home';a.href='/';a.textContent='Chatt Thrift Trail';n.insertBefore(a,n.firstChild);});}add();document.addEventListener('DOMContentLoaded',add);window.addEventListener('load',add);setTimeout(add,400);setTimeout(add,1500);})();</script>
 </body>
 </html>
