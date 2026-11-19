@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v30.7-20261119">
+<meta name="ctt-build" content="v30.8-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -2990,6 +2990,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div class="ctt-fp-sec" style="display:none"><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div><!-- v30.7: Skip These Areas removed; kept empty and hidden so the panel code still finds it -->
         <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Beyond Chattanooga</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="beyond"> Shops in Neighboring Towns</label>
+          <div class="ctt-fp-chips" id="ctt-fp-bareas"></div>
         </div>
         <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
       </div>
@@ -3147,7 +3148,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.7 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.8 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3365,6 +3366,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     ['Kimball / South Pittsburg', ['Kimball', 'South Pittsburg']]   // v30.7: Beyond Chattanooga chips; only visible when that box is ticked
   ];
   var AREA_CHIP_SKIP = ['Signal Mountain'];
+  var XGROUP_NAMES = ['Dalton', 'Cleveland', 'Ringgold', 'Dayton', 'Soddy-Daisy', 'Chickamauga / Rock Spring', 'Whitwell / Jasper / Dunlap', 'Tunnel Hill', 'Rossville', 'LaFayette', 'Collegedale', 'Trenton', 'Kimball / South Pittsburg']; /* v30.7: the Beyond Chattanooga town buttons */
 
   var SHOP_DETAILS = {"Creative ReSupply": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "r": "No", "m": "$5", "f": 1}, "Crazy Daisy Antiques": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Green Gardinia": {"p": "Cash, credit &amp; debit cards (3% card fee)"}, "The Thrift Stop": {"r": "Yes"}, "Vinterest (Hixson)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Lookout Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Ladies of Charity Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "No", "rw": "Punch card"}, "Providence Thrift (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "rw": "Punch card"}, "Nifty Thrifty": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$", "r": "No"}, "St. Timothy's Thrift Shop": {"w": 1, "p": "Cash, checks, Venmo", "x": "$$", "r": "Yes", "s": "Wed-Sat: various sales"}, "Bachman Bargain Barn": {"w": 1, "p": "Cash, debit cards", "x": "$$", "r": "Yes"}, "The Clothes House on Signal Mountain": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "SACs Thrift Avenue": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Goodwill (Fort Oglethorpe)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "s": "Mon: last week's color tags $1.29 &middot; Wed: seniors 55+ 25% off &middot; Thu: military 25% off &middot; Daily: color of the week 50% off"}, "Chambliss Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program", "s": "Sun: college students 20% off &middot; Mon: seniors 65+ 20% off &middot; Tue: Military &amp; 1st Responders 20% off"}, "America's Thrift (Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program", "s": "Mon: seniors 55+ 10% off &middot; Wed: Military &amp; 1st Responders 10% off &middot; Thu: college students &amp; teachers 10% off &middot; Weekly color tags 30-50% off"}, "Hunts Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "rw": "Thrift Club rewards", "s": "Mon: Media Monday, books &amp; media half off &middot; Weekly color tags 50% off &middot; Bag deals"}, "Goodwill (East Brainerd)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "s": "Mon: last week's color tags $1.29 &middot; Wed: seniors 55+ 25% off &middot; Thu: military 25% off &middot; Daily: color of the week 50% off"}, "Providence Thrift (Lee Hwy)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "rw": "Punch card"}, "America's Thrift (Northgate)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay, checks", "x": "$$$", "r": "Yes", "m": "No", "rw": "Rewards program", "s": "Mon: seniors 55+ 10% off &middot; Wed: Military &amp; 1st Responders 10% off &middot; Thu: college students &amp; teachers 10% off &middot; Weekly color tags 30-50% off"}, "Goodwill (Hwy 58)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "s": "Mon: last week's color tags $1.29 &middot; Wed: seniors 55+ 25% off &middot; Thu: military 25% off &middot; Daily: color of the week 50% off"}, "Humane Ed. Soc. Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "m": "$5", "s": "Tue: military 10% off &middot; Thu: seniors 55+ 10% off &middot; Last Sat of the month: all clothing 50% off"}, "Bethel Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No"}, "Friends & Family Thrift": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "No", "s": "Mon: furniture half off &middot; Tue: select clothing half off &middot; Wed: art half off &middot; Thu: media half off &middot; Fri: shoes half off &middot; Sat: glassware half off"}, "NNH Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$", "r": "Yes"}, "Chambliss Thrift (Red Bank)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "No", "rw": "Rewards program", "s": "Sun: college students 20% off &middot; Mon: seniors 65+ 20% off &middot; Tue: Military &amp; 1st Responders 20% off"}, "NNH Thrift (N. Shore)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$"}, "Goodwill (Hixson)": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No", "s": "Mon: last week's color tags $1.29 &middot; Wed: seniors 55+ 25% off &middot; Thu: military 25% off &middot; Daily: color of the week 50% off"}, "Vinterest (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "f": 1, "x": "$$$$"}, "Habitat For Humanity": {"w": 1, "p": "Cash", "x": "$$$", "m": "No"}, "Archive Thrift": {"p": "Cash", "x": "$$$"}, "Goodwill (East Ridge)": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$", "r": "Yes", "m": "No", "s": "Mon: last week's color tags $1.29 &middot; Wed: seniors 55+ 25% off &middot; Thu: military 25% off &middot; Daily: color of the week 50% off"}, "Electric Crocodile (N. Shore)": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Pop's & Granny's Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$"}, "Chattanooga Room in the Inn Thrift Store": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$", "r": "Yes", "m": "No", "f": 1, "s": "Sun: 50-90% off &middot; Mon: 50% off select items &middot; Tue-Thu: 75% off select items &middot; Wed: seniors &amp; military extra 10% off &middot; Sat: 90% off"}, "Poor Taste": {"w": 1, "p": "Cash, credit &amp; debit cards", "x": "$$$$", "r": "Yes"}, "Savers": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes", "m": "No"}, "Edith's Emporium": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Collective Clothing": {"r": "No", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Local Dive Retail": {"r": "No", "w": 1, "p": "Cash", "x": "$$$$"}, "Electric Crocodile (Southside)": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "THE REFINDERY on McCallie": {"w": 1, "p": "Cash", "x": "$$$$", "r": "Yes"}, "Mercantile at the Ridge": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Dirty Jane's Antiques": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Vintage & More On The Blvd": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Crafter's Emporium & Book Exchange": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$$"}, "Samaritan Center": {"w": 1, "p": "Cash, credit &amp; debit cards, tap to pay", "x": "$$$", "r": "Yes"}, "East Ridge Antique District": {"r": "Yes", "w": 1, "p": "Cash, credit &amp; debit cards (3% card fee)", "x": "$$$$"}};
   /* v29.7 (Mod): Google ratings (snapshot, refreshed monthly) and a short customer recap per shop. The recap shows at the top of the Reviews drop-down; deals stay in the deals line. */
@@ -5624,10 +5626,12 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var panel = document.getElementById('ctt-filter-panel');
     var areasEl = document.getElementById('ctt-fp-areas');
     var xEl = document.getElementById('ctt-fp-xareas');
+    var bEl = document.getElementById('ctt-fp-bareas');
     if (!toggle || !panel) return;
     SHOP_GROUPS.forEach(function(g) {
       if (AREA_CHIP_SKIP.indexOf(g[0]) !== -1) return;
       var b = document.createElement('button'); b.type = 'button'; b.textContent = g[0].replace(/, GA$/, ''); b.setAttribute('data-area', g[0]);
+      if (bEl && XGROUP_NAMES.indexOf(g[0]) !== -1) { bEl.appendChild(b); return; }
       areasEl.appendChild(b);
       var xb = b.cloneNode(true); xEl.appendChild(xb);
     });
@@ -5651,7 +5655,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       allLocations.forEach(function(s2) { if (isVisible(s2, nowE) && (defaultIncluded(s2) || s2.xregion)) hasShops[areaGroupOf(s2)] = true; });
       window.cttChipProbe = false; filters.areas = savedAreas;
       var blank = typeMode() === 'none';
-      [].forEach.call(areasEl.querySelectorAll('button'), function(b) {
+      [].concat([].slice.call(areasEl.querySelectorAll('button')), bEl ? [].slice.call(bEl.querySelectorAll('button')) : []).forEach(function(b) {
         var a = b.getAttribute('data-area'), on = filters.areas.indexOf(a) !== -1, dim = !on && !blank && !hasShops[a];
         b.className = on ? 'on' : (dim ? 'dim' : '');
         b.disabled = dim; b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -5695,16 +5699,16 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         }
         apply('type');
       } else if (t.hasAttribute('data-flag')) {
-        var f = t.getAttribute('data-flag'); filters[f] = t.checked;
+        var f = t.getAttribute('data-flag'); filters[f] = t.checked; if (f === 'beyond' && !t.checked) filters.areas = filters.areas.filter(function(x) { return XGROUP_NAMES.indexOf(x) === -1; }); /* v30.7: unticking Beyond Chattanooga clears its town buttons */
         apply(f);
       }
     });
-    areasEl.addEventListener('click', function(e) {
+    [areasEl, bEl].forEach(function(listEl) { if (!listEl) return; listEl.addEventListener('click', function(e) {
       var b = e.target.closest('button'); if (!b) return;
       var a = b.getAttribute('data-area'), ix = filters.areas.indexOf(a);
       if (ix === -1) { filters.areas.push(a); var xi = filters.xareas.indexOf(a); if (xi !== -1) filters.xareas.splice(xi, 1); } else filters.areas.splice(ix, 1);
       apply('area');
-    });
+    }); });
     xEl.addEventListener('click', function(e) {
       var b = e.target.closest('button'); if (!b) return;
       var a = b.getAttribute('data-area'), ix = filters.xareas.indexOf(a);
