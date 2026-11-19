@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v31.6-20261119">
+<meta name="ctt-build" content="v31.7-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -1932,13 +1932,13 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     padding-top: 0; border: 1.5px solid var(--paper); box-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
   /* v30.9 (Mod): Beyond Chattanooga shops get their own marker, a slate hexagon, so they read as a different group from gold Bonus diamonds. Shape and color both differ. */
-  .ctt-beyond-icon { width: 17px; height: 17px; background: #2c3e44; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+  .ctt-beyond-icon { width: 14px; height: 14px; background: #2c3e44; border: 2px solid #f5e2bc; border-radius: 50%; box-sizing: border-box; } /* v31.7 (Mod): Beyond shops are slate dots, not hexagons */
   .ctt-bg-hit .ctt-beyond-icon { opacity: .9; transition: transform .15s ease; }
   .ctt-hl .ctt-bg-hit .ctt-beyond-icon { opacity: 1; transform: scale(1.9); }
-  .ctt-tag-num.diamond.beyond { background: #2c3e44; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+  .ctt-tag-num.diamond.beyond { background: #2c3e44; border-radius: 50%; }
 .ctt-beyond-ring-label { background: none; border: none; box-shadow: none; color: #ae4c2c; font-weight: 700; font-size: 13px; }
   .ctt-beyond-ring-label:before { display: none; }
-  .ctt-mini-hex { display: inline-block; width: 11px; height: 11px; background: #2c3e44; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+  .ctt-mini-hex { display: inline-block; width: 11px; height: 11px; background: #2c3e44; border-radius: 50%; }
   .ctt-tag-num-inner { display: block; transform: rotate(-45deg); }
   /* v24.3 (Mod): More Shops diamonds are plain, solid, uncropped shapes: cut with clip-path (no rotation, so nothing pokes outside the box and gets clipped), no border, no inner symbol (it made a hole). */
   .ctt-tag-num.diamond { transform: none; border: 0; box-shadow: none; border-radius: 0; background: var(--gold); width: 20px; height: 20px; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
@@ -3157,7 +3157,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.6 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.7 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
