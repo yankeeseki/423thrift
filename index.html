@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v31.1-20261119">
+<meta name="ctt-build" content="v31.2-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -3155,7 +3155,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.1 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.2 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3520,6 +3520,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   }
   // v31.0 (Mod): pick only neighboring towns and each town is its own little trail: those shops become the numbered route, Chattanooga steps aside unless Include Chattanooga is ticked.
   function beyondTowns() { return filters.areas.filter(function(a) { return XGROUP_NAMES.indexOf(a) !== -1; }); }
+  function beyondPicked(loc) { return !!filters.beyond && filters.areas.indexOf(areaGroupOf(loc)) !== -1; } /* v31.2: a town you pick joins the route like any Chattanooga shop */
   function beyondOnly() { return !!filters.beyond && beyondTowns().length > 0 && beyondTowns().length === filters.areas.length && typeMode() === 'none'; } /* v31.1: Chattanooga is in whenever a loop or shop type is ticked; untick them all and a town stands alone */
   // Does this shop survive the filters (shown on the map and in the lists at all)?
   function isVisible(loc, now) {
@@ -3541,7 +3542,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     return true;
   }
   function defaultIncluded(loc) {
-    if (loc.xregion) return beyondOnly(); /* a town on its own is a real route */
+    if (loc.xregion) return beyondPicked(loc) && (typeMode() !== 'none' || beyondOnly()); /* v31.2: picked towns are route shops, with a loop or on their own */
     var mode = typeMode();
     if (mode === 'top25') return true;
     if (mode === 'thrift') return !loc.defaultBonus;
@@ -4841,7 +4842,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
-        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : (store.xregion && !beyondOnly() ? ' diamond beyond' : ' diamond')) + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
+        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : (store.xregion && !beyondPicked(store) ? ' diamond beyond' : ' diamond')) + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           cttParen(dn(store.name).replace(/East Brainerd/g, 'E.Brainerd')) + /* v23.5 (Mod): list view shows E.Brainerd */
         '</div>' + visitedHtml +
       '</div>' +
@@ -5184,7 +5185,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (showing[s.name]) return;   // already a numbered or lettered icon
       if (s.closesAfter && now.dateStr > s.closesAfter) return;
       if (s.xregion ? !isVisible(s, now) : beyondOnly()) return; /* v31.0: Beyond shops show only for the towns picked; a town on its own leaves Chattanooga off the map */
-      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name, isFeaturedToday(s), s.xregion && !beyondOnly()), zIndexOffset: isFeaturedToday(s) ? -1000 : -2000 }).addTo(map);
+      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name, isFeaturedToday(s), s.xregion && !beyondPicked(s)), zIndexOffset: isFeaturedToday(s) ? -1000 : -2000 }).addTo(map);
       m.bindPopup(bonusPopupNode(s), { maxWidth: 220 });
       bgBonusMarkers.push(m);
       // The same shop also gets a card in More Shops, so the list matches what the map shows.
@@ -5377,7 +5378,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       excluded.forEach(function(store, i) {
         var letter = String.fromCharCode(65 + (i % 26));
         var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
-        var marker = L.marker([store.lat, store.lng], { icon: bgBonusIcon(store.name, false, store.xregion && !beyondOnly()), zIndexOffset: -1000 }).addTo(map);
+        var marker = L.marker([store.lat, store.lng], { icon: bgBonusIcon(store.name, false, store.xregion && !beyondPicked(store)), zIndexOffset: -1000 }).addTo(map);
         offRouteMarkers.push(marker);
         marker._cttBaseZ = -1000; markerByName[store.name] = marker;
         marker.bindPopup(offRoutePopupNode(store), { maxWidth: 320, minWidth: 200 });
@@ -5675,7 +5676,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       [].forEach.call(xEl.querySelectorAll('button'), function(b) { b.className = filters.xareas.indexOf(b.getAttribute('data-area')) !== -1 ? 'x' : ''; b.setAttribute('aria-pressed', b.className === 'x' ? 'true' : 'false'); b.hidden = b.className !== 'x' && !blank && !hasShops[b.getAttribute('data-area')]; });
       [areasEl, xEl].forEach(function(el) { var sec = el.parentNode; if (!sec) return; var any = false; [].forEach.call(el.querySelectorAll('button'), function(b) { if (!b.hidden) any = true; }); sec.hidden = !any; });
-      var lgB = document.getElementById('ctt-legend-beyond'); if (lgB) lgB.style.display = (filters.beyond && !beyondOnly()) ? '' : 'none';
+      var lgB = document.getElementById('ctt-legend-beyond'); if (lgB) lgB.style.display = (filters.beyond && !beyondTowns().length) ? '' : 'none';
       var n = filtersActiveCount();
       toggle.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
       toggle.className = 'ctt-filter-toggle' + (n ? ' on' : '');
