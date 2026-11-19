@@ -13,7 +13,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v31.0-20261119">
+<meta name="ctt-page" content="beyond"><meta name="ctt-build" content="v31.1-20261119">
 <title>SE TN &amp; North Georgia Thrift Trail: Thrift, Antique &amp; Vintage Shops Near Chattanooga</title>
 <link rel="canonical" href="https://423thrift.com/beyond/">
 <meta property="og:title" content="SE TN &amp; North Georgia Thrift Trail: Thrift, Antique &amp; Vintage Shops Near Chattanooga"><meta property="og:description" content="Plan a day trip to thrift stores, antique malls, vintage shops and flea markets in Dalton, Cleveland, Ringgold, Dayton, Soddy-Daisy, Chickamauga, Tunnel Hill and more, all within about 40 miles of Chattanooga. Hours, addresses and a route map.">
@@ -1936,11 +1936,6 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         </div>
         <div class="ctt-fp-sec"><div class="ctt-fp-h">3. These Areas</div><div class="ctt-fp-chips" id="ctt-fp-areas"></div></div>
         <div class="ctt-fp-sec" style="display:none"><div class="ctt-fp-chips ctt-fp-xchips" id="ctt-fp-xareas"></div></div><!-- v30.7: Skip These Areas removed; kept empty and hidden so the panel code still finds it -->
-        <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Beyond Chattanooga</div>
-          <label class="ctt-fp-opt"><input type="checkbox" data-flag="beyond"> Shops in Neighboring Towns</label>
-          <div class="ctt-fp-chips" id="ctt-fp-bareas"></div>
-          <label class="ctt-fp-opt" id="ctt-fp-incc" style="display:none;margin-top:10px"><input type="checkbox" data-flag="incChatt"> Include Chattanooga</label>
-        </div>
         <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
       </div>
         <div class="ctt-lsearch" id="ctt-lsearch"><input type="text" id="ctt-list-q" inputmode="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search shops by name" aria-label="Search shops by name"><button type="button" class="ctt-lsearch-x" id="ctt-list-q-x" aria-label="Clear search" hidden>&times;</button></div>
@@ -2098,7 +2093,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.0 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.1 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -2457,17 +2452,17 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   }
   // v31.0 (Mod): pick only neighboring towns and each town is its own little trail: those shops become the numbered route, Chattanooga steps aside unless Include Chattanooga is ticked.
   function beyondTowns() { return filters.areas.filter(function(a) { return XGROUP_NAMES.indexOf(a) !== -1; }); }
-  function beyondOnly() { return !!filters.beyond && beyondTowns().length > 0 && beyondTowns().length === filters.areas.length && !filters.incChatt; }
+  function beyondOnly() { return !!filters.beyond && beyondTowns().length > 0 && beyondTowns().length === filters.areas.length && typeMode() === 'none'; } /* v31.1: Chattanooga is in whenever a loop or shop type is ticked; untick them all and a town stands alone */
   // Does this shop survive the filters (shown on the map and in the lists at all)?
   function isVisible(loc, now) {
     var mode = typeMode();
-    if (mode === 'none') return false;
+    if (mode === 'none' && !(loc.xregion && beyondOnly())) return false;
     if (manualOverrides[loc.name] === 'include') return true; // you added it yourself
     if (loc.xregion) { if (!filters.beyond) return false; if (filters.xtypes[typeKey(loc.category)]) return false; if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false; if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(loc)) !== -1) return false; return true; } /* v30.7 (Mod): Beyond Chattanooga shops show only when that box is ticked, as extra shops (never in the default route) */
     if (loc.gated && !(filters.types.antique && (window.cttChipProbe || filters.areas.indexOf(areaGroupOf(loc)) !== -1))) return false; /* v30.6 (Mod): a gated shop (Ooltewah Antique Mall) only shows when Antique Mall and its area are both ticked */
     if (mode === 'top25' && !inPickedLists(loc.name)) return false;
     if (filters.xtypes[typeKey(loc.category)]) return false;
-    if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1 && !(filters.incChatt && filters.beyond && beyondTowns().length === filters.areas.length)) return false; /* v31.0: with Include Chattanooga ticked, the town picks do not hide Chattanooga */
+    if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1 && !(filters.beyond && beyondTowns().length === filters.areas.length)) return false; /* v31.1: neighboring-town picks never hide the Chattanooga shops your loop or types show */
     if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(loc)) !== -1) return false;
     if (filters.charity && !SHOP_BENEFIT[loc.name]) return false;
     if (filters.open || filters.late) {
@@ -2478,7 +2473,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     return true;
   }
   function defaultIncluded(loc) {
-    if (loc.xregion) return beyondOnly() && typeMode() !== 'none'; /* v31.0: a town on its own is a real route */
+    if (loc.xregion) return beyondOnly(); /* a town on its own is a real route */
     var mode = typeMode();
     if (mode === 'top25') return true;
     if (mode === 'thrift') return !loc.defaultBonus;
@@ -4612,7 +4607,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       [].forEach.call(xEl.querySelectorAll('button'), function(b) { b.className = filters.xareas.indexOf(b.getAttribute('data-area')) !== -1 ? 'x' : ''; b.setAttribute('aria-pressed', b.className === 'x' ? 'true' : 'false'); b.hidden = b.className !== 'x' && !blank && !hasShops[b.getAttribute('data-area')]; });
       [areasEl, xEl].forEach(function(el) { var sec = el.parentNode; if (!sec) return; var any = false; [].forEach.call(el.querySelectorAll('button'), function(b) { if (!b.hidden) any = true; }); sec.hidden = !any; });
-      var lgB = document.getElementById('ctt-legend-beyond'); if (!beyondTowns().length) filters.incChatt = false; var lgIc = document.getElementById('ctt-fp-incc'); if (lgIc) { lgIc.style.display = (filters.beyond && beyondTowns().length) ? '' : 'none'; var lgIcI = lgIc.querySelector('input'); if (lgIcI) lgIcI.checked = !!filters.incChatt; } if (lgB) lgB.style.display = (filters.beyond && !beyondOnly()) ? '' : 'none';
+      var lgB = document.getElementById('ctt-legend-beyond'); if (lgB) lgB.style.display = (filters.beyond && !beyondOnly()) ? '' : 'none';
       var n = filtersActiveCount();
       toggle.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
       toggle.className = 'ctt-filter-toggle' + (n ? ' on' : '');
@@ -4649,7 +4644,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         }
         apply('type');
       } else if (t.hasAttribute('data-flag')) {
-        var f = t.getAttribute('data-flag'); filters[f] = t.checked; if (f === 'beyond' && !t.checked) filters.incChatt = false; if (f === 'beyond' && !t.checked) filters.areas = filters.areas.filter(function(x) { return XGROUP_NAMES.indexOf(x) === -1; }); /* v30.7: unticking Beyond Chattanooga clears its town buttons */
+        var f = t.getAttribute('data-flag'); filters[f] = t.checked; if (f === 'beyond' && !t.checked) filters.areas = filters.areas.filter(function(x) { return XGROUP_NAMES.indexOf(x) === -1; }); /* v30.7: unticking Beyond Chattanooga clears its town buttons */
         apply(f);
       }
     });
