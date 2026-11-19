@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v30.9-20261119">
+<meta name="ctt-build" content="v31.0-20261119">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -2997,6 +2997,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
         <div class="ctt-fp-sec"><div class="ctt-fp-h">4. Beyond Chattanooga</div>
           <label class="ctt-fp-opt"><input type="checkbox" data-flag="beyond"> Shops in Neighboring Towns</label>
           <div class="ctt-fp-chips" id="ctt-fp-bareas"></div>
+          <label class="ctt-fp-opt" id="ctt-fp-incc" style="display:none;margin-top:10px"><input type="checkbox" data-flag="incChatt"> Include Chattanooga</label>
         </div>
         <div class="ctt-fp-foot"><span id="ctt-fp-count"></span><span><button type="button" class="ctt-fp-link" id="ctt-fp-reset">Reset</button> <button type="button" class="ctt-fp-done" id="ctt-fp-done">Done</button></span></div>
       </div>
@@ -3155,7 +3156,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v30.9 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.0 &mdash; November 19, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3472,7 +3473,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     "Electric Crocodile (N. Shore)",
     "Archive Thrift",
   ];
-  var FILTER_DEFAULT = { types: { thrift: false, curated: false, antique: false, top25: true, top20: false }, areas: [], open: false, late: false, charity: false, beyond: false, xareas: [], xtypes: { thrift: false, curated: false, antique: false } };
+  var FILTER_DEFAULT = { types: { thrift: false, curated: false, antique: false, top25: true, top20: false }, areas: [], open: false, late: false, charity: false, beyond: false, incChatt: false, xareas: [], xtypes: { thrift: false, curated: false, antique: false } };
   var filters = JSON.parse(JSON.stringify(FILTER_DEFAULT));
   try {
     var rawF = localStorage.getItem('ctt-filters');
@@ -3481,7 +3482,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   (function() { var t = filters.types; try { if (localStorage.getItem('ctt-filters-ver') !== '3') { if (!t.curated && !t.antique && !t.top25 && !t.top20) filters.types = { thrift: false, curated: false, antique: false, top25: true, top20: false }; localStorage.setItem('ctt-filters-ver', '3'); } } catch (e) {} if (t.top25 || t.top20) { var k = t.top25 ? 'top25' : 'top20'; filters.types = { thrift: false, curated: false, antique: false, top25: k === 'top25', top20: k === 'top20' }; } })();
   filters.xareas = [];
   filters.open = false; filters.late = false; filters.charity = false; /* v30.7: the Also show only options were removed; clear any saved ones */
-  try { filters.beyond = !!JSON.parse(localStorage.getItem('ctt-filters') || '{}').beyond; } catch (e) { filters.beyond = false; }
+  try { var _sf = JSON.parse(localStorage.getItem('ctt-filters') || '{}'); filters.beyond = !!_sf.beyond; filters.incChatt = !!_sf.incChatt; } catch (e) { filters.beyond = false; filters.incChatt = false; }
   function saveFilters() { try { localStorage.setItem('ctt-filters', JSON.stringify(filters)); } catch (e) {} }
   function typeKey(cat) { return cat === 'Curated Shop' ? 'curated' : (cat === 'Antique Mall' ? 'antique' : 'thrift'); }
   // How the four "experience" boxes read:
@@ -3518,6 +3519,9 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (filters.beyond) n++;
     return n;
   }
+  // v31.0 (Mod): pick only neighboring towns and each town is its own little trail: those shops become the numbered route, Chattanooga steps aside unless Include Chattanooga is ticked.
+  function beyondTowns() { return filters.areas.filter(function(a) { return XGROUP_NAMES.indexOf(a) !== -1; }); }
+  function beyondOnly() { return !!filters.beyond && beyondTowns().length > 0 && beyondTowns().length === filters.areas.length && !filters.incChatt; }
   // Does this shop survive the filters (shown on the map and in the lists at all)?
   function isVisible(loc, now) {
     var mode = typeMode();
@@ -3527,7 +3531,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (loc.gated && !(filters.types.antique && (window.cttChipProbe || filters.areas.indexOf(areaGroupOf(loc)) !== -1))) return false; /* v30.6 (Mod): a gated shop (Ooltewah Antique Mall) only shows when Antique Mall and its area are both ticked */
     if (mode === 'top25' && !inPickedLists(loc.name)) return false;
     if (filters.xtypes[typeKey(loc.category)]) return false;
-    if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false;
+    if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1 && !(filters.incChatt && filters.beyond && beyondTowns().length === filters.areas.length)) return false; /* v31.0: with Include Chattanooga ticked, the town picks do not hide Chattanooga */
     if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(loc)) !== -1) return false;
     if (filters.charity && !SHOP_BENEFIT[loc.name]) return false;
     if (filters.open || filters.late) {
@@ -3538,7 +3542,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     return true;
   }
   function defaultIncluded(loc) {
-    if (loc.xregion) return false;
+    if (loc.xregion) return beyondOnly() && typeMode() !== 'none'; /* v31.0: a town on its own is a real route */
     var mode = typeMode();
     if (mode === 'top25') return true;
     if (mode === 'thrift') return !loc.defaultBonus;
@@ -4838,7 +4842,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       '<div class="ctt-tag-row">' + photoCol + '<div class="ctt-tag-info">' +
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
-        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : (store.xregion ? ' diamond beyond' : ' diamond')) + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
+        '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : (store.xregion && !beyondOnly() ? ' diamond beyond' : ' diamond')) + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
           cttParen(dn(store.name).replace(/East Brainerd/g, 'E.Brainerd')) + /* v23.5 (Mod): list view shows E.Brainerd */
         '</div>' + visitedHtml +
       '</div>' +
@@ -5180,7 +5184,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     allLocations.forEach(function(s) {
       if (showing[s.name]) return;   // already a numbered or lettered icon
       if (s.closesAfter && now.dateStr > s.closesAfter) return;
-      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name, isFeaturedToday(s), s.xregion), zIndexOffset: isFeaturedToday(s) ? -1000 : -2000 }).addTo(map);
+      if (s.xregion ? !isVisible(s, now) : beyondOnly()) return; /* v31.0: Beyond shops show only for the towns picked; a town on its own leaves Chattanooga off the map */
+      var m = L.marker([s.lat, s.lng], { icon: bgBonusIcon(s.name, isFeaturedToday(s), s.xregion && !beyondOnly()), zIndexOffset: isFeaturedToday(s) ? -1000 : -2000 }).addTo(map);
       m.bindPopup(bonusPopupNode(s), { maxWidth: 220 });
       bgBonusMarkers.push(m);
       // The same shop also gets a card in More Shops, so the list matches what the map shows.
@@ -5373,7 +5378,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       excluded.forEach(function(store, i) {
         var letter = String.fromCharCode(65 + (i % 26));
         var color = CATEGORY_COLORS[store.category] || '#4a5a3a';
-        var marker = L.marker([store.lat, store.lng], { icon: bgBonusIcon(store.name, false, store.xregion), zIndexOffset: -1000 }).addTo(map);
+        var marker = L.marker([store.lat, store.lng], { icon: bgBonusIcon(store.name, false, store.xregion && !beyondOnly()), zIndexOffset: -1000 }).addTo(map);
         offRouteMarkers.push(marker);
         marker._cttBaseZ = -1000; markerByName[store.name] = marker;
         marker.bindPopup(offRoutePopupNode(store), { maxWidth: 320, minWidth: 200 });
@@ -5407,7 +5412,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     updateSavedNote();
     setTimeout(function() {
       map.invalidateSize();
-      fitRouteView(optimized);
+      fitRouteView(optimized.length ? optimized : (beyondOnly() ? allLocations.filter(function(l) { return l.xregion && isVisible(l, effectiveNow()); }) : optimized)); /* v31.0: frame the picked town even when its shops are closed today */
       layoutLabels();
     }, 50);
     if (typeof refreshCountdown === 'function') refreshCountdown();
@@ -5671,7 +5676,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       });
       [].forEach.call(xEl.querySelectorAll('button'), function(b) { b.className = filters.xareas.indexOf(b.getAttribute('data-area')) !== -1 ? 'x' : ''; b.setAttribute('aria-pressed', b.className === 'x' ? 'true' : 'false'); b.hidden = b.className !== 'x' && !blank && !hasShops[b.getAttribute('data-area')]; });
       [areasEl, xEl].forEach(function(el) { var sec = el.parentNode; if (!sec) return; var any = false; [].forEach.call(el.querySelectorAll('button'), function(b) { if (!b.hidden) any = true; }); sec.hidden = !any; });
-      var lgB = document.getElementById('ctt-legend-beyond'); if (lgB) lgB.style.display = filters.beyond ? '' : 'none';
+      var lgB = document.getElementById('ctt-legend-beyond'); if (!beyondTowns().length) filters.incChatt = false; var lgIc = document.getElementById('ctt-fp-incc'); if (lgIc) { lgIc.style.display = (filters.beyond && beyondTowns().length) ? '' : 'none'; var lgIcI = lgIc.querySelector('input'); if (lgIcI) lgIcI.checked = !!filters.incChatt; } if (lgB) lgB.style.display = (filters.beyond && !beyondOnly()) ? '' : 'none';
       var n = filtersActiveCount();
       toggle.textContent = window.cttRouteN ? 'Filter (' + window.cttRouteN + ')' : 'Filter';
       toggle.className = 'ctt-filter-toggle' + (n ? ' on' : '');
@@ -5707,7 +5712,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
         }
         apply('type');
       } else if (t.hasAttribute('data-flag')) {
-        var f = t.getAttribute('data-flag'); filters[f] = t.checked; if (f === 'beyond' && !t.checked) filters.areas = filters.areas.filter(function(x) { return XGROUP_NAMES.indexOf(x) === -1; }); /* v30.7: unticking Beyond Chattanooga clears its town buttons */
+        var f = t.getAttribute('data-flag'); filters[f] = t.checked; if (f === 'beyond' && !t.checked) filters.incChatt = false; if (f === 'beyond' && !t.checked) filters.areas = filters.areas.filter(function(x) { return XGROUP_NAMES.indexOf(x) === -1; }); /* v30.7: unticking Beyond Chattanooga clears its town buttons */
         apply(f);
       }
     });
