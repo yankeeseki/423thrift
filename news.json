@@ -29,8 +29,8 @@
    "kind": "trail",
    "kicker": "On the Trail",
    "title": "Trail News Has Opened",
-   "text": "Shop sales, new small businesses, events and every time the Thrift Trail makes the news will land here. Have news from your shop? Send it through the shop update form.",
-   "link": "/shops/update/",
+   "text": "Shop sales, new small businesses, events and every time the Thrift Trail makes the news will land here. Have news from your shop? Send it to the moderators.",
+   "link": "/#feedback",
    "linkText": "Send Shop News",
    "by": "From the Mod"
   }

@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v31.8-20261119">
+<meta name="ctt-build" content="v31.9-20261121">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -2468,7 +2468,14 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   .ctt-pop-row { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 16px; row-gap: 2px; }
   .ctt-det { display: flex; flex-wrap: wrap; gap: 4px 5px; font-size: 12px; line-height: 1.3; color: #2c2417; margin: 6px 0 0; }
   .ctt-chip { background: #fbf6ea; border: 1px solid #c9bb99; border-radius: 999px; padding: 2px 8px; }
-  .ctt-deals { display: flex; flex-wrap: wrap; gap: 3px 6px; font-size: 12.5px; line-height: 1.35; color: #6b6252; margin: 6px 0 0; }
+  .ctt-deals { display: flex; flex-wrap: nowrap; min-width: 0; overflow: hidden; gap: 3px 6px; font-size: 12.5px; line-height: 1.35; color: #6b6252; margin: 6px 0 0; }
+  .ctt-deal-link { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #7f610b; font-weight: 700; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+  #ctt-deal-pop { position: fixed; inset: 0; z-index: 99999; background: rgba(44,36,23,.45); display: none; align-items: center; justify-content: center; padding: 16px; }
+  #ctt-deal-pop.on { display: flex; }
+  #ctt-deal-pop .dp-box { background: #fbf6ea; border: 2px solid #2c2417; border-radius: 12px; max-width: 360px; width: 100%; padding: 14px 16px 12px; box-shadow: 0 8px 28px rgba(44,36,23,.4); }
+  #ctt-deal-pop .dp-h { font: 800 15px/1.25 'Libre Franklin', sans-serif; color: #2c2417; margin: 0 0 8px; }
+  #ctt-deal-pop .ctt-deals { flex-direction: column; overflow: visible; gap: 5px; margin: 0 0 10px; font-size: 14px; }
+  #ctt-deal-pop .dp-x { display: block; margin-left: auto; background: #ae4c2c; color: #fbf6ea; border: 0; border-radius: 8px; font: 700 14px 'Libre Franklin', sans-serif; padding: 8px 18px; cursor: pointer; }
   .ctt-deal b { font-weight: 600; color: #7f610b; }
   .ctt-deal.now { background: #f5e2bc; color: #2c2417; font-weight: 800; border-radius: 6px; padding: 1px 7px; box-shadow: inset 0 0 0 1.5px #d4a72c; }
   .ctt-deal.now b { font-weight: 800; color: #2c2417; }
@@ -2749,6 +2756,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     /* v22.8 (Mod): sideways, also hide Take It With You + Share The Trail, and Browse By Neighborhood with everything below it (newsletter, version, credits, About). The footer link row and tip buttons stay. */
     #ctt-thrift-wrap .ctt-split-row, .ctt-newsband, .ctt-seo, .ctt-news, .ctt-version, .ctt-footer { display: none !important; }
     .ctt-paren, .ctt-thriftword, .ctt-statezip, .ctt-suite { display: none !important; }
+    .ctt-deals { display: none !important; } /* v31.9 (Mod): no sales or deals on sideways phones; the cards are too scrunched */
     /* v23.6 (Mod): the big button now matches the list titles sideways (short name only, no location). */
     .ctt-ls-long { display: none !important; } .ctt-ls-short { display: inline !important; } /* v23.2 (Mod): sideways short names: NNH, CRITI */ /* v23.2 (Mod): shop names lose their (parenthetical) part sideways, in the list and on the big button */
     .ctt-offroute-head .ctt-offroute-note { font-size: 11px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
@@ -3157,7 +3165,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.8 &mdash; November 19, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v31.9 &mdash; November 21, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3389,7 +3397,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (/^Last Sat/.test(label)) { var nx = new Date(now.getTime() + 7 * 86400000); return t === 6 && nx.getMonth() !== now.getMonth(); }
     return false;
   }
-  function dealsHtml(name) {
+  function dealsHtml(name, full) {
     var d = SHOP_DETAILS[name]; if (!d || !d.s) return '';
     var iso = (function(n) { return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); })(new Date()); /* v29.7 (Mod): a deal ending with [until YYYY-MM-DD] drops off after that date, so short-term sales never go stale */
     var out = d.s.split(' &middot; ').filter(function(seg) { var u = /\[until (\d{4}-\d{2}-\d{2})\]\s*$/.exec(seg); return !u || u[1] >= iso; }).map(function(seg) {
@@ -3402,7 +3410,23 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     var isNow = function(h) { return h.indexOf(' now"') > -1; }, isCol = function(h) { return !isNow(h) && /color/i.test(h); };
     out = out.filter(isNow).concat(out.filter(isCol), out.filter(function(h) { return !isNow(h) && !isCol(h); })); /* v29.6 (Mod): the current weekday's deal first, then color-tag deals, then the other days */
     if (!out.length) return '';
-    return '<div class="ctt-deals">' + out.join('') + '</div>';
+    if (full) return '<div class="ctt-deals">' + out.join('') + '</div>';
+    /* v31.9 (Mod): cards show ONE deal line (e.g. '20% off: Students, Seniors, Military & 1st Responders'); tapping it opens a small popup with every deal. Never wraps. */
+    var groups = {}, order = [], rest = 0, firstOther = '';
+    d.s.split(' &middot; ').filter(function(seg) { var u = /\[until (\d{4}-\d{2}-\d{2})\]\s*$/.exec(seg); return !u || u[1] >= iso; }).forEach(function(seg) {
+      seg = seg.replace(/\s*\[until \d{4}-\d{2}-\d{2}\]\s*$/, '');
+      var k = seg.indexOf(': '), txt = k > 0 && /^(Sun|Mon|Tue|Wed|Thu|Fri|Sat|Daily|Last Sat)/.test(seg.slice(0, k)) ? seg.slice(k + 2) : seg;
+      var m = /^(.+?) (\d{1,2}% off)$/.exec(txt.replace(/ extra /, ' '));
+      if (m && !/color|select|all clothing/i.test(m[1])) {
+        var who = m[1].replace(/^college students &amp; teachers$/i, 'Students & Teachers').replace(/^college students$/i, 'Students').replace(/^seniors.*$/i, 'Seniors').replace(/^military$/i, 'Military').replace(/^Military &amp; 1st Responders$/i, 'Heroes').replace(/^seniors &amp; military$/i, 'Seniors & Military');
+        if (!groups[m[2]]) { groups[m[2]] = []; order.push(m[2]); }
+        if (groups[m[2]].indexOf(who) < 0) groups[m[2]].push(who);
+      } else { rest++; if (!firstOther) firstOther = txt.charAt(0).toUpperCase() + txt.slice(1); }
+    });
+    var line;
+    if (order.length) { order.sort(function(a, b) { return parseInt(b, 10) - parseInt(a, 10); }); line = order[0] + ': ' + groups[order[0]].join(', ').replace(/&amp;/g, '&'); if (order.length > 1 || rest) line += ' + More'; }
+    else line = firstOther.replace(/&amp;/g, '&');
+    return '<div class="ctt-deals"><a href="#" class="ctt-deal-link" data-deals="' + encodeURIComponent(name) + '">' + line + '</a></div>';
   }
   function shopDetailsHtml(name, tag) {
     var d = SHOP_DETAILS[name]; if (!d) return '';
@@ -3415,7 +3439,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (d.f) b.push('Wi-Fi');
     if (d.rw) b.push(d.rw);
     var h = b.length ? '<' + tag + ' class="ctt-det">' + b.map(function(c) { return '<span class="ctt-chip">' + c + '</span>'; }).join('') + '</' + tag + '>' : '';
-    return h + dealsHtml(name);
+    return h + dealsHtml(name, true);
   }
   var SHOP_BENEFIT = {"Creative ReSupply": "The Chattery, a Chattanooga nonprofit that does a lot for the arts, with affordable classes and art experiences for adults.", "Bachman Bargain Barn": "Bachman Community Center, a nonprofit that keeps a historic 1937 school building open as a free community resource, with a public library and space for local groups. The thrift store is volunteer-run and provides almost half of the center's operating budget.", "The Clothes House on Signal Mountain": "Signal Mountain Social Services, which provides food assistance, educational support, and emergency help to local families and individuals.", "Ladies of Charity Thrift": "neighbors facing hardship, covering medicine, utilities, housing, and clothing. This is a volunteer-run shop, and every dollar spent here stays local.", "Providence Thrift (Fort Oglethorpe)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "SACs Thrift Avenue": "the Sexual Assault Victims Advocacy Center (SAVAC), a state-certified nonprofit serving Dade, Walker, and Catoosa counties since 2008, supporting free services for survivors of sexual violence.", "Goodwill (Fort Oglethorpe)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Chambliss Thrift (Brainerd)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "America's Thrift (Brainerd)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Goodwill (East Brainerd)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Providence Thrift (Lee Hwy)": "Providence Ministries, which fights homelessness, hunger, addiction, and spiritual poverty. Money helps fund homeless shelters for men and women, a women's addiction recovery program, and a \"To Feed the Hungry\" meal program.", "Humane Ed. Soc. Thrift": "the Humane Educational Society's animal sheltering, adoption, and humane education work in the Chattanooga area.", "Goodwill (Hwy 58)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "America's Thrift (Northgate)": "primarily Adult &amp; Teen Challenge MidSouth, a faith-based addiction recovery program, alongside other local nonprofit partners focused on children's health and job readiness. The chain also reports keeping over 60 million pounds of donated goods out of landfills each year.", "Bethel Thrift": "Bethel Bible Village, a children's home for kids who are victims of abuse and neglect, helping cover the cost of providing them a safe, stable home.", "NNH Thrift (Red Bank)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Chambliss Thrift (Red Bank)": "Chambliss Center for Children's foster care and childcare programs, including a Transitional Living Program for youth aging out of foster care and a partnership establishing Hamilton County's first Isaiah 117 House, a safe space for children awaiting placement after being removed from unsafe homes.", "NNH Thrift (N. Shore)": "Northside Neighborhood House's neighbor-assistance programs across the community. Thrift store sales make up almost half of NNH's total income.", "Goodwill (Hixson)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Goodwill (East Ridge)": "Goodwill Industries' job training, vocational skills, and employment placement programs, with a particular focus on people who face barriers to finding work.", "Samaritan Center": "the Samaritan Center, a community-service ministry over 90 years old, rooted in the Seventh-day Adventist church. It provides emergency assistance with rent, utilities, food, clothing, furniture, school supplies, and baby supplies for families across eastern Hamilton County, and serves as a regional collection point during disaster response efforts.", "Habitat For Humanity": "Habitat for Humanity's construction of affordable housing, built in partnership with the families who will live in them.", "Nifty Thrifty": "the Chattanooga Rescue Mission.", "St. Timothy's Thrift Shop": "St. Timothy's Episcopal Church's outreach, including Metropolitan Ministries, St. Isidore's Pantry, Family Promise of Greater Chattanooga, Welcome Home of Chattanooga, The Hosannas Community, The Bethlehem Center and St. Timothy's Episcopal Preschool.", "Chattanooga Room in the Inn Thrift Store": "Chattanooga Room in the Inn, which runs a six-month live-in program for women and children experiencing homelessness, with housing, case management, and education and employment support. The thrift store supports the programs at the shelter."};
 
@@ -3934,8 +3958,8 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     var ds = getEasternNow().dateStr, b = holidayFor(ds);
     var popAll = POP_FUN[ds.slice(5)] || [];
     // Up to 4 facts under the special day on the small banner, up to 3 inside the big holiday cards. More than that rotates by year.
-    var popMax = (b && b.kind !== 'small') ? 3 : 4, popN = Math.min(popMax, popAll.length), popStart = popAll.length ? (+ds.slice(0, 4) % popAll.length) : 0, popLines = [];
-    for (var pi = 0; pi < popN; pi++) popLines.push(popAll[(popStart + pi) % popAll.length]);
+    var popLines = []; /* v31.9 (Mod): On this day shows ONE random fun fact, re-randomized on every refresh */
+    if (popAll.length) popLines.push(popAll[Math.floor(Math.random() * popAll.length)]);
     if (!b && popLines.length) b = { kind: 'small', e: '', head: '' };
     if (!b) { el.style.display = 'none'; return; }
     // v21.4 (Mod): national days and birthdays/fun facts ('small' days) now use the SAME closable box as the big holidays; one dismiss hides the whole day's box.
@@ -4907,6 +4931,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       return '<div class="ctt-mem"><div class="ctt-mem-name">' + cttEsc(m.n) + '</div><div class="ctt-mem-hours">' + m.h + ' &middot; <span class="' + cls + '">' + (cls === 'ctt-mem-open' ? cttEsc(st.text) : 'Closed now') + '</span> &middot; <a href="' + m.u + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Website</a></div></div>';
     }).join('') + '</div>';
   }
+  function moreInfoHref(store) { var sl = String(store.name).toLowerCase().replace(/&amp;/g, '&').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); return store.xregion ? '/beyond/shops/' : '/shops/#' + sl; }
+  function cardTitle(store) { /* v31.9 (Mod): card titles drop 'Store' and a trailing 'Antiques', and drop a (Area) that the address line already shows. */
+    var n = dn(store.name).replace(/East Brainerd/g, 'E.Brainerd').replace(/\s+Store(?=\s*\(|$)/, '').replace(/\s+Antiques(?=\s*\(|$)/, '');
+    var addr = cttSuiteCity(store.address || '').toLowerCase();
+    n = n.replace(/\s*\(([^)]*)\)/, function(m0, a) { var t = a.replace(/Fort O$/, 'Fort Oglethorpe').toLowerCase().replace('e.brainerd', 'east brainerd'); return addr.indexOf(t) > -1 ? '' : m0; });
+    return n;
+  }
   function buildCard(store, label, color, onRoute, routeIndex, routeTotal) {
     var combinedIdx = routeIndex;
     if (onRoute) { var shopsOnly = activeRoute.filter(function(x) { return !x.isErrand; }); routeIndex = shopsOnly.indexOf(store); routeTotal = shopsOnly.length; }
@@ -4943,7 +4974,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       (isFeaturedToday(store) ? '<div class="ctt-featured-ribbon">\u2605 Featured Shop</div>' : '') +
       '<div class="ctt-tag-top">' +
         '<div class="ctt-tag-name"><span class="ctt-tag-num' + (onRoute ? (isFeaturedToday(store) ? ' star' : '') : (store.xregion && !beyondPicked(store) ? ' diamond beyond' : ' diamond')) + '">' + (onRoute ? label : '<span class="ctt-tag-num-inner">' + label + '</span>') + '</span>' +
-          cttParen(dn(store.name).replace(/East Brainerd/g, 'E.Brainerd')) + /* v23.5 (Mod): list view shows E.Brainerd */
+          cttParen(cardTitle(store)) + /* v23.5 (Mod): list view shows E.Brainerd */
         '</div>' + visitedHtml +
       '</div>' +
       (onRoute ? opensInHtml(store) : '') +
@@ -4959,7 +4990,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
           '<span class="ctt-tag-rating-wrap" style="cursor:pointer" title="Tap to see and write reviews" data-review-toggle="' + encodeURIComponent(store.name) + '" data-rating-display="' + encodeURIComponent(store.name) + '" data-seed-rating="' + (store.myRating === null || store.myRating === undefined ? '' : store.myRating) + '">' + renderStars(store.myRating) + '</span>' +
         '</div>' +
         '<div class="ctt-review-toggle-row">' +
-          '<button class="ctt-review-toggle-btn" data-review-toggle="' + encodeURIComponent(store.name) + '">Reviews<span data-review-count="' + encodeURIComponent(store.name) + '"></span> <span data-review-arrow="' + encodeURIComponent(store.name) + '">&#9662;</span></button>' +
+          '<a class="ctt-review-toggle-btn ctt-moreinfo" href="' + moreInfoHref(store) + '" target="_blank" rel="noopener">More Info</a>' + /* v31.9 (Mod): More Info replaces the Reviews button; full details live on the Shops & Charities page. Tapping the stars still opens reviews. */
         '</div>' +
       '</div>' +
       '<div class="ctt-review-section" data-review-section="' + encodeURIComponent(store.name) + '" style="display:none;"></div>' +
@@ -6956,6 +6987,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
   (function() {
     var ov = document.getElementById('ctt-fb-overlay'), last = null;
     function close() { ov.classList.remove('open'); document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+    if (/[#&]feedback\b/.test(location.hash || '')) setTimeout(function() { var t = document.getElementById('ctt-feedback-toggle'); if (t) t.click(); }, 700); /* v31.9: /#feedback opens Send Feedback (used by Trail News) */
     document.getElementById('ctt-feedback-toggle').addEventListener('click', function() {
       last = this; ov.classList.add('open'); ov.scrollTop = 0; document.body.style.overflow = 'hidden';
       document.getElementById('ctt-feedback-status').textContent = '';
@@ -7237,6 +7269,24 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     setTimeout(upd, 300); setInterval(upd, 1500);
   })();
 
+  // ---- v31.9: deal popup (opens from the one-line deal link on a card) ----
+  (function() {
+    var pop = document.createElement('div'); pop.id = 'ctt-deal-pop'; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-modal', 'true');
+    pop.innerHTML = '<div class="dp-box"><p class="dp-h"></p><div class="dp-body"></div><button type="button" class="dp-x">Close</button></div>';
+    document.body.appendChild(pop);
+    function close() { pop.classList.remove('on'); }
+    pop.addEventListener('click', function(e) { if (e.target === pop || e.target.classList.contains('dp-x')) close(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
+    document.addEventListener('click', function(e) {
+      var a = e.target.closest && e.target.closest('.ctt-deal-link'); if (!a) return;
+      e.preventDefault(); e.stopPropagation();
+      var name = decodeURIComponent(a.getAttribute('data-deals'));
+      pop.querySelector('.dp-h').textContent = shortName(dn(name)) + ' Deals';
+      pop.querySelector('.dp-body').innerHTML = dealsHtml(name, true);
+      pop.classList.add('on');
+      try { cttTrack('deal_popup', { shop: name }); } catch (x) {}
+    }, true);
+  })();
   // ---- v24.0: deep link to one shop's reviews. https://423thrift.com/#reviews=<shop name, URL-encoded> scrolls to that shop's card and opens its Reviews drop-down (used by the Shops & Charities page). ----
   (function() {
     var tries = 0, done = false;
@@ -7244,7 +7294,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     function go() {
       var name = wanted(); if (!name || done) return;
       var enc = encodeURIComponent(name), btn = null;
-      var all = document.querySelectorAll('.ctt-review-toggle-btn');
+      var all = document.querySelectorAll('[data-review-toggle]');
       for (var i = 0; i < all.length; i++) { if (all[i].getAttribute('data-review-toggle') === enc) { btn = all[i]; break; } }
       if (!btn) return;
       var card = btn.closest('.ctt-tag');
