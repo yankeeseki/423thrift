@@ -1,0 +1,23 @@
+{
+ "title": "Meet This Month's Enablers",
+ "intro": "They're our friends who feed our thrifting habit, which makes them our sponsors, and they keep the Trail rolling. Show them some love with a click.",
+ "enablers": [
+  {
+   "name": "Vinterest (Southside)",
+   "img": "https://vinterestantiques.com/wp-content/uploads/2026/03/D7E7A6A8-775B-4E1C-9DC9-EFBEAF789D35-1024x683.png",
+   "blurb": "A local-favorite vintage mall packed with antiques, collectibles, records and so much more, with a welcoming atmosphere that keeps shoppers browsing.",
+   "links": [
+    {"t": "Learn More", "u": "https://vinterestantiques.com"},
+    {"t": "Get Directions", "u": "https://www.google.com/maps/dir/?api=1&destination=2121+Chestnut+St,+Chattanooga,+TN+37408"}
+   ]
+  },
+  {
+   "name": "The Latent Image",
+   "img": "https://static1.squarespace.com/static/56cf2b164d088ef9c1b8bd55/t/699b5c01b058784bd93bb8cb/1771789313071/IMG_8371.jpg?format=1500w",
+   "blurb": "A monthly mail club from photographer Marc Ullom. Members get signed archival fine-art prints, a personal letter and a few small surprises in the mailbox.",
+   "links": [
+    {"t": "Learn More", "u": "https://www.marcullom.com/gift-photography-subscription"}
+   ]
+  }
+ ]
+}
