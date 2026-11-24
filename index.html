@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v32.2-20261123">
+<meta name="ctt-build" content="v32.3-20261124">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -3166,7 +3166,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v32.2 &mdash; November 23, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v32.3 &mdash; November 24, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3413,10 +3413,17 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     if (!out.length) return '';
     if (full) return '<div class="ctt-deals">' + out.join('') + '</div>';
     /* v31.9 (Mod): cards show ONE deal line (e.g. '20% off: Students, Seniors, Military & 1st Responders'); tapping it opens a small popup with every deal. Never wraps. */
-    var groups = {}, order = [], rest = 0, firstOther = '';
+    /* v32.3 (Mod): the card link shows TODAY'S deal (weekday-labeled deals that match today, plus daily and unlabeled ones); tapping opens the popup with every day. With no deal today it reads 'Deal Days'. */
+    var items = [];
     d.s.split(' &middot; ').filter(function(seg) { var u = /\[until (\d{4}-\d{2}-\d{2})\]\s*$/.exec(seg); return !u || u[1] >= iso; }).forEach(function(seg) {
       seg = seg.replace(/\s*\[until \d{4}-\d{2}-\d{2}\]\s*$/, '');
-      var k = seg.indexOf(': '), txt = k > 0 && /^(Sun|Mon|Tue|Wed|Thu|Fri|Sat|Daily|Last Sat)/.test(seg.slice(0, k)) ? seg.slice(k + 2) : seg;
+      var k = seg.indexOf(': '), lab = k > 0 && /^(Sun|Mon|Tue|Wed|Thu|Fri|Sat|Daily|Last Sat)/.test(seg.slice(0, k)) ? seg.slice(0, k) : '', txt = lab ? seg.slice(k + 2) : seg;
+      items.push({ lab: lab, txt: txt, today: !lab || lab === 'Daily' || dealIsNow(lab) });
+    });
+    var todays = items.filter(function(it) { return it.today; });
+    var groups = {}, order = [], rest = 0, firstOther = '';
+    todays.forEach(function(it) {
+      var txt = it.txt;
       var m = /^(.+?) (\d{1,2}% off)$/.exec(txt.replace(/ extra /, ' '));
       if (m && !/color|select|all clothing/i.test(m[1])) {
         var who = m[1].replace(/^college students &amp; teachers$/i, 'Students & Teachers').replace(/^college students$/i, 'Students').replace(/^seniors.*$/i, 'Seniors').replace(/^military$/i, 'Military').replace(/^Military &amp; 1st Responders$/i, 'Heroes').replace(/^seniors &amp; military$/i, 'Seniors & Military');
@@ -3425,8 +3432,11 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
       } else { rest++; if (!firstOther) firstOther = txt.charAt(0).toUpperCase() + txt.slice(1); }
     });
     var line;
-    if (order.length) { order.sort(function(a, b) { return parseInt(b, 10) - parseInt(a, 10); }); line = order[0] + ': ' + groups[order[0]].join(', ').replace(/&amp;/g, '&'); if (order.length > 1 || rest) line += ' + More'; }
-    else line = firstOther.replace(/&amp;/g, '&');
+    if (!todays.length) line = 'Deal Days';
+    else {
+      if (order.length) { order.sort(function(a, b) { return parseInt(b, 10) - parseInt(a, 10); }); line = order[0] + ': ' + groups[order[0]].join(', ').replace(/&amp;/g, '&'); if (order.length > 1 || rest || items.length > todays.length) line += ' + More'; }
+      else { line = firstOther.replace(/&amp;/g, '&'); if (todays.length > 1 || items.length > todays.length) line += ' + More'; }
+    }
     return '<div class="ctt-deals"><a href="#" class="ctt-deal-link" data-deals="' + encodeURIComponent(name) + '">' + line + '</a></div>';
   }
   function shopDetailsHtml(name, tag) {
