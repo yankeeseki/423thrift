@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v32.8-20261124">
+<meta name="ctt-build" content="v32.9-20261125">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -2995,7 +2995,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
           <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top25"> Lookout Loop</label>
           <label class="ctt-fp-opt"><input type="checkbox" data-type="top20"> Scenic City Loop</label>
-          <label class="ctt-fp-opt"><input type="checkbox" data-type="north"> Northshore Loop</label>
+          <label class="ctt-fp-opt"><input type="checkbox" data-type="north"> Northside Loop</label>
           </div>
           <div class="ctt-fp-row">
           <label class="ctt-fp-opt"><input type="checkbox" id="ctt-fp-all"> Everything</label>
@@ -3169,7 +3169,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v32.8 &mdash; November 24, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v32.9 &mdash; November 25, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -3461,7 +3461,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
   // ---- FILTERS (top-right "Filter" link). Default = the original "Thrift" experience. ----
   // CHATTANOOGA TOP 20 and MOD'S TOP 25: edit these lists (exact shop names) to change which shops each filter shows.
-  /* v32.5 (Mod): the Northshore Loop: Signal Mountain, Hixson, Soddy-Daisy, Red Bank and North Shore. */
+  /* v32.5 (Mod): the Northside Loop: Signal Mountain, Hixson, Soddy-Daisy, Red Bank and North Shore. */
   var NORTHLOOP = [
     "America's Thrift (Northgate)",
     "Bachman Bargain Barn",
@@ -3608,7 +3608,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     var mode = typeMode();
     if (mode === 'none' && !(loc.xregion && beyondOnly())) return false;
     if (manualOverrides[loc.name] === 'include') return true; // you added it yourself
-    if (loc.xregion && filters.types.north && NORTHLOOP.indexOf(loc.name) !== -1) return true; /* v32.5: the Northshore Loop brings its Soddy-Daisy shops along without the Beyond box */
+    if (loc.xregion && filters.types.north && NORTHLOOP.indexOf(loc.name) !== -1) return true; /* v32.5: the Northside Loop brings its Soddy-Daisy shops along without the Beyond box */
     if (loc.xregion) { if (!filters.beyond) return false; if (filters.xtypes[typeKey(loc.category)]) return false; if (filters.areas.length && filters.areas.indexOf(areaGroupOf(loc)) === -1) return false; if (filters.xareas.length && filters.xareas.indexOf(areaGroupOf(loc)) !== -1) return false; return true; } /* v30.7 (Mod): Beyond Chattanooga shops show only when that box is ticked, as extra shops (never in the default route) */
     if (loc.gated && !(filters.types.antique && (window.cttChipProbe || filters.areas.indexOf(areaGroupOf(loc)) !== -1))) return false; /* v30.6 (Mod): a gated shop (Ooltewah Antique Mall) only shows when Antique Mall and its area are both ticked */
     if (mode === 'top25' && !inPickedLists(loc.name)) return false;
@@ -4888,7 +4888,7 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     return [
       { id: 'lookout', title: 'the Lookout Loop', short: 'LOOKOUT LOOP', list: TOP25 },
       { id: 'scenic', title: 'the Scenic City Loop', short: 'SCENIC CITY LOOP', list: TOP20 },
-      { id: 'north', title: 'the Northshore Loop', short: 'NORTHSHORE LOOP', list: NORTHLOOP },
+      { id: 'north', title: 'the Northside Loop', short: 'NORTHSIDE LOOP', list: NORTHLOOP },
       { id: 'all', title: 'every shop on the Trail', short: 'EVERY SHOP ON THE TRAIL', list: openAll }
     ];
   }
