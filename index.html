@@ -9,7 +9,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ctt-build" content="v33.1-20261125">
+<meta name="ctt-build" content="v33.2-20261125">
 <title>Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route</title>
 <meta name="description" content="Find thrift stores near you in Chattanooga. See which of 50+ thrift, vintage and antique shops are open now, check hours and deals, and follow a route.">
 <meta property="og:title" content="Thrift Stores Near Me in Chattanooga: Open Now Map &amp; Route">
@@ -1994,12 +1994,19 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
   #ctt-map .ctt-lock-toggle { position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; margin: 0; z-index: 1000; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); background: var(--card); padding: 5px 11px; border: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-radius: 6px 6px 0 0; cursor: pointer; white-space: nowrap; }
   #ctt-map .ctt-lock-toggle:hover { color: #2c2417; }
   #ctt-map.ctt-map-locked .leaflet-control-zoom { display: none !important; }
-  /* v33.1 (Mod): Full Screen button, bottom of the map just left of Names. On = the map fills the screen (real full screen where the browser allows it, otherwise it covers the page). */
-  #ctt-map .ctt-full-toggle { position: absolute; right: 0; bottom: 0; margin: 0; z-index: 1000; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); background: var(--card); padding: 5px 11px; border: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-radius: 6px 6px 0 0; cursor: pointer; white-space: nowrap; }
-  #ctt-map .ctt-full-toggle:hover { color: #2c2417; }
+  /* v33.2 (Mod): the map's bottom buttons (Hide map on upright phones, Hide Zoom, Names, Full Screen) sit in one bar, centered along the bottom with equal gaps. In full screen the bar shows Names and Close, and the + / - zoom buttons stay on. */
+  #ctt-map .ctt-mapbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; justify-content: center; align-items: flex-end; gap: 6px; pointer-events: none; }
+  #ctt-map .ctt-mapbar > button { position: static !important; transform: none !important; left: auto !important; right: auto !important; bottom: auto !important; margin: 0 !important; pointer-events: auto; font-family: 'Libre Franklin', sans-serif; font-size: 12px; font-weight: 700; color: var(--olive); background: var(--card); padding: 5px 11px; border: 1px solid var(--line) !important; border-bottom: none !important; border-radius: 6px 6px 0 0 !important; cursor: pointer; white-space: nowrap; line-height: 1.3; }
+  #ctt-map .ctt-mapbar > button:hover { color: #2c2417; }
   #ctt-map .ctt-full-toggle .ctt-full-s { display: none; }
-  @media (max-width: 600px) { #ctt-map .ctt-full-toggle { padding: 5px 8px; } #ctt-map .ctt-full-toggle .ctt-full-l { display: none; } #ctt-map .ctt-full-toggle .ctt-full-s { display: inline; } }
+  @media (max-width: 600px) { #ctt-map .ctt-mapbar { gap: 4px; } #ctt-map .ctt-mapbar > button { padding: 5px 8px; } #ctt-map .ctt-full-toggle .ctt-full-l { display: none; } #ctt-map .ctt-full-toggle .ctt-full-s { display: inline; } }
   html body #ctt-map.ctt-map-full, html body .ctt-layout .ctt-map-col #ctt-map.ctt-map-full, #ctt-thrift-wrap .ctt-layout .ctt-map-col #ctt-map.ctt-map-full { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; height: 100dvh !important; max-height: none !important; z-index: 100000 !important; border-radius: 0 !important; border: 0 !important; margin: 0 !important; }
+  #ctt-map.ctt-map-full .ctt-mapbar { bottom: env(safe-area-inset-bottom, 0px); }
+  #ctt-map.ctt-map-full .ctt-mapbar .ctt-lock-toggle, #ctt-map.ctt-map-full .ctt-mapbar .ctt-maphide-btn { display: none !important; }
+  #ctt-map.ctt-map-full .leaflet-control-zoom { display: block !important; }
+  #ctt-map.ctt-map-full .ctt-full-toggle .ctt-full-l { display: inline !important; } #ctt-map.ctt-map-full .ctt-full-toggle .ctt-full-s { display: none !important; }
+  #ctt-map.ctt-map-full .leaflet-top { top: env(safe-area-inset-top, 0px); }
+  #ctt-map.ctt-map-full .leaflet-control-zoom a { width: 36px; height: 36px; line-height: 36px; font-size: 20px; }
   html.ctt-map-fs-lock, html.ctt-map-fs-lock body { overflow: hidden !important; }
   #ctt-map.ctt-map-locked, #ctt-map.ctt-map-locked .leaflet-grab, #ctt-map.ctt-map-locked .leaflet-dragging .leaflet-grab { cursor: default; }
   #ctt-map .ctt-names-toggle { position: absolute; right: 0; bottom: 0; margin: 0; z-index: 1000; font-size: 12px; padding: 5px 11px; border: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); border-radius: 6px 0 0 0; }
@@ -2780,7 +2787,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
     #ctt-thrift-wrap .ctt-cta-navrow, #ctt-cta-navrow, .ctt-cta-status, #ctt-cta-status, .ctt-cta-collapse { display: none !important; }
     #ctt-thrift-wrap .ctt-trail-header, #ctt-saved-note { display: none !important; }
     .ctt-tag-photo-col, .ctt-tag-rating-wrap, .ctt-tag-note, .ctt-review-toggle-row, .ctt-review-section, .ctt-tag .ctt-directions-link, #ctt-list-bar, #ctt-filter-panel, .ctt-visited-drop, .ctt-own-box, .ctt-bottom-row, .ctt-footnav, .ctt-tip-section, .ctt-disclaimer, .ctt-offroute-container, .ctt-tag-bottom-row, .ctt-tag .ctt-reorder-up, .ctt-tag .ctt-reorder-down { display: none !important; } /* v23.2 (Mod): reviews and the per-shop Get Directions link are hidden sideways too */
-    #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle, #ctt-map .ctt-lock-toggle, #ctt-map .ctt-full-toggle { display: none !important; }
+    #ctt-map .leaflet-control-zoom, #ctt-map .ctt-names-toggle, .ctt-names-toggle, #ctt-map .ctt-lock-toggle, #ctt-map .ctt-full-toggle, #ctt-map .ctt-mapbar { display: none !important; }
     html.ctt-few-left .ctt-ls-tips { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 14px 0 6px; padding: 4px 10px; }
     .ctt-ls-tips-label { font: 700 14px 'Libre Franklin', sans-serif; color: var(--ink); }
     .ctt-ls-tips-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
@@ -3176,7 +3183,7 @@ To resume work in a new chat: attach index.html and HANDOFF-NOTES.md and say "Re
 <div class="ctt-news-act"><form id="ctt-news-form" novalidate><label class="ctt-news-lab" for="ctt-news-email">Email</label><input type="email" id="ctt-news-email" maxlength="80" autocomplete="email" placeholder="you@example.com" required><button type="submit" id="ctt-news-btn">Sign Up</button></form>
 <p class="ctt-news-msg" id="ctt-news-msg" role="status"></p></div>
 </section>
-      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v33.1 &mdash; November 25, 2026</a></p>
+      <p class="ctt-version"><a href="/updates/" class="ctt-version-link">v33.2 &mdash; November 25, 2026</a></p>
       <p class="ctt-footer">Site sponsored by <a href="https://www.instagram.com/thethriftyflea" target="_blank" rel="noopener" style="color:inherit;">Thrifty Flea</a></p>
       <p class="ctt-footer">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:inherit;">OpenStreetMap</a> contributors &middot; <a href="https://leafletjs.com/" target="_blank" rel="noopener" style="color:inherit;">Leaflet</a></p>
       <p class="ctt-footer">&copy; 2026 Chattanooga Thrift Trail. All rights reserved.</p>
@@ -7313,19 +7320,26 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
     mapEl.appendChild(btn); paint(false);
   })();
 
-  // ---- v33.1 (Mod): Full Screen button at the bottom of the map, left of Names. Uses real full screen when the browser allows it (not iPhone), otherwise the map simply covers the page. Esc or the same button leaves it. ----
+  // ---- v33.2 (Mod): bottom button bar (centered, equal gaps) + Full Screen / Close. Real full screen where the browser allows it (not iPhone), otherwise the map covers the page. In full screen: + / - zoom (even if Hide Zoom was on), Names On/Off and Close; Esc also closes. ----
   (function() {
-    var mapEl = document.getElementById('ctt-map'), btn = document.createElement('button'), full = false, nm = mapEl.querySelector('.ctt-names-toggle');
-    btn.type = 'button'; btn.className = 'ctt-full-toggle';
-    function place() { try { btn.style.right = (nm ? Math.max(0, nm.offsetWidth - 1) : 0) + 'px'; } catch (e) {} }
-    function paint() { btn.innerHTML = full ? '<span class="ctt-full-l">Exit Full Screen</span><span class="ctt-full-s">&#10005;</span>' : '<span class="ctt-full-l">&#9974; Full Screen</span><span class="ctt-full-s">&#9974;</span>'; btn.setAttribute('aria-label', full ? 'Exit Full Screen' : 'Full Screen'); btn.setAttribute('aria-pressed', full ? 'true' : 'false'); place(); }
+    var mapEl = document.getElementById('ctt-map'), bar = document.createElement('div'), btn = document.createElement('button'), full = false;
+    bar.className = 'ctt-mapbar'; btn.type = 'button'; btn.className = 'ctt-full-toggle';
+    var ORDER = ['ctt-maphide-btn', 'ctt-lock-toggle', 'ctt-names-toggle', 'ctt-full-toggle'];
+    function gather() {
+      var kids = [];
+      ORDER.forEach(function(c) { var el = mapEl.querySelector('.' + c); if (el) kids.push(el); });
+      kids.forEach(function(el) { if (el.parentNode !== bar) bar.appendChild(el); });
+      kids.forEach(function(el) { bar.appendChild(el); });
+    }
+    function paint() { btn.innerHTML = full ? '<span class="ctt-full-l">&#10005; Close</span><span class="ctt-full-s">&#10005;</span>' : '<span class="ctt-full-l">&#9974; Full Screen</span><span class="ctt-full-s">&#9974;</span>'; btn.setAttribute('aria-label', full ? 'Close Full Screen' : 'Full Screen'); btn.setAttribute('aria-pressed', full ? 'true' : 'false'); }
+    function handlers(on) { ['dragging', 'touchZoom', 'boxZoom', 'keyboard', 'tap', 'doubleClickZoom'].forEach(function(h) { try { if (map[h]) { if (on) map[h].enable(); else map[h].disable(); } } catch (e) {} }); try { if (on) map.scrollWheelZoom.enable(); else map.scrollWheelZoom.disable(); } catch (e) {} }
     function refresh() {
-      [60, 350].forEach(function(ms) { setTimeout(function() { try { map.invalidateSize(); if (window.cttMapLocked) { keepZoomOnce = false; var rem = (activeRoute || []).filter(function(x) { return !visitedStores[x.name]; }); fitRouteView(rem.length ? rem : activeRoute); } if (typeof layoutLabels === 'function') layoutLabels(); } catch (e) {} place(); }, ms); });
+      [60, 350].forEach(function(ms) { setTimeout(function() { try { map.invalidateSize(); if (!full && window.cttMapLocked) { keepZoomOnce = false; var rem = (activeRoute || []).filter(function(x) { return !visitedStores[x.name]; }); fitRouteView(rem.length ? rem : activeRoute); } if (typeof layoutLabels === 'function') layoutLabels(); } catch (e) {} }, ms); });
     }
     function setFull(on) {
       if (on === full) return; full = on;
       mapEl.classList.toggle('ctt-map-full', full); document.documentElement.classList.toggle('ctt-map-fs-lock', full);
-      try { if (map.scrollWheelZoom) { if (full && !window.cttMapLocked) map.scrollWheelZoom.enable(); else map.scrollWheelZoom.disable(); } } catch (e) {}
+      if (full) handlers(true); else handlers(!window.cttMapLocked), (function() { try { map.scrollWheelZoom.disable(); } catch (e) {} })();
       try {
         if (full) { var rq = mapEl.requestFullscreen || mapEl.webkitRequestFullscreen; if (rq) { var pr = rq.call(mapEl); if (pr && pr.catch) pr.catch(function() {}); } }
         else { var fe = document.fullscreenElement || document.webkitFullscreenElement; if (fe) { var ex = document.exitFullscreen || document.webkitExitFullscreen; if (ex) { var p2 = ex.call(document); if (p2 && p2.catch) p2.catch(function() {}); } } }
@@ -7334,13 +7348,13 @@ var HOLIDAY_FUN = {"01-01": ["🐻‍❄️", "Polar Bear Plunge Day"], "01-02":
       if (typeof cttTrack === 'function') { try { cttTrack('map_fullscreen_' + (full ? 'on' : 'off')); } catch (e) {} }
     }
     btn.addEventListener('click', function() { setFull(!full); });
-    function fsChange() { var fe = document.fullscreenElement || document.webkitFullscreenElement; if (full && !fe && mapEl.__cttRealFs) { mapEl.__cttRealFs = false; setFull(false); } else if (fe === mapEl) { mapEl.__cttRealFs = true; } }
+    function fsChange() { var fe = document.fullscreenElement || document.webkitFullscreenElement; if (fe === mapEl) { mapEl.__cttRealFs = true; } else if (full && mapEl.__cttRealFs) { mapEl.__cttRealFs = false; setFull(false); } }
     document.addEventListener('fullscreenchange', fsChange); document.addEventListener('webkitfullscreenchange', fsChange);
     document.addEventListener('keydown', function(e) { if (full && e.key === 'Escape') setFull(false); });
-    window.addEventListener('resize', place);
-    if (window.ResizeObserver && nm) { try { new ResizeObserver(place).observe(nm); } catch (e) {} }
-    if (window.L && L.DomEvent) { L.DomEvent.disableClickPropagation(btn); }
-    mapEl.appendChild(btn); paint();
+    if (window.L && L.DomEvent) { L.DomEvent.disableClickPropagation(btn); L.DomEvent.disableClickPropagation(bar); }
+    mapEl.appendChild(bar); bar.appendChild(btn); paint(); gather();
+    setTimeout(gather, 0); setTimeout(gather, 600);
+    if (window.MutationObserver) { try { new MutationObserver(function() { if (mapEl.querySelector(':scope > .ctt-maphide-btn, :scope > .ctt-lock-toggle, :scope > .ctt-names-toggle')) gather(); }).observe(mapEl, { childList: true }); } catch (e) {} }
   })();
 
   // ---- v23.9: keeps the dashed outline of the cards section visible while the list scrolls (see .ctt-scr-top / .ctt-scr-more) ----
